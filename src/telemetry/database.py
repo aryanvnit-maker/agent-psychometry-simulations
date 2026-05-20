@@ -5,12 +5,16 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 from contextlib import contextmanager
 
-_DSN = os.getenv("DATABASE_URL", "postgresql://kalibr:kalibr@localhost:5432/kalibr")
+# Supabase: use the connection pooler URL from Project Settings → Database → Connection string
+# Format: postgresql://postgres.[project-ref]:[password]@aws-0-[region].pooler.supabase.com:6543/postgres
+_DSN = os.getenv("DATABASE_URL")
 
 
 @contextmanager
 def get_conn():
-    conn = psycopg2.connect(_DSN)
+    if not _DSN:
+        raise RuntimeError("DATABASE_URL is not set. Copy .env.example to .env and add your Supabase connection string.")
+    conn = psycopg2.connect(_DSN, sslmode="require")
     try:
         yield conn
         conn.commit()
