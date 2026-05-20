@@ -4,6 +4,30 @@ Framework for replicating validated human team research in an AI agent environme
 
 ---
 
+## Theoretical Underpinning — Why the Simulation Produces Valid Data
+
+The primary objection to agent-based psychometric research is: "LLMs are probabilistic token predictors — you're just measuring randomness, not cognition."
+
+This objection is valid for unconstrained models. It does not apply here. Three mechanisms make the simulation defensible:
+
+**1. Probability Space Collapse**
+An unconstrained LLM asked to evaluate a plan will assign high probability to sycophantic tokens ("Great idea!", "I agree") because its base training optimises for affirmation. When you inject a restrictive KalibrIQ Constitution — one that explicitly forbids affirmative openers and mandates challenging the weakest assumption — you mathematically re-weight the token probability distribution. The probability of the model generating "Great idea" drops to effectively zero. It is not expressing a personality; it is executing a hardcoded behavioral algorithm. The constitution is the constraint, not a suggestion.
+
+**2. Constraint Collision as the Unit of Measurement**
+The simulation does not measure the quality of the words agents produce. It measures what happens when two incompatible behavioral constraints interact. Example:
+
+- Agent A's Constitution: *Always execute the first viable solution to conserve tokens.*
+- Agent B's Constitution: *Always demand three alternatives before any execution.*
+
+Agent A proposes a solution and attempts closure. Agent B is mathematically constrained to reject it and demand alternatives. Agent A is mathematically constrained to push back. The resulting deadlock is not random — it is the deterministic, reproducible outcome of two clashing token-weighting systems. This is the agent-equivalent of human cognitive friction, and it maps directly to what GEQ, FIRO-B, and Belbin measure in human teams.
+
+**3. Temperature = 0.0 enforces full determinism**
+At T=0.0 the model always selects the highest-probability token path dictated by its context and constitution. The same input, same constitution, same model produces the same output every time. Variance across runs comes exclusively from scenario content variation, not from stochastic sampling. This is the correct setting for research that will be published or used as a sales asset — it closes the "different runs produce different results" objection entirely.
+
+The implication: the only variable producing behavioral differences between agents is the injected constitution. Model uniformity (Phase 8) neutralises all other confounds. This is a cleaner experimental design than most human team studies, which cannot control for baseline cognitive differences between subjects.
+
+---
+
 ## Phase 0 — Ground Truth Definition
 
 Before any simulation runs, define what "quality" means. Without this, no measurement is possible.
@@ -167,7 +191,7 @@ In human research, baseline intelligence cannot be controlled. In AI research, i
 
 **Rationale:** If Agent A uses one model provider and Agent B uses another, you have introduced architectural differences as an uncontrolled confound. You cannot know whether coordination failure came from cognitive composition mismatch or from tokenization and attention mechanism differences between providers. The only variable that changes between agents must be the injected cognitive profile in the system prompt.
 
-Suggested baseline: a single model, temperature 0.2 (low enough to reduce stochastic noise, high enough to avoid fully deterministic outputs).
+**Temperature: T=0.0.** At T=0.0 the model is fully deterministic — it always picks the highest-probability token path defined by its context and constitution. This eliminates stochastic noise as a confound entirely. Scenario variance (what the agents are asked to do) provides sufficient output variance across runs; you do not need randomness in the sampling layer. Any value above 0.0 introduces variance that cannot be attributed to composition differences and weakens the research validity.
 
 ---
 
