@@ -21,7 +21,7 @@ from src.agents.pool import initialise_pool, get_workers, get_judges
 from src.orchestration.engine import run_simulation
 from src.evaluation.judge import score_transcript_panel
 from src.scenarios import ALL_SCENARIOS
-from src.telemetry.database import insert_run, insert_evaluation
+from src.telemetry.database import insert_run, insert_evaluation, already_completed
 from run_simulation import draft_team, build_transcript
 
 SCENARIOS    = list(ALL_SCENARIOS.keys())
@@ -55,6 +55,11 @@ def run_one(scenario_id, team_size, topology, composition, run_index, total):
     run_id = str(uuid.uuid4())
 
     log(f"\n[{run_index}/{total}] {scenario_id} | size={team_size} | {topology} | {composition}")
+
+    if already_completed(scenario_id, topology, composition, team_size):
+        log("  SKIPPED — already completed in Supabase")
+        return None
+
     log(f"  run_id: {run_id}")
 
     pool = initialise_pool(seed=SEED)
@@ -80,6 +85,7 @@ def run_one(scenario_id, team_size, topology, composition, run_index, total):
     composition_matrix = {a.agent_id: a.to_dict() for a in team}
     insert_run(
         run_id=run_id,
+        scenario_id=scenario_id,
         composition_matrix=composition_matrix,
         topology=topology,
         task_phase=scenario.phase,

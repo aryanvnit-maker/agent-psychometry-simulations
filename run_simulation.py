@@ -168,6 +168,7 @@ def main():
     composition_matrix = {a.agent_id: a.to_dict() for a in team}
     insert_run(
         run_id=run_id,
+        scenario_id=scenario.scenario_id,
         composition_matrix=composition_matrix,
         topology=args.topology,
         task_phase=scenario.phase,

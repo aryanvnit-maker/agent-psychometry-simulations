@@ -26,8 +26,32 @@ def get_conn():
         conn.close()
 
 
+def already_completed(
+    scenario_id: str,
+    topology: str,
+    composition_condition: str,
+    team_size: int,
+) -> bool:
+    """Return True if this exact combination already has a completed run in the database."""
+    with get_conn() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT 1 FROM runs
+                WHERE scenario_id = %s
+                  AND topology = %s
+                  AND composition_condition = %s
+                  AND team_size = %s
+                LIMIT 1
+                """,
+                (scenario_id, topology, composition_condition, team_size),
+            )
+            return cur.fetchone() is not None
+
+
 def insert_run(
     run_id: str,
+    scenario_id: str,
     composition_matrix: dict,
     topology: str,
     task_phase: str,
@@ -46,14 +70,15 @@ def insert_run(
             cur.execute(
                 """
                 INSERT INTO runs (
-                    run_id, composition_matrix, topology, task_phase,
+                    run_id, scenario_id, composition_matrix, topology, task_phase,
                     scenario_category, composition_condition, team_size,
                     captain_agent_id, draft_order, token_cost,
                     turns_to_complete, cull_events, state_snapshot
-                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 """,
                 (
                     run_id,
+                    scenario_id,
                     json.dumps(composition_matrix),
                     topology,
                     task_phase,

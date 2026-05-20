@@ -2,6 +2,7 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 CREATE TABLE IF NOT EXISTS runs (
     run_id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    scenario_id     TEXT NOT NULL,
     composition_matrix  JSONB NOT NULL,
     topology        TEXT NOT NULL CHECK (topology IN ('flat', 'chain', 'hub_spoke')),
     task_phase      TEXT NOT NULL CHECK (task_phase IN ('forming', 'storming', 'norming', 'performing')),
