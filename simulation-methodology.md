@@ -103,7 +103,17 @@ Each agent receives exactly one cognitive profile (dimension scores) + one role 
 The simulation operates on a fixed population of 35 agents:
 
 - **32 worker agents** — each assigned a unique dimension score vector, generated randomly at initialisation. Scores are fixed for the life of the study; they do not change between runs.
-- **3 judge agents** — permanently assigned to the God Mode Evaluator role (Phase 6). Judge agents score highest on the evaluation-relevant dimensions: Philosophy Cohesion, Feedback Orientation, and Adaptive Intelligence. Having three judges produces inter-rater reliability scores across runs.
+- **3 judge agents** — permanently assigned to the God Mode Evaluator role (Phase 6). Having three judges produces inter-rater reliability scores across runs.
+
+Judge dimension profile:
+
+| Dimension | Score | Rationale |
+|---|---|---|
+| Philosophy Cohesion | 90+ | Evaluator must have tight value-behaviour alignment to score consistently |
+| Feedback Orientation | 90+ | Core evaluation function — high integration of critical input |
+| Adaptive Intelligence | 90+ | Must update scoring model as scenario context shifts |
+| Volatility Vector | 50 | Balanced — not reactive, not flat. A high score introduces emotional variance into scoring; a low score produces rigidity |
+| All other dimensions | TBD | To be defined prior to agent initialisation |
 
 Judges do not participate in simulations as workers. They observe and score only.
 
@@ -122,14 +132,16 @@ Teams are not randomly assembled. They are drafted, which mirrors how real teams
 
 A team of 1 is the control condition — no coordination cost, establishes baseline output quality for the scenario. Every larger team size measures the delta above that baseline.
 
-### Draft Order Confound
+### Draft Order and Tiering
 
-The captain draft creates a structural confound: the first captain picks from the full 32-agent pool; subsequent captains pick from what remains. This produces naturally tiered teams. Two mitigation approaches:
+The captain draft produces naturally tiered teams by design. The first captain picks from the full 32-agent pool; subsequent captains pick from what remains. This mirrors real-world team formation and is intentional, not a confound to eliminate.
 
-1. Run single-team experiments (one team per scenario) to eliminate the confound entirely
-2. Run multi-team experiments and record draft order as a variable — this produces data on whether assembly-order predicts outcomes, which is itself a valid research finding
+Both conditions are run and treated as separate data sets:
 
-Both conditions will be run. Draft order is a logged field in the telemetry schema.
+1. **Single-team runs** — one team per scenario, captain picks from the full pool. Isolates composition effects cleanly.
+2. **Multi-team runs** — multiple teams drafted sequentially from the same pool. Draft order is recorded as a variable. Produces data on whether assembly-order predicts outcomes — a valid finding in its own right.
+
+Draft order is a logged field in the telemetry schema.
 
 ---
 
