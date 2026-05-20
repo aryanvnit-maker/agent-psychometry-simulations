@@ -1,10 +1,12 @@
 from __future__ import annotations
 import json
 import os
-import anthropic
+from google import genai
+from google.genai import types
 from .schema import EvaluatorOutput
 
-_MODEL = os.getenv("MODEL", "claude-sonnet-4-6")
+_MODEL = os.getenv("MODEL", "gemini-2.5-flash")
+_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 _JUDGE_SYSTEM = """You are an isolated simulation evaluator. You do not participate in the task.
 You receive a transcript of an agent team simulation and a run context.
@@ -41,8 +43,6 @@ def score_transcript(
     rubric: str,
     judge_index: int = 0,
 ) -> EvaluatorOutput:
-    client = anthropic.Anthropic()
-
     user_message = f"""RUN ID: {run_id}
 PHASE: {phase}
 
@@ -56,15 +56,22 @@ TRANSCRIPT:
 
 Return only the JSON object."""
 
-    response = client.messages.create(
+    response = _client.models.generate_content(
         model=_MODEL,
-        max_tokens=1024,
-        temperature=0.0,
-        system=_JUDGE_SYSTEM,
-        messages=[{"role": "user", "content": user_message}],
+        contents=[{"role": "user", "parts": [{"text": user_message}]}],
+        config=types.GenerateContentConfig(
+            system_instruction=_JUDGE_SYSTEM,
+            temperature=0.0,
+            max_output_tokens=1024,
+        ),
     )
 
-    raw = response.content[0].text.strip()
+    raw = response.text.strip()
+    # Strip markdown code fences if Gemini wraps the JSON
+    if raw.startswith("```"):
+        raw = raw.split("```")[1]
+        if raw.startswith("json"):
+            raw = raw[4:]
     data = json.loads(raw)
     return EvaluatorOutput(**data)
 

@@ -2,16 +2,17 @@ from __future__ import annotations
 import os
 import uuid
 from typing import Annotated, TypedDict
-import anthropic
+from google import genai
+from google.genai import types
 from langgraph.graph import StateGraph, END
 from langgraph.graph.message import add_messages
 from src.agents.profile import AgentProfile
 from src.agents.constitution import build_constitution
 
-_MODEL = os.getenv("MODEL", "claude-sonnet-4-6")
+_MODEL = os.getenv("MODEL", "gemini-2.5-flash")
 _TOKEN_BUDGET = int(os.getenv("AGENT_TOKEN_BUDGET", "800"))
 
-_client = anthropic.Anthropic()
+_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 
 class SimState(TypedDict):
@@ -27,17 +28,30 @@ class SimState(TypedDict):
     state_snapshot: dict | None       # saved on deadlock
 
 
+def _to_gemini_contents(messages: list[dict]) -> list[dict]:
+    """Convert internal message format to Gemini contents format."""
+    result = []
+    for m in messages:
+        role = "model" if m["role"] == "assistant" else "user"
+        result.append({"role": role, "parts": [{"text": m["content"]}]})
+    return result
+
+
 def _call_agent(agent: AgentProfile, messages: list[dict], scenario_brief: str) -> tuple[str, int]:
     system = build_constitution(agent)
-    response = _client.messages.create(
+    contents = _to_gemini_contents(messages)
+    response = _client.models.generate_content(
         model=_MODEL,
-        max_tokens=_TOKEN_BUDGET,
-        temperature=0.0,
-        system=system,
-        messages=messages,
+        contents=contents,
+        config=types.GenerateContentConfig(
+            system_instruction=system,
+            temperature=0.0,
+            max_output_tokens=_TOKEN_BUDGET,
+        ),
     )
-    text = response.content[0].text
-    tokens_used = response.usage.input_tokens + response.usage.output_tokens
+    text = response.text
+    usage = response.usage_metadata
+    tokens_used = (usage.prompt_token_count or 0) + (usage.candidates_token_count or 0)
     return text, tokens_used
 
 
