@@ -92,7 +92,9 @@ Each dimension score is injected into the agent's system prompt as a behavioral 
 - Monitor-Evaluator — assesses quality without producing output
 - Completer-Finisher — flags gaps and errors at the end of a cycle
 
-Each agent receives exactly one cognitive profile (dimension scores) + one role assignment. The profile is injected via system prompt. The role determines what the agent is explicitly instructed to do and not do.
+Each agent receives exactly one cognitive profile (dimension scores) + one role assignment + four game theory parameters. The profile is injected via system prompt. The role determines what the agent is explicitly instructed to do and not do.
+
+> **BUILD REMINDER — Phase 9 integration:** At agent creation time, every profile must include four game theory parameters alongside the 10 dimension scores: `context_sharing` (full/filtered), `memory_persistence` (on/off), `signaling` (on/off), `conflict_style` (defer/challenge/negotiate). These are system prompt slots, not post-hoc instrumentation. Do not build the agent profile dataclass without them.
 
 ---
 
@@ -103,19 +105,19 @@ Each agent receives exactly one cognitive profile (dimension scores) + one role 
 The simulation operates on a fixed population of 35 agents:
 
 - **32 worker agents** — each assigned a unique dimension score vector, generated randomly at initialisation. Scores are fixed for the life of the study; they do not change between runs.
-- **3 judge agents** — permanently assigned to the God Mode Evaluator role (Phase 6). Having three judges produces inter-rater reliability scores across runs.
+- **3 judge agents** — structurally identical to worker agents. Same profile format, same system prompt template. The difference is their dimension scores are tuned rather than random, and their assigned role is always God Mode Evaluator (Phase 6). Having three judges produces inter-rater reliability scores across runs.
 
-Judge dimension profile:
+Judge dimension profile — a semi-perfect agent configuration:
 
 | Dimension | Score | Rationale |
 |---|---|---|
-| Philosophy Cohesion | 90+ | Evaluator must have tight value-behaviour alignment to score consistently |
-| Feedback Orientation | 90+ | Core evaluation function — high integration of critical input |
+| Philosophy Cohesion | 90+ | Tight value-behaviour alignment produces consistent scoring |
+| Feedback Orientation | 90+ | Core evaluation function |
 | Adaptive Intelligence | 90+ | Must update scoring model as scenario context shifts |
-| Volatility Vector | 50 | Balanced — not reactive, not flat. A high score introduces emotional variance into scoring; a low score produces rigidity |
+| Volatility Vector | 50 | Balanced — high introduces scoring variance, low produces rigidity |
 | All other dimensions | TBD | To be defined prior to agent initialisation |
 
-Judges do not participate in simulations as workers. They observe and score only.
+Judges do not participate in simulations as workers. They observe and score only. The identical profile format means a judge can theoretically be redeployed as a worker — the role assignment is what separates them, not the architecture.
 
 ### Team Assembly — The Captain Draft Mechanic
 
