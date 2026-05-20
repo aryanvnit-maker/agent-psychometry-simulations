@@ -96,11 +96,19 @@ def draft_team(
     raise ValueError(f"Unknown composition: {composition}")
 
 
-def build_transcript(messages: list[dict]) -> str:
+def build_transcript(messages) -> str:
+    from langchain_core.messages import AIMessage
     lines = []
     for m in messages:
-        role = m.get("role", "unknown")
-        content = m.get("content", "")
+        if isinstance(m, dict):
+            role = m.get("role", "unknown")
+            content = m.get("content", "")
+        elif isinstance(m, AIMessage):
+            role = "assistant"
+            content = m.content
+        else:
+            role = "user"
+            content = m.content if hasattr(m, "content") else str(m)
         lines.append(f"[{role.upper()}]: {content}")
     return "\n\n".join(lines)
 
