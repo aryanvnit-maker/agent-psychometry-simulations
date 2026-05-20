@@ -62,16 +62,26 @@ Return only the JSON object."""
         config=types.GenerateContentConfig(
             system_instruction=_JUDGE_SYSTEM,
             temperature=0.0,
-            max_output_tokens=1024,
+            max_output_tokens=4096,
         ),
     )
 
     raw = response.text.strip()
-    # Strip markdown code fences if Gemini wraps the JSON
+
+    # Strip markdown code fences
     if raw.startswith("```"):
         raw = raw.split("```")[1]
         if raw.startswith("json"):
             raw = raw[4:]
+        raw = raw.strip()
+
+    # Extract the JSON object robustly — find first { to last }
+    start = raw.find("{")
+    end = raw.rfind("}") + 1
+    if start == -1 or end == 0:
+        raise ValueError(f"No JSON object found in judge response:\n{raw}")
+    raw = raw[start:end]
+
     data = json.loads(raw)
     return EvaluatorOutput(**data)
 
