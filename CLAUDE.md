@@ -1,7 +1,7 @@
 # CLAUDE.md
 
 ## Project
-Kalibr — agent psychometry simulations. Building the research infrastructure to replicate validated human team cohesion instruments (GEQ, TCI, FIRO-B, Belbin) in AI agent environments, and generate novel composition-to-cohesion correlations. See `simulation-methodology.md` for the full research design.
+Kalibr-v2 — agent psychometry simulations. Building the research infrastructure to replicate validated human team cohesion instruments (GEQ, TCI, FIRO-B, Belbin) in AI agent environments, and generate novel composition-to-cohesion correlations. See `simulation-methodology.md` for the full research design.
 
 ---
 
