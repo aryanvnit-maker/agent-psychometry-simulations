@@ -14,7 +14,8 @@ _DSN = os.getenv("DATABASE_URL")
 def get_conn():
     if not _DSN:
         raise RuntimeError("DATABASE_URL is not set. Copy .env.example to .env and add your Supabase connection string.")
-    conn = psycopg2.connect(_DSN, sslmode="require")
+    dsn = _DSN.split("?")[0]  # strip ?pgbouncer=true — psycopg2 doesn't support it
+    conn = psycopg2.connect(dsn, sslmode="require")
     try:
         yield conn
         conn.commit()
