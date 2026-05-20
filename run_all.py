@@ -9,6 +9,7 @@ Output is written to results.log in real time.
 Press Ctrl+C to stop at any time — completed runs are already saved to Supabase.
 """
 from __future__ import annotations
+import re
 import time
 import traceback
 import uuid
@@ -17,6 +18,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+from google.genai.errors import ClientError
 from src.agents.pool import initialise_pool, get_workers, get_judges
 from src.orchestration.engine import run_simulation
 from src.evaluation.judge import score_transcript_panel
@@ -29,7 +31,8 @@ TEAM_SIZES   = [1, 2, 4, 8, 16]
 TOPOLOGIES   = ["chain"]
 COMPOSITIONS = ["drafted", "homogeneous", "founder_brained"]
 SEED         = 42
-DELAY_SECS   = 3   # pause between runs to respect API rate limits
+DELAY_SECS   = 5    # pause between runs to respect API rate limits
+MAX_RETRIES  = 6    # max retries on 429 before giving up on a single run
 
 LOG_FILE = "results.log"
 
@@ -132,14 +135,34 @@ def main():
     failed = 0
 
     for i, (scenario_id, team_size, topology, composition) in enumerate(combos, 1):
-        try:
-            run_one(scenario_id, team_size, topology, composition, i, total)
-            passed += 1
-        except Exception as e:
-            failed += 1
-            log(f"  ERROR: {e}")
-            log(traceback.format_exc())
-            log("  Skipping to next combination...")
+        attempt = 0
+        while attempt <= MAX_RETRIES:
+            try:
+                run_one(scenario_id, team_size, topology, composition, i, total)
+                passed += 1
+                break
+            except ClientError as e:
+                if e.status_code == 429:
+                    # Extract retry delay from Gemini error message
+                    match = re.search(r'retry[^0-9]*(\d+(?:\.\d+)?)\s*s', str(e), re.IGNORECASE)
+                    wait = float(match.group(1)) + 5 if match else 60
+                    attempt += 1
+                    if attempt > MAX_RETRIES:
+                        failed += 1
+                        log(f"  FAILED after {MAX_RETRIES} retries — skipping")
+                        break
+                    log(f"  RATE LIMITED — waiting {wait:.0f}s then retrying (attempt {attempt}/{MAX_RETRIES})")
+                    time.sleep(wait)
+                else:
+                    failed += 1
+                    log(f"  ERROR: {e}")
+                    break
+            except Exception as e:
+                failed += 1
+                log(f"  ERROR: {e}")
+                log(traceback.format_exc())
+                log("  Skipping to next combination...")
+                break
 
         if i < total:
             time.sleep(DELAY_SECS)
