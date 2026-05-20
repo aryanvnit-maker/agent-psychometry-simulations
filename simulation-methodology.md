@@ -64,14 +64,27 @@ Each proxy must map to a specific field in the evaluator's JSON output schema (s
 
 Define how cognitive personality is encoded into a system prompt. This is the independent variable across all experiments.
 
-**Cognitive dimensions** (to be mapped against Kalibr's 10 dimensions):
-- Risk tolerance (conservative → aggressive)
-- Autonomy (defers frequently → acts unilaterally)
-- Contrarianism (validates → challenges by default)
-- Verbosity (minimal output → exhaustive output)
-- Closure drive (comfortable with ambiguity → pushes for resolution)
+### The 10 Kalibr Dimensions
 
-**Role taxonomy** (to be mapped against Belbin's 9 roles):
+Each dimension is scored 0–100. No score is inherently better — each creates advantages in some contexts and liabilities in others. These are configuration axes, not good/bad axes. This is fundamental to the agent research: the simulation is not sorting for high performers, it is mapping how configuration composition produces different team outcomes.
+
+| Dimension | What it measures |
+|---|---|
+| **Philosophy Cohesion** | Alignment between stated values and actual decision-making behaviour |
+| **Drive Alignment** | Consistency and direction of internal motivation |
+| **Bonding Index** | Capacity to form and maintain trust-based relationships |
+| **Adaptive Intelligence** | Ability to update mental models when context changes |
+| **Volatility Vector** | Emotional range and how it manifests under pressure |
+| **Ambiguity Tolerance** | Comfort operating without clear structure or information |
+| **Influence Style** | How a person moves others — directive, persuasive, collaborative, passive |
+| **Feedback Orientation** | How a person receives and integrates critical input |
+| **Temporal Orientation** | Bias toward past (pattern-matching), present (execution), or future (vision) |
+| **Energy Resilience** | Recovery rate and sustained output under sustained stress |
+
+Each dimension score is injected into the agent's system prompt as a behavioral constraint. The score does not describe the agent — it determines what the agent is permitted and compelled to do. A score of 20 on Feedback Orientation is not a flaw; it is an instruction to resist integrating external critique, which is a valid and measurable team dynamic.
+
+### Role Taxonomy (mapped against Belbin's 9 roles)
+
 - Coordinator — routes and synthesises
 - Plant — generates novel approaches
 - Implementer — converts ideas to concrete steps
@@ -79,7 +92,44 @@ Define how cognitive personality is encoded into a system prompt. This is the in
 - Monitor-Evaluator — assesses quality without producing output
 - Completer-Finisher — flags gaps and errors at the end of a cycle
 
-Each agent receives exactly one cognitive profile + one role assignment. The profile is injected via system prompt. The role determines what the agent is explicitly instructed to do and not do.
+Each agent receives exactly one cognitive profile (dimension scores) + one role assignment. The profile is injected via system prompt. The role determines what the agent is explicitly instructed to do and not do.
+
+---
+
+## Agent Pool Architecture
+
+### Pool Composition
+
+The simulation operates on a fixed population of 35 agents:
+
+- **32 worker agents** — each assigned a unique dimension score vector, generated randomly at initialisation. Scores are fixed for the life of the study; they do not change between runs.
+- **3 judge agents** — permanently assigned to the God Mode Evaluator role (Phase 6). Judge agents score highest on the evaluation-relevant dimensions: Philosophy Cohesion, Feedback Orientation, and Adaptive Intelligence. Having three judges produces inter-rater reliability scores across runs.
+
+Judges do not participate in simulations as workers. They observe and score only.
+
+### Team Assembly — The Captain Draft Mechanic
+
+Teams are not randomly assembled. They are drafted, which mirrors how real teams form and produces richer composition data.
+
+**For each simulation run:**
+
+1. The task brief is defined and its dimension requirements identified (e.g., a crisis response task weights Energy Resilience and Ambiguity Tolerance heavily)
+2. The worker agent with the highest composite score on the task-relevant dimensions becomes **Team Captain**
+3. The captain selects additional agents from the remaining pool based on their dimension scores and the task requirements — filling gaps in the team profile, not mirroring the captain's own scores (this is the Kalibr thesis applied operationally)
+4. Selection continues until the target team size is reached
+
+**Team sizes:** 1, 2, 4, 8, 16
+
+A team of 1 is the control condition — no coordination cost, establishes baseline output quality for the scenario. Every larger team size measures the delta above that baseline.
+
+### Draft Order Confound
+
+The captain draft creates a structural confound: the first captain picks from the full 32-agent pool; subsequent captains pick from what remains. This produces naturally tiered teams. Two mitigation approaches:
+
+1. Run single-team experiments (one team per scenario) to eliminate the confound entirely
+2. Run multi-team experiments and record draft order as a variable — this produces data on whether assembly-order predicts outcomes, which is itself a valid research finding
+
+Both conditions will be run. Draft order is a logged field in the telemetry schema.
 
 ---
 
@@ -100,17 +150,52 @@ Each scenario must have a defined correct answer or rubric so the God Mode Evalu
 
 ## Phase 4 — Experiment Matrix
 
-Vary cognitive composition systematically across runs. Every other variable must be held constant.
+The matrix crosses team size, scenario type, and Tuckman phase. Composition is determined by the captain draft mechanic (see Agent Pool Architecture), not randomly assigned.
 
-**Composition variants to run:**
-- All-homogeneous (every agent shares the same profile)
-- All-diverse (maximum spread across all cognitive dimensions)
-- Single-role missing (remove Devil's Advocate, then Coordinator, then Plant — one at a time)
-- Single-dimension extremes (all high autonomy, all high closure drive, etc.)
-- Founder-brained configuration (mirrors a typical founding team: high autonomy, high closure, low contrarianism)
-- Kalibr-recommended configuration (fills gaps rather than mirrors)
+### Team Sizes
 
-Each variant must run a minimum number of times per scenario phase to generate statistically usable data. The target comparison is Bell (2007)'s curvilinear diversity-performance curve.
+| Size | Purpose |
+|---|---|
+| 1 | Control — solo agent, no coordination cost, establishes baseline output quality per scenario |
+| 2 | Minimum coordination — one constraint collision possible; tests direct friction between two profiles |
+| 4 | Small team — partial Belbin role coverage; tests what happens when key roles are absent |
+| 8 | Full role coverage possible — tests whether complete coverage outperforms partial |
+| 16 | Redundant roles — tests coalition formation, free rider emergence, and coordination overhead |
+
+### Scenario Taxonomy
+
+Five scenario categories, each stressing different cohesion dimensions:
+
+| Category | Task type | Primary cohesion dimension stressed |
+|---|---|---|
+| Strategic planning | Ambiguous goal, multiple valid paths | GEQ task cohesion, Belbin role coverage |
+| Crisis response | Time pressure, forced prioritisation | GEQ task cohesion, FIRO-B control |
+| Resource allocation | Zero-sum, forces negotiation | FIRO-B inclusion/control, game theory mechanics |
+| Evaluation and critique | Requires genuine disagreement | TCI innovation climate, Belbin Devil's Advocate |
+| Creative generation | Open-ended, novel output required | TCI, Belbin Plant role |
+
+### Composition Conditions
+
+Within each team size and scenario, vary these composition conditions:
+
+- **Captain-drafted** (default) — captain selects for gap-filling diversity
+- **Homogeneous** — all agents share near-identical dimension scores
+- **Founder-brained** — high Drive Alignment, high Philosophy Cohesion, low Ambiguity Tolerance, low Feedback Orientation (mirrors a typical founding team)
+- **Missing-role** — systematically remove one Belbin role at a time
+
+### Schema Addition
+
+The following fields are added to the telemetry schema to support this matrix:
+
+| Field | Type | Description |
+|---|---|---|
+| team_size | INTEGER | Number of worker agents in this run |
+| scenario_category | ENUM | strategic / crisis / resource / evaluation / creative |
+| composition_condition | ENUM | drafted / homogeneous / founder-brained / missing-role |
+| captain_agent_id | UUID | Agent who led the draft for this run |
+| draft_order | INTEGER | Which draft round produced this team (1 = first pick from full pool) |
+
+The target comparison remains Bell (2007)'s curvilinear diversity-performance curve, now testable across all five team sizes.
 
 ---
 
