@@ -6,6 +6,7 @@ from google import genai
 from google.genai import types
 from langgraph.graph import StateGraph, END
 from langgraph.graph.message import add_messages
+from langchain_core.messages import AIMessage, HumanMessage, BaseMessage
 from src.agents.profile import AgentProfile
 from src.agents.constitution import build_constitution
 
@@ -28,12 +29,20 @@ class SimState(TypedDict):
     state_snapshot: dict | None       # saved on deadlock
 
 
-def _to_gemini_contents(messages: list[dict]) -> list[dict]:
-    """Convert internal message format to Gemini contents format."""
+def _to_gemini_contents(messages) -> list[dict]:
+    """Convert LangGraph messages (dicts or LangChain objects) to Gemini contents format."""
     result = []
     for m in messages:
-        role = "model" if m["role"] == "assistant" else "user"
-        result.append({"role": role, "parts": [{"text": m["content"]}]})
+        if isinstance(m, dict):
+            role = "model" if m["role"] == "assistant" else "user"
+            content = m["content"]
+        elif isinstance(m, AIMessage):
+            role = "model"
+            content = m.content
+        else:
+            role = "user"
+            content = m.content if isinstance(m, BaseMessage) else str(m)
+        result.append({"role": role, "parts": [{"text": content}]})
     return result
 
 
