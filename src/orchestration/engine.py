@@ -117,11 +117,83 @@ def build_chain_graph(agents: list[AgentProfile], scenario_brief: str) -> StateG
     return graph
 
 
+def build_flat_graph(agents: list[AgentProfile], max_rounds: int = 2) -> StateGraph:
+    """
+    Flat (round-table) topology.
+    Every agent sees the full conversation history each turn.
+    Runs max_rounds complete circuits — each agent speaks once per round.
+    This is the upper-bound topology: zero routing cost, perfect information.
+
+    Not realistic for production but establishes the performance ceiling.
+    Gap between chain and flat scores = cost of routing structure.
+    """
+    graph = StateGraph(SimState)
+
+    # Track which round we're in via a counter node
+    def make_agent_node(a: AgentProfile, round_idx: int, agent_idx: int, total_agents: int):
+        def node_fn(state: SimState) -> SimState:
+            if a.agent_id not in state["active_agent_ids"]:
+                return state
+
+            # Each agent explicitly addresses the group
+            group_context = (
+                f"[Round {round_idx + 1} — {a.agent_id} speaking to the full team]\n"
+                f"Read all prior contributions above. Respond to the group."
+            )
+            messages_with_context = list(state["messages"]) + [
+                {"role": "user", "content": group_context}
+            ]
+
+            text, tokens = _call_agent(a, messages_with_context, state["scenario_brief"])
+
+            if _cull_check(state, a, tokens):
+                state["active_agent_ids"].remove(a.agent_id)
+                state["cull_events"].append({
+                    "agent_id": a.agent_id,
+                    "turn": state["turn_count"],
+                    "reason": "token_budget_exceeded",
+                })
+                return state
+
+            state["messages"].append({
+                "role": "assistant",
+                "content": f"[{a.agent_id} | Round {round_idx + 1}]: {text}",
+            })
+            state["turn_count"] += 1
+
+            # Log routing: flat topology means everyone routes to everyone
+            for other in state["active_agent_ids"]:
+                if other != a.agent_id:
+                    state["routing_log"].append({
+                        "from": a.agent_id,
+                        "to": other,
+                        "turn": state["turn_count"],
+                    })
+
+            return state
+        return node_fn
+
+    node_sequence = []
+    for round_idx in range(max_rounds):
+        for agent_idx, agent in enumerate(agents):
+            node_name = f"{agent.agent_id}_r{round_idx}"
+            graph.add_node(node_name, make_agent_node(agent, round_idx, agent_idx, len(agents)))
+            node_sequence.append(node_name)
+
+    graph.set_entry_point(node_sequence[0])
+    for i in range(len(node_sequence) - 1):
+        graph.add_edge(node_sequence[i], node_sequence[i + 1])
+    graph.add_edge(node_sequence[-1], END)
+
+    return graph
+
+
 def run_simulation(
     agents: list[AgentProfile],
     scenario_brief: str,
     phase: str,
     topology: str = "chain",
+    flat_rounds: int = 2,
 ) -> SimState:
     run_id = str(uuid.uuid4())
 
@@ -140,8 +212,10 @@ def run_simulation(
 
     if topology == "chain":
         graph = build_chain_graph(agents, scenario_brief)
+    elif topology == "flat":
+        graph = build_flat_graph(agents, max_rounds=flat_rounds)
     else:
-        raise NotImplementedError(f"Topology '{topology}' not yet implemented. Build flat and hub_spoke next.")
+        raise NotImplementedError(f"Topology '{topology}' not yet implemented.")
 
     compiled = graph.compile()
     final_state = compiled.invoke(initial_state)

@@ -3,12 +3,15 @@
 Runs all experiment combinations and logs results.
 
 Usage:
-    python run_all.py
+    python run_all.py                      # chain topology only (default)
+    python run_all.py --topology flat      # flat topology only
+    python run_all.py --topology all       # both topologies
 
 Output is written to results.log in real time.
 Press Ctrl+C to stop at any time — completed runs are already saved to Supabase.
 """
 from __future__ import annotations
+import argparse
 import re
 import time
 import traceback
@@ -28,11 +31,12 @@ from run_simulation import draft_team, build_transcript
 
 SCENARIOS    = list(ALL_SCENARIOS.keys())
 TEAM_SIZES   = [1, 2, 4, 8, 16]
-TOPOLOGIES   = ["chain"]
+TOPOLOGIES   = ["chain"]           # overridden at runtime by --topology arg
 COMPOSITIONS = ["drafted", "homogeneous", "founder_brained"]
 SEED         = 42
 DELAY_SECS   = 5    # pause between runs to respect API rate limits
 MAX_RETRIES  = 6    # max retries on 429 before giving up on a single run
+FLAT_ROUNDS  = 2    # rounds per flat-topology simulation
 
 LOG_FILE = "results.log"
 
@@ -79,6 +83,7 @@ def run_one(scenario_id, team_size, topology, composition, run_index, total):
         scenario_brief=scenario.brief,
         phase=scenario.phase,
         topology=topology,
+        flat_rounds=FLAT_ROUNDS,
     )
 
     transcript  = build_transcript(final_state["messages"])
@@ -122,12 +127,28 @@ def run_one(scenario_id, team_size, topology, composition, run_index, total):
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--topology",
+        choices=["chain", "flat", "all"],
+        default="chain",
+        help="Which topology (or topologies) to run.",
+    )
+    args = parser.parse_args()
+
+    global TOPOLOGIES  # noqa: PLW0603
+    if args.topology == "all":
+        TOPOLOGIES = ["chain", "flat"]
+    else:
+        TOPOLOGIES = [args.topology]
+
     combos = list(all_combinations())
     total  = len(combos)
 
     log(f"Starting batch: {total} runs | seed={SEED} | delay={DELAY_SECS}s between runs")
     log(f"Scenarios:    {SCENARIOS}")
     log(f"Team sizes:   {TEAM_SIZES}")
+    log(f"Topologies:   {TOPOLOGIES}")
     log(f"Compositions: {COMPOSITIONS}")
     log("=" * 60)
 
