@@ -110,6 +110,7 @@ def run_one(scenario_id, team_size, topology, composition, model_family, run_ind
         cull_events=final_state["cull_events"],
         state_snapshot=None,
         model_family=model_family,
+        transcript=transcript,
     )
 
     # Judges always run on Gemini regardless of worker provider
