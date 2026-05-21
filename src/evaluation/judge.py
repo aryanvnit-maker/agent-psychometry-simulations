@@ -9,7 +9,7 @@ _MODEL = os.getenv("MODEL", "gemini-2.5-flash")
 _client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 _JUDGE_SYSTEM = """You are an isolated simulation evaluator. You do not participate in the task.
-You receive a transcript of an agent team simulation and a run context.
+You receive a final deliverable produced by an agent team and the full conversation transcript.
 You return ONLY a valid JSON object matching the required schema. No prose, no explanation.
 Every field is required. Score honestly — your scores are the research data."""
 
@@ -17,8 +17,8 @@ _SCHEMA_DESCRIPTION = """
 Required JSON fields:
 - run_id: string
 - phase: "forming" | "storming" | "norming" | "performing"
-- task_score: integer 0-100 (overall output quality against the rubric)
-- contradiction_count: integer (number of direct agent-to-agent contradictions)
+- task_score: integer 0-100 (rubric score based ONLY on the FINAL DELIVERABLE — not the process)
+- contradiction_count: integer (number of direct agent-to-agent contradictions in the full transcript)
 - consensus_achieved: boolean
 - turns_to_consensus: integer or null
 - novel_approaches_count: integer (approaches not present in the initial brief)
@@ -35,6 +35,25 @@ Required JSON fields:
 - evaluator_notes: one-line string or null
 """
 
+_TASK_SCORE_INSTRUCTION = """
+CRITICAL — task_score scoring rule:
+Score task_score based ONLY on whether the FINAL DELIVERABLE satisfies the rubric criteria.
+Do NOT consider: reasoning quality, formatting style, number of agents who spoke, or sequential structure.
+Do NOT reward a team for showing its work. Do NOT penalise a team for a short final answer.
+The rubric criteria are the only inputs to task_score. Apply each criterion as a binary checkpoint
+(full points or zero). A long deliberation that produces a weak deliverable scores low.
+A short deliberation that produces a complete deliverable scores high.
+"""
+
+
+def extract_final_deliverable(transcript: str) -> str:
+    """Return the last ASSISTANT message from a formatted transcript string."""
+    blocks = transcript.split("\n\n")
+    for block in reversed(blocks):
+        if block.startswith("[ASSISTANT]:"):
+            return block[len("[ASSISTANT]:"):].strip()
+    return transcript
+
 
 def score_transcript(
     run_id: str,
@@ -43,13 +62,23 @@ def score_transcript(
     rubric: str,
     judge_index: int = 0,
 ) -> EvaluatorOutput:
+    final_deliverable = extract_final_deliverable(transcript)
+
     user_message = f"""RUN ID: {run_id}
 PHASE: {phase}
 
 RUBRIC:
 {rubric}
 
-TRANSCRIPT:
+{_TASK_SCORE_INSTRUCTION}
+
+FINAL DELIVERABLE (score task_score against this ONLY):
+{final_deliverable}
+
+FULL TRANSCRIPT (use ONLY for process metrics: contradiction_count, consensus_achieved,
+turns_to_consensus, novel_approaches_count, role_coverage, dominant_agent, excluded_agents,
+geq_task_cohesion, geq_social_cohesion, tci_innovation, firo_inclusion, firo_control_agent,
+context_fidelity_mean, cull_events):
 {transcript}
 
 {_SCHEMA_DESCRIPTION}
