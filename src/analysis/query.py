@@ -16,12 +16,14 @@ _CONSCIENTIOUSNESS_PROXY = ["drive_alignment", "philosophy_cohesion", "energy_re
 _AGREEABLENESS_PROXY     = ["bonding_index", "feedback_orientation"]
 
 
-def load_results() -> pd.DataFrame:
+def load_results(topology: str | None = None) -> pd.DataFrame:
+    topology_filter = "AND r.topology = %(topology)s" if topology else ""
     with get_conn() as conn:
         df = pd.read_sql(
-            """
+            f"""
             SELECT
                 r.run_id,
+                r.topology,
                 r.scenario_id,
                 r.team_size,
                 r.composition_condition,
@@ -40,12 +42,14 @@ def load_results() -> pd.DataFrame:
             FROM runs r
             JOIN evaluations e ON r.run_id = e.run_id
             WHERE r.scenario_id != ''
-            GROUP BY r.run_id, r.scenario_id, r.team_size,
+            {topology_filter}
+            GROUP BY r.run_id, r.topology, r.scenario_id, r.team_size,
                      r.composition_condition, r.composition_matrix,
                      r.turns_to_complete, r.token_cost
-            ORDER BY r.scenario_id, r.team_size, r.composition_condition
+            ORDER BY r.topology, r.scenario_id, r.team_size, r.composition_condition
             """,
             conn,
+            params={"topology": topology} if topology else None,
         )
 
     df["composition_matrix"] = df["composition_matrix"].apply(

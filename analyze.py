@@ -28,9 +28,10 @@ def _r(df, col_a, col_b) -> str:
     return f"r={r:.2f}{sig} (p={p:.3f})"
 
 
-def print_summary(df: pd.DataFrame):
+def print_summary(df: pd.DataFrame, label: str = ""):
+    tag = f" | topology: {label}" if label else ""
     print("\n" + "=" * 60)
-    print(f"DATASET: {len(df)} runs | {df['scenario_id'].nunique()} scenarios | topology: chain")
+    print(f"DATASET: {len(df)} runs | {df['scenario_id'].nunique()} scenarios{tag}")
     print("=" * 60)
 
     print("\n── Mean Task Score by Composition ──")
@@ -116,7 +117,66 @@ def print_summary(df: pd.DataFrame):
     print()
 
 
+def print_topology_comparison(chain: pd.DataFrame, flat: pd.DataFrame):
+    print("\n" + "=" * 60)
+    print("TOPOLOGY COMPARISON: chain vs flat")
+    print("=" * 60)
+
+    print("\n── Bell (2007) Confound Check: Diversity vs Performance ──")
+    for label, df in [("chain", chain), ("flat", flat)]:
+        drafted = df[df["composition_condition"] == "drafted"]["task_score"].mean()
+        homog   = df[df["composition_condition"] == "homogeneous"]["task_score"].mean()
+        founder = df[df["composition_condition"] == "founder_brained"]["task_score"].mean()
+        winner  = max([("drafted", drafted), ("homogeneous", homog), ("founder_brained", founder)],
+                      key=lambda x: x[1])
+        print(f"  [{label}] drafted={drafted:.1f}  homogeneous={homog:.1f}  founder_brained={founder:.1f}  → winner: {winner[0]}")
+    print()
+
+    print("── Mean Task Score by Composition (chain vs flat) ──")
+    for comp in ["drafted", "homogeneous", "founder_brained"]:
+        c = chain[chain["composition_condition"] == comp]["task_score"].mean()
+        f = flat[flat["composition_condition"] == comp]["task_score"].mean()
+        delta = f - c
+        direction = "↑" if delta > 0 else "↓"
+        print(f"  {comp:<20} chain={c:.1f}  flat={f:.1f}  Δ={delta:+.1f} {direction}")
+    print()
+
+    print("── Mean Task Score by Team Size (chain vs flat) ──")
+    shared_sizes = sorted(set(chain["team_size"]) & set(flat["team_size"]))
+    for size in shared_sizes:
+        c = chain[chain["team_size"] == size]["task_score"].mean()
+        f = flat[flat["team_size"] == size]["task_score"].mean()
+        delta = f - c
+        direction = "↑" if delta > 0 else "↓"
+        print(f"  size={size:<4} chain={c:.1f}  flat={f:.1f}  Δ={delta:+.1f} {direction}")
+    print()
+
+    print("── Consensus Rate (chain vs flat) ──")
+    for label, df in [("chain", chain), ("flat", flat)]:
+        rate = df["consensus_achieved"].mean() * 100
+        print(f"  [{label}] {rate:.1f}%")
+    print()
+
+    print("── Routing Cost Estimate ──")
+    # Gap between flat (perfect info) and chain (sequential) = cost of routing structure
+    flat_mean  = flat["task_score"].mean()
+    chain_mean = chain["task_score"].mean()
+    gap = flat_mean - chain_mean
+    print(f"  Flat mean: {flat_mean:.1f}  Chain mean: {chain_mean:.1f}  Gap: {gap:+.1f}")
+    if gap > 5:
+        print("  Routing cost is significant — flat topology meaningfully outperforms chain.")
+    elif gap < -5:
+        print("  Chain outperforms flat — sequential structure adds value, possibly through forced convergence.")
+    else:
+        print("  Topology gap is small — routing structure has minimal performance cost.")
+
+
 if __name__ == "__main__":
-    df = load_results()
-    print_summary(df)
-    generate_all(df)
+    chain = load_results(topology="chain")
+    flat  = load_results(topology="flat")
+
+    print_summary(chain, label="chain")
+    print_summary(flat,  label="flat")
+    print_topology_comparison(chain, flat)
+
+    generate_all(chain)
