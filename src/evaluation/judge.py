@@ -62,7 +62,7 @@ Return only the JSON object."""
         config=types.GenerateContentConfig(
             system_instruction=_JUDGE_SYSTEM,
             temperature=0.0,
-            max_output_tokens=4096,
+            max_output_tokens=8192,
         ),
     )
 

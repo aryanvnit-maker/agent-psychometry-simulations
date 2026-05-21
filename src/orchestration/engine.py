@@ -22,11 +22,12 @@ class SimState(TypedDict):
     scenario_brief: str
     messages: Annotated[list[dict], add_messages]
     turn_count: int
-    token_usage: dict[str, int]       # agent_id -> cumulative tokens used
-    cull_events: list[dict]           # {agent_id, turn, reason}
+    token_usage: dict[str, int]         # agent_id -> cumulative total tokens (cost tracking)
+    output_token_usage: dict[str, int]  # agent_id -> cumulative output tokens (cull tracking)
+    cull_events: list[dict]             # {agent_id, turn, reason}
     active_agent_ids: list[str]
-    routing_log: list[dict]           # {from, to, turn} for coalition detection
-    state_snapshot: dict | None       # saved on deadlock
+    routing_log: list[dict]             # {from, to, turn} for coalition detection
+    state_snapshot: dict | None         # saved on deadlock
 
 
 def _to_gemini_contents(messages) -> list[dict]:
@@ -46,7 +47,8 @@ def _to_gemini_contents(messages) -> list[dict]:
     return result
 
 
-def _call_agent(agent: AgentProfile, messages: list[dict], scenario_brief: str) -> tuple[str, int]:
+def _call_agent(agent: AgentProfile, messages: list[dict], scenario_brief: str) -> tuple[str, int, int]:
+    """Returns (text, total_tokens_for_cost, output_tokens_for_cull)."""
     system = build_constitution(agent)
     contents = _to_gemini_contents(messages)
     response = _client.models.generate_content(
@@ -60,15 +62,19 @@ def _call_agent(agent: AgentProfile, messages: list[dict], scenario_brief: str) 
     )
     text = response.text
     usage = response.usage_metadata
-    tokens_used = (usage.prompt_token_count or 0) + (usage.candidates_token_count or 0)
-    return text, tokens_used
+    prompt_tokens = usage.prompt_token_count or 0
+    output_tokens = usage.candidates_token_count or 0
+    return text, prompt_tokens + output_tokens, output_tokens
 
 
-def _cull_check(state: SimState, agent: AgentProfile, tokens_this_turn: int) -> bool:
-    """Return True if this agent should be culled."""
-    cumulative = state["token_usage"].get(agent.agent_id, 0) + tokens_this_turn
-    state["token_usage"][agent.agent_id] = cumulative
-    return cumulative > _TOKEN_BUDGET * 3
+def _cull_check(state: SimState, agent: AgentProfile, total_tokens: int, output_tokens: int) -> bool:
+    """Cull based on output tokens only — prompt tokens are shared context, not agent output cost."""
+    state["token_usage"][agent.agent_id] = (
+        state["token_usage"].get(agent.agent_id, 0) + total_tokens
+    )
+    cumulative_output = state["output_token_usage"].get(agent.agent_id, 0) + output_tokens
+    state["output_token_usage"][agent.agent_id] = cumulative_output
+    return cumulative_output > _TOKEN_BUDGET * 3
 
 
 def build_chain_graph(agents: list[AgentProfile], scenario_brief: str) -> StateGraph:
@@ -83,9 +89,9 @@ def build_chain_graph(agents: list[AgentProfile], scenario_brief: str) -> StateG
                 if a.agent_id not in state["active_agent_ids"]:
                     return state
 
-                text, tokens = _call_agent(a, state["messages"], state["scenario_brief"])
+                text, total_tokens, output_tokens = _call_agent(a, state["messages"], state["scenario_brief"])
 
-                if _cull_check(state, a, tokens):
+                if _cull_check(state, a, total_tokens, output_tokens):
                     state["active_agent_ids"].remove(a.agent_id)
                     state["cull_events"].append({
                         "agent_id": a.agent_id,
@@ -144,9 +150,9 @@ def build_flat_graph(agents: list[AgentProfile], max_rounds: int = 2) -> StateGr
                 {"role": "user", "content": group_context}
             ]
 
-            text, tokens = _call_agent(a, messages_with_context, state["scenario_brief"])
+            text, total_tokens, output_tokens = _call_agent(a, messages_with_context, state["scenario_brief"])
 
-            if _cull_check(state, a, tokens):
+            if _cull_check(state, a, total_tokens, output_tokens):
                 state["active_agent_ids"].remove(a.agent_id)
                 state["cull_events"].append({
                     "agent_id": a.agent_id,
@@ -204,6 +210,7 @@ def run_simulation(
         "messages": [{"role": "user", "content": scenario_brief}],
         "turn_count": 0,
         "token_usage": {},
+        "output_token_usage": {},
         "cull_events": [],
         "active_agent_ids": [a.agent_id for a in agents],
         "routing_log": [],
