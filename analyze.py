@@ -171,6 +171,56 @@ def print_topology_comparison(chain: pd.DataFrame, flat: pd.DataFrame):
         print("  Topology gap is small — routing structure has minimal performance cost.")
 
 
+def print_cross_model_comparison(all_df: pd.DataFrame):
+    families = sorted(all_df["model_family"].dropna().unique())
+    if len(families) < 2:
+        return
+
+    print("\n" + "=" * 60)
+    print("CROSS-MODEL TOPOLOGY COMPARISON")
+    print("=" * 60)
+
+    print("\n── Chain vs Flat gap by model family ──")
+    print(f"  {'Model':<20} {'Chain':>8} {'Flat':>8} {'Gap':>8}  Verdict")
+    print(f"  {'-'*20} {'-'*8} {'-'*8} {'-'*8}  {'-'*30}")
+    for fam in families:
+        fdf   = all_df[all_df["model_family"] == fam]
+        chain = fdf[fdf["topology"] == "chain"]["task_score"].mean()
+        flat  = fdf[fdf["topology"] == "flat"]["task_score"].mean()
+        gap   = chain - flat
+        verdict = "chain > flat ✓" if gap > 5 else "flat > chain ✗" if gap < -5 else "no gap"
+        print(f"  {fam:<20} {chain:>8.1f} {flat:>8.1f} {gap:>+8.1f}  {verdict}")
+
+    print("\n── Chain mean by model family and team size ──")
+    pivot = all_df[all_df["topology"] == "chain"].pivot_table(
+        values="task_score", index="team_size", columns="model_family", aggfunc="mean"
+    ).round(1)
+    print(pivot.to_string())
+
+    print("\n── Is the Bell inversion consistent across models? ──")
+    for fam in families:
+        fdf     = all_df[(all_df["model_family"] == fam) & (all_df["topology"] == "chain")]
+        drafted = fdf[fdf["composition_condition"] == "drafted"]["task_score"].mean()
+        homog   = fdf[fdf["composition_condition"] == "homogeneous"]["task_score"].mean()
+        founder = fdf[fdf["composition_condition"] == "founder_brained"]["task_score"].mean()
+        winner  = max([("drafted", drafted), ("homogeneous", homog), ("founder_brained", founder)],
+                      key=lambda x: x[1] if not (x[1] != x[1]) else -1)
+        print(f"  [{fam}] drafted={drafted:.1f}  homogeneous={homog:.1f}  founder_brained={founder:.1f}  → {winner[0]}")
+
+    holds = []
+    for fam in families:
+        fdf     = all_df[(all_df["model_family"] == fam) & (all_df["topology"] == "chain")]
+        drafted = fdf[fdf["composition_condition"] == "drafted"]["task_score"].mean()
+        homog   = fdf[fdf["composition_condition"] == "homogeneous"]["task_score"].mean()
+        founder = fdf[fdf["composition_condition"] == "founder_brained"]["task_score"].mean()
+        holds.append(drafted < homog or drafted < founder)
+    if all(holds):
+        print("\n  VERDICT: Bell inversion holds across all model families — structural finding.")
+    else:
+        print("\n  VERDICT: Bell inversion does NOT hold across all models — may be model-specific.")
+    print()
+
+
 if __name__ == "__main__":
     chain = load_results(topology="chain")
     flat  = load_results(topology="flat")
@@ -178,5 +228,8 @@ if __name__ == "__main__":
     print_summary(chain, label="chain")
     print_summary(flat,  label="flat")
     print_topology_comparison(chain, flat)
+
+    all_df = load_results()
+    print_cross_model_comparison(all_df)
 
     generate_all(chain)

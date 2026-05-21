@@ -31,6 +31,7 @@ def already_completed(
     topology: str,
     composition_condition: str,
     team_size: int,
+    model_family: str = "gemini",
 ) -> bool:
     """Return True if this exact combination already has a completed run in the database."""
     with get_conn() as conn:
@@ -42,9 +43,10 @@ def already_completed(
                   AND topology = %s
                   AND composition_condition = %s
                   AND team_size = %s
+                  AND model_family = %s
                 LIMIT 1
                 """,
-                (scenario_id, topology, composition_condition, team_size),
+                (scenario_id, topology, composition_condition, team_size, model_family),
             )
             return cur.fetchone() is not None
 
@@ -64,6 +66,7 @@ def insert_run(
     turns_to_complete: int | None,
     cull_events: list,
     state_snapshot: dict | None,
+    model_family: str = "gemini",
 ) -> None:
     with get_conn() as conn:
         with conn.cursor() as cur:
@@ -73,8 +76,8 @@ def insert_run(
                     run_id, scenario_id, composition_matrix, topology, task_phase,
                     scenario_category, composition_condition, team_size,
                     captain_agent_id, draft_order, token_cost,
-                    turns_to_complete, cull_events, state_snapshot
-                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    turns_to_complete, cull_events, state_snapshot, model_family
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 """,
                 (
                     run_id,
@@ -91,6 +94,7 @@ def insert_run(
                     turns_to_complete,
                     json.dumps(cull_events),
                     json.dumps(state_snapshot) if state_snapshot else None,
+                    model_family,
                 ),
             )
 
