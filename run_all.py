@@ -21,7 +21,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from google.genai.errors import ClientError
+from google.genai.errors import ClientError, ServerError
 from src.agents.pool import initialise_pool, get_workers, get_judges
 from src.orchestration.engine import run_simulation
 from src.evaluation.judge import score_transcript_panel
@@ -53,6 +53,9 @@ def all_combinations():
     ):
         # Team of 1 has no meaningful composition variation — run drafted only
         if team_size == 1 and composition != "drafted":
+            continue
+        # Flat topology: skip size-16 — context explosion, ~80K tokens/run, minimal signal gain
+        if topology == "flat" and team_size == 16:
             continue
         yield scenario_id, team_size, topology, composition
 
@@ -178,6 +181,16 @@ def main():
                     failed += 1
                     log(f"  ERROR: {e}")
                     break
+            except ServerError as e:
+                # 502/503 transient server errors — retry with fixed backoff
+                attempt += 1
+                if attempt > MAX_RETRIES:
+                    failed += 1
+                    log(f"  SERVER ERROR after {MAX_RETRIES} retries — skipping")
+                    break
+                wait = 30 * attempt
+                log(f"  SERVER ERROR {e.status_code} — waiting {wait}s then retrying (attempt {attempt}/{MAX_RETRIES})")
+                time.sleep(wait)
             except Exception as e:
                 failed += 1
                 log(f"  ERROR: {e}")
