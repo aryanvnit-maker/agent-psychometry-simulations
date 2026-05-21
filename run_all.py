@@ -189,7 +189,7 @@ def main():
                     log(f"  SERVER ERROR after {MAX_RETRIES} retries — skipping")
                     break
                 wait = 30 * attempt
-                log(f"  SERVER ERROR {e.status_code} — waiting {wait}s then retrying (attempt {attempt}/{MAX_RETRIES})")
+                log(f"  SERVER ERROR — waiting {wait}s then retrying (attempt {attempt}/{MAX_RETRIES})")
                 time.sleep(wait)
             except Exception as e:
                 failed += 1
