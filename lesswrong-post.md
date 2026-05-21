@@ -2,7 +2,7 @@
 
 Most multi-agent AI systems are built with flat topology — all agents see everything, all agents respond, everyone deliberates together. This feels correct. More perspectives, more information sharing, better output.
 
-We ran 91 controlled simulations to test it. The flat topology consistently underperformed sequential chains by 33 points. The mechanism is visible in the data and it connects directly to 40 years of human organisational research.
+We ran 91 controlled simulations to test it. The flat topology consistently underperformed sequential chains by 33 points on task scores (0–100, rubric-graded). The mechanism is visible in the data and it connects directly to 40 years of human organisational research.
 
 ---
 
@@ -26,7 +26,7 @@ We composed these agents into teams of 1, 2, 4, 8, and 16 under three compositio
 - **Homogeneous** — teammates selected for minimum dimensional variance
 - **Founder-brained** — high Drive Alignment, high Philosophy Cohesion, high Volatility; mirrors early-stage startup team culture
 
-We ran each team through four structured business scenarios covering strategic decision-making, zero-sum resource allocation, post-mortem analysis, and crisis response. Three independent judge agents — tuned for analytical neutrality — scored each transcript against explicit rubrics. All agents run on the same underlying model (Gemini 2.5 Flash) at temperature=0.0, making every run fully deterministic and reproducible.
+We ran each team through four structured business scenarios covering strategic decision-making, zero-sum resource allocation, post-mortem analysis, and crisis response. Three independent judge agents — tuned for analytical neutrality — scored each transcript against explicit rubrics on a 0–100 scale. Judges received the full transcript plus the rubric; they did not receive any metadata about team composition or topology. This means judges score both the quality of the final output *and* the deliberation that produced it, which creates a potential formatting bias: an LLM judge may favour transcripts that read like clean sequential reasoning over messy multi-speaker deliberation, regardless of output merit. This is noted in Limitations. All agents run on the same underlying model (Gemini 2.5 Flash) at temperature=0.0, making every run fully deterministic and reproducible.
 
 Two topologies were tested:
 
@@ -40,13 +40,37 @@ Two topologies were tested:
 
 ## Results
 
-### Topology
+### The Single-Agent Baseline
+
+Before comparing topologies, establish the floor: a single agent working alone, no coordination cost.
+
+| Condition | Task Score (0–100) |
+|---|---|
+| Single agent, chain | 10.0 |
+| Single agent, flat | 35.4 |
+
+The chain single-agent score is low because a lone agent in chain topology receives the scenario once and produces one response — no iterative prompting. The flat single-agent gets two structured rounds of prompting, which improves output substantially.
+
+Now add a second agent in flat topology: **16.3.**
+
+Adding a second agent to a flat swarm dropped performance from 35.4 to 16.3 — a 19-point decrease. The flat topology's coordination overhead destroyed more value than the second agent contributed. This is not inefficiency. It is active degradation.
+
+### Topology (All Team Sizes, Mean Score 0–100)
 
 | Topology | Mean Task Score |
 |---|---|
 | Chain | 70.2 |
 | Flat | 36.9 |
 | **Gap** | **−33.3** |
+
+| Team Size | Chain | Flat | Δ |
+|---|---|---|---|
+| 1 | 10.0 | 35.4 | +25.4 |
+| 2 | 60.8 | 16.3 | −44.5 |
+| 4 | 76.8 | 38.9 | −37.9 |
+| 8 | 85.8 | 54.4 | −31.4 |
+
+A chain of 2 agents (60.8) outperforms a flat swarm of 8 (54.4). The coordination overhead of flat topology is not overcome by adding more agents — it compounds.
 
 This gap is not composition-specific. Every composition performs worse in flat than chain:
 
@@ -57,6 +81,34 @@ This gap is not composition-specific. Every composition performs worse in flat t
 | Drafted (diverse) | 57.8 | 29.4 | −28.4 |
 
 The flat topology penalty is consistent, large, and topology-controlled. It is not a noise artefact.
+
+---
+
+## The Diversity Finding
+
+Most enterprise teams building agent swarms compose them the way HR taught them to: a Coder, a Critic, a Planner. Diverse roles, diverse perspectives, better outcomes. This is the Bell (2007) intuition applied to AI.
+
+It is wrong, by the data here.
+
+Diverse teams (drafted composition — captain-selected to maximise dimensional coverage) finished last in every condition tested:
+
+| Composition | Chain | Flat |
+|---|---|---|
+| Founder-brained | 82.2 | 41.0 |
+| Homogeneous | 72.8 | 42.4 |
+| **Drafted (diverse)** | **57.8** | **29.4** |
+
+We initially flagged this as a possible chain topology artifact: sequential handoffs limit information flow, maybe diverse agents couldn't coordinate across the constraint. We ran flat topology — perfect information, every agent sees everything — precisely to test that hypothesis. The inversion survived. Diverse teams finished last in flat topology too.
+
+**The Bell (2007) inversion is structural, not topological.**
+
+The mechanism: agent constitutions are fixed behavioral constraints, not adaptive strategies. A diverse team means agents with incompatible behavioral profiles — one agent is constitutionally compelled to challenge, another to seek consensus, another to defer. Human team members with diverse personalities adapt to each other over time. Agent constitutions don't adapt. The incompatibility produces constraint collision, which degrades output directly.
+
+The exact system prompts for each composition condition are in the repository. The drafted (diverse) team prompts in particular show the specific constraint combinations that produce the deadlock pattern — they are worth examining directly if you want to reproduce or challenge this finding.
+
+This finding has a narrow scope: *cognitive diversity as implemented through fixed behavioral constraints hurts performance on bounded decision tasks*. It does not generalise to capability diversity (different models for different roles), dynamic constitutions, or open-ended tasks where constraint collision might produce genuinely novel directions. But for the task types most production swarms are actually running, the diversity premium is a liability.
+
+---
 
 ### The Mechanism: Social Cohesion ≠ Task Cohesion
 
@@ -71,22 +123,6 @@ We scored transcripts on two GEQ (Group Environment Questionnaire) dimensions: t
 In flat topology, agents are socially present and taskfully absent. FIRO inclusion scores — measuring what fraction of agents were addressed by other agents — hit 1.00 in flat topology. Every agent talks to every other agent. Nobody produces a committed output.
 
 This is not a subtle effect. It is the entire mechanism. Flat topology produces complete social engagement and near-complete task failure. The agents are having the meeting. The meeting is not producing a decision.
-
----
-
-## The Diversity Finding
-
-We were testing a replication of Bell's 2007 meta-analysis, which found that cognitive diversity reliably predicts team performance in humans. In our chain topology results, diverse teams (drafted composition) finished last — 57.8 vs 72.8 for homogeneous and 82.2 for founder-brained.
-
-We initially flagged this as a potential topology artifact. Chain topology limits information flow; maybe diverse agents couldn't coordinate across the constraint. We ran flat topology precisely to test this: in flat topology, every agent has complete information. If the diversity penalty was a topology artifact, it should disappear in flat.
-
-It did not disappear. Diverse teams finished last in flat topology too (29.4 vs 42.4 homogeneous, 41.0 founder-brained).
-
-**The Bell (2007) inversion is structural, not topological.**
-
-The proposed mechanism: agent constitutions are fixed behavioral constraints, not adaptive strategies. A diverse team means agents with incompatible behavioral profiles — one agent is constitutionally compelled to challenge, another to seek consensus, another to defer. Human team members with diverse personalities adapt to each other over time. Agent constitutions don't adapt. The incompatibility produces constraint collision, which degrades output directly.
-
-This is worth stating carefully: the finding is that *cognitive diversity as implemented through fixed behavioral constraints hurts performance on bounded decision tasks*. It does not necessarily generalise to: (a) tasks where divergent approaches are genuinely valuable, (b) agent architectures where constitutions are dynamic, or (c) diverse teams defined by capability rather than behavioral style.
 
 ---
 
@@ -132,6 +168,8 @@ These should be taken seriously before updating too hard on the findings.
 
 **No capability diversity.** All agents are restricted to the same model. Real swarm architectures often combine a large general model with smaller specialist models. That architecture is neither chain nor flat as defined here and is not covered by this data.
 
+**Judge formatting bias.** LLM judges process tokens sequentially via attention mechanisms and may structurally favour transcripts that read as clean linear reasoning over messy multi-speaker deliberation. Judges here evaluated full transcripts, not isolated final outputs. If this bias exists, it would inflate chain scores relative to flat scores — meaning the 33-point gap may be partially an evaluation artefact rather than a pure output quality difference. Isolating judges to final extracted answers only would partially control for this; it is the first thing to test in a replication.
+
 ---
 
 ## Practical Implications
@@ -151,8 +189,6 @@ If you are building a multi-agent system to produce a committed output — a dec
 ---
 
 ## What This Is Not Claiming
-
-This does not claim that AI agents and human teams are the same. They are not.
 
 This does not claim that hierarchy is always correct. It claims sequential commitment structures outperform simultaneous deliberation on bounded decision tasks in these conditions.
 
