@@ -109,6 +109,7 @@ def run_one(scenario_id, team_size, topology, composition, run_index, total):
         turns_to_complete=final_state["turn_count"],
         cull_events=final_state["cull_events"],
         state_snapshot=None,
+        transcript=transcript,
     )
 
     evaluations = score_transcript_panel(

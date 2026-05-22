@@ -181,6 +181,7 @@ def main():
         turns_to_complete=final_state["turn_count"],
         cull_events=final_state["cull_events"],
         state_snapshot=None,
+        transcript=transcript,
     )
 
     # Score with judge panel

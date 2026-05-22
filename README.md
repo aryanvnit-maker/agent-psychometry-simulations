@@ -4,6 +4,40 @@ Empirical research infrastructure for testing whether validated human team psych
 
 ---
 
+## The Finding
+
+91 controlled simulations. Two topology types. Four scenarios. The result:
+
+| Topology | Mean Task Score (0–100) |
+|---|---|
+| **Chain** (sequential handoffs) | **70.2** |
+| Flat (round-table, all-to-all) | 36.9 |
+| Gap | −33.3 points |
+
+| Team Size | Chain | Flat | Δ |
+|---|---|---|---|
+| 1 agent | 10.0 | 35.4 | +25.4 |
+| 2 agents | 60.8 | 16.3 | −44.5 |
+| 4 agents | 76.8 | 38.9 | −37.9 |
+| 8 agents | 85.8 | 54.4 | −31.4 |
+
+**A chain of 2 agents (60.8) outperforms a flat swarm of 8 (54.4).**
+Adding a second agent to a flat swarm drops score from 35.4 → 16.3. Coordination overhead destroys more value than the second agent contributes.
+
+Diversity hurts: diverse (drafted) teams score 57.8 on chain vs 82.2 for founder-brained alignment.
+
+**Reproduce it in one command** (requires `GEMINI_API_KEY` in `.env`):
+```bash
+python reproduce.py
+```
+
+Read the agent system prompts that produced these results:
+```bash
+python export_constitutions.py
+```
+
+---
+
 ## What This Is
 
 Human organizational psychology has spent 40 years building instruments to predict team performance: who to hire, how to compose teams, what conditions produce cohesion. Almost none of that work has been tested on AI agent teams.
