@@ -125,6 +125,8 @@ def run_one(scenario_id, team_size, topology, composition, model_family, run_ind
         transcript=transcript,
         rubric=scenario.rubric,
         n_judges=len(judges),
+        topology=topology,
+        team_size=team_size,
     )
 
     os.environ["MODEL_PROVIDER"] = saved_provider

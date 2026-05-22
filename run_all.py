@@ -118,6 +118,8 @@ def run_one(scenario_id, team_size, topology, composition, run_index, total):
         transcript=transcript,
         rubric=scenario.rubric,
         n_judges=len(judges),
+        topology=topology,
+        team_size=team_size,
     )
 
     scores = [e.task_score for e in evaluations]

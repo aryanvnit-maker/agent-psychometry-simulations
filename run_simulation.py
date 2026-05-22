@@ -192,6 +192,8 @@ def main():
         transcript=transcript,
         rubric=scenario.rubric,
         n_judges=len(judges),
+        topology=args.topology,
+        team_size=args.team_size,
     )
 
     for i, ev in enumerate(evaluations):
