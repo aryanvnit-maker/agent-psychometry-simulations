@@ -84,6 +84,8 @@ def main():
                 transcript=run["transcript"],
                 rubric=scenario.rubric,
                 n_judges=N_JUDGES,
+                topology=run["topology"],
+                team_size=run["team_size"],
             )
 
             delete_evaluations(run_id)

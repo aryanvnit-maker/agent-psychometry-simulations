@@ -46,13 +46,23 @@ A short deliberation that produces a complete deliverable scores high.
 """
 
 
-def extract_final_deliverable(transcript: str) -> str:
-    """Return the last ASSISTANT message from a formatted transcript string."""
+def extract_final_deliverable(transcript: str, topology: str = "chain", team_size: int = 1) -> str:
+    """Extract the final deliverable from a formatted transcript string.
+
+    Chain: last ASSISTANT message — the terminal agent's synthesized output.
+    Flat: last team_size ASSISTANT messages — the complete final round.
+    """
     blocks = transcript.split("\n\n")
-    for block in reversed(blocks):
-        if block.startswith("[ASSISTANT]:"):
-            return block[len("[ASSISTANT]:"):].strip()
-    return transcript
+    assistant_blocks = [b for b in blocks if b.startswith("[ASSISTANT]:")]
+
+    if not assistant_blocks:
+        return transcript
+
+    if topology == "flat" and team_size > 1:
+        final_round = assistant_blocks[-team_size:]
+        return "\n\n".join(final_round)
+
+    return assistant_blocks[-1][len("[ASSISTANT]:"):].strip()
 
 
 def score_transcript(
@@ -61,8 +71,10 @@ def score_transcript(
     transcript: str,
     rubric: str,
     judge_index: int = 0,
+    topology: str = "chain",
+    team_size: int = 1,
 ) -> EvaluatorOutput:
-    final_deliverable = extract_final_deliverable(transcript)
+    final_deliverable = extract_final_deliverable(transcript, topology=topology, team_size=team_size)
 
     user_message = f"""RUN ID: {run_id}
 PHASE: {phase}
@@ -121,6 +133,11 @@ def score_transcript_panel(
     transcript: str,
     rubric: str,
     n_judges: int = 3,
+    topology: str = "chain",
+    team_size: int = 1,
 ) -> list[EvaluatorOutput]:
     """Run all judges against the same transcript for inter-rater reliability."""
-    return [score_transcript(run_id, phase, transcript, rubric, i) for i in range(n_judges)]
+    return [
+        score_transcript(run_id, phase, transcript, rubric, i, topology=topology, team_size=team_size)
+        for i in range(n_judges)
+    ]
