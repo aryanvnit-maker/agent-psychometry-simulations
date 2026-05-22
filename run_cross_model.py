@@ -48,7 +48,7 @@ LOG_FILE = "cross_model.log"
 
 MODEL_CONFIGS = {
     "gemini":    {"MODEL": "gemini-2.5-flash",  "MODEL_PROVIDER": "gemini"},
-    "anthropic": {"MODEL": "claude-sonnet-4-6", "MODEL_PROVIDER": "anthropic"},
+    "anthropic": {"MODEL": "claude-3-5-sonnet-20241022", "MODEL_PROVIDER": "anthropic"},
 }
 
 
