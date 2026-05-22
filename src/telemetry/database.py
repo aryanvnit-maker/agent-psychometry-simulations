@@ -33,17 +33,18 @@ def already_completed(
     team_size: int,
     model_family: str = "gemini",
 ) -> bool:
-    """Return True if this exact combination already has a completed run in the database."""
+    """Return True if this combination has a run with at least one evaluation stored."""
     with get_conn() as conn:
         with conn.cursor() as cur:
             cur.execute(
                 """
-                SELECT 1 FROM runs
-                WHERE scenario_id = %s
-                  AND topology = %s
-                  AND composition_condition = %s
-                  AND team_size = %s
-                  AND model_family = %s
+                SELECT 1 FROM runs r
+                WHERE r.scenario_id = %s
+                  AND r.topology = %s
+                  AND r.composition_condition = %s
+                  AND r.team_size = %s
+                  AND r.model_family = %s
+                  AND EXISTS (SELECT 1 FROM evaluations e WHERE e.run_id = r.run_id)
                 LIMIT 1
                 """,
                 (scenario_id, topology, composition_condition, team_size, model_family),

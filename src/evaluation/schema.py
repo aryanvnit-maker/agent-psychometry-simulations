@@ -18,6 +18,6 @@ class EvaluatorOutput(BaseModel):
     tci_innovation: int = Field(ge=0, le=100, description="TCI proxy: novel approach rate")
     firo_inclusion: float = Field(ge=0.0, le=1.0, description="FIRO-B proxy: fraction of agents addressed")
     firo_control_agent: str | None = Field(description="FIRO-B proxy: agent that set direction most often")
-    context_fidelity_mean: float = Field(ge=0.0, le=1.0, description="Phase 9: mean context fidelity across agents")
+    context_fidelity_mean: float | None = Field(default=None, ge=0.0, le=1.0, description="Phase 9: mean context fidelity across agents")
     cull_events: list[str] = Field(default_factory=list, description="Agent IDs culled during this run")
     evaluator_notes: str | None = None
