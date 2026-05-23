@@ -4,6 +4,8 @@ Most multi-agent AI systems are built with flat topology — all agents see ever
 
 We ran 118 controlled simulations across two model families to test it. Flat topology consistently underperformed sequential chains by 17–22 points on task scores (0–100, rubric-graded against final deliverables only). The mechanism is visible in the data and connects directly to 40 years of human organisational research.
 
+The less expected finding: multi-agent chains peak at N=2. Adding agents to a flat topology drops performance by 46 points while multiplying compute costs. We found an inverse scaling law for coordination — more agents, worse output.
+
 ---
 
 ## Background: The Default Is Unexamined
