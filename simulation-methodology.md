@@ -235,8 +235,16 @@ Active agents cannot grade their own performance. A completely isolated, non-par
 
 **Configuration:**
 - Separate model instance with no access to the simulation's system prompts
-- Receives only the transcript of a completed simulation phase
+- Evaluates **only the team's final extracted deliverable** — not the full transcript
+  - Chain topology: the last agent's synthesized output message
+  - Flat topology: all messages from the complete final round
 - Returns a hard-structured JSON output — no prose
+- Always runs on Gemini 2.5 Flash, temperature=0.0, regardless of worker model — provides consistent cross-model evaluation
+- Three independent judges per run; mean task_score is the dependent variable
+
+**Why final-answer-only:** Evaluating full transcripts introduces formatting bias. A judge processing a chain transcript sees clean sequential reasoning; a flat transcript shows overlapping voices. This structural difference inflates chain scores independent of output quality. Evaluating the deliverable alone removes this confound.
+
+**Scoring instruction to judges:** Each rubric criterion is scored as a binary checkpoint — full points or zero. No reward for showing reasoning process. No penalty for a short final answer that satisfies all criteria.
 
 **Required output schema:**
 ```json
@@ -246,16 +254,23 @@ Active agents cannot grade their own performance. A completely isolated, non-par
   "task_score": 0-100,
   "contradiction_count": integer,
   "consensus_achieved": boolean,
-  "turns_to_consensus": integer,
+  "turns_to_consensus": integer | null,
   "novel_approaches_count": integer,
   "role_coverage": ["coordinator", "plant", ...],
   "dominant_agent": "agent_id or null",
   "excluded_agents": ["agent_id", ...],
-  "evaluator_notes": "string (optional, one line max)"
+  "geq_task_cohesion": 0-100,
+  "geq_social_cohesion": 0-100,
+  "tci_innovation": 0-100,
+  "firo_inclusion": 0.0-1.0,
+  "firo_control_agent": "agent_id or null",
+  "context_fidelity_mean": 0.0-1.0 | null,
+  "cull_events": ["agent_id", ...],
+  "evaluator_notes": "string or null"
 }
 ```
 
-The evaluator's schema must be fixed before any simulations run. Changing the schema mid-study invalidates cross-run comparisons.
+The evaluator's schema must be fixed before any simulations run. Changing the schema mid-study invalidates cross-run comparisons. Process metrics (contradiction_count, consensus_achieved, GEQ, TCI, FIRO) still use the full transcript — only task_score is evaluated against the final deliverable.
 
 ---
 
@@ -286,9 +301,11 @@ When a team deadlocks during storming, the system saves the full state at that t
 
 In human research, baseline intelligence cannot be controlled. In AI research, it can — but requires strict discipline.
 
-**The rule:** Every agent in every simulation runs on the same underlying model at the same temperature setting.
+**The rule:** Every agent within a single simulation run uses the same underlying model and temperature. Across runs, the worker model may be varied as a controlled independent variable to test whether findings replicate across model families.
 
-**Rationale:** If Agent A uses one model provider and Agent B uses another, you have introduced architectural differences as an uncontrolled confound. You cannot know whether coordination failure came from cognitive composition mismatch or from tokenization and attention mechanism differences between providers. The only variable that changes between agents must be the injected cognitive profile in the system prompt.
+**Within-run uniformity:** If Agent A uses one model provider and Agent B uses another in the same run, you have introduced architectural differences as an uncontrolled confound. You cannot know whether coordination failure came from cognitive composition mismatch or from tokenization and attention mechanism differences between providers. The only variable that changes between agents within a run must be the injected cognitive profile in the system prompt.
+
+**Cross-model replication:** Worker agents (the team being studied) can be run on different model families across separate batches to test whether topology and composition findings are model-specific or architectural. In this implementation, judges always run on Gemini 2.5 Flash regardless of worker model — this holds the evaluation standard constant across model comparisons.
 
 **Temperature: T=0.0.** At T=0.0 the model is fully deterministic — it always picks the highest-probability token path defined by its context and constitution. This eliminates stochastic noise as a confound entirely. Scenario variance (what the agents are asked to do) provides sufficient output variance across runs; you do not need randomness in the sampling layer. Any value above 0.0 introduces variance that cannot be attributed to composition differences and weakens the research validity.
 
