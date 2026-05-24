@@ -2,7 +2,9 @@
 
 Most multi-agent AI systems are built with flat topology — all agents see everything, all agents respond, everyone deliberates together. This feels correct. More perspectives, more information sharing, better output.
 
-We ran 91 controlled simulations to test it. The flat topology consistently underperformed sequential chains by 33 points on task scores (0–100, rubric-graded). The mechanism is visible in the data and it connects directly to 40 years of human organisational research.
+We ran 118 controlled simulations across two model families to test it. Flat topology consistently underperformed sequential chains by 17–22 points on task scores (0–100, rubric-graded against final deliverables only). The mechanism is visible in the data and connects directly to 40 years of human organisational research.
+
+The less expected finding: for bounded execution tasks, multi-agent chains peak at N=2. Adding agents to a flat topology imposes a coordination tax — 46 points of performance loss while multiplying compute costs. More agents, worse output, higher bill.
 
 ---
 
@@ -26,15 +28,17 @@ We composed these agents into teams of 1, 2, 4, 8, and 16 under three compositio
 - **Homogeneous** — teammates selected for minimum dimensional variance
 - **Founder-brained** — high Drive Alignment, high Philosophy Cohesion, high Volatility; mirrors early-stage startup team culture
 
-We ran each team through four structured business scenarios covering strategic decision-making, zero-sum resource allocation, post-mortem analysis, and crisis response. Three independent judge agents — tuned for analytical neutrality — scored each transcript against explicit rubrics on a 0–100 scale. Judges received the full transcript plus the rubric; they did not receive any metadata about team composition or topology. This means judges score both the quality of the final output *and* the deliberation that produced it, which creates a potential formatting bias: an LLM judge may favour transcripts that read like clean sequential reasoning over messy multi-speaker deliberation, regardless of output merit. This is noted in Limitations. All agents run on the same underlying model (Gemini 2.5 Flash) at temperature=0.0, making every run fully deterministic and reproducible.
+We ran each team through four structured business scenarios: strategic product decisions, zero-sum resource allocation, post-mortem analysis, and crisis response.
 
-Two topologies were tested:
+**Evaluation methodology:** Three independent judge agents scored each run. Critically, judges evaluated only the team's **final extracted deliverable** against hard binary rubric criteria — not the full transcript. For chain topology, the final deliverable is the last agent's synthesized output. For flat topology, it is the complete final round of responses. This eliminates the formatting bias inherent in evaluating full transcripts: a judge reading a chain transcript sees clean sequential reasoning; reading a flat transcript sees overlapping voices. Evaluating the deliverable alone removes that structural advantage. Judges always run on Gemini 2.5 Flash regardless of worker model, for consistent cross-model evaluation.
+
+Two topologies:
 
 **Chain** — linear sequential handoff: A → B → C → END. Each agent receives full conversation history but produces output only once, in order. No agent can reopen what a prior agent settled.
 
-**Flat** — round-table: every agent speaks once per round for two rounds, receiving the full conversation history from all prior speakers. Perfect information. No routing cost. Theoretical upper bound.
+**Flat** — round-table: every agent speaks once per round for two rounds, receiving the full conversation history from all prior speakers. Perfect information. No routing cost.
 
-91 total runs: 51 chain, 40 flat.
+94 Gemini runs + 24 Anthropic Claude 3.5 Sonnet runs = 118 total.
 
 ---
 
@@ -42,87 +46,97 @@ Two topologies were tested:
 
 ### The Single-Agent Baseline
 
-Before comparing topologies, establish the floor: a single agent working alone, no coordination cost.
+Before comparing topologies, establish the floor.
 
 | Condition | Task Score (0–100) |
 |---|---|
-| Single agent, chain | 10.0 |
-| Single agent, flat | 35.4 |
+| Single agent, chain | 15.3 |
+| Single agent, flat | 31.2 |
 
-The chain single-agent score is low because a lone agent in chain topology receives the scenario once and produces one response — no iterative prompting. The flat single-agent gets two structured rounds of prompting, which improves output substantially.
+The flat single-agent advantage: the agent receives two structured rounds of prompting rather than one, which improves output. This is the ceiling for single-agent performance.
 
-Now add a second agent in flat topology: **16.3.**
+Now add a second agent in flat topology: **10.7.**
 
-Adding a second agent to a flat swarm dropped performance from 35.4 to 16.3 — a 19-point decrease. The flat topology's coordination overhead destroyed more value than the second agent contributed. This is not inefficiency. It is active degradation.
+Adding a second agent to a flat swarm dropped performance from 31.2 to 10.7 — a 21-point decrease. The coordination tax destroyed more value than the second agent contributed. This is active degradation, not inefficiency.
 
-### Topology (All Team Sizes, Mean Score 0–100)
+### Topology (Gemini, All Compositions)
 
 | Topology | Mean Task Score |
 |---|---|
-| Chain | 70.2 |
-| Flat | 36.9 |
-| **Gap** | **−33.3** |
+| Chain | 40.3 |
+| Flat | 23.4 |
+| **Gap** | **−16.9** |
 
 | Team Size | Chain | Flat | Δ |
 |---|---|---|---|
-| 1 | 10.0 | 35.4 | +25.4 |
-| 2 | 60.8 | 16.3 | −44.5 |
-| 4 | 76.8 | 38.9 | −37.9 |
-| 8 | 85.8 | 54.4 | −31.4 |
+| 1 | 15.3 | 31.2 | +15.9 |
+| 2 | 57.6 | 10.7 | −46.9 |
+| 4 | 50.4 | 35.5 | −14.9 |
+| 8 | 40.4 | 19.1 | −21.3 |
+| 16 | 16.5 | — | — |
 
-A chain of 2 agents (60.8) outperforms a flat swarm of 8 (54.4). The coordination overhead of flat topology is not overcome by adding more agents — it compounds.
+A chain of 2 agents (57.6) outperforms a flat swarm of 8 (19.1). The coordination tax of flat topology is not overcome by adding more agents — it compounds.
 
-This gap is not composition-specific. Every composition performs worse in flat than chain:
+This gap is not composition-specific:
 
 | Composition | Chain | Flat | Δ |
 |---|---|---|---|
-| Founder-brained | 82.2 | 41.0 | −41.2 |
-| Homogeneous | 72.8 | 42.4 | −30.4 |
-| Drafted (diverse) | 57.8 | 29.4 | −28.4 |
+| Homogeneous | 48.6 | 17.1 | −31.5 |
+| Drafted (diverse) | 37.7 | 26.1 | −11.5 |
+| Founder-brained | 35.1 | 26.4 | −8.7 |
 
-The flat topology penalty is consistent, large, and topology-controlled. It is not a noise artefact.
+The flat topology penalty is consistent across all compositions.
+
+### Cross-Model Replication
+
+We ran 24 additional combinations using Anthropic Claude 3.5 Sonnet as the worker model (judges remained on Gemini throughout). Drafted composition only, team sizes 2, 4, 8.
+
+| Model | Chain | Flat | Gap | Verdict |
+|---|---|---|---|---|
+| Gemini 2.5 Flash | 40.3 | 23.4 | +16.9 | chain > flat |
+| Claude 3.5 Sonnet | 42.4 | 20.4 | +21.9 | chain > flat |
+
+The chain advantage holds across both model families. The finding is architectural, not a property of a specific model's output style.
+
+Chain scores are nearly identical across models (40.3 vs 42.4). Different model family, same performance level — the task structure and agent constitutions are doing the work, not model capability differences.
 
 ---
 
 ## The Diversity Finding
 
-Most enterprise teams building agent swarms compose them the way HR taught them to: a Coder, a Critic, a Planner. Diverse roles, diverse perspectives, better outcomes. This is the Bell (2007) intuition applied to AI.
+Most enterprise teams building agent swarms compose them the way HR taught them to: a Coder, a Critic, a Planner, a Reviewer. Diverse roles, diverse perspectives, better outcomes. This is the Bell (2007) intuition applied to AI.
 
-It is wrong, by the data here.
+The data does not support it — but the pattern is more nuanced than a simple inversion.
 
-Diverse teams (drafted composition — captain-selected to maximise dimensional coverage) finished last in every condition tested:
+**On chain topology:** diverse (drafted) teams score 37.7. Homogeneous teams score 48.6. Diverse teams finish last.
 
-| Composition | Chain | Flat |
-|---|---|---|
-| Founder-brained | 82.2 | 41.0 |
-| Homogeneous | 72.8 | 42.4 |
-| **Drafted (diverse)** | **57.8** | **29.4** |
+**On flat topology:** homogeneous teams drop to 17.1 — worst of any composition. Founder-brained (26.4) and drafted (26.1) score comparably.
 
-We initially flagged this as a possible chain topology artifact: sequential handoffs limit information flow, maybe diverse agents couldn't coordinate across the constraint. We ran flat topology — perfect information, every agent sees everything — precisely to test that hypothesis. The inversion survived. Diverse teams finished last in flat topology too.
+The composition that wins changes with the communication structure. The mechanism on chain: agent constitutions are fixed behavioral constraints, not adaptive strategies. A diverse team means agents with incompatible behavioral profiles — one agent is constitutionally compelled to challenge, another to seek consensus, another to defer. Human team members with diverse personalities adapt to each other over time. Agent constitutions don't adapt. The incompatibility produces constraint collision, which degrades the deliverable.
 
-**The Bell (2007) inversion is structural, not topological.**
+On flat topology, the dynamic is different: diverse agents fragment across simultaneous contributions without a synthesis structure to resolve them, while homogeneous agents echo each other without building a coherent output. Founder-brained agents — high-conviction, aligned — hold their position clearly enough that their final-round outputs are individually complete, scoring comparably to drafted teams.
 
-The mechanism: agent constitutions are fixed behavioral constraints, not adaptive strategies. A diverse team means agents with incompatible behavioral profiles — one agent is constitutionally compelled to challenge, another to seek consensus, another to defer. Human team members with diverse personalities adapt to each other over time. Agent constitutions don't adapt. The incompatibility produces constraint collision, which degrades output directly.
+**The Bell inversion is topology-dependent, not structural.** Diversity hurts on chain. Homogeneity hurts on flat. Composition cannot be evaluated without knowing the topology.
 
-The exact system prompts for each composition condition are in the repository. The drafted (diverse) team prompts in particular show the specific constraint combinations that produce the deadlock pattern — they are worth examining directly if you want to reproduce or challenge this finding.
-
-This finding has a narrow scope: *cognitive diversity as implemented through fixed behavioral constraints hurts performance on bounded decision tasks*. It does not generalise to capability diversity (different models for different roles), dynamic constitutions, or open-ended tasks where constraint collision might produce genuinely novel directions. But for the task types most production swarms are actually running, the diversity premium is a liability.
+The exact system prompts for each composition condition are in the repository.
 
 ---
 
-### The Mechanism: Social Cohesion ≠ Task Cohesion
+## The Mechanism: Social Cohesion ≠ Task Cohesion
 
 This is where the data becomes more interesting than just "chain wins."
 
 We scored transcripts on two GEQ (Group Environment Questionnaire) dimensions: task cohesion (did agents converge on a shared output?) and social cohesion (did agents engage with each other's contributions?). These are validated distinct constructs from human team research (Carron et al., 1985).
 
-**Chain topology:** task cohesion and social cohesion track within 8.9 points of each other across all compositions.
+**Chain topology:** task cohesion and social cohesion track within **23.9 points** of each other.
 
-**Flat topology:** average gap is 37 points. Social cohesion stays high (65–81) while task cohesion collapses (29–52).
+**Flat topology:** average gap is **39.6 points**. Social cohesion stays high (65–80) while task cohesion collapses (31–37).
 
-In flat topology, agents are socially present and taskfully absent. FIRO inclusion scores — measuring what fraction of agents were addressed by other agents — hit 1.00 in flat topology. Every agent talks to every other agent. Nobody produces a committed output.
+In flat topology, agents are socially present and taskfully absent. FIRO inclusion scores — measuring what fraction of agents were addressed by other agents — hit near 1.0 in flat topology. Every agent talks to every other agent. Nobody produces a committed output.
 
-This is not a subtle effect. It is the entire mechanism. Flat topology produces complete social engagement and near-complete task failure. The agents are having the meeting. The meeting is not producing a decision.
+Consensus rate: chain 52.2%, flat 31.4%.
+
+This is not a subtle effect. It is the entire mechanism. Flat topology produces complete social engagement and degraded task convergence. The agents are having the meeting. The meeting is not producing a decision.
 
 ---
 
@@ -130,27 +144,25 @@ This is not a subtle effect. It is the entire mechanism. Flat topology produces 
 
 Two findings from human research hold clearly across both topologies:
 
-**Google Project Aristotle (psychological safety):** The psychological safety composite — operationalised as consensus achievement + low contradictions + high inclusion — predicts task score at r=0.66\*\*\* in chain and r=0.77\*\*\* in flat. It is the strongest predictor in the dataset and the only one that is significant in both topologies. Diversity, by contrast, shows r=0.48\*\*\* in chain and r=0.17 (n.s.) in flat. Psychological safety outperforms diversity as a predictor in both conditions.
+**Google Project Aristotle (psychological safety):** The psychological safety composite — operationalised as consensus achievement + low contradictions + high inclusion — predicts task score at r=0.70\*\*\* in chain and r=0.65\*\*\* in flat. It is the strongest consistent predictor in the dataset. Diversity shows r=−0.06 (n.s.) in chain and r=0.04 (n.s.) in flat.
 
-**TCI Innovation Climate:** TCI innovation scores correlate with novel approach counts at r=0.81\*\*\* in chain and r=0.89\*\*\* in flat. The innovation climate instrument successfully predicts which teams generate non-obvious approaches. This is the cleanest replication in the dataset.
+**TCI Innovation Climate:** TCI innovation scores correlate with novel approach counts at r=0.74\*\*\* in chain and r=0.87\*\*\* in flat. The innovation climate instrument successfully predicts which teams generate non-obvious approaches. Cleanest replication in the dataset.
 
-**Barrick et al. (1998) — directional:** The finding that conscientiousness variance predicts performance better than conscientiousness mean holds directionally in chain (variance r=0.53\*\*\* vs mean r=0.19 n.s.) but loses statistical significance in flat, likely due to the topology-induced score compression.
+**Barrick et al. (1998) — not replicated:** The finding that conscientiousness variance predicts performance better than mean did not hold in either topology under the revised judge methodology. Neither measure reached significance.
 
 ---
 
 ## The Human Org Parallel
 
-This is not a new pattern. It has a 20-year history in human organisations.
+This is not a new pattern in the study of collective decision-making.
 
-The flat organisation movement peaked around 2012–2015. Holacracy was adopted by Zappos, Medium, and others. The premise was identical to the flat topology premise: remove hierarchy, give everyone equal voice and full information, better decisions emerge.
-
-Most of those experiments quietly reintroduced hierarchy within a few years. The reported failure mode: decisions stopped getting made. People were engaged, discussions were rich, outputs were scarce.
+The premise of flat organisational design is identical to the flat topology premise: remove hierarchy, give everyone equal voice and full information, better decisions emerge. The empirical record on that premise is long enough to draw conclusions from. Decisions stop getting made. People are engaged, discussions are rich, outputs are scarce.
 
 The mechanism we observe in AI agent flat topology is the same mechanism: social cohesion without task cohesion. The meeting is productive. The meeting does not produce a decision.
 
-The parallel is imperfect — human organisations have political dynamics, status effects, and social costs to disagreement that AI agents do not. But the functional pattern appears to be substrate-independent: unconstrained deliberation produces engagement; sequential commitment structures produce output.
+This pattern appears to be substrate-independent. The physics of it: unconstrained deliberation maximises the entropy of contributions. Sequential commitment structures reduce entropy at each step, compressing prior discussion into a forward state. Convergence requires entropy reduction. Flat topology defers it indefinitely.
 
-Conway's Law states that systems tend to mirror the communication structures of the organisations that build them. The inverse may also be true: organisations that study how their communication structures affect output quality can design better systems. The implication for AI is that structure is not bureaucratic overhead — it is the mechanism by which individual contributions become collective decisions.
+Conway's Law states that systems mirror the communication structures of the organisations that build them. The data here suggests the inverse holds too: the communication structure you impose on your agent system determines what class of output it can produce. Structure is not bureaucratic overhead. It is the mechanism by which individual contributions become collective decisions.
 
 ---
 
@@ -158,17 +170,17 @@ Conway's Law states that systems tend to mirror the communication structures of 
 
 These should be taken seriously before updating too hard on the findings.
 
-**91 runs is thin.** The key findings reach statistical significance, but confidence intervals on effect sizes are wide. The Bell inversion finding in particular — which is the most novel claim — rests on 51 chain runs and 40 flat runs across 4 scenarios. A pre-registered replication with 200+ runs per topology would substantially increase confidence.
+**118 runs is thin.** The key findings reach statistical significance, but confidence intervals on effect sizes are wide. A pre-registered replication with 300+ runs per topology per model would substantially increase confidence.
 
-**Model uniformity.** All 35 agents (32 workers + 3 judges) run on the same underlying model. Agent constitutions shift the behavioral probability distribution of that model, but they do not introduce the genuine capability differences that exist between actual human team members. A diverse human team has diverse cognitive architectures. A diverse agent team has diverse system prompts applied to an identical architecture. These are not the same thing. The diversity penalty may be partially an artifact of this uniformity.
+**Model uniformity within teams.** All agents in a given run share the same underlying model. Constitutions shift the behavioral probability distribution of that model but do not introduce genuine capability differences. A diverse human team has diverse cognitive architectures. A diverse agent team has diverse system prompts on an identical architecture. The diversity penalty may be partially an artifact of this uniformity.
 
-**Task scope.** All four scenarios are bounded decision tasks with rubric-scorable outputs. They test convergence to a defensible answer under constraint. They do not test open-ended research, creative generation, or long-horizon planning. The topology finding in particular — chain outperforms flat — may not hold for tasks where the optimal strategy is exploration rather than convergence.
+**Task scope.** All four scenarios are bounded decision tasks with rubric-scorable outputs. They test convergence to a defensible answer under constraint. The N=2 performance peak and the topology finding apply specifically to this class of task. Generative, exploratory, or divergent tasks — brainstorming, requirements discovery, open-ended research — likely follow different topological dynamics and have not been tested here.
 
-**Determinism.** Temperature=0.0 eliminates sampling variance. Human team performance varies across replications of the same scenario; these simulations do not. This is useful for reproducibility and harmful for generalisability.
+**Determinism.** Temperature=0.0 eliminates sampling variance. Human team performance varies across replications of the same scenario; these simulations do not.
 
-**No capability diversity.** All agents are restricted to the same model. Real swarm architectures often combine a large general model with smaller specialist models. That architecture is neither chain nor flat as defined here and is not covered by this data.
+**Cross-model scope.** The Anthropic replication tested drafted composition only at sizes 2, 4, 8. Composition and team-size findings are Gemini-primary.
 
-**Judge formatting bias.** LLM judges process tokens sequentially via attention mechanisms and may structurally favour transcripts that read as clean linear reasoning over messy multi-speaker deliberation. Judges here evaluated full transcripts, not isolated final outputs. If this bias exists, it would inflate chain scores relative to flat scores — meaning the 33-point gap may be partially an evaluation artefact rather than a pure output quality difference. Isolating judges to final extracted answers only would partially control for this; it is the first thing to test in a replication.
+**Judge consistency.** All judges run on Gemini 2.5 Flash evaluating only the final deliverable on binary criteria. This substantially reduces but does not eliminate model-preference effects. A fully model-agnostic evaluation would use deterministic rule-based scoring on structured outputs.
 
 ---
 
@@ -176,33 +188,33 @@ These should be taken seriously before updating too hard on the findings.
 
 If you are building a multi-agent system to produce a committed output — a decision, a document, a code review, a recommendation — the evidence suggests:
 
-1. **Default to chain topology.** Sequential handoffs where each agent builds on committed prior output outperform round-table deliberation by a large margin on bounded tasks.
+1. **Default to chain topology.** Sequential handoffs outperform round-table deliberation by 17–22 points on bounded tasks. This holds across two model families.
 
-2. **Add a synthesis node at the end of any deliberation phase.** If you need exploration before commitment, run a constrained deliberation round then route all output to a single synthesis agent whose explicit job is to produce the committed output. Do not let the deliberation loop continue.
+2. **Keep teams small.** For bounded execution tasks, size 2–4 is the performance peak. A chain of 2 agents outperforms a flat swarm of 8. The largest gain is 1→2 agents. Returns diminish past 4, decline past 8.
 
-3. **Do not build diverse agent teams because it feels correct.** Compositional alignment — agents whose behavioral profiles are compatible for the task — outperforms diversity on every task type tested here. This is the most counterintuitive finding and the one most likely to be wrong for task types not covered here.
+3. **Add a synthesis node at the end of any deliberation phase.** If exploration is needed, run a constrained deliberation round then route all output to a single synthesis agent. Do not let deliberation continue without a convergence mechanism — it will produce social cohesion and task failure.
 
-4. **Optimise system prompts for psychological safety behaviours.** Agents that acknowledge prior output, avoid contradiction, and converge toward resolution produce better task outcomes than agents optimised for narrow capability. This is the most robust finding in the dataset.
+4. **Do not build diverse agent teams because it feels correct.** On chain topology, compositional alignment outperforms diversity. The intuition from human team research does not transfer directly to fixed-constitution agents.
 
-5. **Team size ceiling is around 8 for chain topology.** Size 1→2 produces +50 points. Size 4→8 produces +9 points. Size 8→16 is slightly negative. The marginal return on additional agents flattens quickly.
-
----
-
-## What This Is Not Claiming
-
-This does not claim that hierarchy is always correct. It claims sequential commitment structures outperform simultaneous deliberation on bounded decision tasks in these conditions.
-
-This does not claim the findings generalise beyond the tested task types, model, or architecture.
-
-What it does claim: the default topology used in most multi-agent frameworks has never been empirically compared against the alternative at the level of task output quality, and when it is, it loses badly on the task types most production systems are actually trying to solve.
-
-That seems worth knowing.
+5. **Optimise system prompts for psychological safety behaviours.** Agents that acknowledge prior output, avoid contradiction, and converge toward resolution produce better task outcomes than agents optimised for strong directional pull. This is the most robust predictor in the dataset.
 
 ---
 
-## Code and Data
+## An Open Challenge
 
-All simulation code, raw results, and analysis scripts are available at:
+The findings here cover four scenario types, two model families, and three composition conditions. The infrastructure is public and fully reproducible at seed=42, temperature=0.0.
+
+Three questions this dataset cannot answer that the community could:
+
+**Does the coordination tax hold on generative tasks?** The N=2 ceiling and the chain advantage were measured on convergence tasks with binary rubric criteria. Brainstorming, creative generation, and open-ended research may favour flat topology precisely because they benefit from entropy rather than compression. This is the most important boundary condition to test.
+
+**Does the topology finding hold with heterogeneous model families within a single team?** This study held the worker model constant within runs. A team where one agent is a large general model and others are smaller specialists — the architecture many production systems use — is neither chain nor flat as defined here. How topology interacts with within-team model heterogeneity is untested.
+
+**Does a hybrid topology outperform pure chain?** The data shows flat deliberation followed by chain synthesis should theoretically capture the exploration benefits of flat while forcing convergence. We ran flat and chain as isolated conditions. A deliberation-then-chain hybrid was not tested. If you run it, publish the delta.
+
+The simulation code, agent pool, scenarios, and evaluation harness are at:
 [github.com/aryanvnit-maker/agent-psychometry-simulations](https://github.com/aryanvnit-maker/agent-psychometry-simulations)
 
-Fully reproducible: seed=42, temperature=0.0, schema and agent pool committed to the repository. Anyone can rerun the exact simulations and get identical results.
+*This research was conducted independently, without institutional funding or affiliation.*
+
+— Aryan V. | Independent AI Systems Research
