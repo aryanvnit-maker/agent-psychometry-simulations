@@ -110,13 +110,15 @@ def run_with_live_output(topology: str, agents, scenario) -> tuple[SimState, str
     return final_state, transcript
 
 
-def score(run_id, scenario, transcript, judges) -> float:
+def score(run_id, scenario, transcript, judges, topology: str, team_size: int) -> float:
     evals = score_transcript_panel(
         run_id=run_id,
         phase=scenario.phase,
         transcript=transcript,
         rubric=scenario.rubric,
         n_judges=len(judges),
+        topology=topology,
+        team_size=team_size,
     )
     scores = [e.task_score for e in evals]
     print(f"  Judge scores: {scores}")
@@ -156,7 +158,7 @@ def main():
         print(f"\nTurns: {final_state.get('turn_count', 0)} | Tokens: {total_tokens} | Culls: {culls}")
 
         print(f"\nSCORING ({topology})...")
-        mean = score(final_state["run_id"], scenario, transcript, judges)
+        mean = score(final_state["run_id"], scenario, transcript, judges, topology=topology, team_size=TEAM_SIZE)
         results[topology] = mean
         print(f"  Mean task score: {mean:.1f}/100\n")
 

@@ -121,7 +121,7 @@ Each scenario has an explicit rubric with binary point checkpoints. The judge ev
 - **Worker models**: Gemini 2.5 Flash (primary) and Anthropic Claude 3.5 Sonnet (cross-model replication)
 - **Judge model**: Gemini 2.5 Flash throughout — consistent across all runs
 - **Temperature**: 0.0 (fully deterministic — same inputs always produce same outputs)
-- **Database**: Supabase (PostgreSQL) — every run persisted with resume capability and transcript storage
+- **Database**: Supabase (PostgreSQL) — used instead of a local file because 118-run batches take hours and crash mid-run. Every run is persisted immediately on completion; restarting skips completed runs automatically. Full transcripts are stored alongside scores, enabling `rescore.py` to re-score all historical runs with an updated judge without re-running the simulations
 - **Token budget**: 800 output tokens per agent per turn; cull threshold at 2,400 cumulative output tokens
 
 ---
