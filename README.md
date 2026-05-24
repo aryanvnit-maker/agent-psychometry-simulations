@@ -330,3 +330,11 @@ agent-psychometry-simulations/
 ├── reproduce.py                # Single-command demo, no DB required
 └── export_constitutions.py     # Generate static constitution files
 ```
+
+---
+
+## License
+
+AGPLv3. Source is open for academic use, replication, and non-commercial research.
+
+**Commercial use requires a separate license.** If you are incorporating this framework, methodology, or derived infrastructure into a commercial product or service, contact aryan199841@gmail.com before deploying.

@@ -214,3 +214,7 @@ Three questions this dataset cannot answer that the community could:
 
 The simulation code, agent pool, scenarios, and evaluation harness are at:
 [github.com/aryanvnit-maker/agent-psychometry-simulations](https://github.com/aryanvnit-maker/agent-psychometry-simulations)
+
+*This research was conducted independently, without institutional funding or affiliation.*
+
+— Aryan V. | Independent AI Systems Research
