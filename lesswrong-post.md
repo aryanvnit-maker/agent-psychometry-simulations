@@ -2,7 +2,7 @@
 
 Most multi-agent AI systems are built with flat topology — all agents see everything, all agents respond, everyone deliberates together. This feels correct. More perspectives, more information sharing, better output.
 
-We ran 118 controlled simulations across two model families to test it. Flat topology consistently underperformed sequential chains by 17–22 points on task scores (0–100, rubric-graded against final deliverables only). The mechanism is visible in the data and connects directly to 40 years of human organisational research.
+118 controlled simulations across two model families tested it. Flat topology consistently underperformed sequential chains by 17–22 points on task scores (0–100, rubric-graded against final deliverables only). The mechanism is visible in the data and connects directly to 40 years of human organisational research.
 
 The less expected finding: for bounded execution tasks, multi-agent chains peak at N=2. Adding agents to a flat topology imposes a coordination tax — 46 points of performance loss while multiplying compute costs. More agents, worse output, higher bill.
 
@@ -14,21 +14,21 @@ The major multi-agent frameworks — CrewAI, AutoGen, many LangGraph implementat
 
 This default was chosen because it is easy to implement and intuitively appealing. It was not chosen because anyone measured the output quality against the alternative.
 
-We measured it.
+It was measured.
 
 ---
 
-## What We Did
+## What Was Built and Measured
 
-We built a simulation infrastructure using the Kalibr psychometric framework — a 10-dimension behavioral assessment tool — to assign distinct personality profiles to 32 AI agents. Each agent's system prompt (its *constitution*) is generated from its dimensional scores across dimensions including drive alignment, adaptive intelligence, volatility, ambiguity tolerance, and feedback orientation. Scores ≥70 produce high-expression behaviours; scores ≤30 produce low-expression behaviours. The same threshold logic that generates a human behavioral report generates an agent's operating constraints.
+A simulation infrastructure was built using the Kalibr psychometric framework — a 10-dimension behavioral assessment tool — to assign distinct personality profiles to 32 AI agents. Each agent's system prompt (its *constitution*) is generated from its dimensional scores across dimensions including drive alignment, adaptive intelligence, volatility, ambiguity tolerance, and feedback orientation. Scores ≥70 produce high-expression behaviours; scores ≤30 produce low-expression behaviours. The same threshold logic that generates a human behavioral report generates an agent's operating constraints.
 
-We composed these agents into teams of 1, 2, 4, 8, and 16 under three composition conditions:
+These agents were composed into teams of 1, 2, 4, 8, and 16 under three composition conditions:
 
 - **Drafted** — captain selects teammates to maximise dimensional diversity (gap-filling)
 - **Homogeneous** — teammates selected for minimum dimensional variance
 - **Founder-brained** — high Drive Alignment, high Philosophy Cohesion, high Volatility; mirrors early-stage startup team culture
 
-We ran each team through four structured business scenarios: strategic product decisions, zero-sum resource allocation, post-mortem analysis, and crisis response.
+Each team ran through four structured business scenarios: strategic product decisions, zero-sum resource allocation, post-mortem analysis, and crisis response.
 
 **Evaluation methodology:** Three independent judge agents scored each run. Critically, judges evaluated only the team's **final extracted deliverable** against hard binary rubric criteria — not the full transcript. For chain topology, the final deliverable is the last agent's synthesized output. For flat topology, it is the complete final round of responses. This eliminates the formatting bias inherent in evaluating full transcripts: a judge reading a chain transcript sees clean sequential reasoning; reading a flat transcript sees overlapping voices. Evaluating the deliverable alone removes that structural advantage. Judges always run on Gemini 2.5 Flash regardless of worker model, for consistent cross-model evaluation.
 
@@ -89,7 +89,7 @@ The flat topology penalty is consistent across all compositions.
 
 ### Cross-Model Replication
 
-We ran 24 additional combinations using Anthropic Claude 3.5 Sonnet as the worker model (judges remained on Gemini throughout). Drafted composition only, team sizes 2, 4, 8.
+24 additional combinations were run using Anthropic Claude 3.5 Sonnet as the worker model (judges remained on Gemini throughout). Drafted composition only, team sizes 2, 4, 8.
 
 | Model | Chain | Flat | Gap | Verdict |
 |---|---|---|---|---|
@@ -126,7 +126,7 @@ The exact system prompts for each composition condition are in the repository.
 
 This is where the data becomes more interesting than just "chain wins."
 
-We scored transcripts on two GEQ (Group Environment Questionnaire) dimensions: task cohesion (did agents converge on a shared output?) and social cohesion (did agents engage with each other's contributions?). These are validated distinct constructs from human team research (Carron et al., 1985).
+Transcripts were scored on two GEQ (Group Environment Questionnaire) dimensions: task cohesion (did agents converge on a shared output?) and social cohesion (did agents engage with each other's contributions?). These are validated distinct constructs from human team research (Carron et al., 1985).
 
 **Chain topology:** task cohesion and social cohesion track within **23.9 points** of each other.
 
@@ -158,7 +158,7 @@ This is not a new pattern in the study of collective decision-making.
 
 The premise of flat organisational design is identical to the flat topology premise: remove hierarchy, give everyone equal voice and full information, better decisions emerge. The empirical record on that premise is long enough to draw conclusions from. Decisions stop getting made. People are engaged, discussions are rich, outputs are scarce.
 
-The mechanism we observe in AI agent flat topology is the same mechanism: social cohesion without task cohesion. The meeting is productive. The meeting does not produce a decision.
+The mechanism observed in AI agent flat topology is the same mechanism: social cohesion without task cohesion. The meeting is productive. The meeting does not produce a decision.
 
 This pattern appears to be substrate-independent. The physics of it: unconstrained deliberation maximises the entropy of contributions. Sequential commitment structures reduce entropy at each step, compressing prior discussion into a forward state. Convergence requires entropy reduction. Flat topology defers it indefinitely.
 
@@ -210,7 +210,7 @@ Three questions this dataset cannot answer that the community could:
 
 **Does the topology finding hold with heterogeneous model families within a single team?** This study held the worker model constant within runs. A team where one agent is a large general model and others are smaller specialists — the architecture many production systems use — is neither chain nor flat as defined here. How topology interacts with within-team model heterogeneity is untested.
 
-**Does a hybrid topology outperform pure chain?** The data shows flat deliberation followed by chain synthesis should theoretically capture the exploration benefits of flat while forcing convergence. We ran flat and chain as isolated conditions. A deliberation-then-chain hybrid was not tested. If you run it, publish the delta.
+**Does a hybrid topology outperform pure chain?** The data shows flat deliberation followed by chain synthesis should theoretically capture the exploration benefits of flat while forcing convergence. Flat and chain were run as isolated conditions. A deliberation-then-chain hybrid was not tested. If you run it, publish the delta.
 
 The simulation code, agent pool, scenarios, and evaluation harness are at:
 [github.com/aryanvnit-maker/agent-psychometry-simulations](https://github.com/aryanvnit-maker/agent-psychometry-simulations)

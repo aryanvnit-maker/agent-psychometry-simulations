@@ -44,7 +44,7 @@ Human organisational psychology has spent 40 years building instruments to predi
 
 This project runs those instruments on multi-agent LLM simulations and measures where the human findings replicate, where they invert, and where they produce novel patterns with no human analogue.
 
-We used the **Kalibr psychometric framework** — a 10-dimension behavioral assessment — to assign distinct personality profiles to AI agents, composed them into teams under controlled conditions, and ran them through structured business scenarios. Three independent AI judge agents scored each team's final deliverable against explicit binary rubrics on a 0–100 scale. 118 simulations across two topology types and two model families produced the results documented here.
+The **Kalibr psychometric framework** — a 10-dimension behavioral assessment — was used to assign distinct personality profiles to AI agents, composed into teams under controlled conditions and run through structured business scenarios. Three independent AI judge agents scored each team's final deliverable against explicit binary rubrics on a 0–100 scale. 118 simulations across two topology types and two model families produced the results documented here.
 
 ---
 
