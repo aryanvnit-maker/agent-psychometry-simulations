@@ -38,3 +38,5 @@ Terminology upfront since it'll come up:
 **Judge methodology:** Three independent judge instances scored each run. Judges evaluated only the team's final extracted deliverable against hard binary rubric criteria — not the full transcript. For chain, the final deliverable is the last agent's synthesized output. For flat, it is the complete final round. This eliminates the structural formatting bias: a judge reading a chain transcript sees clean sequential reasoning; reading a flat transcript sees overlapping voices.
 
 All simulations run at temperature=0.0, seed=42. The full harness, agent pool, scenarios, and evaluation code are in the repo.
+
+If you're building production agent systems and want to talk architecture — aryan199841@gmail.com
