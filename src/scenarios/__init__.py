@@ -14,9 +14,4 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from .base import Scenario
-from .library import (
-    ALL_SCENARIOS,
-    SERIES_A_FORK, RESOURCE_ALLOCATION, POST_MORTEM, SECURITY_BREACH,
-    SYSTEM_SCALING, HIRING_DECISION, EVIDENCE_SYNTHESIS,
-    COMPLIANCE_GAP, PRICING_RESTRUCTURE, ACQUISITION_DECISION,
-)
+from .library import ALL_SCENARIOS, SERIES_A_FORK, RESOURCE_ALLOCATION, POST_MORTEM, SECURITY_BREACH

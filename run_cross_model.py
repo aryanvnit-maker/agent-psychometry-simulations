@@ -62,26 +62,8 @@ FLAT_ROUNDS  = 2
 LOG_FILE = "cross_model.log"
 
 MODEL_CONFIGS = {
-    "gemini": {
-        "MODEL": "gemini-2.5-flash",
-        "MODEL_PROVIDER": "gemini",
-    },
-    "anthropic": {
-        "MODEL": "claude-3-5-sonnet-20241022",
-        "MODEL_PROVIDER": "anthropic",
-    },
-    "deepseek": {
-        "MODEL": "deepseek-chat",
-        "MODEL_PROVIDER": "openai_compat",
-        "OPENAI_COMPAT_BASE_URL": "https://api.deepseek.com",
-        "OPENAI_COMPAT_API_KEY_ENV": "DEEPSEEK_API_KEY",
-    },
-    "qwen": {
-        "MODEL": "qwen2.5-72b-instruct",
-        "MODEL_PROVIDER": "openai_compat",
-        "OPENAI_COMPAT_BASE_URL": "https://dashscope.aliyuncs.com/compatible-mode/v1",
-        "OPENAI_COMPAT_API_KEY_ENV": "DASHSCOPE_API_KEY",
-    },
+    "gemini":    {"MODEL": "gemini-2.5-flash",  "MODEL_PROVIDER": "gemini"},
+    "anthropic": {"MODEL": "claude-3-5-sonnet-20241022", "MODEL_PROVIDER": "anthropic"},
 }
 
 
@@ -181,16 +163,13 @@ def main():
         "--provider",
         choices=list(MODEL_CONFIGS.keys()),
         required=True,
-        help="Model provider for worker agents. Judges always run on Gemini.",
+        help="Model provider to use for worker agents.",
     )
     args = parser.parse_args()
 
     config = MODEL_CONFIGS[args.provider]
     os.environ["MODEL"]          = config["MODEL"]
     os.environ["MODEL_PROVIDER"] = config["MODEL_PROVIDER"]
-    if "OPENAI_COMPAT_BASE_URL" in config:
-        os.environ["OPENAI_COMPAT_BASE_URL"] = config["OPENAI_COMPAT_BASE_URL"]
-        os.environ["OPENAI_COMPAT_API_KEY"]  = os.getenv(config["OPENAI_COMPAT_API_KEY_ENV"], "")
 
     combos = list(all_combinations())
     total  = len(combos)

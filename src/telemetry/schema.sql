@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS runs (
     composition_matrix  JSONB NOT NULL,
     topology        TEXT NOT NULL CHECK (topology IN ('flat', 'chain', 'hub_spoke')),
     task_phase      TEXT NOT NULL CHECK (task_phase IN ('forming', 'storming', 'norming', 'performing')),
-    scenario_category   TEXT NOT NULL CHECK (scenario_category IN ('strategic', 'crisis', 'resource', 'evaluation', 'creative', 'technical', 'research')),
+    scenario_category   TEXT NOT NULL CHECK (scenario_category IN ('strategic', 'crisis', 'resource', 'evaluation', 'creative')),
     composition_condition TEXT NOT NULL CHECK (composition_condition IN ('drafted', 'homogeneous', 'founder_brained', 'missing_role')),
     team_size       INTEGER NOT NULL,
     captain_agent_id    TEXT,
