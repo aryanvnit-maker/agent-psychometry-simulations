@@ -53,17 +53,14 @@ def _parse_tests(raw_tests: dict) -> list[dict]:
 def _has_python_solution(problem: dict) -> bool:
     solutions = problem.get("solutions", {})
     languages = solutions.get("language", []) or []
-    return any(
-        "python" in str(lang).lower()
-        for lang in languages
-    )
+    return 3 in languages  # 3 = Python3 in CodeContests language enum
 
 
 def load_problems(
     n: int = 100,
     difficulty_min: int = DIFFICULTY_MIN,
     difficulty_max: int = DIFFICULTY_MAX,
-    split: str = "test",
+    split: str = "valid",
 ) -> list[CPProblem]:
     """Load and filter CodeContests problems.
 
@@ -71,7 +68,7 @@ def load_problems(
         n: Maximum number of problems to return.
         difficulty_min: Minimum Codeforces difficulty rating.
         difficulty_max: Maximum Codeforces difficulty rating.
-        split: Dataset split — 'train', 'valid', or 'test'.
+        split: Dataset split — 'train', 'valid', or 'test'. Default 'valid' for calibration; reserve 'test' for final benchmark evaluation.
 
     Returns:
         List of CPProblem objects ready for use in experiments.
