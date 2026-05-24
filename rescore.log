@@ -1,0 +1,325 @@
+Runs with stored transcripts: 95
+
+[1/95] s01_series_a_fork | chain | gemini | 4f38e2f1-be95-4377-a1d3-753cd428fcc9
+  scores=[30, 55, 55] mean=46.7
+
+[2/95] s01_series_a_fork | chain | gemini | d0f653a2-c0dd-467c-94a5-ebe449b72a0a
+  scores=[80, 80, 80] mean=80.0
+
+[3/95] s01_series_a_fork | chain | gemini | 40a29973-2b94-4add-bcf1-1c8b5a7e2e1b
+  scores=[30, 30, 30] mean=30.0
+
+[4/95] s01_series_a_fork | chain | gemini | 91592788-067d-4819-959d-27fa93dcf44f
+  scores=[0, 25, 25] mean=16.7
+
+[5/95] s01_series_a_fork | chain | gemini | 42406fae-efe3-4f9e-be00-aa78206fb4af
+  scores=[100, 75, 75] mean=83.3
+
+[6/95] s01_series_a_fork | chain | gemini | 23ea5638-24e7-4506-acdd-a30c0d3ec485
+  scores=[55, 0, 55] mean=36.7
+
+[7/95] s01_series_a_fork | chain | gemini | 52a97139-acc3-4fed-bdd5-c1966003dc25
+  scores=[80, 80, 80] mean=80.0
+
+[8/95] s01_series_a_fork | chain | gemini | fe575a4a-3065-4242-adc5-1578a7499aac
+  scores=[0, 0, 0] mean=0.0
+
+[9/95] s01_series_a_fork | chain | gemini | 14b06bdf-705b-4a3b-bedc-7779c37602c8
+  scores=[80, 80, 80] mean=80.0
+
+[10/95] s01_series_a_fork | chain | gemini | 9a70c979-7efd-4065-9e3f-9332d60645d1
+  scores=[80, 80, 80] mean=80.0
+
+[11/95] s01_series_a_fork | chain | gemini | fa7513d6-6ed6-4482-824b-19e5b65c7b1e
+  scores=[0, 0, 0] mean=0.0
+
+[12/95] s01_series_a_fork | chain | gemini | 7d120d3b-1add-46bf-bcff-047bc698dcf3
+  scores=[0, 0, 0] mean=0.0
+
+[13/95] s01_series_a_fork | chain | gemini | a71295ec-e681-44cd-8e75-312e9e9e59a1
+  scores=[0, 25, 0] mean=8.3
+
+[14/95] s01_series_a_fork | chain | gemini | 2556a2cd-7cea-4705-aadd-5abd7d7e3d36
+  scores=[80, 55, 80] mean=71.7
+
+[15/95] s01_series_a_fork | chain | gemini | ff8df7b8-3f6f-4627-a445-acdd761b32ef
+  scores=[80, 0, 0] mean=26.7
+
+[16/95] s01_series_a_fork | chain | gemini | bb8b5b24-cf87-40a8-affe-5b1d8f494a69
+  scores=[80, 80, 0] mean=53.3
+
+[17/95] s02_resource_allocation | chain | gemini | d0ab19b8-f84e-4727-b499-01acb60f4156
+  scores=[0, 0, 0] mean=0.0
+
+[18/95] s02_resource_allocation | chain | gemini | d142a91d-bb2e-40aa-81b1-230b0c41d6eb
+  scores=[0, 0, 0] mean=0.0
+
+[19/95] s02_resource_allocation | chain | gemini | 812449ce-c19d-4b30-95d9-db00a04cfb8a
+  scores=[70, 100, 100] mean=90.0
+
+[20/95] s02_resource_allocation | chain | gemini | 45d1e016-4976-4782-9a20-d9797edc6e84
+  scores=[80, 0, 0] mean=26.7
+
+[21/95] s02_resource_allocation | chain | gemini | 88130555-53ae-4707-b178-b3c638668d76
+  scores=[100, 0, 0] mean=33.3
+
+[22/95] s02_resource_allocation | chain | gemini | 87eddb83-9310-4f38-b7e1-e471cf8a547e
+  scores=[0, 0, 0] mean=0.0
+
+[23/95] s02_resource_allocation | chain | gemini | d87fcbac-483d-4e8b-a59e-9dfbf2717a3e
+  scores=[0, 0, 0] mean=0.0
+
+[24/95] s02_resource_allocation | chain | gemini | 454d7072-720d-4363-b438-a04c8f3f4fb2
+  scores=[0, 0, 0] mean=0.0
+
+[25/95] s02_resource_allocation | chain | gemini | fbf6a6be-ec15-4db5-8835-1e8a23fc1df1
+  scores=[0, 0, 0] mean=0.0
+
+[26/95] s02_resource_allocation | chain | gemini | 4a2febb6-ae41-4533-ab8c-e017c3435839
+  scores=[100, 100, 100] mean=100.0
+
+[27/95] s02_resource_allocation | chain | gemini | 1bc36bc7-7c47-4d1e-a700-e791a7d97725
+  scores=[0, 0, 0] mean=0.0
+
+[28/95] s02_resource_allocation | chain | gemini | ec1fae83-d645-4f06-b831-913a880fcb04
+  scores=[0, 0, 0] mean=0.0
+
+[29/95] s02_resource_allocation | chain | gemini | 4b71f14f-9ff5-44c2-9837-80c141adeb5d
+  scores=[100, 100, 100] mean=100.0
+
+[30/95] s03_post_mortem | chain | gemini | 2b5d2732-689a-4c1f-a089-6dc4fc07c273
+  scores=[100, 100, 20] mean=73.3
+
+[31/95] s03_post_mortem | chain | gemini | 94a5e085-4fc7-402d-83c1-da2aefc57af2
+  scores=[100, 100, 100] mean=100.0
+
+[32/95] s03_post_mortem | chain | gemini | 1511ba12-6db0-4ffa-b904-003d33b6fcd7
+  scores=[80, 80, 80] mean=80.0
+
+[33/95] s03_post_mortem | chain | gemini | cde18f8f-1f38-4ea2-8fc4-4f67e6f80a12
+  scores=[0, 20, 0] mean=6.7
+
+[34/95] s03_post_mortem | chain | gemini | 42f06964-cfa0-4770-969e-9331fb804532
+  scores=[0, 0, 0] mean=0.0
+
+[35/95] s03_post_mortem | chain | gemini | cb9d5708-dc70-4b62-8dfc-f4ba83d2fb94
+  scores=[0, 0, 0] mean=0.0
+
+[36/95] s03_post_mortem | chain | gemini | e523147f-86a2-469b-b162-bbf9a47671c4
+  scores=[100, 100, 100] mean=100.0
+
+[37/95] s03_post_mortem | chain | gemini | a601c1ac-0286-459c-8202-9d50eb0d3d6b
+  scores=[0, 0, 0] mean=0.0
+
+[38/95] s03_post_mortem | chain | gemini | 47698db1-d886-4513-b5a8-0dcd7f468fc2
+  scores=[20, 20, 20] mean=20.0
+
+[39/95] s03_post_mortem | chain | gemini | b8bc9dff-27b4-49c8-abc1-b08e4eb77463
+  scores=[0, 0, 0] mean=0.0
+
+[40/95] s03_post_mortem | chain | gemini | 1140ca02-0a41-4409-a94e-379a99b1b261
+  scores=[0, 0, 0] mean=0.0
+
+[41/95] s03_post_mortem | chain | gemini | bce29b03-bde8-4e1c-9973-ef5ccc50afd1
+  scores=[0, 0, 0] mean=0.0
+
+[42/95] s03_post_mortem | chain | gemini | 9fae2412-9c23-45ea-80ab-11c98d3d69a4
+  scores=[80, 80, 80] mean=80.0
+
+[43/95] s04_security_breach | chain | gemini | 39fe4810-d883-4003-a5dc-242851508e59
+  scores=[100, 0, 100] mean=66.7
+
+[44/95] s04_security_breach | chain | gemini | f3df3954-73bd-4c97-80e4-0ba0ce3ed8f5
+  scores=[100, 100, 100] mean=100.0
+
+[45/95] s04_security_breach | chain | gemini | 483c3500-cf1d-4a8a-97c2-0628c70f2413
+  scores=[0, 0, 0] mean=0.0
+
+[46/95] s04_security_breach | chain | gemini | f7ab54eb-4539-485a-bba2-7f02370be14f
+  scores=[0, 0, 0] mean=0.0
+
+[47/95] s04_security_breach | chain | gemini | 161ebdcb-dcf3-4071-84ae-ecdd0b35e954
+  scores=[0, 0, 0] mean=0.0
+
+[48/95] s04_security_breach | chain | gemini | dade4920-9f6d-4fbc-a177-d180e32595c6
+  scores=[100, 100, 100] mean=100.0
+
+[49/95] s04_security_breach | chain | gemini | 12bc780f-b865-4c0e-8bd9-544f05a36562
+  scores=[0, 0, 0] mean=0.0
+
+[50/95] s04_security_breach | chain | gemini | a7084a47-2732-4339-9a8f-0d4004b719a5
+  scores=[0, 0, 0] mean=0.0
+
+[51/95] s04_security_breach | chain | gemini | 8c94e6f1-85f9-4beb-aaa9-c9aae8db474b
+  scores=[100, 100, 100] mean=100.0
+
+[52/95] s04_security_breach | chain | gemini | fd913d58-6b05-4132-9f36-fd3d45c89261
+  scores=[90, 70, 70] mean=76.7
+
+[53/95] s04_security_breach | chain | gemini | d3058417-8598-4f23-a23b-2bb1f9fa8a76
+  scores=[70, 70, 70] mean=70.0
+
+[54/95] s04_security_breach | chain | gemini | f8b42580-78c0-4b7e-8b07-03e7e5a5d84c
+  scores=[100, 100, 100] mean=100.0
+
+[55/95] s04_security_breach | chain | gemini | b6212f41-db66-4caf-8198-a89478cd85d6
+  scores=[100, 100, 100] mean=100.0
+
+[56/95] s01_series_a_fork | flat | gemini | 757bc52a-9ac3-4aca-b155-9f5d71a04880
+  scores=[55, 55, 55] mean=55.0
+
+[57/95] s01_series_a_fork | flat | gemini | c078216d-9a67-4ed6-ade3-0c9d1cded79b
+  scores=[80, 20, 80] mean=60.0
+
+[58/95] s01_series_a_fork | flat | gemini | cbd080ef-45f4-4d67-a8d4-cdf416f98640
+  scores=[0, 0, 0] mean=0.0
+
+[59/95] s01_series_a_fork | flat | gemini | 611277eb-acdc-4c2b-8fec-aa4f2252bdd7
+  scores=[30, 30, 30] mean=30.0
+
+[60/95] s01_series_a_fork | flat | gemini | f2311e05-e4dc-4d9e-9436-52965f87662c
+  scores=[30, 30, 30] mean=30.0
+
+[61/95] s01_series_a_fork | flat | gemini | a05981f1-ad80-4657-8c3e-04888d739e30
+  scores=[80, 80, 80] mean=80.0
+
+[62/95] s01_series_a_fork | flat | gemini | d565418f-b817-4f90-8efb-28044145c983
+  scores=[0, 0, 0] mean=0.0
+
+[63/95] s01_series_a_fork | flat | gemini | c56cd29c-35e9-4756-91c9-1e5209c2cb1d
+  scores=[0, 0, 0] mean=0.0
+
+[64/95] s01_series_a_fork | flat | gemini | 5b6246ea-bff7-4e53-b0fa-f2079e16334f
+  scores=[0, 0, 0] mean=0.0
+
+[65/95] s01_series_a_fork | flat | gemini | 0d18ff2e-88f1-4d69-83bd-c5425c492312
+  scores=[0, 0, 0] mean=0.0
+
+[66/95] s02_resource_allocation | flat | gemini | 0edc1fe5-039e-43cb-8174-3ac06de6a197
+  scores=[0, 0, 0] mean=0.0
+
+[67/95] s02_resource_allocation | flat | gemini | fad6b726-cf83-4e97-a42e-58dff4b2fa05
+  scores=[50, 50, 50] mean=50.0
+
+[68/95] s02_resource_allocation | flat | gemini | d543354e-7106-47af-8dc8-4cc45e8727c6
+  ERROR: No JSON object found in judge response:
+{
+  "run_id": "d543354e-7106-47af-8dc8-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45
+Traceback (most recent call last):
+  File "X:\Applications\GitExcess\Agent Simulations\agent-psychometry-simulations\rescore.py", line 81, in main
+    evaluations = score_transcript_panel(
+        run_id=run_id,
+    ...<5 lines>...
+        team_size=run["team_size"],
+    )
+  File "X:\Applications\GitExcess\Agent Simulations\agent-psychometry-simulations\src\evaluation\judge.py", line 141, in score_transcript_panel
+    score_transcript(run_id, phase, transcript, rubric, i, topology=topology, team_size=team_size)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "X:\Applications\GitExcess\Agent Simulations\agent-psychometry-simulations\src\evaluation\judge.py", line 123, in score_transcript
+    raise ValueError(f"No JSON object found in judge response:\n{raw}")
+ValueError: No JSON object found in judge response:
+{
+  "run_id": "d543354e-7106-47af-8dc8-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45e78-4cc45
+
+
+[69/95] s02_resource_allocation | flat | gemini | 02cea8e6-470f-4d5b-996e-8deafe9c8873
+  scores=[50, 50, 50] mean=50.0
+
+[70/95] s02_resource_allocation | flat | gemini | a8f7c58b-294c-4179-8abb-e70e12a08d44
+  scores=[70, 70, 70] mean=70.0
+
+[71/95] s02_resource_allocation | flat | gemini | 88f763b9-56d4-44a5-8984-3e18c720bf3f
+  scores=[0, 0, 0] mean=0.0
+
+[72/95] s02_resource_allocation | flat | gemini | ea94cc47-4221-4de6-a841-72001c262ffb
+  scores=[100, 100, 100] mean=100.0
+
+[73/95] s02_resource_allocation | flat | gemini | fb1b461e-5edf-46ef-970b-391fbe93262e
+  scores=[0, 0, 0] mean=0.0
+
+[74/95] s02_resource_allocation | flat | gemini | a2081c28-a475-4b11-956f-350955b6fdfa
+  scores=[0, 0, 0] mean=0.0
+
+[75/95] s02_resource_allocation | flat | gemini | d31843c4-3c08-46a5-b547-2c270eb5dc1b
+  scores=[0, 0, 0] mean=0.0
+
+[76/95] s03_post_mortem | flat | gemini | a0319a75-8fdc-4cfb-9c87-1fb8b59cb86b
+  scores=[0, 0, 0] mean=0.0
+
+[77/95] s03_post_mortem | flat | gemini | c648e89d-888e-4f55-9c88-d4ae20179a91
+  scores=[0, 0, 0] mean=0.0
+
+[78/95] s03_post_mortem | flat | gemini | 840672c2-4f77-4c4e-85da-58b5dc110d43
+  scores=[0, 0, 0] mean=0.0
+
+[79/95] s03_post_mortem | flat | gemini | 57efdc2b-6ee7-428a-a16e-3f9c099c0409
+  scores=[50, 80, 80] mean=70.0
+
+[80/95] s03_post_mortem | flat | gemini | 07d7f479-ac19-4f7f-8116-2c259b1f4b51
+  scores=[0, 0, 0] mean=0.0
+
+[81/95] s03_post_mortem | flat | gemini | 36c12857-8d49-4bf2-ac3c-99bd12282b55
+  scores=[0, 0, 0] mean=0.0
+
+[82/95] s03_post_mortem | flat | gemini | e4f6dba5-d239-43f5-a67c-6ad93cd85635
+  scores=[0, 0, 0] mean=0.0
+
+[83/95] s03_post_mortem | flat | gemini | f7d2868d-a469-47a0-b7da-3ff788a8f02b
+  ERROR: No JSON object found in judge response:
+{
+  "run_id": "f7d2868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff78
+Traceback (most recent call last):
+  File "X:\Applications\GitExcess\Agent Simulations\agent-psychometry-simulations\rescore.py", line 81, in main
+    evaluations = score_transcript_panel(
+        run_id=run_id,
+    ...<5 lines>...
+        team_size=run["team_size"],
+    )
+  File "X:\Applications\GitExcess\Agent Simulations\agent-psychometry-simulations\src\evaluation\judge.py", line 141, in score_transcript_panel
+    score_transcript(run_id, phase, transcript, rubric, i, topology=topology, team_size=team_size)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "X:\Applications\GitExcess\Agent Simulations\agent-psychometry-simulations\src\evaluation\judge.py", line 123, in score_transcript
+    raise ValueError(f"No JSON object found in judge response:\n{raw}")
+ValueError: No JSON object found in judge response:
+{
+  "run_id": "f7d2868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff7868d-a469-470a-b7da-3ff78
+
+
+[84/95] s03_post_mortem | flat | gemini | d6b06acf-7230-4a5f-925e-e15d89692de6
+  scores=[0, 0, 0] mean=0.0
+
+[85/95] s03_post_mortem | flat | gemini | 500341e2-02ff-449a-9c12-d36b9db4992f
+  scores=[0, 0, 0] mean=0.0
+
+[86/95] s04_security_breach | flat | gemini | 102e4cc2-0cf8-4dc4-9b57-7cb6f10cf3a4
+  scores=[70, 70, 70] mean=70.0
+
+[87/95] s04_security_breach | flat | gemini | 99819df6-a3d0-456e-a6b0-a14e5ad0c60e
+  scores=[0, 0, 0] mean=0.0
+
+[88/95] s04_security_breach | flat | gemini | 03ada151-9007-4333-890c-8fbee247f100
+  scores=[0, 0, 0] mean=0.0
+
+[89/95] s04_security_breach | flat | gemini | 8c5b162c-740c-4560-ab61-f3e81ec4148a
+  scores=[0, 0, 0] mean=0.0
+
+[90/95] s04_security_breach | flat | gemini | 18c2b55c-4009-421e-b696-f18173195f6f
+  scores=[0, 80, 80] mean=53.3
+
+[91/95] s04_security_breach | flat | gemini | b942f34a-df65-4db6-8ec9-cc31892e00ac
+  scores=[70, 70, 70] mean=70.0
+
+[92/95] s04_security_breach | flat | gemini | 3d724850-0fce-497e-b858-d7a5f0855f5e
+  scores=[0, 0, 0] mean=0.0
+
+[93/95] s04_security_breach | flat | gemini | b0e89983-7b72-4dee-a99a-e8616525ad36
+  scores=[55, 55, 55] mean=55.0
+
+[94/95] s04_security_breach | flat | gemini | 4e5e8243-3fa8-4ee6-ab36-01863573f4f1
+  scores=[0, 0, 0] mean=0.0
+
+[95/95] s04_security_breach | flat | gemini | 7499dec6-79be-4127-9472-f2b8282420d5
+  scores=[70, 70, 70] mean=70.0
+
+============================================================
+RESCORE COMPLETE: 93 passed, 2 failed out of 95

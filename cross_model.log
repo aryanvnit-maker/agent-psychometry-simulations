@@ -1,0 +1,127 @@
+
+Cross-model run | provider=anthropic | model=claude-3-5-sonnet-20241022
+Combinations: 24 | seed=42 | judges always on gemini-2.5-flash
+============================================================
+
+[1/24] s01_series_a_fork | size=2 | chain | anthropic
+  captain=worker_06 team=['worker_06', 'worker_21']
+  turns=2 tokens=2010 culls=[]
+  scores=[55, 55, 55] mean=55.0
+
+[2/24] s01_series_a_fork | size=2 | flat | anthropic
+  captain=worker_06 team=['worker_06', 'worker_21']
+  turns=4 tokens=5255 culls=[]
+  scores=[0, 0, 0] mean=0.0
+
+[3/24] s01_series_a_fork | size=4 | chain | anthropic
+  captain=worker_06 team=['worker_06', 'worker_21', 'worker_24', 'worker_01']
+  turns=4 tokens=8478 culls=[]
+  scores=[0, 0, 0] mean=0.0
+
+[4/24] s01_series_a_fork | size=4 | flat | anthropic
+  captain=worker_06 team=['worker_06', 'worker_21', 'worker_24', 'worker_01']
+  turns=8 tokens=12281 culls=[]
+  scores=[55, 0, 0] mean=18.3
+
+[5/24] s01_series_a_fork | size=8 | chain | anthropic
+  captain=worker_06 team=['worker_06', 'worker_21', 'worker_24', 'worker_01', 'worker_13', 'worker_11', 'worker_19', 'worker_14']
+  turns=8 tokens=37054 culls=[]
+  scores=[0, 0, 0] mean=0.0
+
+[6/24] s01_series_a_fork | size=8 | flat | anthropic
+  captain=worker_06 team=['worker_06', 'worker_21', 'worker_24', 'worker_01', 'worker_13', 'worker_11', 'worker_19', 'worker_14']
+  turns=16 tokens=51346 culls=[]
+  scores=[0, 0, 0] mean=0.0
+
+[7/24] s02_resource_allocation | size=2 | chain | anthropic
+  captain=worker_10 team=['worker_10', 'worker_22']
+  turns=2 tokens=1950 culls=[]
+  scores=[0, 0, 0] mean=0.0
+
+[8/24] s02_resource_allocation | size=2 | flat | anthropic
+  captain=worker_10 team=['worker_10', 'worker_22']
+  turns=4 tokens=2519 culls=[]
+  scores=[0, 0, 0] mean=0.0
+
+[9/24] s02_resource_allocation | size=4 | chain | anthropic
+  captain=worker_10 team=['worker_10', 'worker_22', 'worker_04', 'worker_28']
+  turns=4 tokens=3183 culls=[]
+  scores=[70, 70, 100] mean=80.0
+
+[10/24] s02_resource_allocation | size=4 | flat | anthropic
+  captain=worker_10 team=['worker_10', 'worker_22', 'worker_04', 'worker_28']
+  turns=8 tokens=7092 culls=[]
+  scores=[70, 70, 70] mean=70.0
+
+[11/24] s02_resource_allocation | size=8 | chain | anthropic
+  captain=worker_10 team=['worker_10', 'worker_22', 'worker_04', 'worker_28', 'worker_30', 'worker_00', 'worker_16', 'worker_08']
+  turns=8 tokens=17915 culls=[]
+  scores=[0, 0, 0] mean=0.0
+
+[12/24] s02_resource_allocation | size=8 | flat | anthropic
+  captain=worker_10 team=['worker_10', 'worker_22', 'worker_04', 'worker_28', 'worker_30', 'worker_00', 'worker_16', 'worker_08']
+  turns=16 tokens=21800 culls=[]
+  scores=[70, 100, 70] mean=80.0
+
+[13/24] s03_post_mortem | size=2 | chain | anthropic
+  captain=worker_19 team=['worker_19', 'worker_09']
+  turns=2 tokens=1473 culls=[]
+  scores=[80, 80, 80] mean=80.0
+
+[14/24] s03_post_mortem | size=2 | flat | anthropic
+  captain=worker_19 team=['worker_19', 'worker_09']
+  turns=4 tokens=3204 culls=[]
+  scores=[0, 0, 0] mean=0.0
+
+[15/24] s03_post_mortem | size=4 | chain | anthropic
+  captain=worker_19 team=['worker_19', 'worker_09', 'worker_20', 'worker_00']
+  turns=4 tokens=7284 culls=[]
+  scores=[100, 100, 100] mean=100.0
+
+[16/24] s03_post_mortem | size=4 | flat | anthropic
+  captain=worker_19 team=['worker_19', 'worker_09', 'worker_20', 'worker_00']
+  turns=8 tokens=12310 culls=[]
+  scores=[20, 0, 0] mean=6.7
+
+[17/24] s03_post_mortem | size=8 | chain | anthropic
+  captain=worker_19 team=['worker_19', 'worker_09', 'worker_20', 'worker_00', 'worker_28', 'worker_13', 'worker_12', 'worker_07']
+  turns=8 tokens=27803 culls=[]
+  scores=[20, 20, 20] mean=20.0
+
+[18/24] s03_post_mortem | size=8 | flat | anthropic
+  captain=worker_19 team=['worker_19', 'worker_09', 'worker_20', 'worker_00', 'worker_28', 'worker_13', 'worker_12', 'worker_07']
+  turns=16 tokens=41734 culls=[]
+  scores=[0, 0, 0] mean=0.0
+
+[19/24] s04_security_breach | size=2 | chain | anthropic
+  captain=worker_24 team=['worker_24', 'worker_21']
+  turns=2 tokens=1323 culls=[]
+  scores=[100, 70, 70] mean=80.0
+
+[20/24] s04_security_breach | size=2 | flat | anthropic
+  captain=worker_24 team=['worker_24', 'worker_21']
+  turns=4 tokens=3706 culls=[]
+  scores=[70, 70, 70] mean=70.0
+
+[21/24] s04_security_breach | size=4 | chain | anthropic
+  captain=worker_24 team=['worker_24', 'worker_21', 'worker_13', 'worker_01']
+  turns=4 tokens=6563 culls=[]
+  scores=[70, 0, 0] mean=23.3
+
+[22/24] s04_security_breach | size=4 | flat | anthropic
+  captain=worker_24 team=['worker_24', 'worker_21', 'worker_13', 'worker_01']
+  turns=8 tokens=10631 culls=[]
+  scores=[0, 0, 0] mean=0.0
+
+[23/24] s04_security_breach | size=8 | chain | anthropic
+  captain=worker_24 team=['worker_24', 'worker_21', 'worker_13', 'worker_01', 'worker_06', 'worker_19', 'worker_05', 'worker_28']
+  turns=8 tokens=20360 culls=[]
+  scores=[70, 70, 70] mean=70.0
+
+[24/24] s04_security_breach | size=8 | flat | anthropic
+  captain=worker_24 team=['worker_24', 'worker_21', 'worker_13', 'worker_01', 'worker_06', 'worker_19', 'worker_05', 'worker_28']
+  turns=16 tokens=38111 culls=[]
+  scores=[0, 0, 0] mean=0.0
+
+============================================================
+DONE: 24 passed, 0 failed | provider=anthropic
