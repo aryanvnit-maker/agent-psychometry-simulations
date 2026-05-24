@@ -25,15 +25,49 @@ from langchain_core.messages import AIMessage, HumanMessage, BaseMessage
 from src.agents.profile import AgentProfile
 from src.agents.constitution import build_constitution
 
-_MODEL        = os.getenv("MODEL", "gemini-2.5-flash")
-_PROVIDER     = os.getenv("MODEL_PROVIDER", "gemini")   # "gemini" | "anthropic"
 _TOKEN_BUDGET = int(os.getenv("AGENT_TOKEN_BUDGET", "800"))
 
 _gemini_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
+
+def _provider() -> str:
+    return os.getenv("MODEL_PROVIDER", "gemini")
+
+
+def _model() -> str:
+    return os.getenv("MODEL", "gemini-2.5-flash")
+
+
 def _get_anthropic_client():
     import anthropic
     return anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+
+
+def _get_openai_compat_client():
+    from openai import OpenAI
+    return OpenAI(
+        api_key=os.getenv("OPENAI_COMPAT_API_KEY"),
+        base_url=os.getenv("OPENAI_COMPAT_BASE_URL"),
+    )
+
+
+def _to_openai_messages(messages) -> list[dict]:
+    result = []
+    for m in messages:
+        if isinstance(m, dict):
+            role = "assistant" if m["role"] == "assistant" else "user"
+            content = m["content"]
+        elif isinstance(m, AIMessage):
+            role = "assistant"
+            content = m.content
+        else:
+            role = "user"
+            content = m.content if isinstance(m, BaseMessage) else str(m)
+        if result and result[-1]["role"] == role:
+            result[-1]["content"] += "\n\n" + content
+        else:
+            result.append({"role": role, "content": content})
+    return result
 
 
 class SimState(TypedDict):
@@ -89,14 +123,16 @@ def _to_anthropic_messages(messages) -> list[dict]:
 def _call_agent(agent: AgentProfile, messages: list[dict], scenario_brief: str) -> tuple[str, int, int]:
     """Returns (text, total_tokens_for_cost, output_tokens_for_cull)."""
     system = build_constitution(agent)
+    provider = _provider()
+    model = _model()
 
-    if _PROVIDER == "anthropic":
+    if provider == "anthropic":
         client = _get_anthropic_client()
         anthropic_msgs = _to_anthropic_messages(messages)
         if not anthropic_msgs or anthropic_msgs[0]["role"] != "user":
             anthropic_msgs.insert(0, {"role": "user", "content": scenario_brief})
         response = client.messages.create(
-            model=_MODEL,
+            model=model,
             max_tokens=_TOKEN_BUDGET,
             system=system,
             messages=anthropic_msgs,
@@ -105,10 +141,26 @@ def _call_agent(agent: AgentProfile, messages: list[dict], scenario_brief: str) 
         text          = response.content[0].text
         prompt_tokens = response.usage.input_tokens
         output_tokens = response.usage.output_tokens
+
+    elif provider == "openai_compat":
+        client = _get_openai_compat_client()
+        openai_msgs = _to_openai_messages(messages)
+        if not openai_msgs or openai_msgs[0]["role"] != "user":
+            openai_msgs.insert(0, {"role": "user", "content": scenario_brief})
+        response = client.chat.completions.create(
+            model=model,
+            messages=[{"role": "system", "content": system}] + openai_msgs,
+            max_tokens=_TOKEN_BUDGET,
+            temperature=0.0,
+        )
+        text          = response.choices[0].message.content
+        prompt_tokens = response.usage.prompt_tokens
+        output_tokens = response.usage.completion_tokens
+
     else:
         contents = _to_gemini_contents(messages)
         response = _gemini_client.models.generate_content(
-            model=_MODEL,
+            model=model,
             contents=contents,
             config=types.GenerateContentConfig(
                 system_instruction=system,

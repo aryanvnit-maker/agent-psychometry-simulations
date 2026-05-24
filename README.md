@@ -242,6 +242,11 @@ Run the schema in your Supabase SQL editor (`src/telemetry/schema.sql`) before f
 ```sql
 ALTER TABLE runs ADD COLUMN IF NOT EXISTS model_family TEXT NOT NULL DEFAULT 'gemini';
 ALTER TABLE runs ADD COLUMN IF NOT EXISTS transcript TEXT;
+
+-- KalibrBench: adds technical and research scenario categories (required for s05–s10)
+ALTER TABLE runs DROP CONSTRAINT IF EXISTS runs_scenario_category_check;
+ALTER TABLE runs ADD CONSTRAINT runs_scenario_category_check
+  CHECK (scenario_category IN ('strategic', 'crisis', 'resource', 'evaluation', 'creative', 'technical', 'research'));
 ```
 
 ### Run Simulations
@@ -330,6 +335,19 @@ agent-psychometry-simulations/
 ├── reproduce.py                # Single-command demo, no DB required
 └── export_constitutions.py     # Generate static constitution files
 ```
+
+---
+
+## KalibrBench
+
+See [`BENCHMARK.md`](BENCHMARK.md) for the full benchmark spec, submission protocol, and leaderboard.
+
+| Model | Provider | Chain | Flat | Gap | N (chain / flat) |
+|---|---|---|---|---|---|
+| Gemini 2.5 Flash | Google | 40.3 | 23.4 | −16.9 | 55 / 39 |
+| Claude 3.5 Sonnet | Anthropic | 42.4 | 20.4 | −21.9 | 12 / 12 |
+
+*Scores on s01–s04. Submit a PR to add your model.*
 
 ---
 
