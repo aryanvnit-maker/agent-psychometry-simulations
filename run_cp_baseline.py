@@ -16,19 +16,22 @@
 """
 KalibrBench-CP: single-agent (chain-1) baseline calibration.
 
-Runs a generic IMPLEMENTER agent on N CodeContests problems and evaluates
-pass@1 via Judge0. Results written incrementally to results/cp_baseline.jsonl
-so the run is resumable.
+Two decoupled phases to avoid running Gemini API calls and Judge0 Docker
+simultaneously (CPU thermal management):
 
-Usage:
-    GEMINI_API_KEY=... python run_cp_baseline.py [--n 100] [--dry-run]
+  Phase A — collect agent responses (Gemini API only, Docker idle):
+      python run_cp_baseline.py --collect-only
 
-Env vars:
-    GEMINI_API_KEY / ANTHROPIC_API_KEY  — API credentials
-    MODEL                               — model ID (default: gemini-2.5-flash)
-    MODEL_PROVIDER                      — gemini | anthropic (default: gemini)
-    JUDGE0_URL                          — Judge0 base URL (default: http://localhost:2358)
-    AGENT_TOKEN_BUDGET                  — max output tokens per agent turn (default: 4096)
+  Phase B — evaluate collected code via Judge0 (Docker active, no API calls):
+      python run_cp_baseline.py --evaluate-only
+
+  Combined (original behaviour, not recommended on constrained hardware):
+      python run_cp_baseline.py
+
+Phase A writes to results/cp_baseline_collected.jsonl (code + metadata).
+Phase B reads that file, evaluates via Judge0, writes final results to
+results/cp_baseline.jsonl (same schema consumed by analyze_cp.py).
+Both phases are fully resumable.
 """
 from __future__ import annotations
 import argparse
@@ -38,7 +41,6 @@ import sys
 import time
 from pathlib import Path
 
-# Raise token budget before importing engine so the module-level constant picks it up
 os.environ.setdefault("AGENT_TOKEN_BUDGET", "4096")
 
 from dotenv import load_dotenv
@@ -50,11 +52,10 @@ from src.execution.judge0 import evaluate, health_check
 from src.execution.extractor import extract
 from src.orchestration.engine import run_simulation
 
-RESULTS_DIR  = Path("results")
-BASELINE_OUT = RESULTS_DIR / "cp_baseline.jsonl"
+RESULTS_DIR       = Path("results")
+COLLECTED_OUT     = RESULTS_DIR / "cp_baseline_collected.jsonl"
+BASELINE_OUT      = RESULTS_DIR / "cp_baseline.jsonl"
 
-# Generic capable IMPLEMENTER — high integrity, adaptive, execution-focused.
-# Not tuned for competitive programming; this is the unspecialized baseline.
 _BASELINE_DIMENSIONS = KalibrDimensions(
     philosophy_cohesion=75,
     drive_alignment=80,
@@ -83,47 +84,34 @@ def _baseline_agent() -> AgentProfile:
     )
 
 
-def _load_done_ids(path: Path) -> set[str]:
+def _load_ids(path: Path) -> set[str]:
     if not path.exists():
         return set()
-    done = set()
+    ids = set()
     with path.open() as f:
         for line in f:
             line = line.strip()
             if line:
                 try:
-                    done.add(json.loads(line)["problem_id"])
+                    ids.add(json.loads(line)["problem_id"])
                 except Exception:
                     pass
-    return done
+    return ids
 
 
-def _append_result(path: Path, result: dict) -> None:
+def _append(path: Path, record: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a") as f:
-        f.write(json.dumps(result) + "\n")
+        f.write(json.dumps(record) + "\n")
 
 
-def run_one(problem, dry_run: bool = False) -> dict:
-    """Run chain-1 on a single problem. Returns result dict."""
+# ---------------------------------------------------------------------------
+# Phase A — collect
+# ---------------------------------------------------------------------------
+
+def collect_one(problem) -> dict:
+    """Call Gemini, extract code, return record. No Judge0."""
     t0 = time.time()
-
-    if dry_run:
-        return {
-            "problem_id":        problem.problem_id,
-            "difficulty":        problem.difficulty,
-            "passed":            False,
-            "compilation_error": False,
-            "tests_passed":      0,
-            "tests_total":       len(problem.private_tests),
-            "pass_rate":         0.0,
-            "extraction_failed": True,
-            "tokens_total":      0,
-            "run_id":            "dry-run",
-            "elapsed_seconds":   0.0,
-            "dry_run":           True,
-        }
-
     prompt = format_prompt(problem)
     agent  = _baseline_agent()
 
@@ -138,11 +126,9 @@ def run_one(problem, dry_run: bool = False) -> dict:
         return {
             "problem_id":        problem.problem_id,
             "difficulty":        problem.difficulty,
-            "passed":            False,
-            "compilation_error": False,
-            "tests_passed":      0,
-            "tests_total":       len(problem.private_tests),
-            "pass_rate":         0.0,
+            "private_tests":     problem.private_tests,
+            "time_limit":        problem.time_limit,
+            "code":              "",
             "extraction_failed": True,
             "tokens_total":      0,
             "run_id":            None,
@@ -151,49 +137,137 @@ def run_one(problem, dry_run: bool = False) -> dict:
         }
 
     tokens_total = sum(state["token_usage"].values())
-    transcript   = state["messages"]
-
-    code = extract(transcript, topology="chain", n_agents=1)
-    extraction_failed = not bool(code.strip())
-
-    if extraction_failed:
-        return {
-            "problem_id":        problem.problem_id,
-            "difficulty":        problem.difficulty,
-            "passed":            False,
-            "compilation_error": False,
-            "tests_passed":      0,
-            "tests_total":       len(problem.private_tests),
-            "pass_rate":         0.0,
-            "extraction_failed": True,
-            "tokens_total":      tokens_total,
-            "run_id":            state["run_id"],
-            "elapsed_seconds":   round(time.time() - t0, 2),
-        }
-
-    eval_result = evaluate(
-        code=code,
-        test_cases=problem.private_tests,
-        time_limit=problem.time_limit,
-        max_test_cases=10,
-    )
+    code = extract(state["messages"], topology="chain", n_agents=1)
 
     return {
         "problem_id":        problem.problem_id,
         "difficulty":        problem.difficulty,
-        "passed":            eval_result["passed"],
-        "compilation_error": eval_result["compilation_error"],
-        "tests_passed":      eval_result["tests_passed"],
-        "tests_total":       eval_result["tests_total"],
-        "pass_rate":         eval_result["pass_rate"],
-        "extraction_failed": False,
+        "private_tests":     problem.private_tests,
+        "time_limit":        problem.time_limit,
+        "code":              code,
+        "extraction_failed": not bool(code.strip()),
         "tokens_total":      tokens_total,
         "run_id":            state["run_id"],
         "elapsed_seconds":   round(time.time() - t0, 2),
     }
 
 
-def print_summary(results: list[dict]) -> None:
+def run_collect(n: int) -> None:
+    problems   = load_problems(n=n)
+    done_ids   = _load_ids(COLLECTED_OUT)
+    pending    = [p for p in problems if p.problem_id not in done_ids]
+    print(f"{len(done_ids)} already collected. Collecting {len(pending)} remaining.")
+
+    for i, problem in enumerate(pending, 1):
+        print(f"[{i}/{len(pending)}] {problem.problem_id}...", end=" ", flush=True)
+        record = collect_one(problem)
+        _append(COLLECTED_OUT, record)
+
+        status = "NOCODE" if record["extraction_failed"] else f"OK ({len(record['code'])} chars)"
+        print(f"{status}  ({record['elapsed_seconds']:.1f}s, {record['tokens_total']} tok)")
+
+    print(f"\nCollection done. {COLLECTED_OUT}")
+    print("Run `python run_cp_baseline.py --evaluate-only` when ready.")
+
+
+# ---------------------------------------------------------------------------
+# Phase B — evaluate
+# ---------------------------------------------------------------------------
+
+def run_evaluate() -> None:
+    if not COLLECTED_OUT.exists():
+        print("No collected data found. Run --collect-only first.")
+        sys.exit(1)
+
+    print("Checking Judge0...", end=" ", flush=True)
+    if not health_check():
+        print("FAILED")
+        print("Start Judge0: cd judge0 && docker-compose up -d")
+        sys.exit(1)
+    print("OK")
+
+    collected = []
+    with COLLECTED_OUT.open() as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                try:
+                    collected.append(json.loads(line))
+                except Exception:
+                    pass
+
+    done_ids = _load_ids(BASELINE_OUT)
+    pending  = [r for r in collected if r["problem_id"] not in done_ids]
+    print(f"{len(done_ids)} already evaluated. Evaluating {len(pending)} remaining.")
+
+    for i, record in enumerate(pending, 1):
+        pid = record["problem_id"]
+        print(f"[{i}/{len(pending)}] {pid}...", end=" ", flush=True)
+
+        if record.get("extraction_failed") or not record.get("code", "").strip():
+            result = {
+                "problem_id":        pid,
+                "difficulty":        record["difficulty"],
+                "passed":            False,
+                "compilation_error": False,
+                "tests_passed":      0,
+                "tests_total":       len(record.get("private_tests", [])),
+                "pass_rate":         0.0,
+                "extraction_failed": True,
+                "tokens_total":      record.get("tokens_total", 0),
+                "run_id":            record.get("run_id"),
+                "elapsed_seconds":   record.get("elapsed_seconds"),
+            }
+            print("NOCODE")
+        else:
+            t0 = time.time()
+            eval_result = evaluate(
+                code=record["code"],
+                test_cases=record["private_tests"],
+                time_limit=record.get("time_limit", 5.0),
+                max_test_cases=10,
+            )
+            result = {
+                "problem_id":        pid,
+                "difficulty":        record["difficulty"],
+                "passed":            eval_result["passed"],
+                "compilation_error": eval_result["compilation_error"],
+                "tests_passed":      eval_result["tests_passed"],
+                "tests_total":       eval_result["tests_total"],
+                "pass_rate":         eval_result["pass_rate"],
+                "extraction_failed": False,
+                "tokens_total":      record.get("tokens_total", 0),
+                "run_id":            record.get("run_id"),
+                "elapsed_seconds":   record.get("elapsed_seconds"),
+                "eval_seconds":      round(time.time() - t0, 2),
+            }
+            status = "PASS" if result["passed"] else (
+                "CE" if result["compilation_error"] else
+                f"FAIL {result['tests_passed']}/{result['tests_total']}"
+            )
+            print(f"{status}  ({result['eval_seconds']:.1f}s)")
+
+        _append(BASELINE_OUT, result)
+
+    print_summary()
+
+
+# ---------------------------------------------------------------------------
+# Summary + combined mode
+# ---------------------------------------------------------------------------
+
+def print_summary() -> None:
+    results = []
+    if BASELINE_OUT.exists():
+        with BASELINE_OUT.open() as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    try:
+                        results.append(json.loads(line))
+                    except Exception:
+                        pass
+
     total    = len(results)
     passed   = sum(1 for r in results if r.get("passed"))
     ce       = sum(1 for r in results if r.get("compilation_error"))
@@ -203,7 +277,7 @@ def print_summary(results: list[dict]) -> None:
     print("\n" + "=" * 50)
     print(f"Chain-1 Baseline Summary ({total} problems)")
     print("=" * 50)
-    print(f"  Pass@1 (all tests):   {passed}/{total}  ({100*passed/total:.1f}%)")
+    print(f"  Pass@1 (all tests):   {passed}/{total}  ({100*passed/total:.1f}%)" if total else "  No results yet.")
     print(f"  Avg pass rate:        {100*avg_pass:.1f}%")
     print(f"  Compilation errors:   {ce}")
     print(f"  Extraction failures:  {no_code}")
@@ -212,54 +286,25 @@ def print_summary(results: list[dict]) -> None:
 
 def main():
     parser = argparse.ArgumentParser(description="KalibrBench-CP chain-1 baseline")
-    parser.add_argument("--n",        type=int,  default=100,   help="Number of problems")
-    parser.add_argument("--dry-run",  action="store_true",      help="Skip API calls; test pipeline only")
-    parser.add_argument("--no-judge0-check", action="store_true", help="Skip Judge0 health check")
+    parser.add_argument("--n", type=int, default=100)
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--collect-only",  action="store_true", help="Phase A: Gemini API only, no Judge0")
+    mode.add_argument("--evaluate-only", action="store_true", help="Phase B: Judge0 only, no API calls")
     args = parser.parse_args()
 
-    if not args.dry_run and not args.no_judge0_check:
+    if args.collect_only:
+        run_collect(args.n)
+    elif args.evaluate_only:
+        run_evaluate()
+    else:
+        # Combined — original behaviour
         print("Checking Judge0...", end=" ", flush=True)
         if not health_check():
-            print("FAILED")
-            print("Judge0 is not reachable. Start it with: cd judge0 && docker-compose up -d")
+            print("FAILED\nStart Judge0: cd judge0 && docker-compose up -d")
             sys.exit(1)
         print("OK")
-
-    problems = load_problems(n=args.n)
-    if not problems:
-        print("No problems loaded. Check dataset filters.")
-        sys.exit(1)
-
-    done_ids = _load_done_ids(BASELINE_OUT)
-    pending  = [p for p in problems if p.problem_id not in done_ids]
-    print(f"{len(done_ids)} already done. Running {len(pending)} remaining.")
-
-    session_results = []
-    for i, problem in enumerate(pending, 1):
-        print(f"[{i}/{len(pending)}] {problem.problem_id} (difficulty={problem.difficulty})...", end=" ", flush=True)
-        result = run_one(problem, dry_run=args.dry_run)
-        _append_result(BASELINE_OUT, result)
-        session_results.append(result)
-
-        status = "PASS" if result.get("passed") else (
-            "CE"   if result.get("compilation_error") else (
-            "NOCODE" if result.get("extraction_failed") else
-            f"FAIL {result.get('tests_passed',0)}/{result.get('tests_total',0)}"
-        ))
-        print(f"{status}  ({result.get('elapsed_seconds', 0):.1f}s, {result.get('tokens_total', 0)} tok)")
-
-    # Print summary over everything in the file, not just this session
-    all_results = []
-    with BASELINE_OUT.open() as f:
-        for line in f:
-            line = line.strip()
-            if line:
-                try:
-                    all_results.append(json.loads(line))
-                except Exception:
-                    pass
-
-    print_summary(all_results)
+        run_collect(args.n)
+        run_evaluate()
 
 
 if __name__ == "__main__":
