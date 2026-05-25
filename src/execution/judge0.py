@@ -14,111 +14,93 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 """
-Judge0 self-hosted API wrapper.
+Local subprocess executor — drop-in replacement for the Judge0 API wrapper.
 
-Submits code + test cases to the local Judge0 instance and returns
-structured pass/fail results. Judge0 must be running at JUDGE0_URL
-(default: http://localhost:2358).
+Runs Python code in a subprocess with wall-time timeout and output comparison.
+Same public interface as the original Judge0 wrapper; all callers unchanged.
 
-Status IDs (Judge0 CE):
-    1  = In Queue
-    2  = Processing
+Status IDs (mirrors Judge0 CE convention):
     3  = Accepted
     4  = Wrong Answer
     5  = Time Limit Exceeded
-    6  = Compilation Error
-    7  = Runtime Error (SIGSEGV)
-    11 = Runtime Error (other)
-    13 = Internal Error
+    6  = Compilation Error  (SyntaxError / IndentationError / TabError)
+    11 = Runtime Error
+   -1  = Internal / unexpected exception
 """
 from __future__ import annotations
-import base64
 import os
-import time
-import requests
+import subprocess
+import sys
+import tempfile
 
-JUDGE0_URL   = os.getenv("JUDGE0_URL", "http://localhost:2358")
-PYTHON_LANG  = 71   # Python 3.8 in Judge0 CE
-POLL_INTERVAL = 0.5  # seconds between status checks
-MAX_POLLS     = 30   # 15 seconds max wait per submission
+
+_COMPILATION_ERRORS = ("SyntaxError", "IndentationError", "TabError")
 
 COMPILATION_ERROR_ID = 6
 ACCEPTED_ID          = 3
 
 
-def _encode(s: str) -> str:
-    return base64.b64encode(s.encode()).decode()
-
-
-def _decode(s: str | None) -> str:
-    if not s:
-        return ""
-    return base64.b64decode(s).decode(errors="replace")
-
-
-def _submit(code: str, stdin: str, time_limit: float) -> dict:
-    payload = {
-        "source_code": _encode(code),
-        "language_id": PYTHON_LANG,
-        "stdin":        _encode(stdin),
-        "cpu_time_limit": time_limit,
-        "wall_time_limit": time_limit + 2,
-        "base64_encoded": True,
-    }
-    resp = requests.post(
-        f"{JUDGE0_URL}/submissions?base64_encoded=true&wait=false",
-        json=payload,
-        timeout=10,
-    )
-    resp.raise_for_status()
-    return resp.json()
-
-
-def _poll(token: str) -> dict:
-    for _ in range(MAX_POLLS):
-        resp = requests.get(
-            f"{JUDGE0_URL}/submissions/{token}?base64_encoded=true&fields=status_id,stdout,stderr,compile_output,time,memory",
-            timeout=10,
-        )
-        resp.raise_for_status()
-        data = resp.json()
-        status_id = data.get("status_id", 0)
-        if status_id not in (1, 2):  # not queued or processing
-            return data
-        time.sleep(POLL_INTERVAL)
-    return {"status_id": 13, "stdout": None, "stderr": None, "compile_output": None}
-
-
 def run_test_case(code: str, stdin: str, expected_output: str, time_limit: float = 5.0) -> dict:
     """Run code against a single test case. Returns result dict."""
+    tmp = None
     try:
-        submission = _submit(code, stdin, time_limit)
-        token = submission.get("token")
-        if not token:
-            return {"passed": False, "status_id": 13, "error": "No token returned"}
+        with tempfile.NamedTemporaryFile(
+            mode="w", suffix=".py", delete=False, encoding="utf-8"
+        ) as f:
+            f.write(code)
+            tmp = f.name
 
-        result = _poll(token)
-        status_id = result.get("status_id", 0)
-
-        stdout = _decode(result.get("stdout"))
-        stderr = _decode(result.get("stderr"))
-        compile_output = _decode(result.get("compile_output"))
-
-        passed = (
-            status_id == ACCEPTED_ID
-            and stdout.strip() == expected_output.strip()
+        result = subprocess.run(
+            [sys.executable, tmp],
+            input=stdin,
+            capture_output=True,
+            text=True,
+            timeout=time_limit + 2,
         )
+
+        stdout = result.stdout
+        stderr = result.stderr
+
+        compilation_error = result.returncode != 0 and any(
+            e in stderr for e in _COMPILATION_ERRORS
+        )
+
+        if result.returncode == 0:
+            passed    = stdout.strip() == expected_output.strip()
+            status_id = ACCEPTED_ID if passed else 4
+        elif compilation_error:
+            passed    = False
+            status_id = COMPILATION_ERROR_ID
+        else:
+            passed    = False
+            status_id = 11
 
         return {
             "passed":            passed,
             "status_id":         status_id,
-            "compilation_error": status_id == COMPILATION_ERROR_ID,
+            "compilation_error": compilation_error,
             "stdout":            stdout,
-            "stderr":            stderr or compile_output,
-            "time":              result.get("time"),
+            "stderr":            stderr,
+            "time":              None,
+        }
+
+    except subprocess.TimeoutExpired:
+        return {
+            "passed":            False,
+            "status_id":         5,
+            "compilation_error": False,
+            "stdout":            "",
+            "stderr":            "Time limit exceeded",
+            "time":              None,
         }
     except Exception as e:
         return {"passed": False, "status_id": -1, "error": str(e), "compilation_error": False}
+    finally:
+        if tmp:
+            try:
+                os.unlink(tmp)
+            except OSError:
+                pass
 
 
 def evaluate(
@@ -127,45 +109,28 @@ def evaluate(
     time_limit: float = 5.0,
     max_test_cases: int = 20,
 ) -> dict:
-    """Run code against all test cases. Returns aggregated result.
-
-    Args:
-        code: Python source code string.
-        test_cases: List of {"input": str, "output": str} dicts.
-        time_limit: Per-test-case CPU time limit in seconds.
-        max_test_cases: Cap to avoid excessive API calls on large test suites.
-
-    Returns:
-        {
-            "passed": bool,           # all test cases passed
-            "compilation_error": bool,
-            "tests_passed": int,
-            "tests_total": int,
-            "pass_rate": float,
-        }
-    """
+    """Run code against all test cases. Returns aggregated result."""
     if not code or not code.strip():
         return {
-            "passed": False,
+            "passed":            False,
             "compilation_error": False,
-            "tests_passed": 0,
-            "tests_total": len(test_cases),
-            "pass_rate": 0.0,
+            "tests_passed":      0,
+            "tests_total":       len(test_cases),
+            "pass_rate":         0.0,
         }
 
-    cases = test_cases[:max_test_cases]
+    cases   = test_cases[:max_test_cases]
     results = []
 
     for tc in cases:
         r = run_test_case(code, tc["input"], tc["output"], time_limit)
         results.append(r)
-        # Short-circuit on compilation error — all subsequent cases will also fail
         if r.get("compilation_error"):
             break
 
     compilation_error = any(r.get("compilation_error") for r in results)
-    tests_passed = sum(1 for r in results if r.get("passed"))
-    tests_total = len(cases)
+    tests_passed      = sum(1 for r in results if r.get("passed"))
+    tests_total       = len(cases)
 
     return {
         "passed":            tests_passed == tests_total and tests_total > 0,
@@ -177,9 +142,5 @@ def evaluate(
 
 
 def health_check() -> bool:
-    """Return True if Judge0 is reachable and responding."""
-    try:
-        resp = requests.get(f"{JUDGE0_URL}/system_info", timeout=5)
-        return resp.status_code == 200
-    except Exception:
-        return False
+    """Always returns True — no external service required."""
+    return True
