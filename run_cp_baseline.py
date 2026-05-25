@@ -73,7 +73,7 @@ def _baseline_agent() -> AgentProfile:
     return AgentProfile(
         agent_id="baseline_agent",
         dimensions=_BASELINE_DIMENSIONS,
-        role=Role.IMPLEMENTER,
+        role=Role.SOLVER,
         game_theory=GameTheoryParams(
             context_sharing="full",
             memory_persistence=False,

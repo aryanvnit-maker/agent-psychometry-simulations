@@ -47,6 +47,12 @@ _ROLE_INSTRUCTIONS: dict[Role, str] = {
         "rubric. You have no stake in the outcome. You do not participate in the task. "
         "Return only structured JSON. No prose."
     ),
+    Role.SOLVER: (
+        "Your function is to solve competitive programming problems by writing Python 3 code. "
+        "Your entire response must be a single ```python code block containing a complete, "
+        "correct, runnable solution. Read input with input() or sys.stdin. Write output with "
+        "print(). No explanation, no analysis, no text outside the code block."
+    ),
     Role.ALGORITHMIST: (
         "Your function is to design the algorithm. Analyze the problem constraints, identify "
         "the algorithmic pattern (DP, greedy, graph, binary search, etc.), define the full "

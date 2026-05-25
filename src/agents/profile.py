@@ -29,6 +29,7 @@ class Role(str, Enum):
     COMPLETER_FINISHER = "completer_finisher"
     JUDGE = "judge"
     ALGORITHMIST = "algorithmist"
+    SOLVER = "solver"
 
 
 class ConflictStyle(str, Enum):

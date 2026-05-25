@@ -151,13 +151,15 @@ ALL_CONDITIONS = {
         "topology":   "chain",
         "label":      "chain-1",
         "condition":  "generic",
-        "agents_fn":  lambda: [_generic_agent("agent_1")],
+        # Solo agent must both reason and produce code — use SOLVER role
+        "agents_fn":  lambda: [_generic_agent("agent_1", role=Role.SOLVER)],
     },
     "chain2-generic": {
         "topology":   "chain",
         "label":      "chain-2",
         "condition":  "generic",
-        "agents_fn":  lambda: [_generic_agent("agent_1"), _generic_agent("agent_2")],
+        # First agent reasons, final agent produces code
+        "agents_fn":  lambda: [_generic_agent("agent_1"), _generic_agent("agent_2", role=Role.SOLVER)],
     },
     "chain2-specialized": {
         "topology":   "chain",
