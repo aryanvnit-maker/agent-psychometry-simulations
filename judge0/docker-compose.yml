@@ -6,8 +6,7 @@ services:
     volumes:
       - ./judge0.conf:/judge0.conf:ro
     environment:
-      - REDIS_URL=redis://redis:6379
-      - REDIS_PASSWORD=
+      - REDIS_HOST=redis
     ports:
       - "2358:2358"
     privileged: true
@@ -22,8 +21,7 @@ services:
     volumes:
       - ./judge0.conf:/judge0.conf:ro
     environment:
-      - REDIS_URL=redis://redis:6379
-      - REDIS_PASSWORD=
+      - REDIS_HOST=redis
     privileged: true
     restart: always
     depends_on:
