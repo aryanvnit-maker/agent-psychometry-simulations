@@ -22,6 +22,7 @@ services:
       - ./judge0.conf:/judge0.conf:ro
     environment:
       - REDIS_HOST=redis
+      - ENABLE_PER_PROCESS_AND_THREAD_MEMORY_LIMIT=true
     privileged: true
     restart: always
     depends_on:
