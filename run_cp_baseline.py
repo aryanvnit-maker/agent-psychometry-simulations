@@ -142,9 +142,9 @@ def collect_one(problem) -> dict:
     extraction_failed = not bool(code.strip())
 
     if extraction_failed:
-        # Print snippet of raw response so we can diagnose what the model said
         raw = _msg_content(state["messages"][-1]) if state["messages"] else ""
-        print(f"\n  [DEBUG first 300 chars]: {raw[:300]!r}", flush=True)
+        print(f"\n  [DEBUG len={len(raw)} start]: {raw[:200]!r}", flush=True)
+        print(f"\n  [DEBUG end]: {raw[-200:]!r}", flush=True)
 
     return {
         "problem_id":        problem.problem_id,
