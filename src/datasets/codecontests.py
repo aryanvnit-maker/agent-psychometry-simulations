@@ -27,8 +27,10 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 
-DIFFICULTY_MIN = 2000
-DIFFICULTY_MAX = 2500
+# Difficulty scale in CodeContests is 7–23 (ordinal, not raw CF rating).
+# 12–13 corresponds to Div. 1 C/D level (~2000–2400 CF rating equivalent).
+DIFFICULTY_MIN = 12
+DIFFICULTY_MAX = 13
 MIN_PRIVATE_TESTS = 1
 
 
@@ -60,7 +62,7 @@ def load_problems(
     n: int = 100,
     difficulty_min: int = DIFFICULTY_MIN,
     difficulty_max: int = DIFFICULTY_MAX,
-    split: str = "valid",
+    split: str = "train",
 ) -> list[CPProblem]:
     """Load and filter CodeContests problems.
 
@@ -68,7 +70,7 @@ def load_problems(
         n: Maximum number of problems to return.
         difficulty_min: Minimum Codeforces difficulty rating.
         difficulty_max: Maximum Codeforces difficulty rating.
-        split: Dataset split — 'train', 'valid', or 'test'. Default 'valid' for calibration; reserve 'test' for final benchmark evaluation.
+        split: Dataset split — 'train', 'valid', or 'test'. Default 'train' for volume; valid/test have too few hard problems.
 
     Returns:
         List of CPProblem objects ready for use in experiments.
@@ -83,7 +85,7 @@ def load_problems(
     seen_ids: set[str] = set()
     for row in ds:
         # Source filter: Codeforces only
-        if row.get("source") != 3:  # 3 = CODEFORCES in the dataset enum
+        if row.get("source") != 2:  # 2 = CODEFORCES in the dataset enum
             continue
 
         # Difficulty filter
