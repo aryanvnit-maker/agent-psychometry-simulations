@@ -7,6 +7,8 @@ services:
       - ./judge0.conf:/judge0.conf:ro
     environment:
       - REDIS_HOST=redis
+      - MEMORY_LIMIT=0
+      - MAX_MEMORY_LIMIT=0
     ports:
       - "2358:2358"
     privileged: true
@@ -22,6 +24,8 @@ services:
       - ./judge0.conf:/judge0.conf:ro
     environment:
       - REDIS_HOST=redis
+      - MEMORY_LIMIT=0
+      - MAX_MEMORY_LIMIT=0
       - ENABLE_PER_PROCESS_AND_THREAD_MEMORY_LIMIT=true
     privileged: true
     restart: always
