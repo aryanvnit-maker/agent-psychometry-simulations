@@ -146,11 +146,15 @@ def format_prompt(problem: CPProblem) -> str:
         public_examples = "\n\n" + "\n\n".join(examples)
 
     return (
+        f"Solve this competitive programming problem in Python 3.\n\n"
         f"Problem: {problem.name}\n"
-        f"Difficulty: {problem.difficulty} (Codeforces rating)\n"
         f"Time limit: {problem.time_limit} seconds\n\n"
         f"{problem.description}"
         f"{public_examples}\n\n"
-        f"Output a complete Python solution. "
-        f"Wrap your final solution in a ```python code block."
+        f"Requirements:\n"
+        f"- Read input with input() or sys.stdin\n"
+        f"- Write to stdout with print()\n"
+        f"- Your response must contain exactly one ```python code block with the complete solution\n"
+        f"- No explanation outside the code block\n\n"
+        f"```python\n# write your complete solution here\n```"
     )
