@@ -74,7 +74,7 @@ def extract_flat(transcript: list[dict], n_agents: int) -> str:
     # final round (defined as the last n_agents messages from agent roles).
     agent_messages = [
         m for m in transcript
-        if _is_agent_role(m.get("role", ""))
+        if _is_agent_role(_msg_role(m))
     ]
 
     # Take the last n_agents messages as the "final round"
@@ -82,14 +82,14 @@ def extract_flat(transcript: list[dict], n_agents: int) -> str:
 
     # Search backward through final round for a code block
     for msg in reversed(final_round):
-        code = _last_code_block(msg.get("content", ""))
+        code = _last_code_block(_msg_content(msg))
         if code:
             return code
 
     # Fallback: search entire transcript backward
     for msg in reversed(transcript):
-        if _is_agent_role(msg.get("role", "")):
-            code = _last_code_block(msg.get("content", ""))
+        if _is_agent_role(_msg_role(msg)):
+            code = _last_code_block(_msg_content(msg))
             if code:
                 return code
 
@@ -115,15 +115,29 @@ def extract(transcript: list[dict], topology: str, n_agents: int = 1) -> str:
         raise ValueError(f"Unknown topology: {topology!r}. Expected 'chain' or 'flat'.")
 
 
-def _last_agent_message(transcript: list[dict]) -> str:
+def _msg_role(msg) -> str:
+    """Extract role string from either a dict or a LangChain message object."""
+    if isinstance(msg, dict):
+        return msg.get("role", "")
+    return getattr(msg, "type", "") or getattr(msg, "role", "")
+
+
+def _msg_content(msg) -> str:
+    """Extract content string from either a dict or a LangChain message object."""
+    if isinstance(msg, dict):
+        return msg.get("content", "")
+    return getattr(msg, "content", "") or ""
+
+
+def _last_agent_message(transcript: list) -> str:
     """Return content of the last message from an agent role."""
     for msg in reversed(transcript):
-        if _is_agent_role(msg.get("role", "")):
-            return msg.get("content", "")
+        if _is_agent_role(_msg_role(msg)):
+            return _msg_content(msg)
     return ""
 
 
 def _is_agent_role(role: str) -> bool:
     """True for agent/assistant roles, false for user/system/human."""
     role = role.lower()
-    return role not in ("user", "system", "human", "tool", "function")
+    return role not in ("user", "system", "human", "tool", "function", "")
