@@ -80,6 +80,7 @@ def load_problems(
     print(f"Loaded {len(ds)} problems. Filtering...")
 
     problems = []
+    seen_ids: set[str] = set()
     for row in ds:
         # Source filter: Codeforces only
         if row.get("source") != 3:  # 3 = CODEFORCES in the dataset enum
@@ -107,8 +108,16 @@ def load_problems(
         else:
             time_limit = 5.0  # default 5 second limit
 
+        raw_id = row.get("name", "unknown").replace(" ", "_").lower()
+        problem_id = raw_id
+        suffix = 1
+        while problem_id in seen_ids:
+            problem_id = f"{raw_id}_{suffix}"
+            suffix += 1
+        seen_ids.add(problem_id)
+
         problems.append(CPProblem(
-            problem_id=row.get("name", "unknown").replace(" ", "_").lower(),
+            problem_id=problem_id,
             name=row.get("name", "unknown"),
             description=row.get("description", ""),
             difficulty=difficulty,

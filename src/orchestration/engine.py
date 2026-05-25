@@ -102,9 +102,11 @@ def _call_agent(agent: AgentProfile, messages: list[dict], scenario_brief: str) 
             messages=anthropic_msgs,
             temperature=0.0,
         )
-        text          = response.content[0].text
-        prompt_tokens = response.usage.input_tokens
-        output_tokens = response.usage.output_tokens
+        if not response.content:
+            raise ValueError(f"Empty response from Anthropic API for agent {agent.agent_id}")
+        text          = response.content[0].text or ""
+        prompt_tokens = response.usage.input_tokens or 0
+        output_tokens = response.usage.output_tokens or 0
     else:
         contents = _to_gemini_contents(messages)
         response = _gemini_client.models.generate_content(
@@ -116,7 +118,7 @@ def _call_agent(agent: AgentProfile, messages: list[dict], scenario_brief: str) 
                 max_output_tokens=_TOKEN_BUDGET,
             ),
         )
-        text          = response.text
+        text          = response.text or ""
         usage         = response.usage_metadata
         prompt_tokens = usage.prompt_token_count or 0
         output_tokens = usage.candidates_token_count or 0
