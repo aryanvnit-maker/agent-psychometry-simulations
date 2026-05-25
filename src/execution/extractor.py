@@ -26,14 +26,20 @@ safely call .strip() without guards.
 from __future__ import annotations
 import re
 
-# Matches ```python, ```python3, or plain ``` code blocks
+# Matches complete fenced blocks: ```python ... ```
 _CODE_BLOCK_RE = re.compile(r"```(?:python3?|py)?\s*\n(.*?)```", re.DOTALL)
+# Matches unclosed blocks: ```python ... <end of string> (token budget cutoff)
+_CODE_BLOCK_OPEN_RE = re.compile(r"```(?:python3?|py)?\s*\n(.*?)$", re.DOTALL)
 
 
 def _last_code_block(text: str) -> str:
-    """Return the last complete ```python...``` block body, or ''."""
+    """Return the last code block body, complete or truncated, or ''."""
     matches = _CODE_BLOCK_RE.findall(text)
-    return matches[-1] if matches else ""
+    if matches:
+        return matches[-1]
+    # Fallback: model ran out of tokens before closing the fence
+    m = _CODE_BLOCK_OPEN_RE.search(text)
+    return m.group(1) if m else ""
 
 
 def extract_chain(transcript: list[dict]) -> str:
