@@ -5,18 +5,28 @@ services:
     image: judge0/judge0:1.13.1
     volumes:
       - ./judge0.conf:/judge0.conf:ro
+    environment:
+      - REDIS_URL=redis://:kalibr_redis_2026@redis:6379
     ports:
       - "2358:2358"
     privileged: true
     restart: always
+    depends_on:
+      - db
+      - redis
 
   workers:
     image: judge0/judge0:1.13.1
     command: ["./scripts/workers"]
     volumes:
       - ./judge0.conf:/judge0.conf:ro
+    environment:
+      - REDIS_URL=redis://:kalibr_redis_2026@redis:6379
     privileged: true
     restart: always
+    depends_on:
+      - db
+      - redis
 
   db:
     image: postgres:13.0
