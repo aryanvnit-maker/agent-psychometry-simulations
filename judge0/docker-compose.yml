@@ -6,7 +6,8 @@ services:
     volumes:
       - ./judge0.conf:/judge0.conf:ro
     environment:
-      - REDIS_URL=redis://:kalibr_redis_2026@redis:6379
+      - REDIS_URL=redis://redis:6379
+      - REDIS_PASSWORD=
     ports:
       - "2358:2358"
     privileged: true
@@ -21,7 +22,8 @@ services:
     volumes:
       - ./judge0.conf:/judge0.conf:ro
     environment:
-      - REDIS_URL=redis://:kalibr_redis_2026@redis:6379
+      - REDIS_URL=redis://redis:6379
+      - REDIS_PASSWORD=
     privileged: true
     restart: always
     depends_on:
@@ -35,9 +37,5 @@ services:
 
   redis:
     image: redis:6.0
-    command: [
-      "bash", "-c",
-      "docker-entrypoint.sh --appendonly yes --requirepass \"$$REDIS_PASSWORD\""
-    ]
-    env_file: judge0.conf
+    command: ["redis-server", "--appendonly", "yes"]
     restart: always
