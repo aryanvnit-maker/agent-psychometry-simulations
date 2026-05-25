@@ -75,9 +75,9 @@ def load_problems(
     """
     from datasets import load_dataset
 
-    print(f"Loading CodeContests ({split} split)...")
-    ds = load_dataset("deepmind/code_contests", split=split, trust_remote_code=True)
-    print(f"Loaded {len(ds)} problems. Filtering...")
+    print(f"Loading CodeContests ({split} split, streaming)...")
+    ds = load_dataset("deepmind/code_contests", split=split, streaming=True)
+    print("Filtering...")
 
     problems = []
     seen_ids: set[str] = set()
