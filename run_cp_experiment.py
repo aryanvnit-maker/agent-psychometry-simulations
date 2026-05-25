@@ -57,6 +57,9 @@ from src.execution.judge0 import evaluate, health_check
 from src.execution.extractor import extract
 
 
+from src.orchestration.engine import run_simulation
+
+
 def _ensure_callable(code: str) -> str:
     """Append a top-level call if solve()/main() is defined but never invoked."""
     for fname in ("solve", "main"):
@@ -65,7 +68,6 @@ def _ensure_callable(code: str) -> str:
                 if '__name__' not in code:
                     return code.rstrip() + f'\n\n{fname}()\n'
     return code
-from src.orchestration.engine import run_simulation
 
 RESULTS_DIR  = Path("results")
 EXPERIMENT_OUT = RESULTS_DIR / "cp_experiment.jsonl"
@@ -154,6 +156,64 @@ def _implementer_agent() -> AgentProfile:
     )
 
 
+def _profile_agent(agent_id: str, role: Role, **dims) -> AgentProfile:
+    """Create an agent with a neutral 50-baseline, overriding specified dimensions."""
+    base = dict(
+        philosophy_cohesion=50, drive_alignment=50, bonding_index=50,
+        adaptive_intelligence=50, volatility_vector=50, ambiguity_tolerance=50,
+        influence_style=50, feedback_orientation=50, temporal_orientation=50,
+        energy_resilience=50,
+    )
+    base.update(dims)
+    return AgentProfile(
+        agent_id=agent_id,
+        dimensions=KalibrDimensions(**base),
+        role=role,
+        game_theory=GameTheoryParams(
+            context_sharing="full",
+            memory_persistence=False,
+            signaling=False,
+            conflict_style=ConflictStyle.NEGOTIATE,
+        ),
+    )
+
+
+def _fixed_solver() -> AgentProfile:
+    """Neutral fixed SOLVER — the 'compiler' in Option B chain-2 experiments."""
+    return _generic_agent("solver_agent", role=Role.SOLVER)
+
+
+# Extreme dimension profiles — game theory params held constant across all three.
+# Only the 10 KalibrDimensions vary; role is assigned per condition.
+_P_ANALYTICAL = dict(
+    adaptive_intelligence=90,   # immediately updates on constraint discovery
+    volatility_vector=10,        # flat affect under pressure
+    ambiguity_tolerance=80,      # proceeds on partial information
+    philosophy_cohesion=85,      # reasoning matches decisions
+    feedback_orientation=80,     # integrates critique
+    drive_alignment=75,
+)
+
+_P_CHAOTIC = dict(
+    adaptive_intelligence=10,    # locks onto first approach regardless of evidence
+    volatility_vector=90,        # expresses urgency and frustration; output destabilises
+    ambiguity_tolerance=20,      # demands full spec before proceeding; stalls on gaps
+    philosophy_cohesion=20,      # stated reasoning diverges from actual decisions
+    feedback_orientation=20,     # rebuts critique rather than integrating it
+    drive_alignment=30,
+)
+
+_P_FOUNDER = dict(
+    philosophy_cohesion=90,      # stated values strictly enforced
+    drive_alignment=90,          # never shifts goals mid-execution
+    ambiguity_tolerance=10,      # requests clarification; does not assume
+    bonding_index=20,            # functional, not collaborative
+    feedback_orientation=10,     # holds position; challenges are to be rebutted
+    adaptive_intelligence=30,    # resists updating prior position
+    volatility_vector=40,
+)
+
+
 # Explicit handoff injected as a user turn before the final agent in any
 # chain-2 condition. Without it the message list ends on a model role and
 # Gemini generates prose instead of following the SOLVER constitution.
@@ -188,6 +248,70 @@ ALL_CONDITIONS = {
         "label":            "chain-2",
         "condition":        "specialized",
         "agents_fn":        lambda: [_algorithmist_agent(), _implementer_agent()],
+        "handoff_prompts":  {1: _CP_CODE_HANDOFF},
+    },
+
+    # ------------------------------------------------------------------
+    # Option A — negative control: extreme profiles on Chain-1 (SOLVER).
+    # Formatting constraint crushes behavioral constraint; expect all three
+    # to cluster at ~12% baseline. Proves dimensions need token space.
+    # ------------------------------------------------------------------
+    "chain1-analytical": {
+        "topology":         "chain",
+        "label":            "chain-1",
+        "condition":        "analytical",
+        "agents_fn":        lambda: [_profile_agent("agent_1", Role.SOLVER, **_P_ANALYTICAL)],
+        "handoff_prompts":  {},
+    },
+    "chain1-chaotic": {
+        "topology":         "chain",
+        "label":            "chain-1",
+        "condition":        "chaotic",
+        "agents_fn":        lambda: [_profile_agent("agent_1", Role.SOLVER, **_P_CHAOTIC)],
+        "handoff_prompts":  {},
+    },
+    "chain1-founder": {
+        "topology":         "chain",
+        "label":            "chain-1",
+        "condition":        "founder",
+        "agents_fn":        lambda: [_profile_agent("agent_1", Role.SOLVER, **_P_FOUNDER)],
+        "handoff_prompts":  {},
+    },
+
+    # ------------------------------------------------------------------
+    # Option B — actual experiment: extreme profiles on Chain-2 analyzer.
+    # Agent-1 (ALGORITHMIST) has token space to express dimensions.
+    # Agent-2 (_fixed_solver) is identical across all three — neutral compiler.
+    # Variance in pass@1 is attributable solely to agent-1 dimension profile.
+    # ------------------------------------------------------------------
+    "chain2-analytical-analyzer": {
+        "topology":         "chain",
+        "label":            "chain-2",
+        "condition":        "analytical-analyzer",
+        "agents_fn":        lambda: [
+            _profile_agent("analyzer", Role.ALGORITHMIST, **_P_ANALYTICAL),
+            _fixed_solver(),
+        ],
+        "handoff_prompts":  {1: _CP_CODE_HANDOFF},
+    },
+    "chain2-chaotic-analyzer": {
+        "topology":         "chain",
+        "label":            "chain-2",
+        "condition":        "chaotic-analyzer",
+        "agents_fn":        lambda: [
+            _profile_agent("analyzer", Role.ALGORITHMIST, **_P_CHAOTIC),
+            _fixed_solver(),
+        ],
+        "handoff_prompts":  {1: _CP_CODE_HANDOFF},
+    },
+    "chain2-founder-analyzer": {
+        "topology":         "chain",
+        "label":            "chain-2",
+        "condition":        "founder-analyzer",
+        "agents_fn":        lambda: [
+            _profile_agent("analyzer", Role.ALGORITHMIST, **_P_FOUNDER),
+            _fixed_solver(),
+        ],
         "handoff_prompts":  {1: _CP_CODE_HANDOFF},
     },
 }
