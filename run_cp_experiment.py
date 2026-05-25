@@ -142,30 +142,41 @@ def _implementer_agent() -> AgentProfile:
     )
 
 
+# Explicit handoff injected as a user turn before the final agent in any
+# chain-2 condition. Without it the message list ends on a model role and
+# Gemini generates prose instead of following the SOLVER constitution.
+_CP_CODE_HANDOFF = (
+    "The analysis above is complete. Now write the final Python 3 solution. "
+    "Your response must be exactly one ```python code block containing the complete, "
+    "runnable solution. Read input with input() or sys.stdin. Write output with print(). "
+    "No explanation, no text outside the code block."
+)
+
 # ---------------------------------------------------------------------------
 # Condition definitions
 # ---------------------------------------------------------------------------
 
 ALL_CONDITIONS = {
     "chain1-generic": {
-        "topology":   "chain",
-        "label":      "chain-1",
-        "condition":  "generic",
-        # Solo agent must both reason and produce code — use SOLVER role
-        "agents_fn":  lambda: [_generic_agent("agent_1", role=Role.SOLVER)],
+        "topology":         "chain",
+        "label":            "chain-1",
+        "condition":        "generic",
+        "agents_fn":        lambda: [_generic_agent("agent_1", role=Role.SOLVER)],
+        "handoff_prompts":  {},
     },
     "chain2-generic": {
-        "topology":   "chain",
-        "label":      "chain-2",
-        "condition":  "generic",
-        # First agent reasons, final agent produces code
-        "agents_fn":  lambda: [_generic_agent("agent_1"), _generic_agent("agent_2", role=Role.SOLVER)],
+        "topology":         "chain",
+        "label":            "chain-2",
+        "condition":        "generic",
+        "agents_fn":        lambda: [_generic_agent("agent_1"), _generic_agent("agent_2", role=Role.SOLVER)],
+        "handoff_prompts":  {1: _CP_CODE_HANDOFF},
     },
     "chain2-specialized": {
-        "topology":   "chain",
-        "label":      "chain-2",
-        "condition":  "specialized",
-        "agents_fn":  lambda: [_algorithmist_agent(), _implementer_agent()],
+        "topology":         "chain",
+        "label":            "chain-2",
+        "condition":        "specialized",
+        "agents_fn":        lambda: [_algorithmist_agent(), _implementer_agent()],
+        "handoff_prompts":  {1: _CP_CODE_HANDOFF},
     },
 }
 
@@ -242,6 +253,7 @@ def run_one(problem, cond_cfg: dict) -> dict:
             scenario_brief=prompt,
             phase="cp_experiment",
             topology=topology,
+            chain_handoff_prompts=cond_cfg.get("handoff_prompts"),
         )
     except Exception as e:
         return {
