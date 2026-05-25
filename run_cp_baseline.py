@@ -284,8 +284,9 @@ def run_evaluate() -> None:
                 tc = record["private_tests"][0]
                 dr = run_test_case(code, tc["input"], tc["output"], record.get("time_limit", 5.0))
                 print(f"    [diag] status={dr.get('status_id')} "
-                      f"stdout={dr.get('stdout','')[:120]!r} "
-                      f"stderr={dr.get('stderr','')[:120]!r}")
+                      f"error={dr.get('error','')!r} "
+                      f"stdout={dr.get('stdout','')[:80]!r} "
+                      f"stderr={dr.get('stderr','')[:80]!r}")
 
         _append(BASELINE_OUT, result)
 
