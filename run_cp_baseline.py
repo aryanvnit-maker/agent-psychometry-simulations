@@ -37,6 +37,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re as _re
 import sys
 import time
 from pathlib import Path
@@ -48,7 +49,7 @@ load_dotenv()
 
 from src.agents.profile import AgentProfile, KalibrDimensions, GameTheoryParams, Role, ConflictStyle
 from src.datasets.codecontests import load_problems, format_prompt
-from src.execution.judge0 import evaluate, health_check
+from src.execution.judge0 import evaluate, run_test_case, health_check
 from src.execution.extractor import extract, _msg_content
 from src.orchestration.engine import run_simulation
 
@@ -82,6 +83,16 @@ def _baseline_agent() -> AgentProfile:
             conflict_style=ConflictStyle.NEGOTIATE,
         ),
     )
+
+
+def _ensure_callable(code: str) -> str:
+    """Append a top-level call if solve()/main() is defined but never invoked."""
+    for fname in ("solve", "main"):
+        if _re.search(rf'^def {fname}\s*\(', code, _re.MULTILINE):
+            if not _re.search(rf'^{fname}\s*\(', code, _re.MULTILINE):
+                if '__name__' not in code:
+                    return code.rstrip() + f'\n\n{fname}()\n'
+    return code
 
 
 def _load_ids(path: Path) -> set[str]:
@@ -140,11 +151,6 @@ def collect_one(problem) -> dict:
     code = extract(state["messages"], topology="chain", n_agents=1)
 
     extraction_failed = not bool(code.strip())
-
-    if extraction_failed:
-        raw = _msg_content(state["messages"][-1]) if state["messages"] else ""
-        print(f"\n  [DEBUG len={len(raw)} start]: {raw[:200]!r}", flush=True)
-        print(f"\n  [DEBUG end]: {raw[-200:]!r}", flush=True)
 
     return {
         "problem_id":        problem.problem_id,
@@ -228,12 +234,31 @@ def run_evaluate() -> None:
             print("NOCODE")
         else:
             t0 = time.time()
-            eval_result = evaluate(
-                code=record["code"],
-                test_cases=record["private_tests"],
-                time_limit=record.get("time_limit", 5.0),
-                max_test_cases=10,
-            )
+            code = _ensure_callable(record["code"])
+            try:
+                eval_result = evaluate(
+                    code=code,
+                    test_cases=record["private_tests"],
+                    time_limit=record.get("time_limit", 5.0),
+                    max_test_cases=10,
+                )
+            except Exception as e:
+                print(f"ERROR ({e})")
+                _append(BASELINE_OUT, {
+                    "problem_id":        pid,
+                    "difficulty":        record["difficulty"],
+                    "passed":            False,
+                    "compilation_error": False,
+                    "tests_passed":      0,
+                    "tests_total":       len(record.get("private_tests", [])),
+                    "pass_rate":         0.0,
+                    "extraction_failed": False,
+                    "tokens_total":      record.get("tokens_total", 0),
+                    "run_id":            record.get("run_id"),
+                    "elapsed_seconds":   record.get("elapsed_seconds"),
+                    "eval_error":        str(e),
+                })
+                continue
             result = {
                 "problem_id":        pid,
                 "difficulty":        record["difficulty"],
@@ -253,6 +278,14 @@ def run_evaluate() -> None:
                 f"FAIL {result['tests_passed']}/{result['tests_total']}"
             )
             print(f"{status}  ({result['eval_seconds']:.1f}s)")
+
+            # Diagnostic: for first 5 all-zero failures, show Judge0 detail on first test case
+            if result["tests_passed"] == 0 and not result["compilation_error"] and i <= 5:
+                tc = record["private_tests"][0]
+                dr = run_test_case(code, tc["input"], tc["output"], record.get("time_limit", 5.0))
+                print(f"    [diag] status={dr.get('status_id')} "
+                      f"stdout={dr.get('stdout','')[:120]!r} "
+                      f"stderr={dr.get('stderr','')[:120]!r}")
 
         _append(BASELINE_OUT, result)
 
