@@ -26,8 +26,8 @@ safely call .strip() without guards.
 from __future__ import annotations
 import re
 
-# Matches fenced python code blocks, non-greedy on content
-_CODE_BLOCK_RE = re.compile(r"```python\s*\n(.*?)```", re.DOTALL)
+# Matches ```python, ```python3, or plain ``` code blocks
+_CODE_BLOCK_RE = re.compile(r"```(?:python3?|py)?\s*\n(.*?)```", re.DOTALL)
 
 
 def _last_code_block(text: str) -> str:

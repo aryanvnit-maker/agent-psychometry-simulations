@@ -49,7 +49,7 @@ load_dotenv()
 from src.agents.profile import AgentProfile, KalibrDimensions, GameTheoryParams, Role, ConflictStyle
 from src.datasets.codecontests import load_problems, format_prompt
 from src.execution.judge0 import evaluate, health_check
-from src.execution.extractor import extract
+from src.execution.extractor import extract, _msg_content
 from src.orchestration.engine import run_simulation
 
 RESULTS_DIR       = Path("results")
@@ -139,13 +139,20 @@ def collect_one(problem) -> dict:
     tokens_total = sum(state["token_usage"].values())
     code = extract(state["messages"], topology="chain", n_agents=1)
 
+    extraction_failed = not bool(code.strip())
+
+    if extraction_failed:
+        # Print snippet of raw response so we can diagnose what the model said
+        raw = _msg_content(state["messages"][-1]) if state["messages"] else ""
+        print(f"\n  [DEBUG first 300 chars]: {raw[:300]!r}", flush=True)
+
     return {
         "problem_id":        problem.problem_id,
         "difficulty":        problem.difficulty,
         "private_tests":     problem.private_tests,
         "time_limit":        problem.time_limit,
         "code":              code,
-        "extraction_failed": not bool(code.strip()),
+        "extraction_failed": extraction_failed,
         "tokens_total":      tokens_total,
         "run_id":            state["run_id"],
         "elapsed_seconds":   round(time.time() - t0, 2),
