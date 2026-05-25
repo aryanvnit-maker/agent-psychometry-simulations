@@ -49,10 +49,22 @@ os.environ.setdefault("AGENT_TOKEN_BUDGET", "8192")
 from dotenv import load_dotenv
 load_dotenv()
 
+import re as _re
+
 from src.agents.profile import AgentProfile, KalibrDimensions, GameTheoryParams, Role, ConflictStyle
 from src.datasets.codecontests import load_problems, format_prompt
 from src.execution.judge0 import evaluate, health_check
 from src.execution.extractor import extract
+
+
+def _ensure_callable(code: str) -> str:
+    """Append a top-level call if solve()/main() is defined but never invoked."""
+    for fname in ("solve", "main"):
+        if _re.search(rf'^def {fname}\s*\(', code, _re.MULTILINE):
+            if not _re.search(rf'^{fname}\s*\(', code, _re.MULTILINE):
+                if '__name__' not in code:
+                    return code.rstrip() + f'\n\n{fname}()\n'
+    return code
 from src.orchestration.engine import run_simulation
 
 RESULTS_DIR  = Path("results")
@@ -295,7 +307,7 @@ def run_one(problem, cond_cfg: dict) -> dict:
         }
 
     eval_result = evaluate(
-        code=code,
+        code=_ensure_callable(code),
         test_cases=problem.private_tests,
         time_limit=problem.time_limit,
         max_test_cases=10,
