@@ -44,7 +44,7 @@ import time
 import uuid
 from pathlib import Path
 
-os.environ.setdefault("AGENT_TOKEN_BUDGET", "4096")
+os.environ.setdefault("AGENT_TOKEN_BUDGET", "8192")
 
 from dotenv import load_dotenv
 load_dotenv()

@@ -109,6 +109,10 @@ def _call_agent(agent: AgentProfile, messages: list[dict], scenario_brief: str) 
         output_tokens = response.usage.output_tokens or 0
     else:
         contents = _to_gemini_contents(messages)
+        # thinking_budget=0 disables Gemini 2.5's internal reasoning mode.
+        # Without this, thinking tokens consume most of max_output_tokens,
+        # leaving the model unable to complete code generation.
+        thinking_cfg = types.ThinkingConfig(thinking_budget=0)
         response = _gemini_client.models.generate_content(
             model=_MODEL,
             contents=contents,
@@ -116,6 +120,7 @@ def _call_agent(agent: AgentProfile, messages: list[dict], scenario_brief: str) 
                 system_instruction=system,
                 temperature=0.0,
                 max_output_tokens=_TOKEN_BUDGET,
+                thinking_config=thinking_cfg,
             ),
         )
         text          = response.text or ""
