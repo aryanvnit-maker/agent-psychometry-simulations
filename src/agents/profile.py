@@ -28,6 +28,8 @@ class Role(str, Enum):
     MONITOR_EVALUATOR = "monitor_evaluator"
     COMPLETER_FINISHER = "completer_finisher"
     JUDGE = "judge"
+    ALGORITHMIST = "algorithmist"
+    SOLVER = "solver"
 
 
 class ConflictStyle(str, Enum):

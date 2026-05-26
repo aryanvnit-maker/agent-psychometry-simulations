@@ -102,11 +102,17 @@ def _call_agent(agent: AgentProfile, messages: list[dict], scenario_brief: str) 
             messages=anthropic_msgs,
             temperature=0.0,
         )
-        text          = response.content[0].text
-        prompt_tokens = response.usage.input_tokens
-        output_tokens = response.usage.output_tokens
+        if not response.content:
+            raise ValueError(f"Empty response from Anthropic API for agent {agent.agent_id}")
+        text          = response.content[0].text or ""
+        prompt_tokens = response.usage.input_tokens or 0
+        output_tokens = response.usage.output_tokens or 0
     else:
         contents = _to_gemini_contents(messages)
+        # thinking_budget=0 disables Gemini 2.5's internal reasoning mode.
+        # Without this, thinking tokens consume most of max_output_tokens,
+        # leaving the model unable to complete code generation.
+        thinking_cfg = types.ThinkingConfig(thinking_budget=0)
         response = _gemini_client.models.generate_content(
             model=_MODEL,
             contents=contents,
@@ -114,9 +120,10 @@ def _call_agent(agent: AgentProfile, messages: list[dict], scenario_brief: str) 
                 system_instruction=system,
                 temperature=0.0,
                 max_output_tokens=_TOKEN_BUDGET,
+                thinking_config=thinking_cfg,
             ),
         )
-        text          = response.text
+        text          = response.text or ""
         usage         = response.usage_metadata
         prompt_tokens = usage.prompt_token_count or 0
         output_tokens = usage.candidates_token_count or 0
@@ -134,7 +141,11 @@ def _cull_check(state: SimState, agent: AgentProfile, total_tokens: int, output_
     return cumulative_output > _TOKEN_BUDGET * 3
 
 
-def build_chain_graph(agents: list[AgentProfile], scenario_brief: str) -> StateGraph:
+def build_chain_graph(
+    agents: list[AgentProfile],
+    scenario_brief: str,
+    handoff_prompts: dict[int, str] | None = None,
+) -> StateGraph:
     """Sequential chain topology: agent[0] → agent[1] → ... → END."""
     graph = StateGraph(SimState)
 
@@ -146,7 +157,15 @@ def build_chain_graph(agents: list[AgentProfile], scenario_brief: str) -> StateG
                 if a.agent_id not in state["active_agent_ids"]:
                     return state
 
-                text, total_tokens, output_tokens = _call_agent(a, state["messages"], state["scenario_brief"])
+                msgs = list(state["messages"])
+                if idx > 0:
+                    hp = (handoff_prompts or {}).get(
+                        idx,
+                        "Based on all contributions above, now provide your response.",
+                    )
+                    msgs = msgs + [{"role": "user", "content": hp}]
+
+                text, total_tokens, output_tokens = _call_agent(a, msgs, state["scenario_brief"])
 
                 if _cull_check(state, a, total_tokens, output_tokens):
                     state["active_agent_ids"].remove(a.agent_id)
@@ -257,6 +276,7 @@ def run_simulation(
     phase: str,
     topology: str = "chain",
     flat_rounds: int = 2,
+    **kwargs,
 ) -> SimState:
     run_id = str(uuid.uuid4())
 
@@ -275,7 +295,7 @@ def run_simulation(
     }
 
     if topology == "chain":
-        graph = build_chain_graph(agents, scenario_brief)
+        graph = build_chain_graph(agents, scenario_brief, handoff_prompts=kwargs.get("chain_handoff_prompts"))
     elif topology == "flat":
         graph = build_flat_graph(agents, max_rounds=flat_rounds)
     else:
