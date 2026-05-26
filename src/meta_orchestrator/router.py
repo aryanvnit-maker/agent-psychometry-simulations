@@ -67,7 +67,7 @@ def _judgment_analyst() -> AgentProfile:
             temporal_orientation=60,
             energy_resilience=80,
         ),
-        role=Role.MONITOR_EVALUATOR,
+        role=Role.IMPLEMENTER,
         game_theory=GameTheoryParams(
             context_sharing="full",
             memory_persistence=False,
@@ -93,7 +93,7 @@ def _judgment_synthesizer() -> AgentProfile:
             temporal_orientation=70,
             energy_resilience=85,
         ),
-        role=Role.COMPLETER_FINISHER,
+        role=Role.IMPLEMENTER,
         game_theory=GameTheoryParams(
             context_sharing="full",
             memory_persistence=False,
