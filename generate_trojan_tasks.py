@@ -764,9 +764,11 @@ def run_classifier_stress(tasks: list[dict]) -> None:
     type_b_correct = 0
     type_a_total   = sum(1 for t in tasks if t["trojan_type"] == "A")
     type_b_total   = sum(1 for t in tasks if t["trojan_type"] == "B")
+    results: dict[str, str] = {}  # task_id -> classified domain (cached)
 
     for t in tasks:
         domain   = classify(t["prompt"])
+        results[t["task_id"]] = domain
         expected = t["true_domain"]
         hit      = domain == expected
         if hit:
@@ -797,7 +799,7 @@ def run_classifier_stress(tasks: list[dict]) -> None:
         print("  >> Above 80% threshold. Routing gains likely survive error rate.")
     else:
         print("  >> Below 80% threshold. Misclassification will erode routing gains.")
-        misses = [t for t in tasks if classify(t["prompt"]) != t["true_domain"]]
+        misses = [t for t in tasks if results[t["task_id"]] != t["true_domain"]]
         print(f"     Misclassified: {[t['task_id'] for t in misses]}")
     print()
 
