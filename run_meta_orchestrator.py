@@ -191,6 +191,7 @@ def run_judgment_task(
         }
 
     transcript = _build_transcript(state["messages"])
+    judge_error = None
     try:
         evals = score_transcript_panel(
             run_id=run_id,
@@ -203,7 +204,8 @@ def run_judgment_task(
         )
         task_score = sum(e.task_score for e in evals) / len(evals)
     except Exception as e:
-        task_score = 0.0
+        task_score = None
+        judge_error = str(e)
 
     return {
         "run_id":           run_id,
@@ -215,6 +217,7 @@ def run_judgment_task(
         "classifier_called": classifier_call,
         "task_score":       task_score,
         "passed":           None,
+        **({"error": judge_error} if judge_error else {}),
     }
 
 

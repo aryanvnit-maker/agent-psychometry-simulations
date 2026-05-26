@@ -19,13 +19,14 @@ Meta-orchestrator router.
 Maps classified task domain → agent configuration + evaluation method.
 
 Routing table (empirically derived):
-  judgment  → chain-2 with balanced Kalibr profiles, judge panel evaluation
-  execution → chain-2 generic (IMPLEMENTER → SOLVER), subprocess evaluation
+  judgment  → chain-2 with Kalibr dimension profiles, IMPLEMENTER × 2, judge panel evaluation
+  execution → chain-2 generic, IMPLEMENTER → SOLVER, subprocess evaluation
 
-Agent profiles:
-  Judgment analyst:    high adaptive intelligence, feedback orientation, ambiguity tolerance
-  Judgment synthesizer: high drive alignment, philosophy cohesion — forces a committed output
-  Execution agents:    Phase 2 chain-2-generic baseline (no elaborated personas)
+Both configs use IMPLEMENTER role so constitutions generate primary content.
+The sole differentiator between configs is:
+  - Kalibr dimension scores (judgment agents have higher adaptive_intelligence,
+    feedback_orientation, drive_alignment vs balanced execution baselines)
+  - Handoff prompt (JUDGMENT_HANDOFF vs EXECUTION_HANDOFF)
 """
 from __future__ import annotations
 from src.agents.profile import AgentProfile, KalibrDimensions, GameTheoryParams, Role, ConflictStyle

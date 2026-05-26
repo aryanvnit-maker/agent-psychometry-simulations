@@ -187,8 +187,12 @@ def section_routing_gain(j_scores: dict[str, float], e_passrates: dict[str, floa
     delta_j = meta_j - best_j_static
     delta_e = meta_e - best_e_static
 
-    print(f"\n  Judgment  — best static: {best_j_static:.1f}  meta-router: {meta_j:.1f}  Δ={delta_j:+.1f}")
-    print(f"  Execution — best static: {best_e_static:.1f}%  meta-router: {meta_e:.1f}%  Δ={delta_e:+.1f}pp")
+    # Normalised routing efficiency: meta / best_static (1.0 = matches best, >1.0 = beats it)
+    eff_j = meta_j / best_j_static if best_j_static > 0 else 0.0
+    eff_e = meta_e / best_e_static if best_e_static > 0 else 0.0
+
+    print(f"\n  Judgment  — best static: {best_j_static:.1f}  meta-router: {meta_j:.1f}  Δ={delta_j:+.1f}  efficiency={eff_j:.2f}x")
+    print(f"  Execution — best static: {best_e_static:.1f}%  meta-router: {meta_e:.1f}%  Δ={delta_e:+.1f}pp  efficiency={eff_e:.2f}x")
 
     print()
     if delta_j > 2 and delta_e > 1:
