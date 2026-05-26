@@ -205,7 +205,8 @@ def section_routing_gain(j_scores: dict[str, float], e_passrates: dict[str, floa
         print("     Classifier may be over-routing to execution config.")
     elif delta_j < -5 or delta_e < -2:
         print("  >> Meta-router UNDERPERFORMS best static baseline.")
-        print("     Classifier error rate is high enough to destroy gains.")
+        print("     Likely cause: agent config mismatch (wrong roles/handoff for task subtype),")
+        print("     not classifier error. Check per-scenario breakdown for pattern.")
     else:
         print("  >> No significant gain or loss. Routing is approximately neutral.")
     print()
