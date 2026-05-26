@@ -148,4 +148,4 @@ The full codebase, agent constitutions, problem dataset, and evaluation harness 
 
 *This research was conducted independently, without institutional funding or affiliation.*
 
-— Aryan V. | Independent AI Systems Research
+— Aryan S. | Independent AI Systems Research

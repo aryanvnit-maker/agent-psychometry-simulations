@@ -197,4 +197,4 @@ The full codebase, agent constitutions, scenarios, problem dataset, and evaluati
 
 *This research was conducted independently, without institutional funding or affiliation.*
 
-— Aryan V. | Independent AI Systems Research
+— Aryan S. | Independent AI Systems Research

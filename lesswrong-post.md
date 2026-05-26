@@ -217,4 +217,4 @@ The simulation code, agent pool, scenarios, and evaluation harness are at:
 
 *This research was conducted independently, without institutional funding or affiliation.*
 
-— Aryan V. | Independent AI Systems Research
+— Aryan S. | Independent AI Systems Research
