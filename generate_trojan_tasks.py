@@ -737,12 +737,23 @@ If approved, confirm it is safe to run against production.
 # ---------------------------------------------------------------------------
 
 def scalar_match(output: str, expected: int | float) -> bool:
-    """Check whether the expected scalar appears in the program's stdout."""
+    """Check whether the expected scalar appears in the program's stdout.
+
+    Integer expected values require exact match — no tolerance.
+    Float expected values allow 0.1% relative tolerance for floating-point
+    formatting variation.
+    """
     numbers = re.findall(r'\b\d+(?:\.\d+)?\b', output)
     for n in numbers:
         try:
-            if abs(float(n) - float(expected)) < 0.5:
-                return True
+            v = float(n)
+            if isinstance(expected, int):
+                if v == float(expected):
+                    return True
+            else:
+                rel = abs(v - expected) / max(abs(expected), 1e-9)
+                if rel < 0.001:
+                    return True
         except ValueError:
             pass
     return False
