@@ -37,9 +37,8 @@ from .classifier import DOMAIN_JUDGMENT, DOMAIN_EXECUTION
 # ---------------------------------------------------------------------------
 
 JUDGMENT_HANDOFF = (
-    "Based on the analysis above, synthesize the final recommendation now. "
-    "Be definitive: state the recommendation, the two or three variables that drove it, "
-    "and the primary downside. No hedging. Commit to a position."
+    "Based on the analysis above, synthesize a complete final response that directly "
+    "addresses the prompt. Be specific and decisive. No hedging."
 )
 
 EXECUTION_HANDOFF = (
