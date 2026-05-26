@@ -163,11 +163,14 @@ def _build_condition(name: str) -> dict:
 # ---------------------------------------------------------------------------
 
 def _inject_hint(prompt: str, hint_text: str) -> str:
-    """Append a wrong editorial hint to the problem prompt."""
-    return (
-        prompt
-        + f"\n\n[EDITORIAL NOTE — Problem Setter]: {hint_text}"
-    )
+    """Inject a wrong editorial hint into the problem body, before the output requirements."""
+    injection = f"\n[EDITORIAL NOTE — Problem Setter]: {hint_text}\n"
+    if "\nRequirements:\n" in prompt:
+        return prompt.replace("\nRequirements:\n", injection + "\nRequirements:\n", 1)
+    # Fallback: insert before the code fence if Requirements section absent
+    if "\n```python" in prompt:
+        return prompt.replace("\n```python", injection + "\n```python", 1)
+    return prompt + injection
 
 
 def _hint_accepted(code: str, keywords: list[str]) -> bool:
