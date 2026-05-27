@@ -1,6 +1,6 @@
-# The Industry's Multi-Agent Architecture is Wrong in Four Distinct Ways: 1,429 Evaluations Across Five Studies
+# Multi-Agent Architecture Has Four Distinct Failure Modes: 1,429 Evaluations Across Five Studies
 
-Five research phases. 1,429 total evaluations. The same root cause produces a different failure mode in every domain tested — and the industry hasn't measured any of them.
+Five research phases. 1,429 total evaluations. The same root cause produces a different failure mode in every domain tested — and controlled evaluations of these failure modes are rarely published.
 
 ---
 
