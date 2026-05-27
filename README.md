@@ -159,6 +159,13 @@ python analyze_meta_orchestrator.py       # analysis and charts
 
 ---
 
+## License
+
+Free for research and non-commercial use under [AGPL-3.0](LICENSE).
+Commercial use requires a paid license — see [COMMERCIAL_LICENSE.md](COMMERCIAL_LICENSE.md) or contact aryan199841@gmail.com.
+
+---
+
 *Independent research. No institutional funding or affiliation.*
 
 — Aryan S.
