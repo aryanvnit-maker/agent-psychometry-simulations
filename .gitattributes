@@ -1,0 +1,2 @@
+# Force LF for config files consumed by Linux containers
+judge0/judge0.conf text eol=lf

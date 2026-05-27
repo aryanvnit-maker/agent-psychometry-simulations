@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+  server:
+    image: judge0/judge0:1.13.1
+    volumes:
+      - ./judge0.conf:/judge0.conf:ro
+    environment:
+      - REDIS_HOST=redis
+      - MEMORY_LIMIT=0
+      - MAX_MEMORY_LIMIT=0
+    ports:
+      - "2358:2358"
+    privileged: true
+    restart: always
+    depends_on:
+      - db
+      - redis
+
+  workers:
+    image: judge0/judge0:1.13.1
+    command: ["./scripts/workers"]
+    volumes:
+      - ./judge0.conf:/judge0.conf:ro
+    environment:
+      - REDIS_HOST=redis
+      - MEMORY_LIMIT=0
+      - MAX_MEMORY_LIMIT=0
+      - ENABLE_PER_PROCESS_AND_THREAD_MEMORY_LIMIT=true
+    privileged: true
+    restart: always
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:13.0
+    env_file: judge0.conf
+    restart: always
+
+  redis:
+    image: redis:6.0
+    command: ["redis-server", "--appendonly", "yes"]
+    restart: always
