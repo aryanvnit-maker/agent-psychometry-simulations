@@ -92,33 +92,35 @@ python reproduce.py
 
 ## Running Each Phase
 
+All commands run from the repo root.
+
 **Phase 1 — Topology experiment**
 ```bash
-python run_all.py                    # chain topology (default)
-python run_all.py --topology flat    # flat topology
-python analyze.py                    # analysis and charts
+python phases/phase1/run_all.py                    # chain topology (default)
+python phases/phase1/run_all.py --topology flat    # flat topology
+python phases/phase1/analyze.py                    # analysis and charts
 ```
 
 **Phase 2 — Constitution experiment**
 ```bash
-python run_cp_baseline.py            # chain-1 baseline (12%)
-python run_cp_experiment.py          # 9 conditions
-python run_algorithmist_control.py   # ALGORITHMIST control
-python analyze_cp.py                 # analysis and charts
+python phases/phase2/run_cp_baseline.py            # chain-1 baseline (12%)
+python phases/phase2/run_cp_experiment.py          # 9 conditions
+python phases/phase2/run_algorithmist_control.py   # ALGORITHMIST control
+python phases/phase2/analyze_cp.py                 # analysis and charts
 ```
 
 **Phase 3 — Hallucination multiplier**
 ```bash
-python generate_phase3_hints.py --n 50   # generate wrong hints
-python run_phase3.py                      # 4 conditions × 50 problems
-python analyze_phase3.py                  # analysis and charts
+python phases/phase3/generate_phase3_hints.py --n 50   # generate wrong hints
+python phases/phase3/run_phase3.py                      # 4 conditions × 50 problems
+python phases/phase3/analyze_phase3.py                  # analysis and charts
 ```
 
 **Phase 4 — Meta-orchestrator**
 ```bash
-python generate_trojan_tasks.py           # adversarial classifier tests
-python run_meta_orchestrator.py           # 3 conditions × 37 tasks
-python analyze_meta_orchestrator.py       # analysis and charts
+python phases/phase4/generate_trojan_tasks.py           # adversarial classifier tests
+python phases/phase4/run_meta_orchestrator.py           # 3 conditions × 37 tasks
+python phases/phase4/analyze_meta_orchestrator.py       # analysis and charts
 ```
 
 ---
@@ -126,6 +128,11 @@ python analyze_meta_orchestrator.py       # analysis and charts
 ## Repository Structure
 
 ```
+├── phases/
+│   ├── phase1/           # Topology experiment (run_all, analyze)
+│   ├── phase2/           # Constitution experiment (run_cp_*, analyze_cp)
+│   ├── phase3/           # Hallucination multiplier (hints, run, analyze)
+│   └── phase4/           # Meta-orchestrator (trojans, run, analyze)
 ├── src/
 │   ├── agents/           # Kalibr profiles, constitutions, agent pool
 │   ├── datasets/         # CodeContests loader
@@ -140,8 +147,6 @@ python analyze_meta_orchestrator.py       # analysis and charts
 ├── docs/                 # Write-ups and posts
 ├── scripts/              # Admin and debug utilities
 ├── judge0/               # Judge0 Docker configuration
-├── run_*.py              # Phase runners
-├── analyze_*.py          # Phase analysis scripts
 └── reproduce.py          # Quick reproduction of core finding
 ```
 
