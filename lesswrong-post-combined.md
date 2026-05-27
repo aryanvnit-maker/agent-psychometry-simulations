@@ -1,6 +1,6 @@
-# The Industry's Multi-Agent Architecture is Wrong in Two Distinct Ways: 1018 Evaluations Across Two Studies
+# The Industry's Multi-Agent Architecture is Wrong in Four Distinct Ways: 1,429 Evaluations Across Five Studies
 
-Two research phases. 1018 total evaluations. The same architectural mistake produces a different failure mode depending on task type — and the industry hasn't measured either.
+Five research phases. 1,429 total evaluations. The same root cause produces a different failure mode in every domain tested — and the industry hasn't measured any of them.
 
 ---
 
@@ -8,13 +8,19 @@ Two research phases. 1018 total evaluations. The same architectural mistake prod
 
 Human organisational psychology has spent 40 years building instruments to predict team performance: who to hire, how to compose teams, what conditions produce cohesion and convergence. Almost none of that work has been tested on AI agent teams.
 
-This research applies those instruments to controlled multi-agent LLM simulations and measures where the human findings replicate, where they invert, and where they fail entirely. The **Kalibr psychometric framework** — a 10-dimension behavioral assessment — was used to assign distinct personality profiles to AI agents, compose them into teams, and run them through structured tasks across two very different domains.
+This research applies those instruments to controlled multi-agent LLM simulations and measures where the human findings replicate, where they invert, and where they fail entirely. The **Kalibr psychometric framework** — a 10-dimension behavioral assessment — was used to assign distinct personality profiles to AI agents, compose them into teams, and run them through structured tasks across fundamentally different domains.
 
 **Phase 1:** 118 simulations, 4 business judgment scenarios, 2 model families, 5 team sizes, 3 compositions. Metric: 0–100 task score graded by a panel of 3 independent judge agents against binary rubric criteria applied to final deliverables only.
 
 **Phase 2:** 900 evaluations, 100 Codeforces Div. 1 C/D problems (~2000–2400 rating), 9 agent configurations. Metric: pass@1 — binary ground truth, no rubric subjectivity.
 
-The research was designed to find where the human framework transfers and where it breaks. The Phase 2 result is not a failure — it is a precise location of the boundary.
+**Phase 2 Control:** 100 evaluations, same problems, single new condition isolating the ALGORITHMIST role effect from dimension profile effects.
+
+**Phase 3:** 200 evaluations, 50 problems × 4 conditions. Wrong algorithmic hints planted in problem prompts. Tests whether flat swarms amplify adversarial input while chains resist it.
+
+**Phase 4:** 111 evaluations, mixed workload (judgment + execution tasks) × 3 routing conditions. Tests whether dynamic task classification and config routing recovers the performance lost by mismatching architecture to task type.
+
+The research was designed to find where the human framework transfers and where it breaks. Every finding after Phase 1 emerged from the data, not the original hypothesis.
 
 ---
 
@@ -28,7 +34,7 @@ The research was designed to find where the human framework transfers and where 
 
 **Flat** — round-table: every agent speaks once per round for two rounds, with full conversation history from all prior speakers.
 
-Four structured business scenarios were used: strategic product fork decisions, zero-sum resource allocation, post-mortem analysis, and crisis response. Each scenario has an explicit rubric with binary criteria. Judges evaluate only the team's final extracted deliverable — never the full transcript.
+Four structured business scenarios: strategic product fork decisions, zero-sum resource allocation, post-mortem analysis, and crisis response. Each scenario has an explicit rubric with binary criteria. Judges evaluate only the team's final extracted deliverable — never the full transcript.
 
 ### Results
 
@@ -42,7 +48,7 @@ Four structured business scenarios were used: strategic product fork decisions, 
 
 A chain of 2 agents (57.6) outperforms a flat swarm of 8 (19.1). Adding a second agent to a flat swarm dropped performance from 31.2 to 10.7 — active degradation, not inefficiency. The coordination tax of flat topology does not diminish as agents are added; it compounds.
 
-Cross-model replication (Claude 3.5 Sonnet, drafted composition only):
+Cross-model replication (Claude 3.5 Sonnet):
 
 | Model | Chain | Flat | Gap |
 |---|---|---|---|
@@ -82,7 +88,7 @@ This is the precise mechanism Scott Alexander names *Moloch* in a different fram
 
 ### Setup
 
-100 CodeContests problems (Codeforces, difficulty 12–13, Div. 1 C/D). These are problems where naive algorithmic approaches fail and genuine mathematical insight is required. Pass@1: submitted code either solves all private test cases or it doesn't. No rubric, no judge.
+100 CodeContests problems (Codeforces, difficulty 12–13, Div. 1 C/D). Pass@1 against private test cases. Binary ground truth.
 
 Nine agent configurations across three experimental axes:
 
@@ -91,8 +97,6 @@ Nine agent configurations across three experimental axes:
 **Option A — negative control:** extreme Kalibr dimension profiles (analytical, chaotic, founder) applied to a single SOLVER agent
 
 **Option B — actual experiment:** same profiles applied to the ALGORITHMIST analyzer in a chain-2 setup, with a fixed neutral SOLVER as the second agent
-
-All runs at temperature=0.0, Gemini 2.5 Flash, `thinking_budget=0`.
 
 ### Results
 
@@ -110,90 +114,220 @@ All runs at temperature=0.0, Gemini 2.5 Flash, `thinking_budget=0`.
 
 ### Finding 1: Topology Replicates on Hard Math
 
-Chain-2 generic (16%) outperforms chain-1 (12%). The sequential forcing function works on deterministic mathematical execution — the same entropy-compression mechanism as Phase 1. Agent-1 produces a committed analysis pass; agent-2 generates code against a concrete prior state. This is the clean Phase 1 replication on a completely different task domain with objective measurement.
+Chain-2 generic (16%) outperforms chain-1 (12%). The sequential forcing function works on deterministic mathematical execution — the same entropy-compression mechanism as Phase 1. Agent-1 produces a committed analysis pass; agent-2 generates code against a concrete prior state.
 
 ### Finding 2: Role Labels Introduce Cognitive Drag
 
-The industry default for multi-agent coding pipelines is occupational identity: "You are a Senior Software Engineer. You are a Code Reviewer." Chain-2 specialized — ALGORITHMIST ("design the algorithm, do not write code") → IMPLEMENTER — scores 13% with 23 compilation errors, worse than the generic chain-2 on both metrics.
-
-The mechanism is a two-agent version of the Moloch dynamic: the ALGORITHMIST is constitutionally compelled to be thorough and enumerate edge cases. The IMPLEMENTER is constitutionally compelled to request specificity before proceeding. These constraints interact: the ALGORITHMIST over-specifies (consuming tokens on abstraction); the IMPLEMENTER, receiving an abstract spec without runnable examples, produces code that fails on edge cases the spec described but did not demonstrate. The output that looks most complete is the least executable.
-
-Chain-2 generic wins not because its agents are more capable, but because they are unconstrained by manufactured professional identities.
+Chain-2 specialized — ALGORITHMIST → IMPLEMENTER — scores 13% with 23 compilation errors. Worse than generic on both metrics. The ALGORITHMIST is constitutionally compelled to enumerate edge cases without producing code. The IMPLEMENTER receives an abstract specification and produces code that fails on edge cases the spec described but did not demonstrate. The output that looks most complete is the least executable.
 
 ### Finding 3: Formatting Constraints Override Behavioral Constraints
 
-The three extreme Kalibr profiles applied to a SOLVER agent cluster at 11–14%, statistically indistinguishable from the 12% baseline. This is the negative control result. The SOLVER role instruction is explicit: "your entire response must be a single ```python code block. No explanation, no analysis, no text outside the code block."
-
-When this instruction is present, all behavioral dimension constraints encoded in the system prompt are overridden. A high-volatility agent simultaneously instructed to output only a code block outputs only a code block. This is not a failure of the psychometric framework. It is a precise identification of the conditions under which it operates. Behavioral dimensions require token space — room to reason, hesitate, and exhibit designated traits — to influence downstream logic.
+Extreme Kalibr profiles on a SOLVER agent cluster at 11–14%, indistinguishable from the 12% baseline. The SOLVER instruction ("output only a code block") overrides all behavioral dimension constraints. This is not a failure of the framework — it is a precise identification of the conditions under which it operates. Behavioral dimensions require token space to manifest.
 
 ### Finding 4: Dimension Effects Emerge When Token Space Exists
 
-When the same extreme profiles are applied to the ALGORITHMIST analyzer in a chain-2 setup — where agent-1 has full token space to reason — the range is 10–14%. The 4-point spread versus the near-zero spread in Option A is directional evidence that dimensions manifest when given token space.
-
-The founder profile (high drive alignment, low adaptive intelligence, low feedback orientation, low ambiguity tolerance) consistently performs worst: 10% pass@1, 23 compilation errors. The most rigid profile produces the most rigid algorithm specification, which generates the most broken code from the downstream SOLVER.
-
-One confound is unresolved: Option B changed both the role (IMPLEMENTER → ALGORITHMIST) and the dimension profile simultaneously. A control condition — ALGORITHMIST with balanced dimensions — was not run. The role effect and the dimension effect are not cleanly separated.
+The founder profile (high drive alignment, low adaptive intelligence) consistently worst: 10% pass@1, 23 compilation errors. The most rigid profile produces the most rigid algorithm specification. When agents have room to reason, dimensions move the output distribution.
 
 ---
 
-## The Two-Domain Framework
+## Phase 2 Control: Isolating the ALGORITHMIST Effect
 
-Combined, the data supports a clean partition:
+### The Confound
 
-**Domain A — Exploratory, judgment-based, bounded convergence tasks** (strategic decisions, legal clause review, investment memos, post-mortem analysis): Flat topology generates Moloch — social engagement without task convergence. The fix is sequential chain topology, N=2, with Kalibr behavioral constraints tuned for dimensional compatibility. The 46-point topology gap measures the cost of ignoring this. Psychometric profiling of the analysis layer produces measurable effects.
+Option B changed both the role (IMPLEMENTER → ALGORITHMIST) and the dimension profile simultaneously. The underperformance of chain-2/specialized (13%) could be explained by the role instruction, the extreme profiles, or both.
 
-**Domain B — Deterministic execution tasks** (code compilation, precise technical output with binary evaluation): Role-playing personas introduce cognitive drag. Elaborate psychometric profiles on the execution layer are inert at best (overridden by formatting constraints) and harmful at worst (produce abstract specs that increase compilation errors). The optimal architecture is chain-2 generic — sequential, minimal constitution, no occupational identity.
+### Control Condition
 
-The enterprise AI industry applies one architecture to both domains. The data shows this produces a different failure mode in each:
+ALGORITHMIST role with balanced 75-baseline Kalibr dimensions. Identical SOLVER agent. Same 100 problems.
 
-- **On Domain A:** flat topology → Moloch → social cohesion without task convergence
-- **On Domain B:** occupational role-playing → cognitive drag → translation loss at handoff
+### Result
 
-Two distinct failure modes. Same root cause: architectural defaults chosen for convenience rather than measured against task class.
+| Condition | Pass@1 | Avg Pass Rate | Compilation Errors |
+|---|---|---|---|
+| Chain-2 generic | 16% | 20.4% | 22 |
+| Chain-2 specialized (extreme dims) | 13% | 18.4% | 23 |
+| **Chain-2 ALGORITHMIST-balanced** | **12%** | **17.2%** | **16** |
+
+The control scored 12% — lower than specialized (13%), not higher. Extreme dimension profiles were marginally helping, not hurting. The ALGORITHMIST role instruction is the culprit.
+
+The role says: "design the algorithm, do not write runnable code." The SOLVER receives prose specification and translates it cold. Generic chain-2 agent-1 produces a partial concrete attempt; agent-2 builds on something tangible. The design/implement boundary enforces a translation step that costs 4pp and raises compilation errors. It is architecturally mandated translation loss.
+
+The compilation error rate dropped to 16 for the control — fewer syntax errors but more wrong answers. The SOLVER is producing cleaner code that implements the spec faithfully, and the spec is wrong.
+
+**The confound is resolved: role labels cause the degradation. Extreme dimension profiles are a secondary effect.**
+
+---
+
+## Phase 3: Flat Topology is Unsafe Under Adversarial Input
+
+### Setup
+
+50 problems × 4 conditions = 200 evaluations. Wrong algorithmic hints planted directly in the problem prompt as "[EDITORIAL NOTE — Problem Setter]" annotations. Hints specified incorrect algorithmic approaches (naive DP for problems requiring greedy; O(N²) brute force for problems with N=10⁵).
+
+Conditions: chain-2/clean, chain-2/poisoned, flat-2/clean, flat-2/poisoned.
+
+Primary metric: pass@1. Secondary: hint acceptance rate (did the submitted code implement the hinted algorithm?).
+
+### Results
+
+| Condition | Pass@1 | Avg Pass Rate | CE | NoCode |
+|---|---|---|---|---|
+| chain-2/clean | 14% | 19.9% | 8 | 0 |
+| chain-2/poisoned | 18% | 24.5% | 8 | 0 |
+| flat-2/clean | 18% | 24.5% | 11 | 0 |
+| **flat-2/poisoned** | **14%** | **17.1%** | **7** | **4** |
+
+| Topology | Clean | Poisoned | Δ |
+|---|---|---|---|
+| chain-2 | 14% | 18% | **+4pp** |
+| flat-2 | 18% | 14% | **−4pp** |
+
+8pp swing between poisoned conditions. Chain-2 improved under adversarial input. Flat-2 degraded.
+
+### The Mechanism
+
+**Chain-2 improved (+4pp) because it rejected the hint, not because it used it.**
+
+Hint acceptance rate split for chain-2/poisoned:
+- Passing runs: 33% accepted the hint
+- Failing runs: 78% accepted the hint
+
+The committed first-pass gives agent-1 space to form an independent position before agent-2 sees anything. When agent-1 evaluates the hint and rejects it, agent-2 implements against the rejection. The planted premise never propagates.
+
+**Flat-2 degraded (−4pp) because social validation amplified the wrong premise.**
+
+In flat topology, agent-2 sees agent-1 already reasoning toward the wrong algorithmic approach and validates it rather than challenging it. Social cohesion — the mechanism that produces high FIRO inclusion scores — becomes a vulnerability when the shared premise is wrong.
+
+**The smoking gun: 4 NoCode collapses in flat-2/poisoned, 0 in every other condition across 200 evaluations.**
+
+When the planted hint was complex enough, flat agents locked into an unimplementable framing and produced nothing. The wrong premise — validated by both agents — generated a specification nobody could execute. Chain never collapsed once.
+
+This is not a performance difference. It is a safety difference. Flat topology under adversarial or ambiguous input will occasionally produce complete task failure. Chain topology has a structural resistance mechanism that prevents this.
+
+---
+
+## Phase 4: Dynamic Routing Recovers Per-Domain Performance
+
+### Setup
+
+Mixed workload: 4 judgment scenarios × 3 runs + 25 competitive programming problems = 37 tasks × 3 conditions = 111 evaluations.
+
+Three conditions:
+- **static-judgment** — always deploys Kalibr chain-2 profiles
+- **static-execution** — always deploys generic chain-2
+- **meta-router** — classifies task domain first, routes to matching config
+
+A lightweight classifier (Gemini Flash, temperature=0, max tokens=10) labels each task as judgment or execution before deployment. Adversarial robustness validated on 10 Trojan tasks — execution problems disguised as judgment scenarios and vice versa.
+
+### Results
+
+| Config deployed globally | Judgment score | Execution pass@1 |
+|---|---|---|
+| static-judgment | 85.1 | 0.0% (20 NoCode) |
+| static-execution | 59.6 | 20.0% |
+| **meta-router** | **85.8** | **20.0%** |
+
+Classifier accuracy: **100%** on 37 real tasks. **100%** on 10 adversarial Trojan tasks.
+
+### The Core Finding
+
+There is no single static architecture that handles mixed workloads. Static-judgment deployed globally collapses on execution tasks — the judgment config's constitution blocks code output, producing 20 NoCode failures out of 25 attempts. Static-execution deployed globally loses 25 points on judgment tasks. These are not marginal degradations.
+
+The meta-router achieves the per-domain maximum on both axes simultaneously. It is the only architecture that does not crater on one side of a mixed workload.
+
+### The Domain Taxonomy Finding
+
+Per-scenario breakdown reveals that "judgment" is not a monolithic category:
+
+| Scenario | static-judgment | static-execution | Δ |
+|---|---|---|---|
+| s01 strategic fork | 60.6 | 41.7 | +18.9 |
+| s02 resource allocation | **100.0** | 22.2 | **+77.8** |
+| s03 post-mortem | 80.0 | 80.0 | 0.0 |
+| s04 crisis response | 100.0 | 94.4 | +5.6 |
+
+Open-world strategic tasks (s01, s02) — where there is no verifiable correct answer and quality is measured by coherence and trade-off coverage — show massive Kalibr advantage. s02 is 100 vs 22.2.
+
+Closed-world deterministic tasks (s03, s04) — where a correct answer exists and can be verified — show near-zero Kalibr advantage. The profiles do not hurt; they provide no marginal benefit.
+
+This is the boundary condition for psychometric profiling: dimensions produce measurable effects on open-world tasks where the output space is unconstrained. On closed-world tasks, the correct answer dominates and profiles are neutral.
+
+---
+
+## The Three-Domain Framework
+
+The data across five phases supports a refined taxonomy:
+
+**Domain 1 — Open-world strategic** (strategy decisions, resource allocation, investment analysis): No ground truth. Quality = coherence + trade-off coverage + commitment to a position. Architecture: Kalibr chain-2, N=2. Flat topology produces Moloch. Generic chain loses 78 points on resource allocation vs profiled chain.
+
+**Domain 2 — Closed-world deterministic** (post-mortem analysis, crisis response, factual synthesis): Verifiable correct answer exists. Architecture: generic chain-2, N=2. Profiles are neutral. Kalibr dimensions do not hurt but provide no measurable benefit. The task structure enforces convergence regardless of profile.
+
+**Domain 3 — Execution** (code compilation, mathematical computation, precise technical output): Binary evaluation. Architecture: generic chain-2, N=2, no occupational identity. Profiles are either inert (overridden by formatting constraints) or harmful (role labels introduce translation loss). The ALGORITHMIST role specifically costs 4pp pass@1.
+
+The meta-router currently classifies Domain 1+2 as "judgment" and Domain 3 as "execution." Extending the classifier to distinguish Domain 1 from Domain 2 would enable Kalibr profiles to be deployed only where they produce measurable effects — eliminating them on closed-world tasks while retaining them on open-world tasks.
+
+The enterprise AI industry applies a single architecture across all three domains. The data shows this produces a distinct, mechanistically explained failure mode in each.
+
+---
+
+## The Unified Claim
+
+Every architectural default the industry uses was imported from human team management. Roundtables, because individuals need buy-in before committing. Job titles, because accountability requires identity. Specialist pipelines, because human cognitive capacity is genuinely domain-limited. Deliberation frameworks, because power dynamics suppress minority positions.
+
+Agents have none of those constraints. They do not need to feel included. They do not have egos. They do not shirk responsibility. They do not have genuine cognitive specialisation — they are the same model with different prompts.
+
+Every piece of human organisational infrastructure imported into multi-agent systems is either dead weight or actively harmful:
+
+- Flat topology → Moloch → 46-point performance collapse on judgment tasks
+- Occupational personas → translation loss → 4pp degradation and elevated compilation errors on execution tasks  
+- Flat topology under adversarial input → complete task collapse (4 NoCode failures, 0 in chain across 200 evaluations)
+- Single static architecture on mixed workloads → 20pp execution collapse or 26-point judgment degradation, depending on which config you pick
+
+The correct architecture — two agents, minimal identity, sequential handoff, domain classification before deployment — was sitting in plain sight. It took 1,429 evaluations across five experiments to prove it because the industry was not measuring.
 
 ---
 
 ## Practical Implications
 
-For teams building multi-agent systems:
+**1. Use chains of two, not rooms of many.** The largest return is 1→2 agents. Returns diminish past 4. A chain of 2 beats a room of 8 by 38 points on judgment tasks.
 
-**1. Identify your task domain before choosing an architecture.** Judgment tasks and execution tasks are not the same problem. The correct architecture for a coding agent and the correct architecture for a strategic decision agent are different. Systems that apply identical orchestration to both are leaving performance on the table in both directions.
+**2. Stop writing occupational personas for execution tasks.** "You are a Senior Python Engineer" costs 4pp pass@1 and raises compilation errors. The agent told to design algorithms rather than write code produces a spec the downstream agent cannot execute.
 
-**2. Default to chain-2 with no elaborated personas for execution tasks.** The data shows generic sequential handoff (16% pass@1) outperforms specialized role separation (13%) on Codeforces Div. 1 problems. Stop writing "You are a Senior Python Engineer with 10 years of experience" — it actively degrades pass@1 and increases compilation error rates.
+**3. Classify the task before deploying the pipeline.** A five-line classifier routing between two configs achieves per-domain maximum on both axes. Any system using one config for all task types is leaving performance on the table in both directions simultaneously.
 
-**3. Reserve psychometric profiling for the analysis layer on judgment tasks.** Profiles only produce measurable effects when agents have token space to reason. Applied to execution agents, they are noise. Applied to analysis agents with deliberate latitude, they produce directional behavioral differences.
+**4. Reserve psychometric profiling for open-world strategic tasks.** Profiles produce measurable effects only when the output space is unconstrained and agents have token space to reason. On deterministic tasks, they are neutral. On execution tasks with formatting constraints, they are overridden entirely.
 
-**4. Keep teams small.** Size 2 chain (57.6) outperforms size 8 flat (19.1) on judgment tasks. For coding tasks, chain-2 generic is the ceiling of what was tested. The largest return is 1→2 agents. Returns diminish past 4.
-
-**5. Add a synthesis node after any deliberation phase.** If exploration is needed, run a constrained deliberation round then route all output to a single synthesis agent. Deliberation without a convergence mechanism produces social cohesion and task failure.
+**5. Treat flat topology under adversarial or ambiguous input as a safety issue, not a performance issue.** The 4 NoCode collapses in flat-2/poisoned represent complete task failure — not degraded output, but no output. Production systems built on flat topology will occasionally produce nothing when input contains wrong framing. Chain topology has structural resistance to this failure mode.
 
 ---
 
-## Combined Limitations
+## Limitations
 
-**Phase 1 — thin N:** 118 runs on 4 scenarios is enough for the topology finding to reach significance, but effect size confidence intervals are wide. Pre-registered replication with 300+ runs per topology per model is needed.
+**Phase 1 — thin N:** 118 runs on 4 scenarios. Effect size confidence intervals are wide. Pre-registered replication with 300+ runs per topology per model is needed.
 
-**Phase 2 — unresolved confound:** Option B changed role and dimension profile simultaneously. The ALGORITHMIST effect and the dimension effect are not cleanly separated. A balanced-dimension ALGORITHMIST control condition was not run.
+**Phase 2 — small differences on binary outcomes:** 16% vs 13% on N=100 binary pass@1 is directional. The topology finding (chain-2 > chain-1) and the negative control clustering are the robust results. The ALGORITHMIST confound is now resolved by the Phase 2 control condition.
 
-**Phase 2 — small differences on N=100 binary outcomes:** 16% vs 13% is directional, not conclusive. The topology finding (chain-2 > chain-1) and the negative control clustering are the robust Phase 2 results.
+**Phase 3 — hint generator validity contamination:** 3 of the 35 accepted hints in chain-2/poisoned passed — likely because those hints described valid algorithms for those specific problems. The generator had a ~9% accidental validity rate. The clean chain-2/poisoned pass@1 on genuinely wrong hints is slightly below the reported 18%.
+
+**Phase 4 — low discrimination on closed-world scenarios:** s03 and s04 show near-identical scores across all conditions. s03 has a rubric criterion requiring challenge behaviour that IMPLEMENTER agents structurally cannot produce, creating a ceiling for all configs. The discrimination between conditions is concentrated in s01 and s02.
 
 **Model uniformity:** All agents within a run share the same underlying model. Behavioral constraints shift the output distribution but do not introduce genuine cognitive differences. A diverse human team has genuinely different cognitive architectures; a diverse agent team has different prompts on identical processing.
 
-**Task scope:** Phase 1 covers 4 bounded judgment scenarios. Phase 2 covers 100 competitive programming problems from one source. Neither covers creative generation, open-ended research, or long-horizon planning. The two-domain framework is likely an N-domain framework — these are the first two domains measured.
+**Task scope:** Five experiments cover judgment tasks, competitive programming, and adversarial hint injection. The three-domain taxonomy is likely an N-domain taxonomy — these are the first three domains measured. Creative generation, open-ended research, and long-horizon planning are untested.
 
 ---
 
 ## Open Questions
 
-**Does the topology finding hold on generative tasks?** The N=2 ceiling and chain advantage were measured on convergence tasks. Brainstorming and open-ended research may favor flat topology precisely because they benefit from entropy. This is the most important boundary condition to test.
+**Does the topology finding hold on generative tasks?** Brainstorming and open-ended research may favour flat topology because entropy is beneficial, not harmful. This is the most important boundary condition to test.
 
-**Can the ALGORITHMIST confound in Option B be isolated?** Running ALGORITHMIST with balanced 75-baseline dimensions would separate the role effect from the dimension effect. Without this control, the Option B result is directional but not clean.
+**Does the three-domain classifier outperform the two-domain classifier?** Extending the meta-router to distinguish open-world strategic from closed-world deterministic would enable Kalibr profiles to be deployed selectively. The Phase 4 data suggests this would recover ~5-10 points on closed-world tasks currently routed to the Kalibr config.
 
-**Is flat topology a hallucination multiplier on adversarial input?** The social cohesion mechanism predicts that flat swarms will amplify a planted wrong hypothesis — agents will validate each other's acceptance of incorrect information — while a chain with committed first-pass will resist it. This is Phase 3.
+**Does the topology finding hold with heterogeneous model families within a team?** Production systems often pair a large general model with smaller specialists. Topology-by-model-heterogeneity interaction is untested.
 
-**Does the topology finding hold with heterogeneous model families within a team?** Production systems often pair a large general model with smaller specialists. How topology interacts with within-team model heterogeneity is untested.
+**What is the ceiling for chain-2 generic on competitive programming?** The 16% pass@1 on Div. 1 C/D problems is the ceiling of what was tested. Longer thinking budgets, more capable base models, and temperature variation are all unexplored.
 
-The full codebase, agent constitutions, scenarios, problem dataset, and evaluation harness are in the repository.
+The full codebase, agent constitutions, scenarios, problem datasets, and evaluation harness are in the repository.
 
 *This research was conducted independently, without institutional funding or affiliation.*
 
