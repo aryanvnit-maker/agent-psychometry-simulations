@@ -132,20 +132,30 @@ def build_transcript(messages) -> str:
     return "\n\n".join(lines)
 
 
+def _msg_content(m) -> str:
+    if isinstance(m, dict):
+        return m.get("content", "")
+    return m.content if hasattr(m, "content") else str(m)
+
+
+def _is_assistant(m) -> bool:
+    if isinstance(m, dict):
+        return m.get("role") == "assistant"
+    from langchain_core.messages import AIMessage
+    return isinstance(m, AIMessage)
+
+
 def get_final_output(state: dict, topology: str, team_size: int) -> str:
     """Extract final agent output text from simulation state."""
-    messages = state["messages"]
-    assistant_msgs = [m for m in messages if isinstance(m, dict) and m.get("role") == "assistant"]
+    assistant_msgs = [m for m in state["messages"] if _is_assistant(m)]
     if not assistant_msgs:
         return ""
     if topology == "flat" and team_size > 1:
-        # Check for synthesis node output first
-        last = assistant_msgs[-1].get("content", "")
+        last = _msg_content(assistant_msgs[-1])
         if "_synthesis]:" in last:
             return last
-        # Otherwise return all final-round outputs
-        return "\n\n".join(m.get("content", "") for m in assistant_msgs[-team_size:])
-    return assistant_msgs[-1].get("content", "")
+        return "\n\n".join(_msg_content(m) for m in assistant_msgs[-team_size:])
+    return _msg_content(assistant_msgs[-1])
 
 
 def _load_done() -> set[str]:
