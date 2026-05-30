@@ -74,8 +74,15 @@ DELAY_SECS   = 3
 
 # Explicit synthesis instruction — same wording used as JUDGMENT_HANDOFF in Phase 4
 SYNTHESIS_PROMPT = (
-    "Based on the analysis above, synthesize a complete final response that directly "
-    "addresses the prompt. Be specific and decisive. No hedging."
+    "OVERRIDE YOUR ROLE FUNCTION FOR THIS TURN.\n"
+    "You are the terminal synthesis agent in a sequential chain. "
+    "The prior agent's analysis is above.\n"
+    "You must:\n"
+    "1. Identify what they got right\n"
+    "2. Identify what they missed or got wrong\n"
+    "3. Produce a COMPLETE, DEFINITIVE final answer that is strictly better than theirs\n"
+    "Do not summarise. Do not surface problems without resolving them. "
+    "Close every open question. Be decisive."
 )
 
 # 4 conditions
@@ -223,7 +230,7 @@ def run_one(condition_name: str, cond: dict, scenario_id: str, rep: int) -> dict
 
 def main():
     parser = argparse.ArgumentParser(description="Phase 5: Topology × Handoff Factorial")
-    parser.add_argument("--reps", type=int, default=5, help="Repetitions per condition-scenario")
+    parser.add_argument("--reps", type=int, default=10, help="Repetitions per condition-scenario")
     parser.add_argument("--conditions", nargs="+", default=list(CONDITIONS.keys()),
                         choices=list(CONDITIONS.keys()))
     args = parser.parse_args()
