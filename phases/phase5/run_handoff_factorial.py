@@ -62,6 +62,7 @@ load_dotenv()
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from src.agents.pool import initialise_pool
+from src.agents.team import draft_team
 from src.orchestration.engine import run_simulation
 from src.evaluation.judge import score_transcript_panel
 from src.scenarios import ALL_SCENARIOS
@@ -161,8 +162,6 @@ def run_one(condition_name: str, cond: dict, scenario_id: str, rep: int) -> dict
     workers = [a for a in pool if not a.is_judge]
     judges  = [a for a in pool if a.is_judge]
 
-    # Draft a team of 2
-    from phases.phase1.run_simulation import draft_team  # type: ignore
     team, captain_id = draft_team(workers, 2, scenario.task_dimensions, "drafted")
 
     try:
@@ -267,7 +266,7 @@ def main():
 
     print(f"\n{'='*60}")
     print(f"Done. Results in {RESULTS_FILE}")
-    print(f"Skipped: {skipped}, New: {total - skipped - completed + len(done)}")
+    print(f"Skipped: {skipped}, Ran: {completed - skipped}")
 
 
 if __name__ == "__main__":

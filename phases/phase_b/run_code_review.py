@@ -44,6 +44,7 @@ load_dotenv()
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from src.agents.pool import initialise_pool
+from src.agents.team import draft_team
 from src.orchestration.engine import run_simulation
 from src.evaluation.judge import score_transcript_panel
 from src.scenarios.code_review import ALL_CODE_REVIEW_SCENARIOS
@@ -118,8 +119,6 @@ def run_one(condition_name: str, cond: dict, scenario_id: str, rep: int) -> dict
     workers = [a for a in pool if not a.is_judge]
     judges  = [a for a in pool if a.is_judge]
 
-    from phases.phase1.run_simulation import draft_team  # type: ignore
-    # Use adaptive_intelligence + feedback_orientation as task dims for code review
     task_dims = ["adaptive_intelligence", "feedback_orientation", "ambiguity_tolerance"]
     team, captain_id = draft_team(workers, 2, task_dims, "drafted")
 
