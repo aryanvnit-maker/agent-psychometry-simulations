@@ -126,7 +126,7 @@ def run_one(condition_name: str, cond: dict, scenario_id: str, rep: int) -> dict
         state = run_simulation(
             agents=team,
             scenario_brief=scenario.brief,
-            phase="phase_b",
+            phase="performing",
             topology=cond["topology"],
             flat_rounds=FLAT_ROUNDS,
             chain_handoff_prompts=cond["chain_handoff_prompts"],
@@ -142,7 +142,7 @@ def run_one(condition_name: str, cond: dict, scenario_id: str, rep: int) -> dict
 
     evaluations = score_transcript_panel(
         run_id=run_id,
-        phase="phase_b",
+        phase="performing",
         transcript=transcript,
         rubric=scenario.rubric,
         n_judges=len(judges),
