@@ -16,6 +16,7 @@
 from __future__ import annotations
 import json
 import os
+import time
 from google import genai
 from google.genai import types
 from .schema import EvaluatorOutput
@@ -88,6 +89,7 @@ def score_transcript(
     judge_index: int = 0,
     topology: str = "chain",
     team_size: int = 1,
+    max_retries: int = 3,
 ) -> EvaluatorOutput:
     final_deliverable = extract_final_deliverable(transcript, topology=topology, team_size=team_size)
 
@@ -112,34 +114,45 @@ context_fidelity_mean, cull_events):
 
 Return only the JSON object."""
 
-    response = _client.models.generate_content(
-        model=_MODEL,
-        contents=[{"role": "user", "parts": [{"text": user_message}]}],
-        config=types.GenerateContentConfig(
-            system_instruction=_JUDGE_SYSTEM,
-            temperature=0.0,
-            max_output_tokens=8192,
-        ),
-    )
+    last_error: Exception | None = None
+    for attempt in range(max_retries):
+        try:
+            response = _client.models.generate_content(
+                model=_MODEL,
+                contents=[{"role": "user", "parts": [{"text": user_message}]}],
+                config=types.GenerateContentConfig(
+                    system_instruction=_JUDGE_SYSTEM,
+                    temperature=0.0,
+                    max_output_tokens=8192,
+                ),
+            )
 
-    raw = response.text.strip()
+            raw = response.text.strip()
 
-    # Strip markdown code fences
-    if raw.startswith("```"):
-        raw = raw.split("```")[1]
-        if raw.startswith("json"):
-            raw = raw[4:]
-        raw = raw.strip()
+            # Strip markdown code fences
+            if raw.startswith("```"):
+                raw = raw.split("```")[1]
+                if raw.startswith("json"):
+                    raw = raw[4:]
+                raw = raw.strip()
 
-    # Extract the JSON object robustly — find first { to last }
-    start = raw.find("{")
-    end = raw.rfind("}") + 1
-    if start == -1 or end == 0:
-        raise ValueError(f"No JSON object found in judge response:\n{raw}")
-    raw = raw[start:end]
+            # Extract the JSON object robustly — find first { to last }
+            start = raw.find("{")
+            end = raw.rfind("}") + 1
+            if start == -1 or end == 0:
+                raise ValueError(f"No JSON object found in judge response:\n{raw[:200]}")
+            raw = raw[start:end]
 
-    data = json.loads(raw)
-    return EvaluatorOutput(**data)
+            data = json.loads(raw)
+            return EvaluatorOutput(**data)
+
+        except Exception as e:
+            last_error = e
+            wait = 2 ** attempt
+            print(f"\n    [judge retry {attempt+1}/{max_retries}] {e} — waiting {wait}s")
+            time.sleep(wait)
+
+    raise RuntimeError(f"Judge failed after {max_retries} attempts") from last_error
 
 
 def score_transcript_panel(

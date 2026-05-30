@@ -182,15 +182,19 @@ def run_one(condition_name: str, cond: dict, scenario_id: str, rep: int) -> dict
 
     transcript = build_transcript(state["messages"])
 
-    evaluations = score_transcript_panel(
-        run_id=run_id,
-        phase=scenario.phase,
-        transcript=transcript,
-        rubric=scenario.rubric,
-        n_judges=len(judges),
-        topology=cond["topology"],
-        team_size=2,
-    )
+    try:
+        evaluations = score_transcript_panel(
+            run_id=run_id,
+            phase=scenario.phase,
+            transcript=transcript,
+            rubric=scenario.rubric,
+            n_judges=len(judges),
+            topology=cond["topology"],
+            team_size=2,
+        )
+    except Exception as e:
+        print(f"    ERROR in judge panel: {e}")
+        return None
 
     scores     = [e.task_score for e in evaluations]
     mean_score = sum(scores) / len(scores)
