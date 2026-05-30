@@ -75,6 +75,10 @@ def extract_final_deliverable(transcript: str, topology: str = "chain", team_siz
         return transcript
 
     if topology == "flat" and team_size > 1:
+        # If a synthesis node ran (flat/handoff), its output is the sole final deliverable —
+        # same as chain. Without it, use the full final round (all team_size agents).
+        if "_synthesis]:" in assistant_blocks[-1]:
+            return assistant_blocks[-1][len("[ASSISTANT]:"):].strip()
         final_round = assistant_blocks[-team_size:]
         return "\n\n".join(final_round)
 
