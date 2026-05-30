@@ -147,6 +147,7 @@ def run_one(condition_name: str, cond: dict, scenario_id: str, rep: int) -> dict
             transcript=transcript,
             rubric=scenario.rubric,
             n_judges=len(judges),
+            judge_agents=judges,
             topology=cond["topology"],
             team_size=2,
         )

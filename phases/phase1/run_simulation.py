@@ -207,6 +207,7 @@ def main():
         transcript=transcript,
         rubric=scenario.rubric,
         n_judges=len(judges),
+        judge_agents=judges,
         topology=args.topology,
         team_size=args.team_size,
     )

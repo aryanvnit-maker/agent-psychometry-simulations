@@ -53,17 +53,19 @@ def initialise_pool(seed: int | None = None) -> list[AgentProfile]:
             is_judge=False,
         ))
 
+    # Three genuinely distinct judges: different constitutions + different conflict styles
+    # produce real inter-rater variance on edge cases (not just identical T=0 clones)
+    judge_game_theory = [
+        GameTheoryParams(context_sharing="full", memory_persistence=True, signaling=True,  conflict_style=ConflictStyle.CHALLENGE),   # strict
+        GameTheoryParams(context_sharing="full", memory_persistence=True, signaling=True,  conflict_style=ConflictStyle.NEGOTIATE),   # balanced
+        GameTheoryParams(context_sharing="full", memory_persistence=True, signaling=False, conflict_style=ConflictStyle.DEFER),       # charitable
+    ]
     for j in range(3):
         pool.append(AgentProfile(
             agent_id=f"judge_{j:02d}",
-            dimensions=KalibrDimensions.judge_profile(),
+            dimensions=KalibrDimensions.judge_profile(j),
             role=Role.JUDGE,
-            game_theory=GameTheoryParams(
-                context_sharing="full",
-                memory_persistence=True,
-                signaling=True,
-                conflict_style=ConflictStyle.NEGOTIATE,
-            ),
+            game_theory=judge_game_theory[j],
             is_judge=True,
         ))
 

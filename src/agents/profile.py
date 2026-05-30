@@ -61,19 +61,55 @@ class KalibrDimensions:
         return cls(**{f: random.randint(0, 100) for f in cls.__dataclass_fields__})
 
     @classmethod
-    def judge_profile(cls) -> KalibrDimensions:
-        return cls(
-            philosophy_cohesion=92,
-            drive_alignment=80,
-            bonding_index=65,
-            adaptive_intelligence=90,
-            volatility_vector=50,
-            ambiguity_tolerance=75,
-            influence_style=40,
-            feedback_orientation=91,
-            temporal_orientation=50,
-            energy_resilience=78,
-        )
+    def judge_profile(cls, index: int = 0) -> KalibrDimensions:
+        """Three constitutionally distinct judge profiles.
+
+        index=0 (strict):    high standards, resistant to generous interpretations
+        index=1 (balanced):  default evaluator — used as the canonical reference
+        index=2 (charitable): higher ambiguity tolerance, reads intent generously
+        """
+        profiles = [
+            # judge_00 — strict: high philosophy_cohesion, low bonding, challenge-oriented
+            cls(
+                philosophy_cohesion=95,
+                drive_alignment=85,
+                bonding_index=40,
+                adaptive_intelligence=88,
+                volatility_vector=35,
+                ambiguity_tolerance=55,
+                influence_style=60,
+                feedback_orientation=94,
+                temporal_orientation=45,
+                energy_resilience=82,
+            ),
+            # judge_01 — balanced: the original reference profile
+            cls(
+                philosophy_cohesion=92,
+                drive_alignment=80,
+                bonding_index=65,
+                adaptive_intelligence=90,
+                volatility_vector=50,
+                ambiguity_tolerance=75,
+                influence_style=40,
+                feedback_orientation=91,
+                temporal_orientation=50,
+                energy_resilience=78,
+            ),
+            # judge_02 — charitable: higher bonding, reads partial answers generously
+            cls(
+                philosophy_cohesion=88,
+                drive_alignment=75,
+                bonding_index=82,
+                adaptive_intelligence=91,
+                volatility_vector=55,
+                ambiguity_tolerance=85,
+                influence_style=25,
+                feedback_orientation=84,
+                temporal_orientation=55,
+                energy_resilience=74,
+            ),
+        ]
+        return profiles[index % len(profiles)]
 
 
 @dataclass

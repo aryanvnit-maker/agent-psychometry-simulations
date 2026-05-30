@@ -20,6 +20,8 @@ import time
 from google import genai
 from google.genai import types
 from .schema import EvaluatorOutput
+from src.agents.profile import AgentProfile
+from src.agents.constitution import build_constitution
 
 _MODEL = os.getenv("MODEL", "gemini-2.5-flash")
 _client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
@@ -91,11 +93,16 @@ def score_transcript(
     transcript: str,
     rubric: str,
     judge_index: int = 0,
+    judge_agent: AgentProfile | None = None,
     topology: str = "chain",
     team_size: int = 1,
     max_retries: int = 3,
 ) -> EvaluatorOutput:
     final_deliverable = extract_final_deliverable(transcript, topology=topology, team_size=team_size)
+
+    # Use the judge's distinct constitutional framing if provided;
+    # fall back to the generic evaluator system prompt otherwise.
+    system_prompt = build_constitution(judge_agent) if judge_agent is not None else _JUDGE_SYSTEM
 
     user_message = f"""RUN ID: {run_id}
 PHASE: {phase}
@@ -125,7 +132,7 @@ Return only the JSON object."""
                 model=_MODEL,
                 contents=[{"role": "user", "parts": [{"text": user_message}]}],
                 config=types.GenerateContentConfig(
-                    system_instruction=_JUDGE_SYSTEM,
+                    system_instruction=system_prompt,
                     temperature=0.0,
                     max_output_tokens=8192,
                 ),
@@ -165,11 +172,21 @@ def score_transcript_panel(
     transcript: str,
     rubric: str,
     n_judges: int = 3,
+    judge_agents: list[AgentProfile] | None = None,
     topology: str = "chain",
     team_size: int = 1,
 ) -> list[EvaluatorOutput]:
-    """Run all judges against the same transcript for inter-rater reliability."""
+    """Run all judges against the same transcript for inter-rater reliability.
+
+    Pass judge_agents from the pool to use each judge's distinct constitutional
+    framing — this is what produces genuine inter-rater variance rather than
+    three identical T=0 calls.
+    """
     return [
-        score_transcript(run_id, phase, transcript, rubric, i, topology=topology, team_size=team_size)
+        score_transcript(
+            run_id, phase, transcript, rubric, i,
+            judge_agent=judge_agents[i] if judge_agents and i < len(judge_agents) else None,
+            topology=topology, team_size=team_size,
+        )
         for i in range(n_judges)
     ]
