@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "kalibr"
+version = "0.1.0"
+description = "Empirically-grounded multi-agent orchestration framework"
+readme = "README.md"
+license = { text = "AGPL-3.0-only" }
+authors = [{ name = "Aryan Shah", email = "aryan199841@gmail.com" }]
+requires-python = ">=3.11"
+keywords = ["multi-agent", "llm", "orchestration", "chain", "topology"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: GNU Affero General Public License v3",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "google-genai>=1.0.0",
+    "anthropic>=0.40.0",
+    "langgraph>=0.2.0",
+    "langchain-core>=0.3.0",
+    "pydantic>=2.0.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+openai = ["openai>=1.0.0"]
+research = [
+    "pandas>=2.0.0",
+    "matplotlib>=3.8.0",
+    "numpy>=1.26.0",
+    "scipy>=1.11.0",
+    "datasets>=2.0.0",
+    "psycopg2-binary>=2.9.0",
+    "requests>=2.31.0",
+]
+all = ["kalibr[openai,research]"]
+
+[project.urls]
+Homepage = "https://github.com/aryanvnit-maker/agent-psychometry-simulations"
+Repository = "https://github.com/aryanvnit-maker/agent-psychometry-simulations"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["kalibr*", "src*"]
+
+[tool.setuptools.package-dir]
+"" = "."

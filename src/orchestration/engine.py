@@ -26,7 +26,7 @@ from src.agents.profile import AgentProfile
 from src.agents.constitution import build_constitution
 
 _MODEL        = os.getenv("MODEL", "gemini-2.5-flash")
-_PROVIDER     = os.getenv("MODEL_PROVIDER", "gemini")   # "gemini" | "anthropic"
+_PROVIDER     = os.getenv("MODEL_PROVIDER", "gemini")   # "gemini" | "anthropic" | "openai"
 _TOKEN_BUDGET = int(os.getenv("AGENT_TOKEN_BUDGET", "800"))
 
 _gemini_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
@@ -34,6 +34,10 @@ _gemini_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 def _get_anthropic_client():
     import anthropic
     return anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+
+def _get_openai_client():
+    from openai import OpenAI
+    return OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 
 class SimState(TypedDict):
@@ -66,6 +70,25 @@ def _to_gemini_contents(messages) -> list[dict]:
     return result
 
 
+def _to_openai_messages(messages) -> list[dict]:
+    result = []
+    for m in messages:
+        if isinstance(m, dict):
+            role = "assistant" if m["role"] == "assistant" else "user"
+            content = m["content"]
+        elif isinstance(m, AIMessage):
+            role = "assistant"
+            content = m.content
+        else:
+            role = "user"
+            content = m.content if isinstance(m, BaseMessage) else str(m)
+        if result and result[-1]["role"] == role:
+            result[-1]["content"] += "\n\n" + content
+        else:
+            result.append({"role": role, "content": content})
+    return result
+
+
 def _to_anthropic_messages(messages) -> list[dict]:
     result = []
     for m in messages:
@@ -90,7 +113,23 @@ def _call_agent(agent: AgentProfile, messages: list[dict], scenario_brief: str) 
     """Returns (text, total_tokens_for_cost, output_tokens_for_cull)."""
     system = build_constitution(agent)
 
-    if _PROVIDER == "anthropic":
+    if _PROVIDER == "openai":
+        client = _get_openai_client()
+        openai_msgs = _to_openai_messages(messages)
+        if not openai_msgs or openai_msgs[0]["role"] != "user":
+            openai_msgs.insert(0, {"role": "user", "content": scenario_brief})
+        response = client.chat.completions.create(
+            model=_MODEL,
+            messages=[{"role": "system", "content": system}] + openai_msgs,
+            temperature=0.0,
+            max_tokens=_TOKEN_BUDGET,
+        )
+        text          = response.choices[0].message.content or ""
+        prompt_tokens = response.usage.prompt_tokens
+        output_tokens = response.usage.completion_tokens
+        return text, prompt_tokens + output_tokens, output_tokens
+
+    elif _PROVIDER == "anthropic":
         client = _get_anthropic_client()
         anthropic_msgs = _to_anthropic_messages(messages)
         if not anthropic_msgs or anthropic_msgs[0]["role"] != "user":
@@ -145,8 +184,13 @@ def build_chain_graph(
     agents: list[AgentProfile],
     scenario_brief: str,
     handoff_prompts: dict[int, str] | None = None,
+    default_handoff: str | None = "Based on all contributions above, now provide your response.",
 ) -> StateGraph:
-    """Sequential chain topology: agent[0] → agent[1] → ... → END."""
+    """Sequential chain topology: agent[0] → agent[1] → ... → END.
+
+    default_handoff: injected between steps when no explicit prompt is in handoff_prompts.
+    Pass None to run with no injected prompt at all (pure continuation).
+    """
     graph = StateGraph(SimState)
 
     for i, agent in enumerate(agents):
@@ -159,11 +203,9 @@ def build_chain_graph(
 
                 msgs = list(state["messages"])
                 if idx > 0:
-                    hp = (handoff_prompts or {}).get(
-                        idx,
-                        "Based on all contributions above, now provide your response.",
-                    )
-                    msgs = msgs + [{"role": "user", "content": hp}]
+                    hp = (handoff_prompts or {}).get(idx, default_handoff)
+                    if hp is not None:
+                        msgs = msgs + [{"role": "user", "content": hp}]
 
                 text, total_tokens, output_tokens = _call_agent(a, msgs, state["scenario_brief"])
 
@@ -199,15 +241,19 @@ def build_chain_graph(
     return graph
 
 
-def build_flat_graph(agents: list[AgentProfile], max_rounds: int = 2) -> StateGraph:
+def build_flat_graph(
+    agents: list[AgentProfile],
+    max_rounds: int = 2,
+    closing_prompt: str | None = None,
+) -> StateGraph:
     """
     Flat (round-table) topology.
     Every agent sees the full conversation history each turn.
     Runs max_rounds complete circuits — each agent speaks once per round.
-    This is the upper-bound topology: zero routing cost, perfect information.
 
-    Not realistic for production but establishes the performance ceiling.
-    Gap between chain and flat scores = cost of routing structure.
+    closing_prompt: if set, adds a final synthesis step using agents[0] after
+    all rounds. Used in the topology × handoff factorial to equip flat topology
+    with an explicit commit instruction matching what chain topology receives.
     """
     graph = StateGraph(SimState)
 
@@ -265,7 +311,32 @@ def build_flat_graph(agents: list[AgentProfile], max_rounds: int = 2) -> StateGr
     graph.set_entry_point(node_sequence[0])
     for i in range(len(node_sequence) - 1):
         graph.add_edge(node_sequence[i], node_sequence[i + 1])
-    graph.add_edge(node_sequence[-1], END)
+
+    if closing_prompt is not None:
+        synth_agent = agents[0]
+        synth_node  = f"{synth_agent.agent_id}_synth"
+
+        def make_synth_node(a: AgentProfile, prompt: str):
+            def node_fn(state: SimState) -> SimState:
+                if a.agent_id not in state["active_agent_ids"]:
+                    return state
+                msgs = list(state["messages"]) + [{"role": "user", "content": prompt}]
+                text, total_tokens, output_tokens = _call_agent(a, msgs, state["scenario_brief"])
+                if _cull_check(state, a, total_tokens, output_tokens):
+                    return state
+                state["messages"].append({
+                    "role": "assistant",
+                    "content": f"[{a.agent_id}_synthesis]: {text}",
+                })
+                state["turn_count"] += 1
+                return state
+            return node_fn
+
+        graph.add_node(synth_node, make_synth_node(synth_agent, closing_prompt))
+        graph.add_edge(node_sequence[-1], synth_node)
+        graph.add_edge(synth_node, END)
+    else:
+        graph.add_edge(node_sequence[-1], END)
 
     return graph
 
@@ -295,9 +366,13 @@ def run_simulation(
     }
 
     if topology == "chain":
-        graph = build_chain_graph(agents, scenario_brief, handoff_prompts=kwargs.get("chain_handoff_prompts"))
+        graph = build_chain_graph(
+            agents, scenario_brief,
+            handoff_prompts=kwargs.get("chain_handoff_prompts"),
+            default_handoff=kwargs.get("default_handoff", "Based on all contributions above, now provide your response."),
+        )
     elif topology == "flat":
-        graph = build_flat_graph(agents, max_rounds=flat_rounds)
+        graph = build_flat_graph(agents, max_rounds=flat_rounds, closing_prompt=kwargs.get("closing_prompt"))
     else:
         raise NotImplementedError(f"Topology '{topology}' not yet implemented.")
 
