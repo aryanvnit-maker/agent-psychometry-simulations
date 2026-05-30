@@ -26,6 +26,7 @@ GSM8K_FILE     = Path("results/gsm8k.jsonl")
 
 CONDITION_ORDER = [
     "single-agent",
+    "single-agent-refine",
     "kalibr-flat-no-handoff",
     "kalibr-flat-handoff",
     "kalibr-chain",
@@ -80,12 +81,21 @@ def effect_summary(by_cond: dict[str, list[bool]]) -> None:
     flat_h  = by_cond.get("kalibr-flat-handoff", [])
     flat_n  = by_cond.get("kalibr-flat-no-handoff", [])
     single  = by_cond.get("single-agent", [])
+    refine  = by_cond.get("single-agent-refine", [])
 
     print("\n── Key Effects ──")
     if chain and single:
         delta = rate(chain) - rate(single)
         print(f"  kalibr-chain vs single-agent:          {delta:+.1%}  "
               f"({'chain wins' if delta > 0.03 else 'no clear gain' if abs(delta) <= 0.03 else 'single wins'})")
+    if chain and refine:
+        delta = rate(chain) - rate(refine)
+        print(f"  kalibr-chain vs single-agent-refine:   {delta:+.1%}  "
+              f"({'diversity adds value' if delta > 0.03 else 'tied — hyper-prompting explains it' if abs(delta) <= 0.03 else 'self-refine wins'})")
+    if refine and single:
+        delta = rate(refine) - rate(single)
+        print(f"  single-agent-refine vs single-agent:   {delta:+.1%}  "
+              f"({'structured prompting helps' if delta > 0.03 else 'negligible' if abs(delta) <= 0.03 else 'worse'})")
     if chain and flat_n:
         delta = rate(chain) - rate(flat_n)
         print(f"  kalibr-chain vs flat/no-handoff:       {delta:+.1%}  "
@@ -103,9 +113,12 @@ def effect_summary(by_cond: dict[str, list[bool]]) -> None:
         print(f"\n  VERDICT: ", end="")
         chain_rate  = rate(chain)
         single_rate = rate(single) if single else 0.0
+        refine_rate = rate(refine) if refine else single_rate
         flat_rate   = rate(flat_h) if flat_h else rate(flat_n) if flat_n else 0.0
-        if chain_rate > flat_rate + 0.05 and chain_rate > single_rate + 0.05:
-            print("Kalibr chain topology is the clear winner. Strong evidence for chain architecture.")
+        if chain_rate > refine_rate + 0.03 and chain_rate > flat_rate + 0.05:
+            print("Kalibr chain topology is the clear winner. Agent diversity is the mechanism — not just structured prompting.")
+        elif chain_rate > flat_rate + 0.05 and chain_rate > single_rate + 0.05:
+            print("Chain beats flat and single-agent. Topology effect confirmed. Self-refine not run.")
         elif chain_rate > flat_rate + 0.02:
             print("Chain leads flat. Directional support for chain topology.")
         elif abs(chain_rate - flat_rate) <= 0.02:

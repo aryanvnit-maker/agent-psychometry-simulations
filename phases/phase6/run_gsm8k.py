@@ -12,7 +12,12 @@ Phase 6: Objective Benchmark — GSM8K (Math Reasoning).
 Tests whether chain topology outperforms flat on grade-school math.
 Scoring is deterministic: exact numerical answer match. No LLM judge.
 
-Same 4 conditions as run_humaneval.py, same design principles.
+Conditions:
+    single-agent          — captain alone, one call
+    single-agent-refine   — same captain, two calls (self-refinement baseline)
+    kalibr-chain          — two different agents, captain synthesizes last
+    kalibr-flat-handoff   — drafted team (2), flat rounds + synthesis closing step
+    kalibr-flat-no-handoff — drafted team (2), flat rounds, no synthesis
 
 Usage:
     python phases/phase6/run_gsm8k.py
@@ -74,6 +79,16 @@ CONDITIONS = {
         "default_handoff": None,
         "closing_prompt": None,
         "captain_last":  False,
+        "self_refine":   False,
+    },
+    "single-agent-refine": {
+        "topology":      "chain",
+        "team_size":     1,
+        "chain_handoff_prompts": None,
+        "default_handoff": None,
+        "closing_prompt": None,
+        "captain_last":  False,
+        "self_refine":   True,
     },
     "kalibr-chain": {
         "topology":      "chain",
@@ -82,6 +97,7 @@ CONDITIONS = {
         "default_handoff": None,
         "closing_prompt": None,
         "captain_last":  True,
+        "self_refine":   False,
     },
     "kalibr-flat-handoff": {
         "topology":      "flat",
@@ -90,6 +106,7 @@ CONDITIONS = {
         "default_handoff": None,
         "closing_prompt": MATH_CLOSING_PROMPT,
         "captain_last":  False,
+        "self_refine":   False,
     },
     "kalibr-flat-no-handoff": {
         "topology":      "flat",
@@ -98,6 +115,7 @@ CONDITIONS = {
         "default_handoff": None,
         "closing_prompt": None,
         "captain_last":  False,
+        "self_refine":   False,
     },
 }
 
@@ -147,7 +165,57 @@ def _append(rec: dict) -> None:
         f.write(json.dumps(rec) + "\n")
 
 
+def run_one_refine(condition_name: str, cond: dict, problem, rep_seed: int) -> dict | None:
+    """Single-agent self-refinement: same captain makes two calls (draft → synthesize)."""
+    from src.orchestration.engine import _call_agent
+    run_id = str(uuid.uuid4())
+
+    pool    = initialise_pool(seed=rep_seed)
+    workers = [a for a in pool if not a.is_judge]
+    team, _ = draft_team(workers, 1, TASK_DIMS, "drafted")
+    captain = team[0]
+
+    step1_msgs = [{"role": "user", "content": problem.brief}]
+    try:
+        analysis, _, _ = _call_agent(captain, step1_msgs, problem.brief)
+    except Exception as e:
+        print(f"    ERROR step1: {e}")
+        traceback.print_exc()
+        return None
+
+    step2_msgs = [
+        {"role": "user",      "content": problem.brief},
+        {"role": "assistant", "content": f"[{captain.agent_id}]: {analysis}"},
+        {"role": "user",      "content": MATH_SYNTHESIS_PROMPT},
+    ]
+    try:
+        final_output, _, _ = _call_agent(captain, step2_msgs, problem.brief)
+    except Exception as e:
+        print(f"    ERROR step2: {e}")
+        traceback.print_exc()
+        return None
+
+    predicted = extract_answer(final_output)
+    correct   = answers_match(predicted, problem.answer_value)
+
+    return {
+        "run_id":      run_id,
+        "condition":   condition_name,
+        "topology":    "self-refine",
+        "team_size":   1,
+        "problem_id":  problem.problem_id,
+        "correct":     correct,
+        "predicted":   predicted,
+        "expected":    problem.answer_value,
+        "turn_count":  2,
+        "cull_events": [],
+    }
+
+
 def run_one(condition_name: str, cond: dict, problem, rep_seed: int) -> dict | None:
+    if cond.get("self_refine"):
+        return run_one_refine(condition_name, cond, problem, rep_seed)
+
     run_id = str(uuid.uuid4())
 
     pool    = initialise_pool(seed=rep_seed)

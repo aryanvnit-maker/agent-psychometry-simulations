@@ -106,8 +106,9 @@ def check_solution(solution_code: str, problem: HumanEvalProblem, timeout: int =
         tmp_path = f.name
 
     try:
+        import sys as _sys
         result = subprocess.run(
-            ["python", tmp_path],
+            [_sys.executable, tmp_path],  # sys.executable ensures correct Python version
             capture_output=True,
             timeout=timeout,
             text=True,

@@ -13,8 +13,11 @@ Tests whether chain topology outperforms flat on a fully objective benchmark.
 Scoring is deterministic: Python test suite execution. No LLM judge.
 
 Conditions:
-    single-agent          — captain alone, no team
-    kalibr-chain          — drafted team (2), captain synthesizes last
+    single-agent          — captain alone, one call, no refinement
+    single-agent-refine   — same captain, two calls (self-refinement baseline)
+                            Proves: is chain advantage just structured self-prompting?
+    kalibr-chain          — two DIFFERENT agents, captain synthesizes last
+                            If chain > single-agent-refine: agent diversity adds value
     kalibr-flat-handoff   — drafted team (2), flat rounds + synthesis closing step
     kalibr-flat-no-handoff — drafted team (2), flat rounds, no synthesis
 
@@ -22,6 +25,7 @@ Key fixes vs Phase 5:
     - Role-overriding synthesis prompt (no role constitution conflict)
     - Captain synthesizes in chain (highest-capability agent closes)
     - No LLM judge — test suite pass/fail is ground truth
+    - sys.executable used for subprocess (Python 2/3 safe)
 
 Usage:
     python phases/phase6/run_humaneval.py
@@ -58,23 +62,26 @@ DELAY_SECS   = 2
 
 CODE_SYNTHESIS_PROMPT = (
     "OVERRIDE YOUR ROLE FUNCTION FOR THIS TURN.\n"
-    "You are the terminal code synthesis agent in a sequential chain.\n"
+    "You are the terminal code synthesis agent.\n"
     "Review the prior analysis and any partial solution above.\n"
-    "Now write the FINAL, CORRECT Python function.\n"
-    "Output ONLY a Python code block:\n"
+    "Write the FINAL, CORRECT Python solution as a single code block.\n"
+    "The block must include all necessary import statements AND the complete function.\n"
     "```python\n"
-    "[complete function definition here]\n"
+    "# all necessary imports\n"
+    "def function_name(...):\n"
+    "    # complete, correct implementation\n"
     "```\n"
-    "The function must be complete, correct, and handle all edge cases. "
     "No explanation. No prose. Only the code block."
 )
 
 CODE_CLOSING_PROMPT = (
     "OVERRIDE YOUR ROLE FUNCTION FOR THIS TURN.\n"
-    "Based on all analysis above, write the FINAL, CORRECT Python function.\n"
-    "Output ONLY a Python code block:\n"
+    "Based on all analysis above, write the FINAL, CORRECT Python solution.\n"
+    "The block must include all necessary import statements AND the complete function.\n"
     "```python\n"
-    "[complete function definition here]\n"
+    "# all necessary imports\n"
+    "def function_name(...):\n"
+    "    # complete, correct implementation\n"
     "```\n"
     "No explanation. Only the code block."
 )
@@ -89,6 +96,16 @@ CONDITIONS = {
         "default_handoff": None,
         "closing_prompt": None,
         "captain_last":  False,
+        "self_refine":   False,
+    },
+    "single-agent-refine": {
+        "topology":      "chain",
+        "team_size":     1,
+        "chain_handoff_prompts": None,
+        "default_handoff": None,
+        "closing_prompt": None,
+        "captain_last":  False,
+        "self_refine":   True,
     },
     "kalibr-chain": {
         "topology":      "chain",
@@ -96,7 +113,8 @@ CONDITIONS = {
         "chain_handoff_prompts": {1: CODE_SYNTHESIS_PROMPT},
         "default_handoff": None,
         "closing_prompt": None,
-        "captain_last":  True,   # diversity pick goes first, captain synthesizes
+        "captain_last":  True,
+        "self_refine":   False,
     },
     "kalibr-flat-handoff": {
         "topology":      "flat",
@@ -105,6 +123,7 @@ CONDITIONS = {
         "default_handoff": None,
         "closing_prompt": CODE_CLOSING_PROMPT,
         "captain_last":  False,
+        "self_refine":   False,
     },
     "kalibr-flat-no-handoff": {
         "topology":      "flat",
@@ -113,6 +132,7 @@ CONDITIONS = {
         "default_handoff": None,
         "closing_prompt": None,
         "captain_last":  False,
+        "self_refine":   False,
     },
 }
 
@@ -178,7 +198,57 @@ def _append(rec: dict) -> None:
         f.write(json.dumps(rec) + "\n")
 
 
+def run_one_refine(condition_name: str, cond: dict, problem, rep_seed: int) -> dict | None:
+    """Single-agent self-refinement: same captain makes two calls (draft → synthesize)."""
+    from src.orchestration.engine import _call_agent
+    run_id = str(uuid.uuid4())
+
+    pool    = initialise_pool(seed=rep_seed)
+    workers = [a for a in pool if not a.is_judge]
+    team, _ = draft_team(workers, 1, TASK_DIMS, "drafted")
+    captain = team[0]
+
+    step1_msgs = [{"role": "user", "content": problem.brief}]
+    try:
+        analysis, _, _ = _call_agent(captain, step1_msgs, problem.brief)
+    except Exception as e:
+        print(f"    ERROR step1: {e}")
+        traceback.print_exc()
+        return None
+
+    step2_msgs = [
+        {"role": "user",      "content": problem.brief},
+        {"role": "assistant", "content": f"[{captain.agent_id}]: {analysis}"},
+        {"role": "user",      "content": CODE_SYNTHESIS_PROMPT},
+    ]
+    try:
+        final_output, _, _ = _call_agent(captain, step2_msgs, problem.brief)
+    except Exception as e:
+        print(f"    ERROR step2: {e}")
+        traceback.print_exc()
+        return None
+
+    code   = extract_code(final_output, problem.entry_point)
+    passed = check_solution(code, problem) if code else False
+
+    return {
+        "run_id":         run_id,
+        "condition":      condition_name,
+        "topology":       "self-refine",
+        "team_size":      1,
+        "task_id":        problem.task_id,
+        "entry_point":    problem.entry_point,
+        "passed":         passed,
+        "code_extracted": bool(code),
+        "turn_count":     2,
+        "cull_events":    [],
+    }
+
+
 def run_one(condition_name: str, cond: dict, problem, rep_seed: int) -> dict | None:
+    if cond.get("self_refine"):
+        return run_one_refine(condition_name, cond, problem, rep_seed)
+
     run_id = str(uuid.uuid4())
 
     pool    = initialise_pool(seed=rep_seed)
@@ -186,7 +256,6 @@ def run_one(condition_name: str, cond: dict, problem, rep_seed: int) -> dict | N
 
     team, captain_id = draft_team(workers, cond["team_size"], TASK_DIMS, "drafted")
 
-    # Captain synthesizes last in chain — put diversity pick first
     if cond["captain_last"] and len(team) > 1:
         team = list(reversed(team))
 
