@@ -39,9 +39,11 @@ Chain-2 (two agents, 2 API calls) vs single-agent-refine (one agent, 2 API calls
 
 Not significant. A single agent running draft → synthesize matches a diverse multi-agent team compute-for-compute. Agent diversity adds zero measurable value over structured self-refinement.
 
-**Objective validation (Phase 6, ~750 benchmark instances):**
+**Objective validation (Phase 6, 749 benchmark instances, no LLM judge):**
 
-HumanEval and GSM8K on Gemini 2.5 Flash. All conditions with a synthesis step cluster at 94–98% and 85–92%. Flat/no-handoff (no synthesis, role constitution conflict): **~28% HumanEval, ~57% GSM8K**. Same agents, same topology, synthesis override removed. Complete performance collapse.
+HumanEval (N=50/condition) and GSM8K (N=99–100/condition) on Gemini 2.5 Flash. All conditions with a synthesis step: 92–98%. Flat/no-handoff (no synthesis): **28.0% HumanEval [CI: 17.5–41.7%], 56.6% GSM8K [CI: 46.7–65.9%]**. Same agents, same topology, synthesis override removed. Separated from every working condition by 60+ points.
+
+**Phase B replication (code review, N=15/condition):** chain-2: 70.4, flat-2: 35.3, Δ=+35.1. Topology direction replicates outside business judgment scenarios.
 
 **Prior findings (Phases 2–4):**
 - Role labels degrade execution: ALGORITHMIST → IMPLEMENTER costs 4pp pass@1 vs generic chain-2
@@ -69,7 +71,7 @@ Anticipated objections:
 
 **"p=0.854 in Phase 8 — maybe you're underpowered."** n=39/40 per condition with sd ~17. To detect a 10-point gap at 80% power requires n≈47 per condition. We're close but not there for small effects. What Phase 8 rules out is large effects (>10 pts). It cannot definitively rule out a 5-point diversity signal. The per-scenario breakdown (3 of 4 tied at <1.2 pts) makes a meaningful systematic effect unlikely.
 
-**"Ceiling effect in Phase 6."** Agreed. Gemini 2.5 Flash scores 94–98% on HumanEval — there is no room to discriminate. Phase 6's primary finding is the flat/no-handoff collapse (~28%), not relative rankings among working configurations. Hard benchmarks (Phase 2, Codeforces Div. 1 C/D) show more discrimination at lower absolute performance.
+**"Ceiling effect in Phase 6."** Agreed. Gemini 2.5 Flash scores 94–98% on HumanEval for all working conditions — confidence intervals overlap substantially. Phase 6's primary finding is the flat/no-handoff collapse (28.0%, CI [17.5–41.7%]), separated from every other condition by 60+ points. Hard benchmarks (Phase 2, Codeforces Div. 1 C/D) show more discrimination at lower absolute performance.
 
 **"Real systems use heterogeneous model families."** Phase 8 used same-model agents with different Kalibr dimension profiles. If agent A and agent B are genuinely different model families, the diversity null result may not hold — their training distributions differ in ways that prompt-based constitutions cannot replicate. This is listed as the most important open question.
 

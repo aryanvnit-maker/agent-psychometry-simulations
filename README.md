@@ -101,9 +101,15 @@ Role instruction is the culprit, not dimension profiles.
 
 Classifier accuracy: 100% on 37 real + 10 adversarial Trojan tasks.
 
-### Phase B — Code Review Replication
+### Phase B — Code Review Replication (N=15 per condition)
 
-Chain outperformed flat on code review. Topology direction replicates across domains.
+| Topology | N | Mean score |
+|---|---|---|
+| chain-2 | 15 | 70.4 |
+| flat-2 | 15 | 35.3 |
+| **Δ** | | **+35.1** |
+
+Topology direction replicates on code review, outside the business judgment domain.
 
 ### Phase 5 — Topology × Handoff Factorial (160 runs, 2×2 design)
 
@@ -116,17 +122,19 @@ Chain outperformed flat on code review. Topology direction replicates across dom
 
 Handoff effect: **+38.8 pts**. Topology effect (no handoff): **+16.6 pts**. Synthesis dominates.
 
-### Phase 6 — Objective Benchmarks (~750 evaluations)
+### Phase 6 — Objective Benchmarks (749 evaluations, no LLM judge)
 
-| Condition | Calls | HumanEval | GSM8K |
-|---|---|---|---|
-| single-agent | 1 | ~94% | ~85% |
-| single-agent-refine | 2 | ~96% | ~90% |
-| kalibr-chain | 2 | ~98% | ~92% |
-| kalibr-flat-handoff | 5 | ~96% | ~91% |
-| **kalibr-flat-no-handoff** | **4** | **~28%** | **~57%** |
+**HumanEval pass@1 (N=50/condition) · GSM8K accuracy (N=99–100/condition)**
 
-Role constitution conflict collapses flat/no-handoff. Synthesis override rescues it. Near-ceiling on working conditions.
+| Condition | Calls | HumanEval | 95% CI | GSM8K | 95% CI |
+|---|---|---|---|---|---|
+| single-agent | 1 | 94.0% | [83.8–97.9%] | 85.0% | [76.7–90.7%] |
+| single-agent-refine | 2 | 98.0% | [89.5–99.6%] | 92.0% | [85.0–95.9%] |
+| kalibr-chain | 2 | 96.0% | [86.5–98.9%] | 94.0% | [87.5–97.2%] |
+| kalibr-flat-handoff | 5 | 98.0% | [89.5–99.6%] | 92.0% | [85.0–95.9%] |
+| **kalibr-flat-no-handoff** | **4** | **28.0%** | **[17.5–41.7%]** | **56.6%** | **[46.7–65.9%]** |
+
+Role constitution collapse in flat/no-handoff (mechanism hypothesis: conflicting role constraints suppress output). Synthesis override rescues all conditions. Working conditions near ceiling on Gemini 2.5 Flash — primary finding is the collapse, not rankings among working configs.
 
 ### Phase 8 — Agent Diversity vs Self-Refinement (79 runs, compute-matched)
 

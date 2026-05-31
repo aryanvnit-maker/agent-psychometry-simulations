@@ -182,7 +182,13 @@ Code review domain. Chain topology vs flat topology on a different task type —
 
 ### Result
 
-Chain outperformed flat on code review, replicating the Phase 1 direction. The topology finding is not specific to the business judgment scenarios in Phase 1.
+| Topology | N | Mean score |
+|---|---|---|
+| chain-2 | 15 | 70.4 |
+| flat-2 | 15 | 35.3 |
+| **Δ** | | **+35.1** |
+
+Chain outperformed flat on code review by 35.1 points, replicating the Phase 1 direction on a different task type. The topology finding is not specific to the business judgment scenarios in Phase 1.
 
 ---
 
@@ -201,7 +207,7 @@ Four conditions, 10 reps × 4 scenarios = 160 total runs, 3-judge panel per run:
 - **chain/handoff** — chain topology + SYNTHESIS_PROMPT at handoff
 - **chain/no-handoff** — chain topology, no injected synthesis instruction
 - **flat/handoff** — flat round-table + explicit closing synthesis step
-- **flat/no-handoff** — flat round-table, no synthesis (the industry default)
+- **flat/no-handoff** — flat round-table, no synthesis (matching the out-of-the-box examples in most frameworks, which omit a terminal synthesis step)
 
 SYNTHESIS_PROMPT: *"OVERRIDE YOUR ROLE FUNCTION FOR THIS TURN. You are the terminal synthesis agent. Identify what prior analysis got right, what it missed, produce a COMPLETE, DEFINITIVE final answer. Close every open question. Be decisive."*
 
@@ -224,7 +230,7 @@ The synthesis step is the dominant mechanism. The topology gap is real and causa
 
 The Phase 1 claim — "topology determines everything" — is partially revised. The correct claim is:
 
-*The synthesis step is the primary mechanism. Topology is a structural property that determines whether the synthesis step happens naturally (chain) or must be forced explicitly (flat). Without synthesis, topology produces a 16.6-pt gap. With synthesis, the gap narrows to 9.8 pts. The industry default (flat/no-handoff) scores 34.3. The optimal configuration (chain/handoff) scores 86.3. The 52-point gap between them is mostly explained by the presence or absence of a synthesis step, not by topology per se.*
+*The synthesis step is the primary mechanism. Topology is a structural property that determines whether the synthesis step happens naturally (chain) or must be forced explicitly (flat). Without synthesis, topology produces a 16.6-pt gap. With synthesis, the gap narrows to 9.8 pts. The out-of-the-box flat configuration (no synthesis step, as in most framework quickstart examples) scores 34.3. The optimal configuration (chain/handoff) scores 86.3. The 52-point gap between them is mostly explained by the presence or absence of a synthesis step, not by topology per se. Note: teams that already add a final "summarize and commit" step to their flat pipeline will not see the 34.3 baseline — they are already in the flat/handoff regime (~76.5).*
 
 ---
 
@@ -234,32 +240,42 @@ The Phase 1 claim — "topology determines everything" — is partially revised.
 
 Phase 6 tests the synthesis finding on objective benchmarks where ground truth is available and no LLM judge is required:
 
-- **HumanEval** — Python function completion against private test cases (pass@1)
-- **GSM8K** — Grade-school math word problems (exact numerical match)
+- **HumanEval** — Python function completion against private test cases (pass@1), N=50 per condition
+- **GSM8K** — Grade-school math word problems (exact numerical match), N=99–100 per condition
 
 Five conditions: single-agent (1 call), single-agent-refine (2 calls, self-synthesis), kalibr-chain (2 calls, 2 agents), kalibr-flat-handoff (5 calls, round-table + synthesis), kalibr-flat-no-handoff (4 calls, round-table only).
 
 ### Results
 
-| Condition | Calls | HumanEval | GSM8K |
-|---|---|---|---|
-| single-agent | 1 | ~94% | ~85% |
-| single-agent-refine | 2 | ~96% | ~90% |
-| kalibr-chain | 2 | ~98% | ~92% |
-| kalibr-flat-handoff | 5 | ~96% | ~91% |
-| **kalibr-flat-no-handoff** | **4** | **~28%** | **~57%** |
+**HumanEval — pass@1 (N=50 per condition)**
 
-*(Approximate — Gemini 2.5 Flash near-ceiling on these benchmarks; see note below.)*
+| Condition | Calls | pass@1 | 95% CI |
+|---|---|---|---|
+| single-agent | 1 | 94.0% | [83.8%, 97.9%] |
+| single-agent-refine | 2 | 98.0% | [89.5%, 99.6%] |
+| kalibr-chain | 2 | 96.0% | [86.5%, 98.9%] |
+| kalibr-flat-handoff | 5 | 98.0% | [89.5%, 99.6%] |
+| **kalibr-flat-no-handoff** | **4** | **28.0%** | **[17.5%, 41.7%]** |
+
+**GSM8K — accuracy (N=99–100 per condition)**
+
+| Condition | Calls | accuracy | 95% CI |
+|---|---|---|---|
+| single-agent | 1 | 85.0% | [76.7%, 90.7%] |
+| single-agent-refine | 2 | 92.0% | [85.0%, 95.9%] |
+| kalibr-chain | 2 | 94.0% | [87.5%, 97.2%] |
+| kalibr-flat-handoff | 5 | 92.0% | [85.0%, 95.9%] |
+| **kalibr-flat-no-handoff** | **4** | **56.6%** | **[46.7%, 65.9%]** |
 
 ### Finding 1: Role Constitution Collapse
 
-kalibr-flat-no-handoff collapsed to ~28% on HumanEval. The cause is role constitution conflict: MONITOR_EVALUATOR agents carry the instruction "do not generate primary output" and COMPLETER_FINISHER agents carry "do not close tasks prematurely." Without an explicit synthesis override, these role constraints block final code delivery. Agents produce analysis but decline to commit a runnable solution.
+kalibr-flat-no-handoff collapsed to 28.0% on HumanEval and 56.6% on GSM8K. The probable mechanism is role constitution conflict: Kalibr's MONITOR_EVALUATOR agents carry the instruction "do not generate primary output" and COMPLETER_FINISHER agents carry "do not close tasks prematurely." Without an explicit synthesis override, these role constraints suppress final output delivery. This is consistent with the Phase 2 finding that role labels degrade execution performance, but it is a mechanism hypothesis — we did not test flat topology with generic (no-role) agents in Phase 6 as a direct control.
 
-The synthesis prompt override in flat/handoff rescues the condition entirely: ~96%. Same architecture, same agents, same rounds. The synthesis instruction is what unlocks output.
+The synthesis prompt override in flat/handoff rescues the condition entirely: 98.0% HumanEval, 92.0% GSM8K. Same architecture, same agents, same rounds — the synthesis instruction is what unlocks output.
 
 ### Finding 2: Ceiling Effect
 
-Modern models (Gemini 2.5 Flash) score 94–98% on HumanEval and 85–92% on GSM8K across all non-collapsed conditions. These benchmarks are insufficient to discriminate between topology or composition configurations. The primary Phase 6 finding is the collapse mechanism, not relative rankings among working configurations.
+Modern models (Gemini 2.5 Flash) score 94–98% on HumanEval and 85–94% on GSM8K across all non-collapsed conditions. These benchmarks lack the headroom to discriminate between working configurations. The confidence intervals overlap substantially for all conditions except kalibr-flat-no-handoff, which is separated by 60+ points. The primary Phase 6 finding is the collapse, not relative rankings among working configurations.
 
 ---
 
@@ -367,7 +383,7 @@ The correct architecture was sitting in plain sight. One agent or two, sequentia
 
 ## Practical Implications
 
-**1. The synthesis prompt is the primary intervention.** Before restructuring topology or adding agents, add a synthesis step. A single agent running draft → synthesize with the commitment-forcing prompt closes 85% of the gap between broken and optimal. If you do one thing, do this.
+**1. The synthesis prompt is the primary intervention — and it is a corrective layer, not a rip-and-replace.** It can sit on top of any existing LangChain, CrewAI, or AutoGen pipeline as a terminal synthesis step. Before restructuring topology or adding agents, add this step. A single agent running draft → synthesize with the commitment-forcing prompt closes 85% of the gap between broken and optimal. If you do one thing, do this.
 
 **2. Use chains of two, not rooms of many.** The largest return is 1→2 agents. Returns diminish past 4. A chain of 2 beats a room of 8 by 38 points on judgment tasks. The chain topology implements the synthesis step naturally; flat topology requires it to be forced explicitly.
 
@@ -414,6 +430,14 @@ The correct architecture was sitting in plain sight. One agent or two, sequentia
 **What is the minimum synthesis prompt?** The SYNTHESIS_PROMPT is 4 instructions. Which elements are load-bearing? "Close every open question" and "Be decisive" are candidates for the critical constraint. Ablation study needed.
 
 The full codebase, agent constitutions, scenarios, benchmark datasets, and evaluation harness are in the repository.
+
+---
+
+## If You're Running a Multi-Agent Pipeline
+
+The evaluation harness is designed to be run against your own scenarios, not just the ones in this paper. If you want to know whether your pipeline has the synthesis collapse failure mode — or whether your architecture is spending compute on agent count that adds nothing — the tooling is open source and runs against any judgment scenario you can describe as a brief + rubric.
+
+For teams that prefer a structured assessment: I offer confidential back-test audits, identifying your exact collapse rate, token waste, and architectural fix against your own production logs. Contact: aryan199841@gmail.com.
 
 *This research was conducted independently, without institutional funding or affiliation.*
 
