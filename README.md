@@ -2,17 +2,17 @@
 
 **Kalibr is the synthesis layer for multi-agent AI systems.**
 
-Most multi-agent pipelines silently fail — not because of the wrong framework, the wrong topology, or too few agents, but because no agent is ever forced to commit to a final answer. Kalibr fixes this with a corrective architecture that sits on top of any existing LangChain, CrewAI, or AutoGen pipeline.
+Most multi-agent pipelines on bounded tasks — code, math, judgment, structured output — silently fail not because of the wrong framework, the wrong topology, or too few agents, but because no agent is ever forced to commit to a final answer. Kalibr fixes this with a corrective architecture that sits on top of any existing LangChain, CrewAI, or AutoGen pipeline.
 
 Nine experiments. 2,400+ evaluations. Temperature=0.0 throughout. The root cause of multi-agent failure is one missing prompt.
 
-→ **[Full research write-up](docs/lesswrong-post-combined.md)** · **[kalibriq.com](https://kalibriq.com)**
+→ **[Full research write-up](docs/lesswrong-post-combined.md)**
 
 ---
 
 ## The Problem
 
-The out-of-the-box flat roundtable configuration — the default in most framework Quickstarts — scores **34.3/100** on structured judgment tasks. Agents address each other constantly (social cohesion is high) while nobody commits to a deliverable (task cohesion collapses). Under adversarial input it fails completely: 4 of 100 runs returned no output at all.
+The out-of-the-box flat roundtable configuration — the default in most framework Quickstarts when no terminal synthesis step is added — scores **34.3/100** on structured judgment tasks. Agents address each other constantly (social cohesion is high) while nobody commits to a deliverable (task cohesion collapses). Under adversarial input, flat topology produced zero outputs in 4 of 100 runs; chain never collapsed once.
 
 Adding more agents doesn't help. Adding a different model doesn't help. The fix is one synthesis prompt at the terminal step.
 
@@ -22,27 +22,33 @@ Adding more agents doesn't help. Adding a different model doesn't help. The fix 
 
 Kalibr enforces a synthesis architecture on top of whatever you're already running:
 
-1. **Synthesis layer** — a commit-forcing prompt at the terminal step that overrides role constraints, demands gap identification, and requires a definitive final answer. This single change closes 85% of the gap between broken and optimal multi-agent.
+1. **Synthesis layer** — a commit-forcing prompt at the terminal step that overrides role constraints, demands gap identification, and requires a definitive final answer. Adding this to a flat pipeline takes it from 34.3 → 76.5 (~80% of the gap to optimal closed).
 
 2. **Task router** — a five-line classifier that routes between judgment and execution configs. Any single static config collapses on one axis of a mixed workload; the router achieves per-domain maximum on both simultaneously.
 
-3. **Psychometric profiling** — Kalibr dimension profiles that produce a 78-point performance gap on open-world strategic tasks. Neutral on closed-world deterministic tasks; reserve for judgment and resource allocation.
+3. **Psychometric profiling** — Kalibr dimension profiles that contribute up to a 78-point advantage on open-world strategic judgment tasks when paired with domain routing. Neutral on closed-world deterministic tasks; reserve for judgment and resource allocation.
+
+**SDK preview** — the `kalibr/` package is in this repo and installable via git:
+
+```bash
+pip install git+https://github.com/aryanvnit-maker/agent-psychometry-simulations
+```
 
 ```python
 from kalibr import chain, route
 
-# Drop-in synthesis layer on any existing pipeline
-result = chain(agents=[agent_a, agent_b], task=your_task)
+result = chain(task="Should we pivot to enterprise or stay SMB?")
+print(result.output)
 
-# Automatic routing for mixed workloads
-result = route(task=your_task, judgment_config=j_cfg, execution_config=e_cfg)
+result = route(task="Implement a binary search in Python.")
+print(result.output)
 ```
 
 ---
 
 ## The Evidence
 
-| Condition | Calls | Score |
+| Condition | LLM calls | Score |
 |---|---|---|
 | Flat/no-handoff (out-of-the-box default) | 4 | 34.3 |
 | Chain/no-handoff | 2 | 50.9 |
@@ -158,7 +164,7 @@ Handoff effect: **+38.8 pts**. Topology effect (no handoff): **+16.6 pts**. Synt
 | kalibr-flat-handoff | 5 | 98.0% | [89.5–99.6%] | 92.0% | [85.0–95.9%] |
 | **kalibr-flat-no-handoff** | **4** | **28.0%** | **[17.5–41.7%]** | **56.6%** | **[46.7–65.9%]** |
 
-All working conditions near ceiling — CIs overlap substantially, rankings not meaningful. Primary finding is the flat/no-handoff collapse (28.0% HumanEval), separated from every working condition by 60+ points.
+All working conditions near ceiling — CIs overlap substantially, rankings not meaningful. The primary finding is the flat/no-handoff collapse (28.0% HumanEval, 56.6% GSM8K), separated from every working condition by 60+ points. The collapse is the result; differences among working conditions are not.
 
 ### Phase 8 — Agent Diversity vs Self-Refinement (79 runs, compute-matched)
 
@@ -309,6 +315,12 @@ python phases/summarize_all.py
 
 ---
 
+## Audits
+
+For teams running multi-agent pipelines: confidential back-test audits available to measure your exact collapse rate, token waste, and synthesis gap. Contact aryan199841@gmail.com.
+
+---
+
 ## License
 
 Free for research and non-commercial use under [AGPL-3.0](LICENSE).
@@ -318,4 +330,4 @@ Commercial use requires a paid license — see [COMMERCIAL_LICENSE.md](COMMERCIA
 
 *Independent research. No institutional funding or affiliation.*
 
-— Aryan S. | [kalibriq.com](https://kalibriq.com)
+— Aryan S.
