@@ -42,6 +42,10 @@ print(result.output)
 
 result = route(task="Implement a binary search in Python.")
 print(result.output)
+
+# With judge-panel scoring
+result = chain(task="Evaluate this acquisition offer.", score=True)
+print(result.score)   # 0–100
 ```
 
 ---

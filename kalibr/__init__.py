@@ -4,27 +4,30 @@
 """
 Kalibr — empirically-grounded multi-agent orchestration.
 
+Configure your model in .env before importing:
+    GEMINI_API_KEY=...          # default model: gemini-2.5-flash
+    ANTHROPIC_API_KEY=...       # set MODEL_PROVIDER=anthropic, MODEL=claude-...
+    MODEL=gemini-2.5-flash      # override model
+    MODEL_PROVIDER=gemini       # gemini | anthropic | openai
+
 Quickstart:
-    from kalibr import chain, route, KalibrProfile
+    from kalibr import chain, route
 
-    # Run a 2-agent chain on any task
-    result = chain(
-        task="Should we pivot to enterprise or stay SMB?",
-        model="gemini-2.5-flash",   # or "gpt-4o" / "claude-3-5-sonnet-20241022"
-    )
+    # 2-agent synthesis chain — empirically optimal for judgment tasks
+    result = chain(task="Should we pivot to enterprise or stay SMB?")
     print(result.output)
-    print(result.score)   # judge panel score 0-100
 
-    # Auto-route: Kalibr classifies the task and picks the right config
-    result = route(
-        task="Implement a binary search function in Python.",
-        model="gemini-2.5-flash",
-    )
+    # Auto-route: classifies task and picks the right config
+    result = route(task="Implement a binary search function in Python.")
     print(result.output)
+
+    # With judge-panel scoring (+latency)
+    result = chain(task="Evaluate this acquisition offer.", score=True)
+    print(result.score)   # 0-100
 """
 from __future__ import annotations
-import os
 from dataclasses import dataclass
+from functools import lru_cache
 
 from src.orchestration.engine import run_simulation
 from src.agents.profile import (
@@ -34,7 +37,6 @@ from src.agents.profile import (
     Role,
     ConflictStyle,
 )
-from src.agents.constitution import build_constitution
 
 
 @dataclass
@@ -71,6 +73,14 @@ def _generic_agent(agent_id: str, role: Role = Role.IMPLEMENTER) -> AgentProfile
     )
 
 
+@lru_cache(maxsize=1)
+def _judges() -> list[AgentProfile]:
+    """Return the 3-judge panel used across all research phases. Cached after first call."""
+    from src.agents.pool import initialise_pool
+    pool = initialise_pool(seed=42)
+    return [a for a in pool if a.is_judge]
+
+
 def _extract_output(messages: list, topology: str = "chain") -> str:
     assistant_blocks = [
         m["content"] for m in messages
@@ -91,38 +101,55 @@ def _build_transcript(messages: list) -> str:
     return "\n\n".join(lines)
 
 
-def chain(
-    task: str,
-    model: str = "gemini-2.5-flash",
-    provider: str | None = None,
-    score: bool = False,
-) -> KalibrResult:
-    """
-    Run a 2-agent chain on any task.
+def _panel_score(state: dict, topology: str = "chain") -> float:
+    from src.evaluation.judge import score_transcript_panel
+    rubric = (
+        "Score whether the final response directly addresses the task, "
+        "commits to a clear answer, and provides specific reasoning. "
+        "Penalise hedging, vagueness, and incomplete answers."
+    )
+    judges = _judges()
+    evals = score_transcript_panel(
+        run_id=state["run_id"],
+        phase="kalibr",
+        transcript=_build_transcript(state["messages"]),
+        rubric=rubric,
+        n_judges=len(judges),
+        judge_agents=judges,
+        topology=topology,
+        team_size=2,
+    )
+    return sum(e.task_score for e in evals) / len(evals)
 
-    Chain topology: agent 1 analyses, agent 2 synthesises into a committed final response.
-    Empirically optimal for judgment and open-ended tasks (Phase 1 finding: +46 pts vs flat).
+
+def chain(task: str, score: bool = False) -> KalibrResult:
+    """
+    Run a 2-agent synthesis chain on any task.
+
+    Agent 1 analyses; agent 2 synthesises into a committed final answer.
+    Empirically optimal for judgment and open-ended tasks (Phase 5: 86.3/100).
+    Configure model via .env (MODEL, MODEL_PROVIDER, GEMINI_API_KEY).
 
     Args:
-        task:     The task prompt.
-        model:    Model name (Gemini, OpenAI, or Anthropic model string).
-        provider: 'gemini' | 'openai' | 'anthropic'. Auto-detected from model name if omitted.
-        score:    If True, run a 3-judge panel and return score in result.score (adds latency).
+        task:  The task prompt.
+        score: If True, run the 3-judge panel and populate result.score (adds ~3 LLM calls).
 
     Returns:
-        KalibrResult with output, transcript, turn_count, token_usage, score.
+        KalibrResult(output, transcript, turn_count, token_usage, score)
     """
-    _set_provider(model, provider)
+    handoff = (
+        "OVERRIDE YOUR ROLE FUNCTION FOR THIS TURN. "
+        "You are the terminal synthesis agent. The prior analysis is above. "
+        "You must: 1. Identify what the prior analysis got right. "
+        "2. Identify what it missed or got wrong. "
+        "3. Produce a COMPLETE, DEFINITIVE final answer — strictly better. "
+        "Do not summarise. Close every open question. Be decisive."
+    )
 
     agents = [
-        _generic_agent("analyst",    role=Role.IMPLEMENTER),
+        _generic_agent("analyst",     role=Role.IMPLEMENTER),
         _generic_agent("synthesizer", role=Role.SOLVER),
     ]
-
-    handoff = (
-        "Based on the analysis above, synthesize a complete final response that directly "
-        "addresses the prompt. Be specific and decisive. No hedging."
-    )
 
     state = run_simulation(
         agents=agents,
@@ -133,49 +160,34 @@ def chain(
         default_handoff=None,
     )
 
-    result_score = None
-    if score:
-        result_score = _panel_score(state, task, topology="chain")
-
     return KalibrResult(
         output=_extract_output(state["messages"], topology="chain"),
         transcript=_build_transcript(state["messages"]),
         turn_count=state["turn_count"],
         token_usage=state["token_usage"],
-        score=result_score,
+        score=_panel_score(state, topology="chain") if score else None,
     )
 
 
-def route(
-    task: str,
-    model: str = "gemini-2.5-flash",
-    provider: str | None = None,
-    score: bool = False,
-) -> KalibrResult:
+def route(task: str, score: bool = False) -> KalibrResult:
     """
-    Classify task domain and run the empirically optimal agent config.
+    Classify task domain and run the empirically optimal config.
 
     judgment tasks  → chain-2 with Kalibr dimension profiles
-    execution tasks → chain-2 generic with code-specific handoff
-
+    execution tasks → chain-2 generic with code-specific synthesis handoff
     Classifier accuracy: 100% on 47 tasks including adversarial inputs (Phase 4).
 
     Args:
-        task:     The task prompt.
-        model:    Model name.
-        provider: Auto-detected if omitted.
-        score:    If True, run judge panel scoring.
+        task:  The task prompt.
+        score: If True, run the 3-judge panel and populate result.score.
 
     Returns:
-        KalibrResult with output and metadata.
+        KalibrResult(output, transcript, turn_count, token_usage, score)
     """
-    _set_provider(model, provider)
-
     from src.meta_orchestrator.classifier import classify
     from src.meta_orchestrator.router import route as _route
 
-    domain = classify(task)
-    config = _route(domain)
+    config = _route(classify(task))
 
     state = run_simulation(
         agents=config["agents"],
@@ -186,53 +198,14 @@ def route(
         default_handoff=None,
     )
 
-    result_score = None
-    if score:
-        result_score = _panel_score(state, task, topology=config["topology"])
-
+    topology = config["topology"]
     return KalibrResult(
-        output=_extract_output(state["messages"], topology=config["topology"]),
+        output=_extract_output(state["messages"], topology=topology),
         transcript=_build_transcript(state["messages"]),
         turn_count=state["turn_count"],
         token_usage=state["token_usage"],
-        score=result_score,
+        score=_panel_score(state, topology=topology) if score else None,
     )
 
 
-def _panel_score(state: dict, task: str, topology: str = "chain") -> float:
-    from src.evaluation.judge import score_transcript_panel
-    transcript = _build_transcript(state["messages"])
-    rubric = (
-        "Score whether the final response directly addresses the task, "
-        "commits to a clear answer, and provides specific reasoning. "
-        "Penalise hedging, vagueness, and incomplete answers."
-    )
-    evals = score_transcript_panel(
-        run_id=state["run_id"],
-        phase="kalibr",
-        transcript=transcript,
-        rubric=rubric,
-        n_judges=3,
-        topology=topology,
-        team_size=2,
-    )
-    return sum(e.task_score for e in evals) / len(evals)
-
-
-def _set_provider(model: str, provider: str | None) -> None:
-    if provider:
-        os.environ["MODEL_PROVIDER"] = provider
-        os.environ["MODEL"] = model
-        return
-    # Auto-detect from model name
-    if model.startswith("gpt") or model.startswith("o1") or model.startswith("o3"):
-        os.environ["MODEL_PROVIDER"] = "openai"
-    elif model.startswith("claude"):
-        os.environ["MODEL_PROVIDER"] = "anthropic"
-    else:
-        os.environ["MODEL_PROVIDER"] = "gemini"
-    os.environ["MODEL"] = model
-
-
-__all__ = ["chain", "route", "KalibrResult", "KalibrProfile", "KalibrDimensions"]
-KalibrProfile = AgentProfile
+__all__ = ["chain", "route", "KalibrResult", "KalibrDimensions", "AgentProfile"]
