@@ -26,7 +26,7 @@ from src.agents.profile import AgentProfile
 from src.agents.constitution import build_constitution
 
 _MODEL        = os.getenv("MODEL", "gemini-2.5-flash")
-_PROVIDER     = os.getenv("MODEL_PROVIDER", "gemini")   # "gemini" | "anthropic" | "openai"
+_PROVIDER     = os.getenv("MODEL_PROVIDER", "gemini")   # "gemini" | "anthropic" | "openai" | "xai"
 _TOKEN_BUDGET = int(os.getenv("AGENT_TOKEN_BUDGET", "800"))
 
 _gemini_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
@@ -38,6 +38,10 @@ def _get_anthropic_client():
 def _get_openai_client():
     from openai import OpenAI
     return OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+def _get_xai_client():
+    from openai import OpenAI
+    return OpenAI(api_key=os.getenv("XAI_API_KEY"), base_url="https://api.x.ai/v1")
 
 
 class SimState(TypedDict):
@@ -113,8 +117,8 @@ def _call_agent(agent: AgentProfile, messages: list[dict], scenario_brief: str) 
     """Returns (text, total_tokens_for_cost, output_tokens_for_cull)."""
     system = build_constitution(agent)
 
-    if _PROVIDER == "openai":
-        client = _get_openai_client()
+    if _PROVIDER in ("openai", "xai"):
+        client = _get_xai_client() if _PROVIDER == "xai" else _get_openai_client()
         openai_msgs = _to_openai_messages(messages)
         if not openai_msgs or openai_msgs[0]["role"] != "user":
             openai_msgs.insert(0, {"role": "user", "content": scenario_brief})
