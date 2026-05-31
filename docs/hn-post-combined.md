@@ -57,7 +57,7 @@ HumanEval (N=50/condition) and GSM8K (N=99–100/condition) on Gemini 2.5 Flash.
 3. Flat topology under adversarial or ambiguous input is a safety issue, not just a performance one.
 
 Full write-up with all results, mechanisms, and limitations: [`docs/lesswrong-post-combined.md`]
-GitHub (code, constitutions, raw results): [GitHub URL]
+GitHub (code, constitutions, raw results): https://github.com/aryanvnit-maker/agent-psychometry-simulations
 
 ---
 

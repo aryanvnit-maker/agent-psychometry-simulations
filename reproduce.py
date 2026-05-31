@@ -47,13 +47,28 @@ _db.insert_run        = _mock.MagicMock()
 _db.insert_evaluation = _mock.MagicMock()
 
 from src.agents.pool import initialise_pool
+from src.agents.team import draft_team
 from src.agents.constitution import build_constitution
 from src.orchestration.engine import (
     SimState, build_chain_graph, build_flat_graph, _to_gemini_contents
 )
 from src.evaluation.judge import score_transcript_panel
 from src.scenarios import ALL_SCENARIOS
-from run_simulation import draft_team, build_transcript
+
+
+def build_transcript(messages) -> str:
+    from langchain_core.messages import AIMessage
+    lines = []
+    for m in messages:
+        if isinstance(m, dict):
+            role, content = m.get("role", "unknown"), m.get("content", "")
+        elif isinstance(m, AIMessage):
+            role, content = "assistant", m.content
+        else:
+            role = "user"
+            content = m.content if hasattr(m, "content") else str(m)
+        lines.append(f"[{role.upper()}]: {content}")
+    return "\n\n".join(lines)
 
 SCENARIO_ID = "s01_series_a_fork"
 TEAM_SIZE   = 4
