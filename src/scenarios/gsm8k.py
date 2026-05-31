@@ -43,7 +43,7 @@ def _parse_answer(text: str) -> str:
 
 def load_problems(n: int = 100, seed: int = 42) -> list[GSM8KProblem]:
     from datasets import load_dataset
-    ds = load_dataset("gsm8k", "main", split="test", trust_remote_code=True)
+    ds = load_dataset("openai/gsm8k", "main", split="test")
     problems = []
     for i, p in enumerate(ds):
         ans = _parse_answer(p["answer"])
