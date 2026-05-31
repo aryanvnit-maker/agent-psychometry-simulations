@@ -38,7 +38,7 @@ class HumanEvalProblem:
 
 def load_problems(n: int = 50, seed: int = 42) -> list[HumanEvalProblem]:
     from datasets import load_dataset
-    ds = load_dataset("openai_humaneval", split="test", trust_remote_code=True)
+    ds = load_dataset("openai/openai_humaneval", split="test")
     problems = [
         HumanEvalProblem(
             task_id=p["task_id"],
