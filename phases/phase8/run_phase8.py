@@ -60,7 +60,6 @@ from src.scenarios import ALL_SCENARIOS
 RESULTS_FILE = Path("results/phase8.jsonl")
 SEED         = 99
 DELAY_SECS   = 2
-TASK_DIMS    = ["adaptive_intelligence", "ambiguity_tolerance", "drive_alignment"]
 
 SYNTHESIS_PROMPT = (
     "OVERRIDE YOUR ROLE FUNCTION FOR THIS TURN.\n"
@@ -202,11 +201,11 @@ def run_refine(scenario_id: str, rep: int, rep_seed: int) -> dict | None:
         traceback.print_exc()
         return None
 
-    # Build transcript for judge
+    # Build transcript for judge — omit SYNTHESIS_PROMPT to match chain transcript structure
+    # (engine injects it transiently and never stores it in state messages).
     messages = [
         {"role": "user",      "content": scenario.brief},
         {"role": "assistant", "content": f"[{captain.agent_id}]: {analysis}"},
-        {"role": "user",      "content": SYNTHESIS_PROMPT},
         {"role": "assistant", "content": f"[{captain.agent_id}_synthesis]: {final_output}"},
     ]
     transcript = build_transcript(messages)
@@ -278,7 +277,10 @@ def main():
                     continue
 
                 print(f"  [{completed}/{total}] {scenario_id} rep{rep} ...", end="", flush=True)
-                rep_seed = SEED + completed
+                # Seed on (scenario, rep) only — both conditions get the same pool
+                # for the same scenario+rep so the captain is the same person.
+                scenario_idx = scenarios.index(scenario_id)
+                rep_seed = SEED + scenario_idx * args.reps + rep
                 rec = runners[cond_name](scenario_id, rep, rep_seed)
 
                 if rec is None:

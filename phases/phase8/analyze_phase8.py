@@ -26,6 +26,7 @@ import json
 import statistics
 from collections import defaultdict
 from pathlib import Path
+from scipy import stats as scipy_stats
 
 RESULTS_FILE = Path("results/phase8.jsonl")
 
@@ -84,9 +85,12 @@ def main():
     print("\n── PRIMARY: kalibr-chain vs single-agent-refine (both 2 calls) ──")
     if chain and refine:
         delta = mean(chain) - mean(refine)
-        print(f"  kalibr-chain:        {mean(chain):.1f}  (n={len(chain)})")
-        print(f"  single-agent-refine: {mean(refine):.1f}  (n={len(refine)})")
-        print(f"  Δ = {delta:+.1f} pts")
+        t_stat, p_val = scipy_stats.ttest_ind(chain, refine, equal_var=False)
+        print(f"  kalibr-chain:        {mean(chain):.1f}  (n={len(chain)}, sd={stdev(chain):.1f})")
+        print(f"  single-agent-refine: {mean(refine):.1f}  (n={len(refine)}, sd={stdev(refine):.1f})")
+        print(f"  Δ = {delta:+.1f} pts  (Welch t={t_stat:.2f}, p={p_val:.3f})")
+        sig = "p<0.05 *" if p_val < 0.05 else ("p<0.10 +" if p_val < 0.10 else "n.s.")
+        print(f"  Significance: {sig}")
 
         if delta > 10:
             verdict = "DIVERSITY CONFIRMED"
