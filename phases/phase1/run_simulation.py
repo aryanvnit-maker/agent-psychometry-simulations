@@ -32,7 +32,7 @@ import os
 import uuid
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=True)
 
 from src.agents.pool import initialise_pool, get_workers, get_judges, select_captain
 from src.agents.profile import AgentProfile

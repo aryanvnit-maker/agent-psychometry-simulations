@@ -34,7 +34,7 @@ import os
 import sys
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=True)
 
 if not os.getenv("GEMINI_API_KEY"):
     print("ERROR: GEMINI_API_KEY not set. Add it to your .env file.")

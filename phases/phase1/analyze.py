@@ -24,7 +24,7 @@ Output: PNG charts saved to /reports/
         Summary statistics printed to console
 """
 from dotenv import load_dotenv
-load_dotenv()
+load_dotenv(override=True)
 
 import pandas as pd
 from scipy.stats import pearsonr

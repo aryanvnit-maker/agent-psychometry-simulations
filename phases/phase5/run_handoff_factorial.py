@@ -56,7 +56,7 @@ from pathlib import Path
 os.environ.setdefault("AGENT_TOKEN_BUDGET", "800")
 
 from dotenv import load_dotenv
-load_dotenv()
+load_dotenv(override=True)
 
 # Repo root on sys.path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))

@@ -57,7 +57,7 @@ from pathlib import Path
 os.environ.setdefault("AGENT_TOKEN_BUDGET", "8192")
 
 from dotenv import load_dotenv
-load_dotenv()
+load_dotenv(override=True)
 
 from src.meta_orchestrator.classifier import classify, DOMAIN_JUDGMENT, DOMAIN_EXECUTION
 from src.meta_orchestrator.router import get_judgment_config, get_execution_config

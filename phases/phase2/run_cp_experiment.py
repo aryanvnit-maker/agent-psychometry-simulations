@@ -47,7 +47,7 @@ from pathlib import Path
 os.environ.setdefault("AGENT_TOKEN_BUDGET", "8192")
 
 from dotenv import load_dotenv
-load_dotenv()
+load_dotenv(override=True)
 
 import re as _re
 

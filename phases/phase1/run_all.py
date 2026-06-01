@@ -34,7 +34,7 @@ import uuid
 from itertools import product
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=True)
 
 from google.genai.errors import ClientError, ServerError
 from src.agents.pool import initialise_pool, get_workers, get_judges

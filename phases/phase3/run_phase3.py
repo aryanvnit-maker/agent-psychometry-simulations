@@ -59,7 +59,7 @@ from pathlib import Path
 os.environ.setdefault("AGENT_TOKEN_BUDGET", "8192")
 
 from dotenv import load_dotenv
-load_dotenv()
+load_dotenv(override=True)
 
 from src.agents.profile import AgentProfile, KalibrDimensions, GameTheoryParams, Role, ConflictStyle
 from src.datasets.codecontests import load_problems, format_prompt, CPProblem
