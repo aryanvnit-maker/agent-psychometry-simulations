@@ -11,10 +11,11 @@ Phase 9: Kalibr Orchestration vs Grok Multi-Agent Panel.
 
 Same backend model (Grok), different orchestration layers:
 
-    kalibr-chain    — Kalibr chain-2 + synthesis prompt on grok-4.20-0309-non-reasoning.
+    kalibr-chain    — Kalibr chain-2 + synthesis prompt on grok-4.20-0309-reasoning.
                       Explicit synthesis architecture; our orchestration.
-                      Non-reasoning variant used to avoid confounding orchestration
-                      with reasoning-token advantage.
+                      Reasoning variant used to match panel capability — the panel
+                      likely uses reasoning internally; using non-reasoning would
+                      conflate orchestration effect with reasoning gap.
 
     grok-panel      — xAI's internal multi-agent panel via a single API call.
                       Black-box orchestration; their architecture.
