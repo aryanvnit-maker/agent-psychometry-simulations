@@ -2,33 +2,27 @@
 
 **Kalibr is the synthesis layer for multi-agent AI systems.**
 
-Most multi-agent pipelines on bounded tasks — code, math, judgment, structured output — silently fail not because of the wrong framework, the wrong topology, or too few agents, but because no agent is ever forced to commit to a final answer. Kalibr fixes this with a corrective architecture that sits on top of any existing LangChain, CrewAI, or AutoGen pipeline.
+Most multi-agent pipelines silently fail not because of the wrong framework, wrong topology, or too few agents — but because no agent is ever forced to commit to a final answer. Kalibr fixes this with one corrective prompt at the terminal step.
 
-Nine experiments. 2,400+ evaluations. Temperature=0.0 throughout. The root cause of multi-agent failure is one missing prompt.
+Nine experiments. 2,400+ evaluations. Temperature=0.0 throughout.
 
 → **[Full research write-up](docs/lesswrong-post-combined.md)**
 
 ---
 
-## The Problem
+## The Finding
 
-The out-of-the-box flat roundtable configuration — the default in most framework Quickstarts when no terminal synthesis step is added — scores **34.3/100** on structured judgment tasks. Agents address each other constantly (social cohesion is high) while nobody commits to a deliverable (task cohesion collapses). Under adversarial input, flat topology produced zero outputs in 4 of 100 runs; chain never collapsed once.
+The out-of-the-box flat roundtable — the default in most framework quickstarts when no terminal synthesis step is added — scores **34.3/100** on structured judgment tasks. Agents address each other constantly while nobody commits to a deliverable.
 
-Adding more agents doesn't help. Adding a different model doesn't help. The fix is one synthesis prompt at the terminal step.
+Adding more agents doesn't help. Adding a different model doesn't help. Adding a synthesis prompt at the terminal step takes it from 34.3 → 76.5 (+42 pts). The synthesis step accounts for **38.8 pts** of the gap. Topology accounts for 16.6 pts. Agent count or diversity: **0.7 pts (p=0.854, not significant)**.
+
+Phase 9: Kalibr's 2-call chain matched xAI's internal 4-agent panel (79.8 vs 81.5, Δ=-1.8, p=0.809) at half the compute. Score-per-LLM-call: Kalibr 39.9, Grok panel 20.4.
 
 ---
 
-## What Kalibr Does
+## SDK
 
-Kalibr enforces a synthesis architecture on top of whatever you're already running:
-
-1. **Synthesis layer** — a commit-forcing prompt at the terminal step that overrides role constraints, demands gap identification, and requires a definitive final answer. Adding this to a flat pipeline takes it from 34.3 → 76.5 (~80% of the gap to optimal closed).
-
-2. **Task router** — a five-line classifier that routes between judgment and execution configs. Any single static config collapses on one axis of a mixed workload; the router achieves per-domain maximum on both simultaneously.
-
-3. **Psychometric profiling** — Kalibr dimension profiles that contribute up to a 78-point advantage on open-world strategic judgment tasks when paired with domain routing. Neutral on closed-world deterministic tasks; reserve for judgment and resource allocation.
-
-**SDK preview** — the `kalibr/` package is in this repo and installable via git:
+> **Status: research preview. Works reliably on judgment and execution tasks. Known gaps below.**
 
 ```bash
 pip install git+https://github.com/aryanvnit-maker/agent-psychometry-simulations
@@ -37,128 +31,132 @@ pip install git+https://github.com/aryanvnit-maker/agent-psychometry-simulations
 ```python
 from kalibr import chain, route
 
+# 2-agent synthesis chain — optimal for judgment tasks
 result = chain(task="Should we pivot to enterprise or stay SMB?")
 print(result.output)
 
+# Auto-route: classifies task and picks the right config
 result = route(task="Implement a binary search in Python.")
 print(result.output)
 
-# With judge-panel scoring
+# With judge-panel scoring (+3 LLM calls)
 result = chain(task="Evaluate this acquisition offer.", score=True)
 print(result.score)   # 0–100
 ```
 
+Configure via `.env`:
+```
+GEMINI_API_KEY=...        # required (judge always uses Gemini)
+MODEL=gemini-2.5-flash    # worker model
+MODEL_PROVIDER=gemini     # gemini | anthropic | xai
+```
+
+### Known limitations
+
+- **Reflective tasks underperform.** Post-mortems, retrospectives, and audits get the decisiveness synthesis prompt ("close every open question, be decisive"), which is the wrong posture for backward-looking analysis. Phase 9: Kalibr scored 66.7 vs panel's 80.0 on a post-mortem scenario (-13.3 pts). Fix pending (reflection domain classifier + separate handoff prompt).
+- **chain() is hardcoded to 2 agents.** The synthesis prompt fires at position [1]. For chains longer than 2, the synthesis step lands in the middle, not at the terminal agent.
+- **Classifier always calls Gemini** regardless of `MODEL_PROVIDER`. One Gemini Flash call per `route()` invocation even if your worker is xAI or Anthropic.
+- **Reasoning models require higher token budget.** Set `AGENT_TOKEN_BUDGET=8000` or higher in `.env` when using reasoning-class models (`grok-*-reasoning`, `gemini-2.5-*`). The default (4000) is sufficient for standard models but reasoning models consume most of their budget on internal chain-of-thought before generating visible output.
+- **Tasks over 1,500 chars may be misclassified.** The classifier truncates input at 1,500 characters.
+- **Not tested on creative tasks** (story generation, open-ended brainstorming). The judgment/execution binary may misclassify these.
+
 ---
 
-## The Evidence
+## Evidence
+
+### Core mechanism (Phase 5 — 160 runs, 2×2 factorial)
 
 | Condition | LLM calls | Score |
 |---|---|---|
-| Flat/no-handoff (out-of-the-box default) | 4 | 34.3 |
-| Chain/no-handoff | 2 | 50.9 |
-| Flat/handoff (explicit synthesis) | 5 | 76.5 |
-| **Chain/handoff** | **2** | **86.3** |
-| **Single-agent-refine** | **2** | **85.7** |
+| flat / no synthesis (out-of-the-box default) | 4 | 34.3 |
+| chain / no synthesis | 2 | 50.9 |
+| flat / with synthesis | 5 | 76.5 |
+| **chain / with synthesis** | **2** | **86.3** |
+| single-agent-refine (Phase 8) | 2 | 85.7 |
 
-The synthesis step explains **38.8 pts** of the 52-point gap. Topology explains 16.6 pts. Agent count explains 0.7 pts (p=0.854, not significant).
+Synthesis step: **+38.8 pts**. Topology: **+16.6 pts**. Agent diversity: **+0.7 pts (p=0.854, n.s.)**.
 
-A single agent running draft → synthesize with a commit-forcing prompt matches a full multi-agent chain compute-for-compute.
+A single agent running draft → synthesize matches a full multi-agent chain at the same compute.
 
----
+### vs. xAI's internal panel (Phase 9 — 40 runs, same Grok base model)
 
-## What This Means for Practitioners
+| Condition | Calls | Score | Score/call |
+|---|---|---|---|
+| kalibr-chain (2 LLM calls) | 2 | 79.8 | **39.9** |
+| grok-panel (~4 internal agents) | ~4 | 81.5 | 20.4 |
+| **Δ** | | **−1.8, p=0.809** | |
 
-**1. Add a synthesis step before anything else.**
-One agent, two calls, synthesis prompt at step 2. This closes 85% of the gap between broken and optimal multi-agent. The prompt must: override role functions, demand identification of gaps in prior analysis, and require a committed final answer. Do this before touching topology or agent count.
-
-**2. Do not add agents to improve quality.**
-Phase 8 (compute-matched, 79 runs, p=0.854): two different agents produce statistically identical output to the same agent running twice. Agent diversity adds zero measurable value once the synthesis step is present.
-
-**3. Stop defaulting to flat topology.**
-Without a synthesis step, flat roundtable scores 34.3. If you need a deliverable, use a chain of two with a synthesis handoff.
-
-**4. Flat topology is a safety risk under adversarial input.**
-Phase 3: flat-2 under poisoned input produced 4 complete task collapses (no output). Chain-2: zero collapses across 100 poisoned runs. Any system processing user-submitted data or ambiguous prompts must not use flat topology.
-
-**5. Strip occupational personas from execution agents.**
-"Design the algorithm, do not write code" costs 4pp pass@1 (25% relative) and raises compilation errors. Generic chain-2 with no occupational identity outperforms every specialized configuration tested.
-
-**6. Classify task domain before deploying.**
-A five-line classifier routing between two configs achieves per-domain maximum on both judgment and execution simultaneously. Any single static config collapses on one axis of a mixed workload.
-
-**7. Reserve psychometric profiling for open-world strategic tasks only.**
-Kalibr profiles produce a 78-point gap on resource allocation. They are neutral on closed-world deterministic tasks and overridden by formatting constraints on execution.
+Kalibr matches xAI's proprietary 4-agent system at 2 calls. Nearly 2× more score-efficient per LLM call.
 
 ---
 
-## Results Summary
+## All Results
 
-### Phase 1 — Topology (118 simulations, 0–100 rubric score)
+### Phase 1 — Topology (118 simulations)
 
-| Team Size | Chain | Flat | Δ |
+| Team size | Chain | Flat | Δ |
 |---|---|---|---|
 | 1 agent | 15.3 | 31.2 | +15.9 |
 | **2 agents** | **57.6** | **10.7** | **−46.9** |
 | 4 agents | 50.4 | 35.5 | −14.9 |
 | 8 agents | 40.4 | 19.1 | −21.3 |
 
-Chain-2 beats flat-8 by 38 points. Cross-model replicated on Gemini 2.5 Flash and Claude 3.5 Sonnet. *Note: Phase 5 shows this gap was partially explained by the synthesis confound — the true topology-only gap is ~10–17 pts.*
+Chain-2 beats flat-8 by 38 pts. Replicated on Gemini 2.5 Flash and Claude 3.5 Sonnet.
+*Note: Phase 5 showed the full gap includes a synthesis confound. True topology-only gap: ~10–17 pts.*
 
-### Phase 2 — Constitution (900 evaluations, Codeforces Div. 1 C/D, pass@1)
+### Phase 2 — Role personas (900 evaluations, Codeforces Div. 1 C/D, pass@1)
 
-| Condition | Pass@1 | Compilation Errors |
+| Condition | Pass@1 | Compilation errors |
 |---|---|---|
 | **Chain-2 generic** | **16%** | 22 |
 | Chain-2 specialized (ALGORITHMIST → IMPLEMENTER) | 13% | 23 |
-| Chain-1 generic (baseline) | 12% | 18 |
+| Chain-1 baseline | 12% | 18 |
 
-Role instruction is the culprit, not dimension profiles.
+Occupational role labels cost 4pp pass@1 (25% relative) on execution tasks. No personas.
 
-### Phase 3 — Robustness (200 evaluations, adversarial hint injection)
+### Phase 3 — Adversarial robustness (200 evaluations, poisoned hint injection)
 
-| Condition | Pass@1 | NoCode |
+| Condition | Pass@1 | Complete collapses |
 |---|---|---|
-| chain-2/clean | 14% | 0 |
-| chain-2/poisoned | 18% | 0 |
-| flat-2/clean | 18% | 0 |
-| **flat-2/poisoned** | **14%** | **4** |
+| chain-2 / clean | 14% | 0 |
+| chain-2 / poisoned | 18% | 0 |
+| flat-2 / clean | 18% | 0 |
+| **flat-2 / poisoned** | **14%** | **4** |
 
-Flat collapsed entirely 4 times; chain never collapsed once.
+Flat locked in poisoned answers and produced zero output 4 times. Chain: zero collapses across 100 poisoned runs.
 
-### Phase 4 — Routing (111 evaluations, mixed workload)
+### Phase 4 — Task router (111 evaluations, mixed workload)
 
 | Config | Judgment score | Execution pass@1 |
 |---|---|---|
-| static-judgment (global) | 85.1 | 0% — 20 NoCode |
+| static-judgment (global) | 85.1 | 0% (20 NoCode) |
 | static-execution (global) | 59.6 | 20% |
 | **meta-router** | **85.8** | **20%** |
 
-Classifier accuracy: 100% on 37 real + 10 adversarial Trojan tasks.
+Classifier accuracy: 100% on 37 real + 10 adversarial tasks.
 
-### Phase B — Code Review Replication (N=15 per condition)
+### Phase B — Code review replication (N=15/condition)
 
-| Topology | N | Mean score |
-|---|---|---|
-| chain-2 | 15 | 70.4 |
-| flat-2 (no synthesis step) | 15 | 35.3 |
-| **Δ** | | **+35.1** |
+| Topology | Mean score |
+|---|---|
+| chain-2 | 70.4 |
+| flat-2 (no synthesis) | 35.3 |
+| **Δ** | **+35.1** |
 
-Topology direction replicates on code review, outside the business judgment domain.
+Topology direction replicates outside business judgment domain.
 
-### Phase 5 — Topology × Handoff Factorial (160 runs, 2×2 design)
+### Phase 5 — Synthesis isolation (160 runs, 2×2 factorial)
 
 | Condition | Mean score |
 |---|---|
-| **chain/handoff** | **86.3** |
-| flat/handoff | 76.5 |
-| chain/no-handoff | 50.9 |
-| flat/no-handoff | 34.3 |
+| **chain / handoff** | **86.3** |
+| flat / handoff | 76.5 |
+| chain / no-handoff | 50.9 |
+| flat / no-handoff | 34.3 |
 
-Handoff effect: **+38.8 pts**. Topology effect (no handoff): **+16.6 pts**. Synthesis dominates by more than 2:1.
+Handoff effect: **+38.8 pts**. Topology (no handoff): **+16.6 pts**.
 
-### Phase 6 — Objective Benchmarks (749 evaluations, no LLM judge)
-
-**HumanEval pass@1 (N=50/condition) · GSM8K accuracy (N=99–100/condition)**
+### Phase 6 — Objective benchmarks (749 evaluations, no LLM judge)
 
 | Condition | Calls | HumanEval | 95% CI | GSM8K | 95% CI |
 |---|---|---|---|---|---|
@@ -168,9 +166,9 @@ Handoff effect: **+38.8 pts**. Topology effect (no handoff): **+16.6 pts**. Synt
 | kalibr-flat-handoff | 5 | 98.0% | [89.5–99.6%] | 92.0% | [85.0–95.9%] |
 | **kalibr-flat-no-handoff** | **4** | **28.0%** | **[17.5–41.7%]** | **56.6%** | **[46.7–65.9%]** |
 
-All working conditions near ceiling — CIs overlap substantially, rankings not meaningful. The primary finding is the flat/no-handoff collapse (28.0% HumanEval, 56.6% GSM8K), separated from every working condition by 60+ points. The collapse is the result; differences among working conditions are not.
+All working conditions near ceiling (CIs overlap — differences not meaningful). The flat/no-handoff collapse (28% HumanEval, 57% GSM8K) is the result.
 
-### Phase 8 — Agent Diversity vs Self-Refinement (79 runs, compute-matched)
+### Phase 8 — Agent diversity vs self-refinement (79 runs, compute-matched)
 
 | Condition | Calls | N | Mean | p |
 |---|---|---|---|---|
@@ -178,7 +176,19 @@ All working conditions near ceiling — CIs overlap substantially, rankings not 
 | single-agent-refine (1 agent) | 2 | 40 | 85.7 | — |
 | **Δ** | | | **+0.7** | **0.854** |
 
-Not significant. Agent diversity adds zero measurable value over structured self-refinement.
+Agent diversity adds zero measurable value over structured self-refinement.
+
+### Phase 9 — Kalibr vs xAI Grok panel (40 runs, same Grok base model)
+
+| Condition | Model | Calls | N | Mean | Std |
+|---|---|---|---|---|---|
+| kalibr-chain | grok-4.20-0309-reasoning | 2 | 20 | 79.8 | 29.3 |
+| grok-panel | grok-4.20-multi-agent-0309 | ~4 | 20 | 81.5 | 12.8 |
+| **Δ** | | | | **−1.8, p=0.809** | |
+
+Not compute-matched (Kalibr: 2 LLM calls, panel: ~4 internal agents). Score-per-call: Kalibr 39.9 vs panel 20.4.
+
+Per-scenario: Kalibr wins on decision/strategy tasks (+5 pts); panel leads on post-mortem (-13.3 pts — decisiveness posture is wrong for reflective tasks).
 
 ---
 
@@ -187,36 +197,32 @@ Not significant. Agent diversity adds zero measurable value over structured self
 ```bash
 git clone https://github.com/aryanvnit-maker/agent-psychometry-simulations
 cd agent-psychometry-simulations
-python -m venv .venv && source .venv/bin/activate  # Windows: .venv\Scripts\activate
+python -m venv .venv
+source .venv/bin/activate     # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 cp .env.example .env
-# Add GEMINI_API_KEY (required) and DATABASE_URL (optional, Phase 1+2 only)
+# Edit .env — add at minimum GEMINI_API_KEY
 ```
 
-Reproduce the core finding (chain vs flat, same team, live output):
+Reproduce the core finding (chain vs flat, live output):
 ```bash
 python reproduce.py
-```
-
-Judge0 (required for Phase 2, 3, 4 execution evaluation):
-```bash
-cd judge0 && docker-compose up -d && cd ..
 ```
 
 ---
 
 ## Running Each Phase
 
-All commands run from the repo root.
+All commands from repo root. Phases 1–4 require Judge0 for execution evaluation (see below). Phases 5, 8, 9 run on any machine with API keys.
 
-**Phase 1 — Topology experiment**
+**Phase 1 — Topology**
 ```bash
-python phases/phase1/run_all.py                    # chain topology (default)
-python phases/phase1/run_all.py --topology flat    # flat topology
+python phases/phase1/run_all.py
+python phases/phase1/run_all.py --topology flat
 python phases/phase1/analyze.py
 ```
 
-**Phase 2 — Constitution experiment**
+**Phase 2 — Role personas**
 ```bash
 python phases/phase2/run_cp_baseline.py
 python phases/phase2/run_cp_experiment.py
@@ -243,13 +249,13 @@ python phases/phase4/analyze_meta_orchestrator.py
 python phases/phase_b/run_code_review.py
 ```
 
-**Phase 5 — Topology × Handoff factorial (mechanism isolation)**
+**Phase 5 — Synthesis isolation (mechanism)**
 ```bash
 python phases/phase5/run_handoff_factorial.py
 python phases/phase5/analyze_handoff_factorial.py
 ```
 
-**Phase 6 — Objective benchmarks**
+**Phase 6 — Objective benchmarks (HumanEval + GSM8K)**
 ```bash
 python phases/phase6/run_humaneval.py
 python phases/phase6/run_gsm8k.py
@@ -262,46 +268,37 @@ python phases/phase8/run_phase8.py
 python phases/phase8/analyze_phase8.py
 ```
 
-**Unified summary across all phases**
+**Phase 9 — Kalibr vs Grok multi-agent panel**
+
+Requires xAI API key. Set in `.env`:
+```
+XAI_API_KEY=your_key_here
+MODEL=grok-4.20-0309-reasoning
+MODEL_PROVIDER=xai
+GROK_PANEL_MODEL=grok-4.20-multi-agent-0309
+AGENT_TOKEN_BUDGET=8000
+```
+```bash
+# Verify connections before running
+python phases/phase9/test_connections.py
+
+# Full run (5 reps × 4 scenarios × 2 conditions = 40 runs)
+python phases/phase9/run_phase9.py --reps 5
+
+# Kalibr-chain only (skip panel — if panel model unavailable)
+python phases/phase9/run_phase9.py --reps 5 --skip-panel
+
+python phases/phase9/analyze_phase9.py
+```
+
+**All phases — unified summary**
 ```bash
 python phases/summarize_all.py
 ```
 
----
-
-## Repository Structure
-
-```
-├── kalibr/               # Kalibr SDK (chain, route, KalibrResult)
-├── phases/
-│   ├── phase1/           # Topology experiment
-│   ├── phase2/           # Constitution experiment (code)
-│   ├── phase3/           # Adversarial robustness
-│   ├── phase4/           # Meta-router
-│   ├── phase_b/          # Code review replication
-│   ├── phase5/           # Topology × Handoff factorial
-│   ├── phase6/           # Objective benchmarks (HumanEval, GSM8K)
-│   ├── phase8/           # Agent diversity vs self-refinement
-│   └── summarize_all.py  # Unified results summary
-├── src/
-│   ├── agents/           # Kalibr profiles, constitutions, agent pool
-│   ├── datasets/         # CodeContests loader
-│   ├── evaluation/       # Judge panel, scoring rubrics
-│   ├── execution/        # Judge0 code execution, code extractor
-│   ├── meta_orchestrator/# Classifier and router (Phase 4)
-│   ├── orchestration/    # Simulation engine (chain + flat topologies)
-│   ├── scenarios/        # Judgment scenario library
-│   └── telemetry/        # Supabase persistence (Phase 1+2)
-├── results/              # Raw JSONL results (all phases)
-├── docs/
-│   ├── lesswrong-post-combined.md   # Full research write-up
-│   ├── hn-post-combined.md          # HN submission
-│   ├── simulation-methodology.md
-│   └── archive/                     # Phase 1+2 standalone posts
-├── scripts/
-│   └── export_supabase.py           # Export Phase 1+2 data from Supabase
-├── judge0/               # Judge0 Docker configuration
-└── reproduce.py          # Quick reproduction of core finding
+**Judge0 (required for Phases 1–4, execution evaluation)**
+```bash
+cd judge0 && docker-compose up -d && cd ..
 ```
 
 ---
@@ -310,28 +307,65 @@ python phases/summarize_all.py
 
 | Variable | Required | Description |
 |---|---|---|
-| `GEMINI_API_KEY` | Yes | Gemini API key |
+| `GEMINI_API_KEY` | Yes | Judge always uses Gemini; required even for non-Gemini worker runs |
 | `ANTHROPIC_API_KEY` | Phase 1 cross-model only | Claude API key |
-| `DATABASE_URL` | Optional | Supabase connection string (Phase 1+2) |
-| `MODEL` | No | Override model (default: gemini-2.5-flash) |
-| `MODEL_PROVIDER` | No | `gemini` or `anthropic` (default: gemini) |
-| `AGENT_TOKEN_BUDGET` | No | Output token budget per agent (default: 800) |
+| `XAI_API_KEY` | Phase 9 only | xAI API key for Grok |
+| `DATABASE_URL` | Optional | Supabase connection string (Phase 1+2 telemetry) |
+| `MODEL` | No | Worker model (default: `gemini-2.5-flash`) |
+| `MODEL_PROVIDER` | No | `gemini` \| `anthropic` \| `xai` (default: `gemini`) |
+| `GROK_PANEL_MODEL` | Phase 9 | Panel model name (default: `grok-4.20-multi-agent-0309`) |
+| `JUDGE_MODEL` | No | Override judge model (default: `gemini-2.5-flash`) |
+| `AGENT_TOKEN_BUDGET` | No | Max output tokens per agent call (default: `4000`; use `8000+` for reasoning models) |
+
+---
+
+## Repository Structure
+
+```
+├── kalibr/               # SDK (chain, route, KalibrResult)
+├── phases/
+│   ├── phase1/           # Topology experiment
+│   ├── phase2/           # Role personas (code)
+│   ├── phase3/           # Adversarial robustness
+│   ├── phase4/           # Meta-router
+│   ├── phase_b/          # Code review replication
+│   ├── phase5/           # Synthesis isolation (2×2 factorial)
+│   ├── phase6/           # Objective benchmarks (HumanEval, GSM8K)
+│   ├── phase8/           # Agent diversity vs self-refinement
+│   ├── phase9/           # Kalibr vs Grok multi-agent panel
+│   └── summarize_all.py
+├── src/
+│   ├── agents/           # Kalibr profiles, constitutions, pool
+│   ├── evaluation/       # Judge panel, scoring
+│   ├── execution/        # Judge0 code execution
+│   ├── meta_orchestrator/# Classifier and router
+│   ├── orchestration/    # Simulation engine (chain + flat)
+│   ├── scenarios/        # Judgment scenario library
+│   └── telemetry/        # Supabase persistence
+├── results/              # Raw JSONL results
+├── docs/
+│   ├── lesswrong-post-combined.md
+│   ├── hn-post-combined.md
+│   └── simulation-methodology.md
+├── judge0/               # Judge0 Docker config
+└── reproduce.py
+```
 
 ---
 
 ## Audits
 
-For teams running multi-agent pipelines: confidential back-test audits available to measure your exact collapse rate, token waste, and synthesis gap. Contact aryan199841@gmail.com.
+Running a multi-agent pipeline? Without the synthesis step, Phase 6 shows these systems perform at 28–57% while appearing to work. Confidential back-test audits available — contact aryan199841@gmail.com.
 
 ---
 
 ## License
 
 Free for research and non-commercial use under [AGPL-3.0](LICENSE).
-Commercial use requires a paid license — see [COMMERCIAL_LICENSE.md](COMMERCIAL_LICENSE.md) or contact aryan199841@gmail.com.
+Commercial use requires a paid license — contact aryan199841@gmail.com.
 
 ---
 
-*Independent research. No institutional funding or affiliation.*
+*Independent research. No institutional funding.*
 
 — Aryan S.
