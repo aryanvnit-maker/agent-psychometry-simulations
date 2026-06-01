@@ -82,10 +82,13 @@ def _judges() -> list[AgentProfile]:
 
 
 def _extract_output(messages: list, topology: str = "chain") -> str:
-    assistant_blocks = [
-        m["content"] for m in messages
-        if isinstance(m, dict) and m.get("role") == "assistant"
-    ]
+    from langchain_core.messages import AIMessage
+    assistant_blocks = []
+    for m in messages:
+        if isinstance(m, dict) and m.get("role") == "assistant":
+            assistant_blocks.append(m["content"])
+        elif isinstance(m, AIMessage):
+            assistant_blocks.append(m.content)
     if not assistant_blocks:
         return ""
     if topology == "chain":
