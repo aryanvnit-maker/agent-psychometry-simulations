@@ -62,7 +62,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from src.agents.pool import initialise_pool
 from src.agents.team import draft_team
-from src.orchestration.engine import run_simulation, _call_agent
+from src.orchestration.engine import run_simulation
 from src.evaluation.judge import score_transcript_panel
 from src.scenarios import ALL_SCENARIOS
 
@@ -81,11 +81,8 @@ SYNTHESIS_PROMPT = (
     "Do not summarise. Close every open question. Be decisive."
 )
 
-# Judgment scenarios only — same as Phase 5/8
-JUDGMENT_SCENARIOS = [
-    s for s in ALL_SCENARIOS
-    if ALL_SCENARIOS[s].phase in ("phase1", "phase5", "phase8", "kalibr")
-]
+# All 4 scenarios are judgment tasks (forming/storming/performing phases)
+JUDGMENT_SCENARIOS = list(ALL_SCENARIOS.keys())
 
 
 def _load_done() -> set[str]:
@@ -269,7 +266,7 @@ def main():
         print("Set MODEL_PROVIDER=xai and MODEL=<grok-model> in .env to use Grok as the backend.")
         print("Continuing with current provider for kalibr-chain condition.")
 
-    scenarios  = JUDGMENT_SCENARIOS or list(ALL_SCENARIOS.keys())
+    scenarios  = JUDGMENT_SCENARIOS
     conditions = ["kalibr-chain"] if args.skip_panel else ["kalibr-chain", "grok-panel"]
     done       = _load_done()
     total      = len(conditions) * len(scenarios) * args.reps
