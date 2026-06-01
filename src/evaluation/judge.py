@@ -23,7 +23,7 @@ from .schema import EvaluatorOutput
 from src.agents.profile import AgentProfile
 from src.agents.constitution import build_constitution
 
-_MODEL = os.getenv("MODEL", "gemini-2.5-flash")
+_MODEL = os.getenv("JUDGE_MODEL", "gemini-2.5-flash")  # intentionally separate from MODEL
 _client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 _JUDGE_SYSTEM = """You are an isolated simulation evaluator. You do not participate in the task.
