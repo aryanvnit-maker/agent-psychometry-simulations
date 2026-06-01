@@ -27,7 +27,7 @@ from src.agents.constitution import build_constitution
 
 _MODEL        = os.getenv("MODEL", "gemini-2.5-flash")
 _PROVIDER     = os.getenv("MODEL_PROVIDER", "gemini")   # "gemini" | "anthropic" | "openai" | "xai"
-_TOKEN_BUDGET = int(os.getenv("AGENT_TOKEN_BUDGET", "800"))
+_TOKEN_BUDGET = int(os.getenv("AGENT_TOKEN_BUDGET", "4000"))
 
 _gemini_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 

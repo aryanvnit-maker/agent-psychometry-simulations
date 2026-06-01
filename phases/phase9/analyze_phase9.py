@@ -115,16 +115,19 @@ def main():
             print("KALIBR WINS — explicit synthesis architecture outperforms xAI panel")
             print("  Kalibr's 2-call chain beats Grok's ~4-agent internal panel.")
             print("  Orchestration layer is the value; open architecture wins on quality AND cost.")
-        elif delta > 5:
+        elif delta > 5 and p_val < 0.10:
             print("KALIBR LEADS — positive signal, borderline significance")
             print("  Suggestive advantage for Kalibr; replicate with more runs to confirm.")
-        elif delta >= -5:
-            print("TIED — architectures comparable")
+        elif p_val >= 0.05:
+            print("INCONCLUSIVE — difference not statistically significant")
+            print(f"  Δ={delta:+.1f} pts but p={p_val:.3f} — cannot reject H0 at α=0.05.")
             print("  Kalibr matches xAI's panel at 2 calls vs ~4 agents.")
             print("  Kalibr wins on efficiency (fewer calls, lower cost, full control).")
-            print("  xAI may have independently converged on a synthesis step internally.")
+            if delta < 0:
+                print("  The observed gap may reflect variance, not a true panel advantage.")
+                print("  Re-run with more reps or investigate per-scenario collapses.")
         else:
-            print("GROK PANEL WINS")
+            print("GROK PANEL WINS — statistically significant advantage")
             print("  xAI's internal panel outperforms Kalibr chain-2.")
             print("  Investigate: does grok-panel benefit from the higher compute (4 agents)?")
             print("  Run a compute-matched follow-up: Kalibr chain-4 vs grok-panel.")
