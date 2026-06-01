@@ -183,13 +183,19 @@ def run_grok_panel(scenario_id: str, rep: int, rep_seed: int) -> dict | None:
     """
     xAI's internal multi-agent panel — single API call, their orchestration.
 
-    Uses GROK_PANEL_MODEL env var if set, otherwise falls back to MODEL.
-    The panel model may be a different endpoint than the standard model
-    (e.g. a multi-agent variant). Verify at console.x.ai before running.
+    Uses the Responses API (client.responses.create) — the panel model does NOT
+    work reliably on /v1/chat/completions. See xAI docs for detail.
+
+    NOTE: NOT compute-matched to kalibr-chain.
+    Grok panel runs 4 agents internally by default (up to 16 at high effort).
+    kalibr-chain makes 2 LLM calls. Record n_calls=1 (our API calls) and
+    n_internal_agents=4 so the analysis can flag this explicitly.
+
+    Set GROK_PANEL_MODEL=grok-4.20-multi-agent-0309 in .env for reproducibility.
     """
     from openai import OpenAI
 
-    panel_model = os.getenv("GROK_PANEL_MODEL", os.getenv("MODEL", "grok-3"))
+    panel_model = os.getenv("GROK_PANEL_MODEL", "grok-4.20-multi-agent-0309")
     api_key     = os.getenv("XAI_API_KEY")
     if not api_key:
         raise EnvironmentError("XAI_API_KEY not set")
@@ -202,15 +208,14 @@ def run_grok_panel(scenario_id: str, rep: int, rep_seed: int) -> dict | None:
     client = OpenAI(api_key=api_key, base_url="https://api.x.ai/v1")
 
     try:
-        response = client.chat.completions.create(
+        response = client.responses.create(
             model=panel_model,
-            messages=[{"role": "user", "content": scenario.brief}],
+            input=[{"role": "user", "content": scenario.brief}],
             temperature=0.0,
-            max_tokens=int(os.getenv("AGENT_TOKEN_BUDGET", "800")) * 4,
         )
-        output = response.choices[0].message.content or ""
-        prompt_tokens = response.usage.prompt_tokens
-        output_tokens = response.usage.completion_tokens
+        output        = response.output_text or ""
+        prompt_tokens = getattr(getattr(response, "usage", None), "input_tokens", 0)
+        output_tokens = getattr(getattr(response, "usage", None), "output_tokens", 0)
     except Exception as e:
         print(f"    ERROR calling Grok panel: {e}")
         traceback.print_exc()
@@ -229,18 +234,19 @@ def run_grok_panel(scenario_id: str, rep: int, rep_seed: int) -> dict | None:
         return None
 
     return {
-        "run_id":        run_id,
-        "condition":     "grok-panel",
-        "scenario_id":   scenario_id,
-        "rep":           rep,
-        "captain_id":    None,
-        "task_score":    mean_score,
-        "turn_count":    1,
-        "n_calls":       1,
-        "model":         panel_model,
-        "provider":      "xai",
-        "prompt_tokens": prompt_tokens,
-        "output_tokens": output_tokens,
+        "run_id":             run_id,
+        "condition":          "grok-panel",
+        "scenario_id":        scenario_id,
+        "rep":                rep,
+        "captain_id":         None,
+        "task_score":         mean_score,
+        "turn_count":         1,
+        "n_calls":            1,       # our API calls
+        "n_internal_agents":  4,       # xAI default; NOT compute-matched to kalibr-chain
+        "model":              panel_model,
+        "provider":           "xai",
+        "prompt_tokens":      prompt_tokens,
+        "output_tokens":      output_tokens,
     }
 
 
