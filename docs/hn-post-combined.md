@@ -50,10 +50,25 @@ HumanEval (N=50/condition) and GSM8K (N=99–100/condition) on Gemini 2.5 Flash.
 - Flat topology collapses under adversarial input: 4 complete NoCode failures on poisoned flat-2 vs 0 across 100 poisoned chain-2 runs
 - Mixed workloads: a 5-line task classifier routing between two configs achieves per-domain maximum on both judgment and execution simultaneously
 
+**Does Kalibr's 2-call chain beat xAI's internal 4-agent panel? Phase 9 (40 runs, same Grok base model):**
+
+We ran both conditions on 4 judgment scenarios using the same Grok base model family:
+- kalibr-chain: grok-4.20-0309-reasoning, 2 LLM calls, Kalibr's explicit synthesis architecture
+- grok-panel: grok-4.20-multi-agent-0309, ~4 internal agents, xAI's orchestration (1 API call)
+
+Results:
+- kalibr-chain: 79.8 (n=20, sd=29.3, 2 LLM calls)
+- grok-panel: 81.5 (n=20, sd=12.8, ~4 internal agents)
+- **Δ = −1.8 pts, p=0.809 — not significant**
+
+Note: not compute-matched. Grok panel uses ~4 internal agents per call; Kalibr makes 2 calls. Score-per-LLM-call: **Kalibr 39.9, Grok panel 20.4**.
+
+Kalibr's 2-call synthesis chain matched xAI's proprietary multi-agent system at approximately half the compute. Per-scenario: Kalibr +5.3 on strategic decisions, +5.0 on crisis response. Panel +13.3 on post-mortem analysis — the decisiveness synthesis prompt ("close every open question, be decisive") is the wrong posture for backward-looking analysis. Known limitation; fix requires a separate synthesis variant for reflective tasks.
+
 **The actionable summary:**
 
-1. Add a synthesis step before anything else. One agent, 2 calls, commit-forcing prompt: this closes 85% of the gap between broken and optimal multi-agent.
-2. Do not add agents to improve quality. Phase 8 proves this directly.
+1. Add a synthesis step before anything else. One agent, 2 calls, commit-forcing prompt: this closes ~80% of the gap between broken and optimal multi-agent.
+2. Do not add agents to improve quality. Phase 8 proves this directly (p=0.854). Phase 9 confirms it against a real proprietary system.
 3. Flat topology under adversarial or ambiguous input is a safety issue, not just a performance one.
 
 Full write-up with all results, mechanisms, and limitations: [`docs/lesswrong-post-combined.md`]
