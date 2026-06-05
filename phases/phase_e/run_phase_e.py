@@ -67,7 +67,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from src.agents.pool import initialise_pool
 from src.agents.team import draft_team
-from src.orchestration.engine import run_simulation
+from src.orchestration.engine import run_simulation, build_flat_graph, SimState
 from src.evaluation.judge import score_transcript_panel
 from src.scenarios.epistemic import EPISTEMIC_SCENARIOS
 
@@ -215,39 +215,22 @@ def run_kalibr_chain_epistemic(scenario_id: str, rep: int, rep_seed: int) -> dic
 
 
 def run_single_agent_epistemic(scenario_id: str, rep: int, rep_seed: int) -> dict | None:
-    """Single agent with self-review using epistemic synthesis prompt. 2 calls, 1 agent."""
+    """Single agent with self-review using epistemic synthesis prompt. 2 calls, 1 agent.
+
+    Uses flat topology with max_rounds=1 and a closing synthesis prompt:
+    - Call 1: agent produces initial analysis (flat round 0)
+    - Call 2: same agent runs EPISTEMIC_SYNTHESIS_PROMPT (closing/synth node)
+    This is the compute-matched baseline for kalibr-chain: same 2 calls, 1 agent.
+    """
     run_id   = str(uuid.uuid4())
     scenario = EPISTEMIC_SCENARIOS[scenario_id]
     pool     = initialise_pool(seed=rep_seed)
     workers  = [a for a in pool if not a.is_judge]
     judges   = [a for a in pool if a.is_judge]
 
-    # Use the captain alone — same agent twice
     team, captain_id = draft_team(workers, 1, scenario.task_dimensions, "drafted")
 
-    # Build a 2-call chain with a single agent: agent does initial analysis,
-    # then reviews with epistemic synthesis prompt
     try:
-        state = run_simulation(
-            agents=team,
-            scenario_brief=scenario.brief,
-            phase=scenario.phase,
-            topology="chain",
-            chain_handoff_prompts={0: EPISTEMIC_SYNTHESIS_PROMPT},  # agent 0 IS the synth agent
-            default_handoff=None,
-        )
-    except Exception as e:
-        print(f"    ERROR in simulation: {e}")
-        traceback.print_exc()
-        return None
-
-    # Second call: self-review with epistemic synthesis prompt
-    # For single-agent condition, we run a flat 1-round with epistemic closing prompt
-    try:
-        from src.orchestration.engine import build_flat_graph
-        import uuid as _uuid
-        from src.orchestration.engine import SimState
-
         initial_state: SimState = {
             "run_id": run_id,
             "phase": scenario.phase,
