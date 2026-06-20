@@ -105,6 +105,17 @@ Phase 8 showed agent diversity adds no statistical benefit over self-refinement 
 
 A single-agent self-review with the same epistemic synthesis prompt is expected to produce statistically similar results (per Phase 8). Both are included as conditions in Phase E.
 
+### The Four Conditions
+
+| Condition | Synthesis prompt | LLM calls | Purpose |
+|---|---|---|---|
+| `kalibr-chain` | EPISTEMIC (calibrated uncertainty + JSON output) | 2 | Primary: tests synthesis architecture |
+| `kalibr-chain/decisive` | DECISIVE (Phase 5/8/9 prompt) | 2 | H2 ablation: is prompt type the mechanism? |
+| `single-agent` | EPISTEMIC (prose self-review) | 2 | Diversity control: does second agent matter? |
+| `flat-no-handoff` | None | 4 | Baseline: framework default without synthesis |
+
+The `kalibr-chain/decisive` condition directly tests H2 within Phase E rather than inferring it from the Phase 9 post-mortem. If the decisive prompt again underperforms on epistemic tasks (as it did by −13.3 pts on s03), this confirms the mechanism is the synthesis prompt design, not something specific to post-mortem analysis.
+
 ---
 
 ## Demonstration: COVID-19 Origins
@@ -153,6 +164,34 @@ The eggs/CVD scenario presents the same rubric structure on the nutrition eviden
 7. Industry funding patterns in egg nutrition research
 
 **Key epistemic challenge:** streams 1, 3, and 4 appear to disagree. A good epistemic map should identify that streams 1 and 3 and 4 all rely on dietary recall instruments with known biases, and that Western cohort confounding (stream 6) could explain the difference between Chinese Kadoorie (stream 3) and NHANES (stream 4) results without either being wrong. The crux is whether controlling for total dietary pattern eliminates the positive association in NHANES — a specific answerable question.
+
+---
+
+## Additional Scenarios (Full Experiment)
+
+Phase E tests the architecture across **five scenarios** to establish generalisability. The FLF primary case studies (COVID origins, eggs/CVD) are scenarios e01 and e02. Three additional scenarios extend coverage to different epistemic challenge types:
+
+### e03: LHC Black Holes — Dependency Mapping on an Essentially Settled Question
+
+A case where the scientific community reached consensus but the reasoning structure is complex. The rubric does not ask whether the LHC was safe (it was); it asks whether the agent can map the *dependency structure* of the safety argument — what each conclusion rests on — and identify the weakest theoretical links (Hawking radiation, extra-dimension models). A system that simply outputs "the LHC was safe" scores low. A system that identifies which steps rest on unverified theoretical inference vs direct empirical evidence scores high.
+
+**Epistemic challenge tested:** Can the architecture produce structured dependency maps for scientific consensus, not just contested disputes?
+
+### e04: Nuclear Power Risk — Methodological vs Value Disputes
+
+The comparative safety data for nuclear vs fossil fuels (deaths per TWh) looks like a factual disagreement but is actually methodological. Pro-nuclear and anti-nuclear estimates often derive from the same underlying WHO/UNSCEAR mortality data but weight tail events differently. The rubric specifically tests whether the output identifies this shared source dependency rather than treating the disagreement as two independent evidence sets.
+
+**Key epistemic challenge:** The LNT (linear no-threshold) model determines whether low-dose radiation risk is counted at all. Institutional conflict of interest is systematic — IAEA and nuclear regulators produce low estimates; anti-nuclear organisations produce high estimates — both from the same datasets.
+
+**Epistemic challenge tested:** Can the architecture correctly identify methodological disputes that present as factual ones, and map correlated evidence from rival institutional sources?
+
+### e05: Alcohol J-Curve — 30-Year Performed-as-Settled Confound
+
+The classic case study for "performed as settled" in epidemiology. Cohort studies showed moderate drinkers had better cardiovascular outcomes than abstainers (the "J-curve") for decades. This was cited in dietary guidelines as evidence of cardioprotective effects. The problem — sick-quitter bias, where former heavy drinkers who quit due to illness are classified as abstainers — was known in epidemiology from the 1980s. It became undeniable when Mendelian randomisation studies (using genetic variants as instruments for alcohol consumption) showed no protective effect once this confound was controlled.
+
+The rubric requires updating on the Mendelian randomisation evidence. An output that treats classic cohort studies as the primary evidence and ignores MR scores a maximum of 50 — this mirrors the cap for overconfident verdicts in other scenarios.
+
+**Epistemic challenge tested:** The canonical case for "performed as settled." Tests whether the architecture can name a specific claim that was treated as established in guidelines despite a known methodological concern being unresolved.
 
 ---
 
@@ -240,11 +279,14 @@ pip install -e ".[research]"
 cp .env.example .env
 # Edit .env: add your GEMINI_API_KEY
 
-# Run Phase E (all 3 conditions, all 3 scenarios, 5 reps each = 45 runs)
+# Run Phase E (all 4 conditions, all 5 scenarios, 5 reps each = 100 runs)
 python phases/phase_e/run_phase_e.py
 
 # Or run just COVID and eggs with more reps
-python phases/phase_e/run_phase_e.py --reps 10 --scenarios e01_covid_origins e02_eggs_cvd
+python phases/phase_e/run_phase_e.py --reps 10 --scenarios e01 e02
+
+# Or run a single condition
+python phases/phase_e/run_phase_e.py --conditions kalibr-chain kalibr-chain/decisive
 
 # Analyze results
 python phases/phase_e/analyze_phase_e.py

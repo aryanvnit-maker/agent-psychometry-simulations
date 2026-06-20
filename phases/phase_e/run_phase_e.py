@@ -10,8 +10,8 @@
 Phase E: Epistemic Investigation Architecture
 FLF Epistemic Case Study Competition (flf.org)
 
-Tests three conditions on open epistemic disputes (COVID origins, eggs/CVD,
-LHC black holes):
+Tests four conditions on five open epistemic disputes (COVID origins, eggs/CVD,
+LHC black holes, nuclear power risk, alcohol J-curve):
 
     kalibr-chain/epistemic   — chain-2 + EPISTEMIC_SYNTHESIS_PROMPT
                                Tuned for calibrated uncertainty, not decisive commitment.
@@ -21,6 +21,12 @@ LHC black holes):
 
     single-agent/epistemic   — single agent + EPISTEMIC_SYNTHESIS_PROMPT (self-review)
                                Compute-matched baseline: same 2 LLM calls, 1 agent.
+
+    kalibr-chain/decisive    — chain-2 + DECISIVE_SYNTHESIS_PROMPT (ablation)
+                               Same architecture as kalibr-chain but with Phase 5/8/9 prompt.
+                               Tests H2: whether prompt specificity (not architecture) drives
+                               the Phase 9 post-mortem gap. Expected to underperform on
+                               epistemic tasks — replicating the −13.3 pt finding.
 
     flat/no-handoff          — round-table, 2 rounds, no synthesis step
                                The framework default (LangChain/CrewAI/AutoGen baseline).
@@ -366,10 +372,68 @@ def run_flat_no_handoff(scenario_id: str, rep: int, rep_seed: int) -> dict | Non
     }
 
 
+def run_kalibr_chain_decisive(scenario_id: str, rep: int, rep_seed: int) -> dict | None:
+    """Chain-2 + DECISIVE synthesis prompt — ablation control for H2.
+
+    Identical architecture to run_kalibr_chain_epistemic but uses the decisive
+    synthesis prompt from Phases 5/8/9 instead of the epistemic one.
+    Phase 9 showed this prompt costs −13.3 pts on reflective tasks (s03_post_mortem).
+    This condition tests whether the same penalty applies to Phase E scenarios directly,
+    making H2 (prompt specificity) testable within Phase E rather than inferred
+    cross-experiment.
+
+    Expected result: scores below kalibr-chain/epistemic by a similar margin.
+    If the gap is not observed, the decisive prompt is not the mechanism.
+    """
+    run_id   = str(uuid.uuid4())
+    scenario = EPISTEMIC_SCENARIOS[scenario_id]
+    pool     = initialise_pool(seed=rep_seed)
+    workers  = [a for a in pool if not a.is_judge]
+    judges   = [a for a in pool if a.is_judge]
+    team, captain_id = draft_team(workers, 2, scenario.task_dimensions, "drafted")
+
+    try:
+        state = run_simulation(
+            agents=team,
+            scenario_brief=scenario.brief,
+            phase=scenario.phase,
+            topology="chain",
+            chain_handoff_prompts={1: DECISIVE_SYNTHESIS_PROMPT},
+            default_handoff=None,
+        )
+    except Exception as e:
+        print(f"    ERROR in simulation: {e}")
+        traceback.print_exc()
+        return None
+
+    transcript = build_transcript(state["messages"])
+    try:
+        mean_score = _score(run_id, scenario, transcript, judges, topology="chain")
+    except Exception as e:
+        print(f"    ERROR in judge panel: {e}")
+        return None
+
+    return {
+        "run_id":      run_id,
+        "condition":   "kalibr-chain/decisive",
+        "scenario_id": scenario_id,
+        "rep":         rep,
+        "captain_id":  captain_id,
+        "task_score":  mean_score,
+        "turn_count":  state["turn_count"],
+        "n_calls":     2,
+        "synthesis":   "decisive",
+        "map_parsed":  False,
+        "model":       os.getenv("MODEL", "unknown"),
+        "provider":    os.getenv("MODEL_PROVIDER", "unknown"),
+    }
+
+
 CONDITION_RUNNERS = {
-    "kalibr-chain": run_kalibr_chain_epistemic,
-    "single-agent": run_single_agent_epistemic,
-    "flat-no-handoff": run_flat_no_handoff,
+    "kalibr-chain":          run_kalibr_chain_epistemic,
+    "kalibr-chain/decisive": run_kalibr_chain_decisive,
+    "single-agent":          run_single_agent_epistemic,
+    "flat-no-handoff":       run_flat_no_handoff,
 }
 
 
@@ -415,9 +479,10 @@ def main():
     print("=" * 60)
     print()
     print("Synthesis prompts:")
-    print("  kalibr-chain  → EPISTEMIC_SYNTHESIS_PROMPT_JSON (calibrated uncertainty + structured JSON)")
-    print("  single-agent  → EPISTEMIC_SYNTHESIS_PROMPT (self-review)")
-    print("  flat-no-handoff → none (framework default baseline)")
+    print("  kalibr-chain          → EPISTEMIC_SYNTHESIS_PROMPT_JSON (calibrated uncertainty + JSON)")
+    print("  kalibr-chain/decisive → DECISIVE_SYNTHESIS_PROMPT (ablation: Phase 9 prompt on epistemic tasks)")
+    print("  single-agent          → EPISTEMIC_SYNTHESIS_PROMPT (self-review, prose)")
+    print("  flat-no-handoff       → none (framework default baseline)")
     print("=" * 60)
 
     completed = 0

@@ -253,6 +253,192 @@ LHC_BLACK_HOLES = Scenario(
 )
 
 
+# ── e04: Nuclear Power Risk ───────────────────────────────────────────────────
+# Comparative risk assessment: nuclear vs coal vs renewables.
+# Key tension: statistical risk (deaths per TWh) vs tail risk (catastrophic events).
+# Key correlated evidence: most safety data comes from IAEA or nuclear regulators
+# with institutional interest in the outcome. Anti-nuclear studies often use
+# the same underlying WHO/UNSCEAR mortality estimates but weight tail events
+# differently. Both sides cite "the same data" — the dispute is methodological.
+# This tests whether the architecture can identify epistemic disputes that
+# look like value disagreements but are actually methodological ones.
+
+NUCLEAR_POWER_RISK = Scenario(
+    scenario_id="e04_nuclear_power_risk",
+    category="evaluation",
+    phase="storming",
+    brief=(
+        "You are an epistemic investigation team. Your task is NOT to make an "
+        "energy policy recommendation — it is to produce a calibrated epistemic "
+        "map of the comparative safety evidence for nuclear power vs fossil fuels.\n\n"
+        "BACKGROUND:\n"
+        "The comparative risk of nuclear power is one of the most contested "
+        "empirical questions in energy policy. Two well-cited positions:\n\n"
+        "Position A (pro-nuclear): Nuclear power has the lowest deaths per TWh of "
+        "any major energy source (~0.03/TWh, comparable to wind and solar) when "
+        "Chernobyl and Fukushima deaths are counted using the same methodology as "
+        "fossil fuel mortality. Coal kills approximately 800× more people per TWh.\n\n"
+        "Position B (anti-nuclear): Tail risk analysis invalidates deaths-per-TWh "
+        "comparisons. A Chernobyl-scale event causes multi-generational harm not "
+        "captured by near-term mortality counts. Additionally, long-term low-dose "
+        "radiation effects are systematically undercounted due to the 'linear no-"
+        "threshold' model controversy.\n\n"
+        "KEY EVIDENCE STREAMS TO CONSIDER:\n"
+        "1. Deaths per TWh estimates (Our World in Data / Sovacool 2008 / WHO data) "
+        "— show nuclear comparable to renewables\n"
+        "2. Chernobyl mortality estimates — range from 31 direct deaths (IAEA) to "
+        "60,000-985,000 excess cancer deaths (Greenpeace/TORCH reports) to 4,000 "
+        "(WHO/UNSCEAR consensus)\n"
+        "3. Fukushima mortality: ~1 confirmed radiation death; but ~2,200 deaths "
+        "from evacuation-related causes\n"
+        "4. Linear no-threshold (LNT) model controversy — is there a safe dose of "
+        "radiation, or does any exposure carry proportional cancer risk?\n"
+        "5. Coal externalities: PM2.5 mortality is estimated but also model-dependent\n"
+        "6. Institutional sources: IAEA, UNSCEAR, WNA vs Greenpeace, NIRS, Union "
+        "of Concerned Scientists — systematic directional disagreement\n"
+        "7. Comparison methodology: are we comparing average operations risk or "
+        "expected-value risk (including tail events with small probability)?\n\n"
+        "Produce a structured epistemic map:\n"
+        "A. The 2-3 key CRUXES — where does the disagreement actually turn on "
+        "factual or methodological questions vs value judgments?\n"
+        "B. EVIDENCE QUALITY for each stream — which sources have institutional "
+        "conflicts of interest, and how does that affect reliability?\n"
+        "C. CORRELATED EVIDENCE — which streams cite the same underlying data "
+        "source but reach different conclusions, and why?\n"
+        "D. CALIBRATED ASSESSMENT — given the genuine methodological dispute, "
+        "what is the most defensible probability range for nuclear being safer "
+        "than coal in expected-value terms? Give conditions.\n"
+        "E. VALUE vs METHODOLOGY — which parts of the disagreement are actually "
+        "methodological (and potentially resolvable) vs genuine value differences "
+        "about how to weight tail events?"
+    ),
+    rubric=(
+        "Score the epistemic map on the following criteria:\n"
+        "1. CRUX IDENTIFICATION: Did the output correctly identify that the "
+        "core dispute is methodological — specifically about how to count "
+        "tail-event mortality and whether LNT holds — rather than a simple "
+        "factual disagreement? Identifying only value disagreements without "
+        "the methodological layer scores 0. (25 points)\n"
+        "2. SOURCE ANALYSIS: Did the output identify the systematic directional "
+        "disagreement between nuclear-affiliated and anti-nuclear sources — and "
+        "explain how this affects the epistemics of the dispute rather than "
+        "simply citing both sides? 'Both sides have studies' scores 0. (25 points)\n"
+        "3. CALIBRATION: Did the output give a probability range for the core "
+        "claim (nuclear safer than coal in expected-value terms) with explicit "
+        "conditions stated — particularly the LNT assumption and tail weighting? "
+        "A confident verdict either way without conditions scores 0. (25 points)\n"
+        "4. CORRELATED EVIDENCE: Did the output identify that pro-nuclear and "
+        "anti-nuclear mortality estimates often derive from the same underlying "
+        "WHO/UNSCEAR datasets but differ in methodology — making them less "
+        "independent than they appear? (15 points)\n"
+        "5. VALUE/METHOD SEPARATION: Did the output explicitly distinguish which "
+        "parts of the disagreement are methodologically resolvable (LNT testing, "
+        "standardised tail-event counting) from which require value judgments "
+        "(how much to weight catastrophic vs chronic risk)? (10 points)\n\n"
+        "Maximum score: 100."
+    ),
+    task_dimensions=["feedback_orientation", "philosophy_cohesion", "adaptive_intelligence"],
+    max_turns=8,
+)
+
+
+# ── e05: Alcohol J-Curve — Confound Persisting in Public Discourse ────────────
+# The "J-curve" (moderate drinkers have better outcomes than abstainers) was
+# used for decades to suggest moderate drinking is cardioprotective. It is now
+# understood that this likely reflects "sick quitter bias" — people who quit
+# drinking because they are already ill are classified as abstainers.
+# The WHO/IARC now say "no safe level of alcohol."
+# This is a canonical example of a well-documented methodological confound
+# that persisted in guidelines and public discourse for 30+ years.
+# Tests the architecture's ability to identify "performed as settled" claims.
+
+ALCOHOL_J_CURVE = Scenario(
+    scenario_id="e05_alcohol_j_curve",
+    category="evaluation",
+    phase="storming",
+    brief=(
+        "You are an epistemic investigation team. Your task is to produce a "
+        "calibrated epistemic map of the alcohol health evidence — specifically "
+        "the claim that moderate alcohol consumption (1-2 drinks/day) reduces "
+        "cardiovascular disease risk.\n\n"
+        "BACKGROUND:\n"
+        "For decades, cohort studies showed a J-curve: moderate drinkers had "
+        "better cardiovascular outcomes than both heavy drinkers and abstainers. "
+        "This was cited in guidelines as evidence that moderate drinking might be "
+        "cardioprotective. In 2018, a major Lancet meta-analysis (GBD 2016) "
+        "concluded 'the safest level of drinking is none' on all-cause mortality. "
+        "In 2022-23, large Mendelian randomisation studies found no protective "
+        "effect for moderate drinking once sick-quitter bias was controlled.\n\n"
+        "KEY EVIDENCE STREAMS TO CONSIDER:\n"
+        "1. Classic cohort studies (Nurses' Health Study, HPFS, multiple European "
+        "cohorts) — showed J-curve for CVD mortality; moderate drinkers outperform "
+        "abstainers\n"
+        "2. Sick-quitter bias: many abstainers are former heavy drinkers who quit "
+        "due to illness, inflating abstainer mortality. When studies exclude "
+        "ex-drinkers, the J-curve weakens significantly or disappears\n"
+        "3. Mendelian randomisation studies — use genetic variants (ADH1B) as "
+        "instruments for alcohol consumption, avoiding confounding. These show "
+        "no cardiovascular benefit and dose-dependent cancer risk increase\n"
+        "4. Industry funding: alcohol industry funded several studies showing "
+        "moderate benefits; documented publication bias and selective reporting\n"
+        "5. GBD 2016 Lancet meta-analysis — found no safe level on all-cause "
+        "mortality, but focused on combining cancer risk with CVD benefit\n"
+        "6. Biological mechanism: alcohol raises HDL-cholesterol and reduces "
+        "platelet aggregation — the mechanistic story for CVD benefit exists\n"
+        "7. Dietary pattern confounding: moderate drinkers (in Western cohorts) "
+        "often have better overall diets and higher SES than abstainers\n\n"
+        "Produce a structured epistemic map:\n"
+        "A. The 2-3 key CRUXES — specifically: does sick-quitter bias fully "
+        "explain the J-curve, or is there a real protective effect?\n"
+        "B. EVIDENCE QUALITY for each stream — specifically addressing whether "
+        "the Mendelian randomisation approach successfully addresses the bias\n"
+        "C. CORRELATED EVIDENCE — which streams share the same underlying flaw "
+        "(sick-quitter confound, dietary pattern confounding, industry funding)\n"
+        "D. CALIBRATED ASSESSMENT — given the Mendelian evidence, what is the "
+        "most defensible probability range for moderate drinking being net- "
+        "protective for CVD? Be specific about conditions.\n"
+        "E. WHAT WAS PERFORMED AS SETTLED — what claims about moderate alcohol "
+        "benefits were treated as established in public health discourse for "
+        "decades despite the known methodological concerns?"
+    ),
+    rubric=(
+        "Score the epistemic map on the following criteria:\n"
+        "1. CRUX IDENTIFICATION: Did the output correctly identify sick-quitter "
+        "bias as the central methodological crux — the specific question of "
+        "whether excluding ex-drinkers from the abstainer category eliminates "
+        "the J-curve? Identifying only 'confounding' without naming this specific "
+        "mechanism scores half. (25 points)\n"
+        "2. MENDELIAN RANDOMISATION ASSESSMENT: Did the output correctly assess "
+        "Mendelian randomisation as the strongest available evidence against "
+        "the J-curve — and identify its limitations (instrument validity, "
+        "population specificity)? Treating all evidence as equally uncertain "
+        "scores 0. (25 points)\n"
+        "3. CALIBRATION: Did the output give a probability range for the "
+        "cardioprotective hypothesis that has shifted from classic cohort "
+        "estimates (high confidence of benefit) toward the MR-adjusted range "
+        "(low confidence of net benefit)? A range anchored only on classic "
+        "cohort studies without updating for MR evidence scores 0. (25 points)\n"
+        "4. CORRELATED EVIDENCE: Did the output identify that streams 1, 4, and "
+        "7 (classic cohorts, industry-funded studies, dietary pattern studies) "
+        "all share the sick-quitter and healthy-user confounds — making them "
+        "less independent than a naive count suggests? (15 points)\n"
+        "5. PERFORMED AS SETTLED: Did the output explicitly name at least one "
+        "claim that was treated as established in dietary guidelines despite the "
+        "sick-quitter concern being well-known in epidemiology for 30+ years? (10 points)\n\n"
+        "Maximum score: 100. A team that produces a verdict without updating on "
+        "the Mendelian randomisation evidence scores a maximum of 50."
+    ),
+    task_dimensions=["feedback_orientation", "adaptive_intelligence", "philosophy_cohesion"],
+    max_turns=8,
+)
+
+
 EPISTEMIC_SCENARIOS: dict[str, Scenario] = {
-    s.scenario_id: s for s in [COVID_ORIGINS, EGGS_CVD, LHC_BLACK_HOLES]
+    s.scenario_id: s for s in [
+        COVID_ORIGINS,
+        EGGS_CVD,
+        LHC_BLACK_HOLES,
+        NUCLEAR_POWER_RISK,
+        ALCOHOL_J_CURVE,
+    ]
 }

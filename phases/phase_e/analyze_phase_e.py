@@ -84,9 +84,9 @@ def main():
     print("FLF Epistemic Case Study Competition")
     print("=" * 70)
 
-    conditions = ["kalibr-chain", "single-agent", "flat-no-handoff"]
-    calls_map  = {"kalibr-chain": 2, "single-agent": 2, "flat-no-handoff": 4}
-    synth_map  = {"kalibr-chain": "epistemic", "single-agent": "epistemic", "flat-no-handoff": "none"}
+    conditions = ["kalibr-chain", "kalibr-chain/decisive", "single-agent", "flat-no-handoff"]
+    calls_map  = {"kalibr-chain": 2, "kalibr-chain/decisive": 2, "single-agent": 2, "flat-no-handoff": 4}
+    synth_map  = {"kalibr-chain": "epistemic-JSON", "kalibr-chain/decisive": "decisive", "single-agent": "epistemic", "flat-no-handoff": "none"}
 
     # ── Overview table ─────────────────────────────────────────────────────────
     print(f"\n{'Condition':<22} {'Synthesis':<12} {'Calls':>6} {'N':>4} {'Mean':>7} {'Std':>6} {'Score/call':>11}")
@@ -151,47 +151,90 @@ def main():
             print("  Agent diversity provides measurable benefit on epistemic tasks.")
             print("  This would be a novel finding — Phase 8 showed no diversity effect on judgment.")
 
+    # ── H2 ablation: epistemic vs decisive prompt ─────────────────────────────
+    decisive = by_condition.get("kalibr-chain/decisive", [])
+
+    print("\n── H2 ABLATION: kalibr-chain/epistemic vs kalibr-chain/decisive ──")
+    print("  (Same architecture, same agent count — only synthesis prompt differs)")
+    if chain and decisive:
+        delta = mean(chain) - mean(decisive)
+        print(f"  kalibr-chain/epistemic: {mean(chain):.1f}  (n={len(chain)})")
+        print(f"  kalibr-chain/decisive:  {mean(decisive):.1f}  (n={len(decisive)})")
+        if _SCIPY:
+            t_stat, p_val = scipy_stats.ttest_ind(chain, decisive, equal_var=False)
+            print(f"  Δ = {delta:+.1f} pts  (t={t_stat:.2f}, p={p_val:.3f})  {sig_label(p_val)}")
+        else:
+            print(f"  Δ = {delta:+.1f} pts  (install scipy for significance test)")
+        print(f"  Phase 9 reference: decisive prompt cost −13.3 pts on s03_post_mortem")
+        if delta > 0:
+            print("  → H2 SUPPORTED: epistemic prompt outperforms decisive on calibration tasks.")
+        else:
+            print("  → H2 NOT SUPPORTED: decisive prompt competitive; prompt specificity not confirmed.")
+    else:
+        missing = [c for c in ["kalibr-chain", "kalibr-chain/decisive"] if not by_condition.get(c)]
+        print(f"  Missing data for: {', '.join(missing)}")
+
     # ── Per-scenario breakdown ─────────────────────────────────────────────────
     print("\n── Per-Scenario Breakdown ──")
-    print(f"  {'Scenario':<30} {'chain':>7} {'single':>7} {'flat':>7} {'chain-flat':>10}")
-    print("  " + "-" * 65)
+    print(f"  {'Scenario':<30} {'epistemic':>9} {'decisive':>9} {'single':>7} {'flat':>7}")
+    print("  " + "-" * 68)
     for s in sorted(by_scenario.keys()):
-        k = by_scenario[s].get("kalibr-chain",   [])
-        sg = by_scenario[s].get("single-agent",  [])
-        f = by_scenario[s].get("flat-no-handoff", [])
-        k_str  = f"{mean(k):.1f}"  if k  else "n/a"
-        sg_str = f"{mean(sg):.1f}" if sg else "n/a"
-        f_str  = f"{mean(f):.1f}"  if f  else "n/a"
-        d_str  = f"{mean(k) - mean(f):+.1f}" if k and f else "n/a"
-        print(f"  {s:<30} {k_str:>7} {sg_str:>7} {f_str:>7} {d_str:>10}")
+        ke  = by_scenario[s].get("kalibr-chain",          [])
+        kd  = by_scenario[s].get("kalibr-chain/decisive", [])
+        sg  = by_scenario[s].get("single-agent",          [])
+        fl  = by_scenario[s].get("flat-no-handoff",       [])
+        print(f"  {s:<30} "
+              f"{(f'{mean(ke):.1f}' if ke else 'n/a'):>9} "
+              f"{(f'{mean(kd):.1f}' if kd else 'n/a'):>9} "
+              f"{(f'{mean(sg):.1f}' if sg else 'n/a'):>7} "
+              f"{(f'{mean(fl):.1f}' if fl else 'n/a'):>7}")
 
-    # ── Connection to Phase 9 post-mortem gap ──────────────────────────────────
-    print("\n── Connection to Phase 9 Post-Mortem Finding ──")
-    print("  Phase 9 showed decisive synthesis prompt scored −13.3 pts on s03 (post-mortem).")
-    print("  Epistemic tasks require calibrated uncertainty, not decisiveness.")
-    print("  Phase E tests whether an epistemic synthesis prompt fixes this gap.")
-    chain_e01 = by_scenario.get("e01_covid_origins", {}).get("kalibr-chain", [])
-    chain_e02 = by_scenario.get("e02_eggs_cvd", {}).get("kalibr-chain", [])
-    if chain_e01 or chain_e02:
-        scores = []
-        if chain_e01: scores.append(f"e01_covid={mean(chain_e01):.1f}")
-        if chain_e02: scores.append(f"e02_eggs={mean(chain_e02):.1f}")
-        print(f"  Epistemic synthesis scores: {', '.join(scores)}")
-        print("  Compare to Phase 9 s03 (decisive synth): 66.7 pts.")
-        if chain_e01 and mean(chain_e01) > 70:
-            print("  → Epistemic synthesis prompt recovers performance on reflective tasks.")
-        elif chain_e01:
-            print("  → Gap partially closed; further prompt tuning may help.")
+    # ── H3: EpistemicMap parse rate ────────────────────────────────────────────
+    print("\n── H3: EpistemicMap JSON Parse Rate (kalibr-chain only) ──")
+    map_total   = sum(1 for r in records if r.get("condition") == "kalibr-chain")
+    map_parsed  = sum(1 for r in records if r.get("condition") == "kalibr-chain" and r.get("map_parsed"))
+    if map_total:
+        rate = 100 * map_parsed // map_total
+        print(f"  Parsed: {map_parsed}/{map_total}  ({rate}%)")
+        if rate >= 70:
+            print("  → H3 SUPPORTED: structured EpistemicMap produced reliably.")
+        else:
+            print("  → H3 NOT SUPPORTED: JSON output not reliable — model ignoring schema.")
+        by_scen_parsed = defaultdict(lambda: [0, 0])  # [parsed, total]
+        for r in records:
+            if r.get("condition") == "kalibr-chain":
+                sid = r["scenario_id"]
+                by_scen_parsed[sid][1] += 1
+                if r.get("map_parsed"):
+                    by_scen_parsed[sid][0] += 1
+        for sid, (p, t) in sorted(by_scen_parsed.items()):
+            print(f"    {sid:<30}  {p}/{t}")
+    else:
+        print("  No kalibr-chain data yet.")
+
+    # ── H2 cross-experiment connection ─────────────────────────────────────────
+    print("\n── Cross-Experiment: Phase 9 Post-Mortem vs Phase E ──")
+    print("  Phase 9 s03_post_mortem — decisive synth on reflective task: 66.7 pts")
+    print("  Phase 9 s03_post_mortem — flat/no-handoff (no synth):        80.0 pts")
+    print("  Phase 9 gap (decisive penalised chain by):                   −13.3 pts")
+    decisive_mean = mean(decisive) if decisive else None
+    chain_mean    = mean(chain)    if chain    else None
+    if decisive_mean is not None and chain_mean is not None:
+        phase_e_gap = chain_mean - decisive_mean
+        print(f"  Phase E gap (epistemic vs decisive in Phase E):            {phase_e_gap:+.1f} pts")
+        direction = "same direction" if phase_e_gap > 0 else "opposite direction"
+        print(f"  → Prompt-type penalty is in the {direction} across phases.")
 
     # ── FLF submission summary ─────────────────────────────────────────────────
     print("\n── FLF Competition Summary ──")
-    print("  Architecture: Kalibr chain-2 + EPISTEMIC_SYNTHESIS_PROMPT")
-    print("  Key finding: synthesis prompt design is the primary variable.")
+    print("  Architecture: Kalibr chain-2 + synthesis prompt")
+    print("  Primary finding: synthesis prompt DESIGN is the key variable.")
     print("    Decisive prompt (Phase 5/8/9): optimal for strategy/resource/crisis")
-    print("    Epistemic prompt (Phase E): optimal for investigation/calibration")
-    print("  The architecture is the same. The synthesis variant is what changes.")
-    print("  This is a transferable methodology: any chain-2 pipeline can be")
-    print("  switched from decisive to epistemic mode by swapping the terminal prompt.")
+    print("    Epistemic prompt (Phase E):    optimal for investigation/calibration")
+    print("  H1: chain > flat on epistemic tasks  →", "see PRIMARY above")
+    print("  H2: epistemic > decisive prompt      →", "see H2 ABLATION above")
+    print("  H3: JSON maps parse at ≥70%          →", "see H3 above")
+    print("  Transferable: swap terminal prompt to switch decisive ↔ epistemic mode.")
 
     print()
 
