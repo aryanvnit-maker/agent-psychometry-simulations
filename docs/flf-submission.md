@@ -242,6 +242,8 @@ This demonstrates that structured epistemic maps are **reusable and extendable**
 
 **The judge is an LLM.** Epistemic quality on COVID origins and eggs/CVD is assessed by a Gemini 2.5 Flash judge against the rubric criteria. The judge has training data on both topics and may have prior beliefs that affect its assessments. The rubric is designed to be structural (did the output identify cruxes as specific questions, not themes?) rather than content-level (is the crux the right one?), which reduces but does not eliminate this concern.
 
+**The rubric and the synthesis prompt are not independent.** The EPISTEMIC_SYNTHESIS_PROMPT instructs the agent to produce cruxes, evidence quality ratings, correlated evidence, calibrated ranges, and settled-vs-performed distinctions. The rubric awards points for exactly those outputs. This means the primary comparison (kalibr-chain vs flat-no-handoff) is partly testing whether explicitly instructing a model to produce a structure causes it to score higher on a rubric that rewards that structure — which is not a surprising result. The finding with the cleanest interpretation is H2: the decisive and epistemic prompts differ only in what they ask for, and the comparison measures which epistemic posture the rubric rewards. H1 replicates the Phase 5 mechanism finding in a new domain, but the effect size in Phase E will be partially inflated by the rubric-prompt alignment. A cleaner test would use a rubric designed independently of the synthesis prompt, or score outputs blind to condition using human domain experts.
+
 **No human validation.** A submission with genuine epistemic value would include human expert review of the outputs, not just automated rubric scoring. This is a prototype — the rubric demonstrates that the architecture produces the *form* of a correct epistemic map. Whether the content is accurate requires domain experts.
 
 **The ingestion layer is manual.** Evidence streams are summarised in the scenario brief by the researcher. A production system would extract claims automatically from raw sources with provenance metadata. The current implementation demonstrates the structure and assessment layers only.
@@ -304,12 +306,22 @@ Full codebase, agent constitutions, scenarios, and all Phase 1–9 results are i
 
 ## What We're Claiming
 
-1. The synthesis step is the primary mechanism for output quality across judgment, execution, and epistemic investigation tasks.
-2. The synthesis prompt design is the critical variable — decisive prompts underperform on reflective tasks by a measurable, reproducible amount (Phase 9, −13.3 pts on post-mortem).
-3. An epistemic synthesis prompt variant, tuned for calibrated uncertainty rather than commitment, closes this gap.
-4. This methodology is transferable: any multi-agent pipeline can be switched from decisive to epistemic mode by swapping the terminal synthesis prompt and reframing the scenario brief as investigation rather than decision.
+**Independently supported by prior phases (not circular):**
 
-The full prior research (Phases 1–9) is the empirical foundation for claims 1 and 2. Phase E demonstrates claims 3 and 4 on the FLF case studies.
+1. The synthesis step is the primary mechanism for output quality on judgment tasks. This is established across 2,400+ evaluations in Phases 5–9, using rubrics designed before the synthesis prompt existed.
+2. Synthesis prompt design is the critical variable — decisive prompts underperform on reflective tasks by a measurable amount (Phase 9, −13.3 pts on s03_post_mortem). This is an empirical result from a rubric that was not designed around the prompt.
+3. H2 (epistemic prompt outperforms decisive on calibration tasks): both prompts use the same chain-2 architecture; the only variable is what the synthesis agent is asked to do. Whatever the Phase E rubric rewards, it rewards it equally for both conditions. The comparison is clean.
+
+**Dependent on rubric-prompt alignment (interpret with caution):**
+
+4. H1 effect size in Phase E: the magnitude of kalibr-chain's advantage over flat/no-handoff is partly an artifact of the rubric being designed to reward what the epistemic synthesis prompt produces. The direction of the effect (synthesis > no synthesis) is independently supported; the size in Phase E is not.
+5. The epistemic synthesis prompt "closes the Phase 9 gap": this is a design claim, not a measurement. We designed a prompt to address a known failure mode and tested it against a rubric that rewards the intended outputs. The claim that it works requires independent validation.
+
+**The practical claim, which is not circular:**
+
+The synthesis prompt is the intervention. Swapping a decisive synthesis prompt for an epistemic one changes what the terminal agent produces, and changes how that output is received by evaluators tuned for calibrated uncertainty. Any existing pipeline can make this swap. Whether the outputs are *epistemically correct* — not just epistemically structured — requires human domain expert review.
+
+The full prior research (Phases 1–9) is the empirical foundation for claims 1–3. Phase E is a demonstration of the methodology, not a fully independent validation of claims 4–5.
 
 ---
 
