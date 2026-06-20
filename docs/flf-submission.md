@@ -4,11 +4,17 @@
 **Repository:** https://github.com/aryanvnit-maker/agent-psychometry-simulations
 **Submission date:** June 2026
 **Competition:** FLF Epistemic Case Study Competition (flf.org)
-**Status:** Methodology proposal for early feedback. Phase 3 is a completed deterministic pilot; the Phase 10 benchmark described here is specified but not yet run.
+**Status:** Methodology proposal for early feedback. Phase 3 (the deterministic shield) is a completed pilot; the epistemic-synthesis architecture (the sword) exists in the repository; the Phase 10 reasoning benchmark that would extend the deterministic test is specified but not yet run.
 
 ---
 
-**TL;DR:** The default multi-agent configuration shipped in every major framework (flat round-table, no synthesis step) does not just underperform on epistemic tasks — it *amplifies* a wrong premise under adversarial framing instead of rejecting it. We have already measured this deterministically, with binary ground truth and no LLM judge: under poisoned input, flat topology degraded and produced complete task collapses, while chain topology independently evaluated and rejected the same poison (Phase 3, N=200). This submission proposes extending that deterministic test from code tasks to reasoning tasks — an **adversarial epistemic robustness benchmark** that scores poison-rejection rate against verifiable answers — and then transfers the validated architecture to the genuinely-contested FLF case studies. The contribution is a way to measure epistemic robustness *deterministically*, before trusting a method on questions that have no ground truth.
+**TL;DR:** The submission has two halves — a **shield** and a **sword**.
+
+*Shield (validated, deterministic).* The default multi-agent configuration shipped in every major framework (flat round-table, no synthesis step) does not just underperform on epistemic tasks — it *amplifies* a wrong premise under adversarial framing instead of rejecting it. We have already measured this with binary ground truth and no LLM judge: under poisoned input, flat topology degraded and produced complete task collapses, while chain topology independently evaluated and rejected the same poison (Phase 3, N=200). We propose extending that deterministic test from code to reasoning — an **adversarial epistemic robustness benchmark** scoring poison-rejection rate against verifiable answers.
+
+*Sword (applied, honestly bounded).* The same poison-resistant architecture, run with an anti-decisive **epistemic synthesis** prompt, produces a structured EpistemicMap on the genuinely-contested FLF cases (COVID origins, eggs/CVD, nuclear risk): cruxes, evidence-quality ratings, correlated-evidence pairs, calibrated ranges, and a settled-vs-performed split. We do not self-score this; we hand the evaluator the artifact and claim only that its *structure* is auditable.
+
+The contribution is the pairing: measure epistemic robustness *deterministically* on adversarially-framed knowns, then apply the validated architecture to the unknowns and expose — not grade — what it produces.
 
 ---
 
@@ -110,15 +116,45 @@ A reusable, versioned benchmark: question sets with clean/poisoned variant pairs
 
 ---
 
-## The Transfer Step: From Validated Robustness to Contested Cases
+## The Transfer Step: What the Architecture *Does* on Contested Cases
 
-Once an architecture's poison-resistance is established deterministically, it can be *applied* to the genuinely-contested FLF case studies (COVID origins, eggs/CVD) — where scoring must necessarily become qualitative, but where the architecture is no longer an unvalidated black box.
+Phase 3 establishes that the architecture *survives* adversarial input. That is the shield. It is necessary but not sufficient: surviving poison is not the same as producing a useful investigation. The FLF case studies (COVID origins, eggs/CVD, nuclear risk) ask the harder question — given a genuinely contested question, what artifact does the system produce? This is the sword, and it is a distinct mechanism from the topology result.
 
-On contested cases the system produces a structured **EpistemicMap** artifact (a typed JSON object: cruxes, evidence streams with quality ratings, correlated-evidence pairs, calibrated ranges, and an explicit settled-vs-performed distinction). This is the compounding, interoperable artifact FLF asks for — but we make a deliberately narrow claim about it. We do **not** claim the map's *content* is correct (that needs domain experts). We claim only that it is produced by an architecture independently shown to resist adversarial framing, and that its structure is machine-interrogable and extendable v1→v2 as new evidence arrives.
+### The synthesis step is the actual intervention
 
-This honest division is the point:
-- **Deterministic claim:** chain topology resists conformity cascades under poison (validated).
-- **Qualitative application:** that architecture, applied to contested cases, yields structured artifacts whose form is auditable even where their content cannot be scored.
+The contested-case work runs on a terminal synthesis prompt that is deliberately *anti-decisive*. Where the default multi-agent move is "close every open question, be decisive" — a prompt we separately measured as costing −13.3 points on reflective tasks in Phase 9 — the epistemic synthesis prompt demands calibration and structure instead of a verdict. Its five required outputs, verbatim from the runner:
+
+1. **CRUXES** — the 2–3 specific factual or inferential questions whose resolution would most shift the overall probability. Name the question, not the theme.
+2. **EVIDENCE QUALITY** — for each evidence stream, a rating (strong / weak / contested / missing) with the specific weakness or strength named.
+3. **CORRELATED EVIDENCE** — at least one pair of streams that *appear* independent but share a methodological assumption, source, or selection mechanism, plus why that matters for the aggregate estimate.
+4. **CALIBRATED ASSESSMENT** — a probability *range* with explicit conditions, not a point estimate. Refusing to estimate scores zero; so does collapsing to false certainty.
+5. **SETTLED vs PERFORMED** — what the evidence has actually resolved, separated from what was merely performed as resolved, with at least one named question the current evidence cannot close.
+
+This maps directly onto the FLF desiderata: cruxes (decompose the disagreement), correlated evidence (the independence illusion that inflates confidence), calibrated ranges (uncertainty quantification), settled-vs-performed (the rhetorical-vs-evidential distinction). The output is a typed **EpistemicMap** JSON object — machine-interrogable, diffable, and extendable v1→v2 as new evidence arrives.
+
+### The circularity problem, stated honestly — and what defuses it
+
+There is a real measurement trap here, and we name it rather than hide it: the synthesis prompt *instructs* the model to produce cruxes, correlated-evidence pairs, and calibrated ranges, and any rubric that rewards those same structures is partly scoring the prompt back to itself. An LLM-judged "epistemic quality score" on a contested question is therefore **not deterministic and not a clean measurement** — the judge's priors and the prompt's instructions are both in play.
+
+So we do not make a scored-quality claim on contested cases. We separate two things the rubric-circularity argument conflates:
+
+- **Content correctness** — *is the conclusion right?* On COVID origins this is unknowable; on eggs/CVD it is contested. We make **no** claim here. It requires domain experts, and a score assigned by an LLM judge is circular.
+- **Structural form** — *did the system surface a crux, flag a correlated-evidence pair, give a range with conditions, distinguish settled from performed?* This is **observable independent of whether the conclusion is correct.** A human evaluator can read the EpistemicMap and check the structure directly. No LLM judge required; the prompt-rubric circularity does not bite, because we are not claiming the structure proves quality — we are exhibiting the structure for the evaluator to inspect.
+
+In short: we hand the FLF the artifact, not a self-graded score. "Here is what the architecture produces on your actual problem class — evaluate the reasoning yourself" is a more honest offer than a number generated by a judge reading a prompt's own instructions back to it.
+
+### Why the structure is non-trivial on a real case
+
+Take eggs/CVD. The decisive-synthesis default tends to a verdict ("dietary cholesterol has minimal effect on serum cholesterol — eggs are fine"). The epistemic synthesis prompt instead *forces* the model to look for correlated evidence — and the case is loaded with it: a large share of the reassuring nutritional-epidemiology studies share a single selection mechanism (food-frequency-questionnaire cohorts with healthy-user confounding) and, in places, common industry funding. Two studies that look like independent confirmation can be one methodological bet counted twice. The value of step 3 is not that the model gets eggs "right" — it is that the architecture is *structurally compelled* to test for the independence illusion that inflates false confidence. That compulsion is the transferable contribution, and it is what the default round-table configuration never does.
+
+### The two tiers, labeled
+
+| Tier | Claim | Evidence status | Scoring |
+|---|---|---|---|
+| **Tier 1 — Shield (validated)** | Chain topology resists conformity cascades under poison; flat topology amplifies and can collapse | Completed, Phase 3, N=200 | Deterministic, binary, no LLM judge |
+| **Tier 2 — Sword (applied)** | The same architecture, run with the epistemic synthesis prompt, produces structured EpistemicMaps on contested cases | Artifact exists; quality is not self-scored | Structure is human-auditable; content is *not* claimed |
+
+Tier 1 is why you should trust the architecture isn't a black box. Tier 2 is what the architecture gives the FLF on its own home territory. Neither alone is the submission; the pairing is.
 
 ---
 
@@ -176,9 +212,9 @@ The Phase 10 reasoning benchmark (clean/poisoned reasoning items + machine-check
 1. **Deterministic, validated:** Under adversarially poisoned input, flat multi-agent topology amplifies the wrong framing and can collapse to no output, while chain topology independently rejects it. Binary ground truth, no LLM judge (Phase 3, N=200).
 2. **The mechanism is a conformity cascade**, not psychometrics — the agentic analog of human conformity/sycophancy. This is the one piece of the human-psychology hypothesis that transferred; the trait-profile piece was falsified and is not claimed.
 3. **Proposed, falsifiable:** the topology→poison-resistance result generalizes from code to reasoning, measurable deterministically via poison-rejection rate across statistical, empirical-consensus, and logical question classes.
-4. **Applied, honestly bounded:** a poison-resistant architecture applied to genuinely-contested cases yields structured, compounding EpistemicMap artifacts whose *form* is auditable even where their *content* cannot be scored.
+4. **Applied, honestly bounded:** the same architecture, run with an anti-decisive epistemic synthesis prompt, produces structured EpistemicMap artifacts on contested cases — cruxes, correlated-evidence pairs, calibrated ranges, settled-vs-performed — whose *form* is human-auditable even where their *content* cannot be scored. We exhibit the artifact; we do not self-grade it.
 
-Claims 1 and 2 are evidence. Claims 3 and 4 are the proposal this submission seeks feedback on.
+Claims 1 and 2 are the **shield**: evidence in hand. Claims 3 and 4 are the **sword**: the proposal this submission seeks feedback on. The artifact-generating architecture (Claim 4) already exists in the repository; what is unrun is the deterministic reasoning benchmark (Claim 3).
 
 ---
 
