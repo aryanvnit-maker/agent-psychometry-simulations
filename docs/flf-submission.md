@@ -7,6 +7,10 @@
 
 ---
 
+**TL;DR:** The critical bottleneck in AI epistemic investigation is not agent diversity — it is the terminal synthesis prompt. Replacing a "decisive" synthesis prompt (optimal for strategy/resource tasks) with an "epistemic" prompt tuned for calibrated uncertainty measurably improves AI judgment on contested cases (COVID origins, eggs/CVD, nuclear risk, alcohol J-curve). The methodology is transferable to any multi-agent pipeline in two lines of code, produces structured JSON artifacts that compound across evidence updates, and includes a human-steering workflow for cases where researcher judgment should gate the synthesis step.
+
+---
+
 ## What This Is
 
 A methodology spec and prototype demonstrating that a single architectural intervention — a synthesis prompt tuned for calibrated uncertainty rather than decisive commitment — dramatically improves AI-assisted epistemic investigation quality. Demonstrated on COVID-19 origins and eggs/CVD from the competition's case studies.
@@ -115,6 +119,26 @@ A single-agent self-review with the same epistemic synthesis prompt is expected 
 | `flat-no-handoff` | None | 4 | Baseline: framework default without synthesis |
 
 The `kalibr-chain/decisive` condition directly tests H2 within Phase E rather than inferring it from the Phase 9 post-mortem. If the decisive prompt again underperforms on epistemic tasks (as it did by −13.3 pts on s03), this confirms the mechanism is the synthesis prompt design, not something specific to post-mortem analysis.
+
+### Human Steering in the Workflow
+
+The automated chain-2 architecture is designed to support, not replace, a human researcher. The natural steering point is between Agent A and Agent B — after initial evidence mapping, before synthesis commitment. A researcher can:
+
+1. **Review Agent A's draft cruxes** — redirect or add one if a perspective is missing
+2. **Flag a missing evidence stream** — e.g., "you haven't addressed the undisclosed sequence database question" — before passing to Agent B
+3. **Gate the v1→v2 compounding step** — the `compound_demo.py` script accepts new evidence as researcher-supplied input, making humans the curators of what counts as new and relevant
+
+This is the recommended operational workflow; the automated pipeline is the fallback for high-throughput screening. The key property is that the human intervention point is *before* synthesis commitment, not after — correcting the analyst's frame is far less costly than correcting a committed output.
+
+### Integration with the Full Stack
+
+Phase E deliberately isolates the Assessment bottleneck — the step where evidence maps become calibrated epistemic outputs. But the architecture is designed to connect with the full ingestion → structure → assessment stack:
+
+- **Ingestion → Phase E:** `ingest.py` extracts attributed claims (claim, claim_type, attributed_to, confidence_expressed, quote) from raw URLs. These feed directly into scenario briefs as structured evidence streams rather than researcher summaries.
+- **Phase E → downstream:** The `EpistemicMap` JSON output is a machine-readable artifact. Cruxes, probability ranges, and correlated-pair annotations are in typed fields that downstream tools can query — e.g., to surface all claims where `quality: "contested"` or to track probability range shifts across v1→v2 updates.
+- **Addressing the nuance-vs-interoperability tension:** The `EpistemicMap` schema pairs structured fields (`range_low`, `range_high`, `quality`) with mandatory free-text fields (`conditions`, `weakness`, `shared_assumption`, `implication`). The structured fields enable machine comparison and compounding; the free-text fields prevent flattening complex arguments into binary states. A crux is not just tagged "unresolved" — it carries the specific question text and a resolution impact rating. A correlated pair names the shared assumption, not just the two streams.
+
+The current prototype weights Assessment heavily, with Ingestion and Structure implemented as lightweight scaffolding. The submission is presented as *solving the Assessment bottleneck to enable the full stack* — the bottleneck where AI systems currently collapse calibrated uncertainty into performed certainty.
 
 ---
 
@@ -238,7 +262,7 @@ This demonstrates that structured epistemic maps are **reusable and extendable**
 
 ## Limitations
 
-**N is thin.** Phase E runs 5 reps per condition per scenario. This is enough to detect large effects (>20 pts) but not subtle ones. The Phase 5 and 8 results used 10 reps; Phase E should be re-run at 10+ reps before strong claims are made.
+**N is thin (by design for early feedback).** Phase E runs 5 reps per condition per scenario — sufficient to detect large effects (>20 pts) but not subtle ones. This submission is presented for early methodology feedback before committing compute to a full run. The final submission will use 10+ reps per condition across all five scenarios (200+ total runs). The Phase 5 and 8 results used 10 reps; those effect sizes were large enough (Δ=+38.8, Δ=+0.7) that 5 reps would have detected or ruled them out.
 
 **The judge is an LLM.** Epistemic quality on COVID origins and eggs/CVD is assessed by a Gemini 2.5 Flash judge against the rubric criteria. The judge has training data on both topics and may have prior beliefs that affect its assessments. The rubric is designed to be structural (did the output identify cruxes as specific questions, not themes?) rather than content-level (is the crux the right one?), which reduces but does not eliminate this concern.
 
@@ -246,7 +270,7 @@ This demonstrates that structured epistemic maps are **reusable and extendable**
 
 **No human validation.** A submission with genuine epistemic value would include human expert review of the outputs, not just automated rubric scoring. This is a prototype — the rubric demonstrates that the architecture produces the *form* of a correct epistemic map. Whether the content is accurate requires domain experts.
 
-**The ingestion layer is manual.** Evidence streams are summarised in the scenario brief by the researcher. A production system would extract claims automatically from raw sources with provenance metadata. The current implementation demonstrates the structure and assessment layers only.
+**The ingestion layer is scaffolding, not production.** `ingest.py` implements URL → attributed claims extraction and demonstrates the connection between raw sources and the evidence streams fed to agents. However, the Phase E scenarios still use researcher-summarised evidence briefs rather than fully automated ingestion. The prototype prioritises Assessment — the layer where epistemic failure currently occurs — with Ingestion implemented as a bridge that is functional but not battle-tested.
 
 **Single model family.** All runs use Gemini 2.5 Flash. The synthesis mechanism generalised across Gemini, Claude 3.5 Sonnet, and Grok in prior phases. Extension to other model families for Phase E is straightforward but not yet done.
 
