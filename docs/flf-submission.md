@@ -171,12 +171,29 @@ No architectural rebuild required. The synthesis prompt is the intervention. Thi
 
 ### Ingestion Layer Integration
 
-The current Phase E implementation takes the evidence summary as part of the scenario brief. A complete epistemic stack would add an ingestion layer that:
-- Extracts claims from raw sources (papers, debate transcripts, news)
-- Tags claims with provenance metadata (who said what, when, in what context)
-- Identifies when the same claim appears across sources in different forms
+`phases/phase_e/ingest.py` implements URL → structured claims JSON extraction:
 
-The current implementation handles the structure and assessment layers. Ingestion is the natural next extension. The synthesis prompt's step 3 (correlated evidence) is designed to work with structured provenance data — it can identify correlation flags even from the brief summary in Phase E, but would produce more precise output with a structured claim-source graph as input.
+```bash
+python phases/phase_e/ingest.py --url <article_url> --out results/claims_covid_v1.json
+```
+
+Output: a JSON array of attributed claims (`claim`, `claim_type`, `attributed_to`, `confidence_expressed`, `quote`) that can be used to seed the evidence streams for an EpistemicMap.
+
+### Structured EpistemicMap Artifacts
+
+`kalibr-chain` now produces structured JSON output via `EPISTEMIC_SYNTHESIS_PROMPT_JSON`. The synthesis agent is instructed to output a valid JSON `EpistemicMap` object (cruxes, evidence_streams, correlated_pairs, calibrated_estimates, settled, performed_as_settled). Maps are saved to `results/epistemic_maps/{run_id}.json`.
+
+### Compounding: v1 → v2
+
+`phases/phase_e/compound_demo.py` demonstrates the FLF "living document" pattern:
+
+1. Load a v1 `EpistemicMap` produced by `kalibr-chain`
+2. Present new evidence (Rootclaim post-debate critique, Weissman Bayesian analysis, Chinese CDC supplementary sampling)
+3. Run kalibr-chain with a continuation brief: "given v1 + new evidence, produce v2"
+4. Parse v2 — sets `extends_version: 1`, lists changes in `new_evidence`
+5. Print human-readable diff: crux status changes, probability range shifts, newly settled claims
+
+This demonstrates that structured epistemic maps are **reusable and extendable** — epistemic work compounds rather than being discarded after each run.
 
 ---
 
@@ -203,7 +220,8 @@ The current implementation handles the structure and assessment layers. Ingestio
 | Identify rhetorical moves vs evidential weight | Rubric criterion 5: settled vs performed-as-settled |
 | Calibrated confidence accounting for out-of-model error | EPISTEMIC_SYNTHESIS_PROMPT step 4: probability range with conditions |
 | Surface what's missing | EPISTEMIC_SYNTHESIS_PROMPT step 5: explicit open questions |
-| Reusable/refineable artifacts | JSONL output with full transcripts; scenarios are reusable Scenario objects |
+| Reusable/refineable structured artifacts | `EpistemicMap` Pydantic schema → JSON saved per run; `compound_demo.py` for v1→v2 updates |
+| Source attribution and provenance | `ingest.py` → attributed claims with `quote` + `attributed_to` per claim |
 
 The FLF stack (ingestion → structure → assessment) maps to the Kalibr pipeline as:
 - **Ingestion**: the scenario brief (manual in Phase E; automatable via claim extraction)
@@ -230,6 +248,12 @@ python phases/phase_e/run_phase_e.py --reps 10 --scenarios e01_covid_origins e02
 
 # Analyze results
 python phases/phase_e/analyze_phase_e.py
+
+# Compound demo: v1 → v2 (requires ≥1 kalibr-chain run of e01_covid_origins)
+python phases/phase_e/compound_demo.py
+
+# Ingest an article → structured claims JSON
+python phases/phase_e/ingest.py --url <article_url> --out results/claims_covid_v1.json
 ```
 
 Full codebase, agent constitutions, scenarios, and all Phase 1–9 results are in the repository.

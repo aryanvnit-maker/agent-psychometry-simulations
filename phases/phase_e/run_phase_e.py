@@ -69,9 +69,15 @@ from src.agents.pool import initialise_pool
 from src.agents.team import draft_team
 from src.orchestration.engine import run_simulation, build_flat_graph, SimState
 from src.evaluation.judge import score_transcript_panel
+from src.evaluation.epistemic_schema import (
+    EpistemicMap,
+    EPISTEMIC_MAP_JSON_SCHEMA,
+    parse_epistemic_map,
+)
 from src.scenarios.epistemic import EPISTEMIC_SCENARIOS
 
 RESULTS_FILE = Path("results/phase_e.jsonl")
+MAPS_DIR     = Path("results/epistemic_maps")
 SEED         = 42
 DELAY_SECS   = 2
 
@@ -117,7 +123,30 @@ EPISTEMIC_SYNTHESIS_PROMPT = (
     "Preserve uncertainty where it is warranted. Do not collapse to false certainty."
 )
 
+# JSON variant of the epistemic synthesis prompt — instructs structured output.
+# Used in run_kalibr_chain_epistemic to produce parseable EpistemicMap artifacts.
+# Falls back gracefully: if the model produces prose instead of JSON, the run
+# still scores normally; map_parsed=False is recorded for analysis.
+EPISTEMIC_SYNTHESIS_PROMPT_JSON = (
+    "OVERRIDE YOUR ROLE FUNCTION FOR THIS TURN.\n"
+    "You are the terminal epistemic synthesis agent.\n"
+    "Your goal is NOT a confident verdict. Your goal is a calibrated epistemic map.\n\n"
+    "Produce a valid JSON object matching this exact schema:\n"
+    f"{EPISTEMIC_MAP_JSON_SCHEMA}\n\n"
+    "Rules:\n"
+    "- range_low and range_high are integers 0-100 (probability percent)\n"
+    "- Include 2-3 cruxes, 3-5 evidence_streams, at least 1 correlated_pair\n"
+    "- Wide probability ranges are correct when warranted — do not collapse to false certainty\n"
+    "- Output ONLY the JSON object — no prose before or after"
+)
+
 ALL_SCENARIOS = list(EPISTEMIC_SCENARIOS.keys())
+
+
+def _save_epistemic_map(run_id: str, emap: EpistemicMap) -> None:
+    MAPS_DIR.mkdir(parents=True, exist_ok=True)
+    path = MAPS_DIR / f"{run_id}.json"
+    path.write_text(emap.model_dump_json(indent=2))
 
 
 def _load_done() -> set[str]:
@@ -170,7 +199,7 @@ def _score(run_id: str, scenario, transcript: str, judges: list, topology: str) 
 
 
 def run_kalibr_chain_epistemic(scenario_id: str, rep: int, rep_seed: int) -> dict | None:
-    """Chain-2 + epistemic synthesis prompt."""
+    """Chain-2 + epistemic synthesis prompt (JSON output → EpistemicMap artifact)."""
     run_id   = str(uuid.uuid4())
     scenario = EPISTEMIC_SCENARIOS[scenario_id]
     pool     = initialise_pool(seed=rep_seed)
@@ -184,7 +213,7 @@ def run_kalibr_chain_epistemic(scenario_id: str, rep: int, rep_seed: int) -> dic
             scenario_brief=scenario.brief,
             phase=scenario.phase,
             topology="chain",
-            chain_handoff_prompts={1: EPISTEMIC_SYNTHESIS_PROMPT},
+            chain_handoff_prompts={1: EPISTEMIC_SYNTHESIS_PROMPT_JSON},
             default_handoff=None,
         )
     except Exception as e:
@@ -193,6 +222,18 @@ def run_kalibr_chain_epistemic(scenario_id: str, rep: int, rep_seed: int) -> dic
         return None
 
     transcript = build_transcript(state["messages"])
+
+    # Attempt structured EpistemicMap extraction from synthesis output
+    last_assistant = next(
+        (m["content"] for m in reversed(state["messages"])
+         if isinstance(m, dict) and m.get("role") == "assistant"),
+        ""
+    )
+    emap = parse_epistemic_map(last_assistant)
+    if emap is not None:
+        emap.case_id = scenario_id
+        _save_epistemic_map(run_id, emap)
+
     try:
         mean_score = _score(run_id, scenario, transcript, judges, topology="chain")
     except Exception as e:
@@ -209,6 +250,7 @@ def run_kalibr_chain_epistemic(scenario_id: str, rep: int, rep_seed: int) -> dic
         "turn_count":  state["turn_count"],
         "n_calls":     2,
         "synthesis":   "epistemic",
+        "map_parsed":  emap is not None,
         "model":       os.getenv("MODEL", "unknown"),
         "provider":    os.getenv("MODEL_PROVIDER", "unknown"),
     }
