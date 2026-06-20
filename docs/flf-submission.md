@@ -7,15 +7,15 @@
 
 ---
 
-**TL;DR:** The critical bottleneck in AI epistemic investigation is not agent diversity — it is the terminal synthesis prompt. Replacing a "decisive" synthesis prompt (optimal for strategy/resource tasks) with an "epistemic" prompt tuned for calibrated uncertainty measurably improves AI judgment on contested cases (COVID origins, eggs/CVD, nuclear risk, alcohol J-curve). The methodology is transferable to any multi-agent pipeline in two lines of code, produces structured JSON artifacts that compound across evidence updates, and includes a human-steering workflow for cases where researcher judgment should gate the synthesis step.
+**TL;DR:** The critical bottleneck in AI epistemic investigation is not agent diversity — it is the terminal synthesis prompt. Prior research across 2,400+ evaluations established that a decisive synthesis prompt adds +38.8 pts on judgment tasks but costs −13.3 pts on reflective investigation. This submission presents a methodology and prototype that replaces the decisive prompt with an epistemic variant tuned for calibrated uncertainty, and tests whether that swap closes the gap on contested epistemic cases (COVID origins, eggs/CVD, nuclear risk, alcohol J-curve). Results are pending the full run; this submission is presented for early methodology feedback. The architecture produces structured JSON artifacts that compound across evidence updates and is transferable to any existing multi-agent pipeline.
 
 ---
 
 ## What This Is
 
-A methodology spec and prototype demonstrating that a single architectural intervention — a synthesis prompt tuned for calibrated uncertainty rather than decisive commitment — dramatically improves AI-assisted epistemic investigation quality. Demonstrated on COVID-19 origins and eggs/CVD from the competition's case studies.
+A methodology spec and prototype testing whether a single architectural intervention — replacing a decisive synthesis prompt with one tuned for calibrated uncertainty — improves AI-assisted epistemic investigation quality. Tested on five contested epistemic cases including COVID-19 origins and eggs/CVD from the competition's case studies.
 
-**Core claim:** The same synthesis architecture that improves judgment quality by 5× in structured business tasks also improves epistemic investigation quality — but only if the synthesis prompt is tuned for *reflection*, not *decisiveness*. We have empirical proof of what happens when you get this wrong, and we fix it here.
+**Core claim:** The same synthesis architecture that improves judgment quality by 2.5× in structured business tasks (34.3 → 86.3 pts, Phase 5) is known to *degrade* performance on reflective investigation tasks when the synthesis prompt demands decisiveness (Phase 9, −13.3 pts). We have empirical evidence of what goes wrong, a prompt variant designed to fix it, and an experiment to test whether the fix works.
 
 ---
 
@@ -31,7 +31,7 @@ This submission builds on nine phases of multi-agent orchestration research, tot
 
 **Phase 9 post-mortem finding:** The decisive synthesis prompt ("close every open question, be decisive") scored −13.3 pts on reflective backward-looking analysis tasks. This is the critical datum for epistemic investigation: decisiveness is the *wrong* epistemic posture for investigation. The synthesis mechanism is real — but the synthesis prompt needs to change for a different class of tasks.
 
-**Phase E (this submission):** A new synthesis prompt variant tuned for epistemic investigation. Applied to COVID-19 origins and eggs/CVD from the FLF case studies. Tests whether the architecture generalises when correctly tuned.
+**Phase E (this submission):** A new synthesis prompt variant tuned for epistemic investigation. Applied to five scenarios — COVID-19 origins, eggs/CVD, LHC black holes, nuclear power risk, and alcohol J-curve — spanning contested disputes, essentially-settled science, and canonical performed-as-settled confounds. Tests whether the architecture generalises when the prompt is correctly tuned for reflection rather than commitment.
 
 ---
 
@@ -134,7 +134,7 @@ This is the recommended operational workflow; the automated pipeline is the fall
 
 Phase E deliberately isolates the Assessment bottleneck — the step where evidence maps become calibrated epistemic outputs. But the architecture is designed to connect with the full ingestion → structure → assessment stack:
 
-- **Ingestion → Phase E:** `ingest.py` extracts attributed claims (claim, claim_type, attributed_to, confidence_expressed, quote) from raw URLs. These feed directly into scenario briefs as structured evidence streams rather than researcher summaries.
+- **Ingestion → Phase E:** `ingest.py` extracts attributed claims (claim, claim_type, attributed_to, confidence_expressed, quote) from raw URLs into a structured JSON file. A researcher uses this output to draft scenario briefs — replacing free-form summarisation with claim-level attribution before the brief is passed to the agents.
 - **Phase E → downstream:** The `EpistemicMap` JSON output is a machine-readable artifact. Cruxes, probability ranges, and correlated-pair annotations are in typed fields that downstream tools can query — e.g., to surface all claims where `quality: "contested"` or to track probability range shifts across v1→v2 updates.
 - **Addressing the nuance-vs-interoperability tension:** The `EpistemicMap` schema pairs structured fields (`range_low`, `range_high`, `quality`) with mandatory free-text fields (`conditions`, `weakness`, `shared_assumption`, `implication`). The structured fields enable machine comparison and compounding; the free-text fields prevent flattening complex arguments into binary states. A crux is not just tagged "unresolved" — it carries the specific question text and a resolution impact rating. A correlated pair names the shared assumption, not just the two streams.
 
@@ -230,21 +230,7 @@ Any existing multi-agent pipeline (LangChain, CrewAI, AutoGen) can implement thi
 1. Adding a terminal synthesis node with the epistemic synthesis prompt
 2. Framing the initial brief as investigation, not decision
 
-No architectural rebuild required. The synthesis prompt is the intervention. This is the same insight from Phases 5 and 6: the flat round-table can achieve near-identical performance to chain topology simply by adding a synthesis step. The same applies here.
-
-### Ingestion Layer Integration
-
-`phases/phase_e/ingest.py` implements URL → structured claims JSON extraction:
-
-```bash
-python phases/phase_e/ingest.py --url <article_url> --out results/claims_covid_v1.json
-```
-
-Output: a JSON array of attributed claims (`claim`, `claim_type`, `attributed_to`, `confidence_expressed`, `quote`) that can be used to seed the evidence streams for an EpistemicMap.
-
-### Structured EpistemicMap Artifacts
-
-`kalibr-chain` now produces structured JSON output via `EPISTEMIC_SYNTHESIS_PROMPT_JSON`. The synthesis agent is instructed to output a valid JSON `EpistemicMap` object (cruxes, evidence_streams, correlated_pairs, calibrated_estimates, settled, performed_as_settled). Maps are saved to `results/epistemic_maps/{run_id}.json`.
+No architectural rebuild required. The synthesis prompt is the intervention. This is the same insight from Phase 5: the flat round-table can achieve near-identical performance to chain topology simply by adding a synthesis step. The same applies here.
 
 ### Compounding: v1 → v2
 
