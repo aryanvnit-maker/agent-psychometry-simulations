@@ -206,6 +206,26 @@ Tier 1 is why you should trust the architecture isn't a black box. Tier 2 is wha
 
 ---
 
+## The Human-AI Workflow
+
+FLF asks for a step-by-step human-AI process, not a fully automated pipeline, and asks how a messy multi-source evidence base becomes something structured. The system is built as a loop with **two explicit human-steering checkpoints**, not an Agent-A-to-Agent-B black box. Here is the actual flow, with each step's build status stated plainly.
+
+**Step 1 — Ingestion (built, automated; provenance tracked).**
+`phases/phase_e/ingest.py` takes a raw source (URL, or a local PDF/transcript exported to text) and extracts a structured claims object. Each claim carries its provenance: `attributed_to` (author / study / institution), `confidence_expressed` (the *source's* stated confidence, not the model's), a verbatim `quote`, and a `fetched_at` timestamp. This is the messy-evidence → structured-claims step, and it runs today at temperature 0.
+
+**Step 2 — Human curation of the brief (manual; this is a steering checkpoint, and an honest limitation).**
+The extracted claims do **not** auto-flow into the analysis. A researcher reads the claims object and authors the scenario brief that Agent A receives. This is deliberate for now — it is where a human decides what is in scope, discards extraction noise, and balances the framing so the brief is not itself poisoned. It is also a genuine limitation: the brief is currently hand-authored, so the ingestion→analysis handoff is human-mediated rather than end-to-end automated. We state this rather than imply a seamless pipeline.
+
+**Step 3 — Structured analysis (built, automated).**
+Agent A analyses the brief; the terminal node runs the EPISTEMIC_SYNTHESIS_PROMPT and emits the v1 EpistemicMap (cruxes, evidence-quality ratings, correlated pairs, calibrated ranges, settled-vs-performed). Validated on parse; a malformed map is flagged, not silently scored.
+
+**Step 4 — Human review and evidence injection (built; the second steering checkpoint).**
+`phases/phase_e/compound_demo.py` is the human-in-the-loop continuation. A human reviews the v1 map, then curates a block of new evidence — in the shipped demo, the `NEW_COVID_EVIDENCE` block (the Rootclaim post-debate response, the Weissman independent Bayesian analysis, the market re-sampling caveats). The system integrates it into a v2 map and prints a v1→v2 diff: which cruxes changed status, which probability ranges moved, what new correlated pairs the evidence revealed. This is where a human corrects a missed crux or injects a source the model didn't have — the steering FLF asks about — and it is the compounding mechanism in action.
+
+**The honest seam.** Steps 1, 3, 4 are built and automated; Step 2 is intentionally human and not yet automated. The human is not decorative — they hold the two points where bad input does the most damage (framing the brief, vetting new evidence). That is the correct place to keep a human, but we name it as a current boundary rather than a finished auto-pipeline.
+
+---
+
 ## Connection to FLF's Judging Dimensions
 
 | Dimension | How this submission engages it |
@@ -249,6 +269,11 @@ python phases/phase3/analyze_phase3.py
 # Phase 6 — judge-free benchmark backbone (HumanEval / GSM8K), proof of binary-ground-truth scoring
 python phases/phase6/run_humaneval.py
 python phases/phase6/run_gsm8k.py
+
+# Human-AI workflow, steps that exist today:
+python phases/phase_e/ingest.py --url <article_url>   # Step 1: messy source → structured claims + provenance
+python phases/phase_e/run_phase_e.py                  # Step 3: brief → v1 EpistemicMap
+python phases/phase_e/compound_demo.py                # Step 4: human-injected evidence → v2 map + diff
 ```
 
 The Phase 10 reasoning benchmark (clean/poisoned reasoning items + machine-checkable keys) is the build proposed by this submission and is not yet in the repository.
