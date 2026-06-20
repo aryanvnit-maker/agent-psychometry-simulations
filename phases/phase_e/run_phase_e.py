@@ -315,6 +315,7 @@ def run_single_agent_epistemic(scenario_id: str, rep: int, rep_seed: int) -> dic
         "turn_count":  final_state["turn_count"],
         "n_calls":     2,
         "synthesis":   "epistemic",
+        "map_parsed":  False,
         "model":       os.getenv("MODEL", "unknown"),
         "provider":    os.getenv("MODEL_PROVIDER", "unknown"),
     }
@@ -359,6 +360,7 @@ def run_flat_no_handoff(scenario_id: str, rep: int, rep_seed: int) -> dict | Non
         "turn_count":  state["turn_count"],
         "n_calls":     4,
         "synthesis":   "none",
+        "map_parsed":  False,
         "model":       os.getenv("MODEL", "unknown"),
         "provider":    os.getenv("MODEL_PROVIDER", "unknown"),
     }
@@ -385,7 +387,19 @@ def main():
     model    = os.getenv("MODEL",          "gemini-2.5-flash")
     provider = os.getenv("MODEL_PROVIDER", "gemini")
 
-    scenarios  = [s for s in args.scenarios if s in EPISTEMIC_SCENARIOS]
+    # Support both full IDs ("e01_covid_origins") and short prefixes ("e01")
+    def _resolve(s: str) -> str | None:
+        if s in EPISTEMIC_SCENARIOS:
+            return s
+        matches = [k for k in EPISTEMIC_SCENARIOS if k.startswith(s)]
+        return matches[0] if len(matches) == 1 else None
+
+    resolved  = [_resolve(s) for s in args.scenarios]
+    scenarios = [s for s in resolved if s is not None]
+    if len(scenarios) != len(args.scenarios):
+        bad = [orig for orig, res in zip(args.scenarios, resolved) if res is None]
+        print(f"WARNING: unrecognised scenario(s) ignored: {bad}")
+        print(f"Valid IDs: {ALL_SCENARIOS}")
     conditions = [c for c in args.conditions if c in CONDITION_RUNNERS]
     done       = _load_done()
     total      = len(conditions) * len(scenarios) * args.reps
@@ -401,7 +415,7 @@ def main():
     print("=" * 60)
     print()
     print("Synthesis prompts:")
-    print("  kalibr-chain  → EPISTEMIC_SYNTHESIS_PROMPT (calibrated uncertainty)")
+    print("  kalibr-chain  → EPISTEMIC_SYNTHESIS_PROMPT_JSON (calibrated uncertainty + structured JSON)")
     print("  single-agent  → EPISTEMIC_SYNTHESIS_PROMPT (self-review)")
     print("  flat-no-handoff → none (framework default baseline)")
     print("=" * 60)

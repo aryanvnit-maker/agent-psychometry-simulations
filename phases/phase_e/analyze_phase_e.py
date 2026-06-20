@@ -28,7 +28,13 @@ import json
 import statistics
 from collections import defaultdict
 from pathlib import Path
-from scipy import stats as scipy_stats
+
+try:
+    from scipy import stats as scipy_stats
+    _SCIPY = True
+except ImportError:
+    scipy_stats = None  # type: ignore[assignment]
+    _SCIPY = False
 
 RESULTS_FILE = Path("results/phase_e.jsonl")
 
@@ -102,10 +108,13 @@ def main():
     print("\n── PRIMARY: kalibr-chain vs flat-no-handoff ──")
     if chain and flat:
         delta = mean(chain) - mean(flat)
-        t_stat, p_val = scipy_stats.ttest_ind(chain, flat, equal_var=False)
         print(f"  kalibr-chain:    {mean(chain):.1f}  (n={len(chain)}, sd={stdev(chain):.1f}, 2 calls, epistemic synth)")
         print(f"  flat-no-handoff: {mean(flat):.1f}  (n={len(flat)}, sd={stdev(flat):.1f}, 4 calls, no synth)")
-        print(f"  Δ = {delta:+.1f} pts  (Welch t={t_stat:.2f}, p={p_val:.3f})  {sig_label(p_val)}")
+        if _SCIPY:
+            t_stat, p_val = scipy_stats.ttest_ind(chain, flat, equal_var=False)
+            print(f"  Δ = {delta:+.1f} pts  (Welch t={t_stat:.2f}, p={p_val:.3f})  {sig_label(p_val)}")
+        else:
+            print(f"  Δ = {delta:+.1f} pts  (install scipy for significance test)")
         spc_chain = mean(chain) / 2
         spc_flat  = mean(flat)  / 4
         if spc_flat > 0:
@@ -129,9 +138,12 @@ def main():
     print("\n── SECONDARY: kalibr-chain vs single-agent (diversity, compute-matched) ──")
     if chain and single:
         delta = mean(chain) - mean(single)
-        t_stat, p_val = scipy_stats.ttest_ind(chain, single, equal_var=False)
         print(f"  kalibr-chain: {mean(chain):.1f}  single-agent: {mean(single):.1f}")
-        print(f"  Δ = {delta:+.1f} pts  (t={t_stat:.2f}, p={p_val:.3f})  {sig_label(p_val)}")
+        if _SCIPY:
+            t_stat, p_val = scipy_stats.ttest_ind(chain, single, equal_var=False)
+            print(f"  Δ = {delta:+.1f} pts  (t={t_stat:.2f}, p={p_val:.3f})  {sig_label(p_val)}")
+        else:
+            print(f"  Δ = {delta:+.1f} pts  (install scipy for significance test)")
         if p_val >= 0.05:
             print("  Agent diversity adds no measurable value over self-review on epistemic tasks.")
             print("  Replicates Phase 8 null result (Δ=+0.7, p=0.854) in a new task domain.")
