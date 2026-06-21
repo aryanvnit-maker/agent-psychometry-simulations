@@ -192,6 +192,23 @@ Per-scenario: Kalibr wins on decision/strategy tasks (+5 pts); panel leads on po
 
 ---
 
+## Epistemic Investigation (Phase E)
+
+Phase E is a separate research track applying the chain topology and synthesis architecture to genuinely contested epistemic questions (COVID origins, eggs/CVD, nuclear risk, alcohol J-curve). It is not part of the Kalibr SDK; it is the basis of the FLF Epistemic Case Study Competition submission.
+
+The architecture runs a 4-step human-AI loop:
+
+1. `ingest.py` — URL or file to structured claims JSON with provenance (author, expressed confidence, verbatim quote)
+2. Human curates the scenario brief from the extracted claims
+3. Chain topology + epistemic synthesis prompt produces a typed EpistemicMap (cruxes, evidence-quality ratings, correlated-evidence pairs, calibrated probability ranges, settled-vs-performed split)
+4. `compound_demo.py` — human injects new evidence; system produces a v2 map and prints a v1→v2 diff
+
+The synthesis prompt is deliberately anti-decisive: it forces calibrated ranges and correlated-evidence checks rather than verdicts. This is the opposite posture from the Kalibr synthesis prompt, which is why Phase 9's decisive prompt cost -13.3 pts on reflective tasks.
+
+Full write-up: [docs/flf-submission.md](docs/flf-submission.md)
+
+---
+
 ## Quick Start
 
 ```bash
@@ -291,6 +308,14 @@ python phases/phase9/run_phase9.py --reps 5 --skip-panel
 python phases/phase9/analyze_phase9.py
 ```
 
+**Phase E — Epistemic investigation (FLF track)**
+```bash
+python phases/phase_e/ingest.py --url <article_url>   # Step 1: source → structured claims
+python phases/phase_e/run_phase_e.py                   # Step 3: brief → v1 EpistemicMap
+python phases/phase_e/compound_demo.py                 # Step 4: new evidence → v2 map + diff
+python phases/phase_e/analyze_phase_e.py               # Analysis across conditions
+```
+
 **All phases — unified summary**
 ```bash
 python phases/summarize_all.py
@@ -333,10 +358,11 @@ cd judge0 && docker-compose up -d && cd ..
 │   ├── phase6/           # Objective benchmarks (HumanEval, GSM8K)
 │   ├── phase8/           # Agent diversity vs self-refinement
 │   ├── phase9/           # Kalibr vs Grok multi-agent panel
+│   ├── phase_e/          # Epistemic investigation (FLF track)
 │   └── summarize_all.py
 ├── src/
 │   ├── agents/           # Kalibr profiles, constitutions, pool
-│   ├── evaluation/       # Judge panel, scoring
+│   ├── evaluation/       # Judge panel, scoring, EpistemicMap schema
 │   ├── execution/        # Judge0 code execution
 │   ├── meta_orchestrator/# Classifier and router
 │   ├── orchestration/    # Simulation engine (chain + flat)
@@ -346,7 +372,8 @@ cd judge0 && docker-compose up -d && cd ..
 ├── docs/
 │   ├── lesswrong-post-combined.md
 │   ├── hn-post-combined.md
-│   └── simulation-methodology.md
+│   ├── simulation-methodology.md
+│   └── flf-submission.md          # FLF Epistemic Case Study submission
 ├── judge0/               # Judge0 Docker config
 └── reproduce.py
 ```
