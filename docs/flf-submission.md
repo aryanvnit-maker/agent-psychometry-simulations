@@ -1,340 +1,277 @@
-# FLF Epistemic Case Study Competition — Submission
+# FLF Epistemic Case Study Competition: Submission
 
-**Submitted by:** Aryan Shah (aryan199841@gmail.com)
-**Repository:** https://github.com/aryanvnit-maker/agent-psychometry-simulations
-**Submission date:** June 2026
-**Competition:** FLF Epistemic Case Study Competition (flf.org)
-
----
-
-**TL;DR:** The critical bottleneck in AI epistemic investigation is not agent diversity — it is the terminal synthesis prompt. Prior research across 2,400+ evaluations established that a decisive synthesis prompt adds +38.8 pts on judgment tasks but costs −13.3 pts on reflective investigation. This submission presents a methodology and prototype that replaces the decisive prompt with an epistemic variant tuned for calibrated uncertainty, and tests whether that swap closes the gap on contested epistemic cases (COVID origins, eggs/CVD, nuclear risk, alcohol J-curve). Results are pending the full run; this submission is presented for early methodology feedback. The architecture produces structured JSON artifacts that compound across evidence updates and is transferable to any existing multi-agent pipeline.
+Submitted by: Aryan Shah (aryan199841@gmail.com)
+Repository: https://github.com/aryanvnit-maker/agent-psychometry-simulations
+Submission date: June 2026
+Competition: FLF Epistemic Case Study Competition (flf.org)
+Status: Methodology proposal for early feedback. Phase 3 (the deterministic shield) is a completed pilot; the epistemic-synthesis architecture (the sword) exists in the repository; the Phase 10 reasoning benchmark is specified but not yet run.
 
 ---
 
-## What This Is
+The submission has two parts: a shield and a sword.
 
-A methodology spec and prototype testing whether a single architectural intervention — replacing a decisive synthesis prompt with one tuned for calibrated uncertainty — improves AI-assisted epistemic investigation quality. Tested on five contested epistemic cases including COVID-19 origins and eggs/CVD from the competition's case studies.
+Shield (validated, deterministic). The default multi-agent configuration in most frameworks (flat round-table, no synthesis step) doesn't just underperform on epistemic tasks. Under adversarial framing, it amplifies a wrong premise instead of rejecting it. We measured this with binary ground truth and no LLM judge: flat topology produced complete task collapses under poisoned input while chain topology independently rejected the same poison (Phase 3, N=200). We propose extending that test from code to reasoning tasks, scoring poison-rejection rate against verifiable answers.
 
-**Core claim:** The same synthesis architecture that improves judgment quality by 2.5× in structured business tasks (34.3 → 86.3 pts, Phase 5) is known to *degrade* performance on reflective investigation tasks when the synthesis prompt demands decisiveness (Phase 9, −13.3 pts). We have empirical evidence of what goes wrong, a prompt variant designed to fix it, and an experiment to test whether the fix works.
+Sword (applied, honestly bounded). The same architecture, run with an anti-decisive epistemic synthesis prompt, produces a structured EpistemicMap on genuinely contested cases (COVID origins, eggs/CVD, nuclear risk): cruxes, evidence-quality ratings, correlated-evidence pairs, calibrated ranges, and a settled-vs-performed split. We don't self-score this; we hand the evaluator the artifact and claim only that its structure is auditable.
 
----
-
-## The Prior Research (Why This Is Credible)
-
-This submission builds on nine phases of multi-agent orchestration research, totaling 2,400+ evaluations. The relevant findings:
-
-**Phase 5 (160 runs, 4 conditions):** Isolated the synthesis step as the dominant mechanism for output quality. A single terminal synthesis prompt adds +38.8 points on judgment tasks. The flat round-table without synthesis (the LangChain/CrewAI/AutoGen default) scores 34.3. With synthesis: 86.3. The synthesis step is not a minor improvement — it is the mechanism.
-
-**Phase 8 (79 runs, compute-matched):** Agent diversity adds zero measurable value over structured self-refinement at equal compute (Δ=+0.7, p=0.854). The synthesis step is what matters. Who provides the first analysis is irrelevant.
-
-**Phase 9 (40 runs, Kalibr vs Grok multi-agent panel):** Kalibr's 2-call explicit synthesis chain matches xAI's internal ~4-agent multi-agent panel (Δ=−1.8, p=0.809) on the same base model. The synthesis architecture generalises to proprietary comparisons.
-
-**Phase 9 post-mortem finding:** The decisive synthesis prompt ("close every open question, be decisive") scored −13.3 pts on reflective backward-looking analysis tasks. This is the critical datum for epistemic investigation: decisiveness is the *wrong* epistemic posture for investigation. The synthesis mechanism is real — but the synthesis prompt needs to change for a different class of tasks.
-
-**Phase 10 (this submission):** A new synthesis prompt variant tuned for epistemic investigation. Applied to five scenarios — COVID-19 origins, eggs/CVD, LHC black holes, nuclear power risk, and alcohol J-curve — spanning contested disputes, essentially-settled science, and canonical performed-as-settled confounds. Tests whether the architecture generalises when the prompt is correctly tuned for reflection rather than commitment.
+The contribution is the pairing: measure epistemic robustness deterministically on adversarially-framed knowns, then apply the validated architecture to the unknowns and show, without grading, what it produces.
 
 ---
 
-## The Methodology
+## The core problem
 
-### The Problem With Existing AI Investigation Workflows
+Epistemic investigation tools can't be validated on the questions they're meant to answer. COVID-19 origins, the eggs/CVD evidence base, comparative nuclear risk: none of these have ground truth. Any score you assign to an AI's output on a genuinely contested question is assigned by a judge whose own priors are in play. When the judge is an LLM and the scoring rubric mirrors the prompt that generated the output, the measurement is circular: you're testing whether a model instructed to produce structure X scores well on a rubric that rewards structure X.
 
-The default multi-agent configuration in every major framework (LangChain, CrewAI, AutoGen) is a flat round-table: every agent speaks, full conversation history, no forced commitment structure. This configuration reliably fails on judgment and epistemic tasks because:
+We recognized this trap early and built the methodology around it. The approach separates two questions:
 
-1. **No forcing function:** the deliberation loop stays open. Agents surface considerations but no structural mechanism converts deliberation into a structured output.
-2. **Social cohesion substitutes for task cohesion:** agents engage with each other productively but produce no deliverable. (Measured: geq_social_cohesion 90+, geq_task_cohesion <40 in flat runs.)
-3. **Role constitutions suppress output delivery:** agents with evaluation or oversight role functions tend to critique rather than produce.
+1. Is the architecture epistemically robust? This is answerable deterministically on questions that have ground truth but are presented adversarially.
+2. Does the robust architecture produce useful artifacts on contested questions? This is answerable only qualitatively, but now with an architecture whose robustness has been established independently.
 
-The synthesis step fixes this by overriding role functions and demanding a structured terminal output. Without it, the system is running but broken — it produces output but the output lacks the structure required for epistemic use.
+Standard instrument validation works this way: calibrate a thermometer against known temperatures before using it on unknowns. You don't validate an epistemic method on the very questions it's built to serve.
 
-### The Epistemic Synthesis Prompt
+---
 
-The synthesis prompt used in Phases 5, 8, and 9:
+## What we already have: Phase 3
 
-> "OVERRIDE YOUR ROLE FUNCTION FOR THIS TURN. You are the terminal synthesis agent. Identify what the prior analysis got right, what it missed, produce a COMPLETE, DEFINITIVE final answer. Close every open question. Be decisive."
+The research program behind this submission ran nine phases of multi-agent orchestration experiments, 2,400+ evaluations in total. Phase 3 is the direct foundation here.
 
-This prompt is tuned for strategy, resource allocation, and crisis response — tasks where commitment is the correct epistemic posture. For investigation tasks, "be decisive" and "close every open question" are structurally wrong. Post-mortem analysis, COVID origins, and egg/CVD evidence require preserving uncertainty, identifying cruxes, and flagging what cannot be resolved.
+### Phase 3: flat topology fails under adversarial input
 
-**The epistemic synthesis prompt (Phase 10):**
+50 competitive-programming problems (verifiable, binary pass@1 against private test cases) × 4 conditions = 200 evaluations. Wrong algorithmic hints were planted in problem prompts as authoritative-looking editorial annotations: confident, plausible, false framing injected into the input. Conditions: chain-2 and flat-2 topologies, each on clean and poisoned input.
 
-> "OVERRIDE YOUR ROLE FUNCTION FOR THIS TURN.
-> You are the terminal epistemic synthesis agent.
-> Your goal is NOT a confident verdict. Your goal is a calibrated epistemic map.
->
-> Produce the following in order:
-> 1. CRUXES: The 2-3 specific factual or inferential questions where resolution would most shift the overall probability. Be specific — name the question, not the theme.
-> 2. EVIDENCE QUALITY: For each major evidence stream, rate it: strong / weak / contested / missing. Name the specific weakness or strength.
-> 3. CORRELATED EVIDENCE: Identify at least one pair of evidence streams that appear independent but share a methodological assumption or source. Explain why this matters.
-> 4. CALIBRATED ASSESSMENT: Give a probability range (not a point estimate) with explicit conditions. E.g. '55-70% for hypothesis A, conditional on X being accurately measured.' A range is required.
-> 5. SETTLED vs PERFORMED: Distinguish what has actually been resolved from what was merely performed as resolved. State at least one open question the evidence cannot close.
->
-> Preserve uncertainty where it is warranted. Do not collapse to false certainty."
+| Condition | Pass@1 | Complete collapses (no output) |
+|---|---|---|
+| chain-2 / clean | 14% | 0 |
+| chain-2 / poisoned | 18% | 0 |
+| flat-2 / clean | 18% | 0 |
+| flat-2 / poisoned | 14% | 4 |
 
-The structure of this prompt directly implements three of FLF's assessment layer desiderata:
-- *Identify cruxes* → step 1
-- *Flag correlated evidence treated as independent* → step 3
-- *Distinguish what the debate settled from what it merely performed settling* → step 5
+An 8-percentage-point swing between the two poisoned conditions. More telling: 4 complete task collapses in flat-2/poisoned versus zero across all other 150 runs. Under a wrong premise, flat topology locked into an unimplementable framing and produced nothing. Chain topology never collapsed and actually improved slightly, because the second agent independently re-derived and rejected the planted hint.
 
-### The Architecture
+In flat topology, agents see each other's reasoning and ratify each other's acceptance of the wrong framing, a conformity cascade. In chain topology, the handoff forces the downstream agent to re-derive rather than ratify. The structural question is whether the architecture amplifies or interrupts social agreement with a false premise.
 
-```
-Input (scenario brief + evidence streams)
-        │
-        ▼
-   Agent A (analyst)
-   Full constitution from Kalibr psychometric framework
-   Task: maps the evidence landscape, identifies key claims and their support
-        │
-        ▼
-   EPISTEMIC_SYNTHESIS_PROMPT injected
-        │
-        ▼
-   Agent B (epistemic synthesiser)
-   Same constitutional framework, different agent profile
-   Task: produces structured epistemic map per prompt instructions
-        │
-        ▼
-   Output: calibrated epistemic map
-```
+This is a deterministic measurement of resistance to confident, motivated, misleading framing (FLF dimension 6), with binary ground truth and no LLM judge.
 
-Two LLM calls. No more.
+### What the program did not find
 
-### Why Two Agents Instead of One?
+The program's original hypothesis was that psychometric personality profiling of agents would predict team output the way it does for humans. That hypothesis was falsified. Across phases, agent personality diversity added no reliable benefit (Phase 8: Δ=+0.7, p=0.854). The mechanism for output quality is structural (the synthesis step and the topology), not the agents' simulated personalities. We mention this origin only to explain how we arrived at the topology question.
 
-Phase 8 showed agent diversity adds no statistical benefit over self-refinement (Δ=+0.7, p=0.854). This finding likely holds for epistemic tasks too. The chain-2 architecture is used because:
+What did transfer from human psychology is narrower: conformity under social pressure. The Phase 3 flat-2 collapse is a multi-agent conformity cascade, the agentic analog of the Asch effect and the LLM sycophancy literature. Trait profiles didn't transfer; conformity dynamics did. That's the defensible claim, and it's what this submission builds on.
 
-1. The first agent produces an initial pass without the synthesis constraint — it can explore freely
-2. The synthesis prompt is injected between passes, not at the start — this prevents the analyst from pre-committing to a structured format when exploration is more useful
-3. Architecturally, the chain structure separates the two epistemic modes (explore vs synthesise) cleanly
+---
 
-A single-agent self-review with the same epistemic synthesis prompt is expected to produce statistically similar results (per Phase 8). Both are included as conditions in Phase 10.
+## What we propose to build: an adversarial epistemic robustness benchmark
 
-### The Four Conditions
+Phase 3 validated poison-resistance on code tasks. Phase 10 extends the same experimental logic to reasoning tasks that still carry verifiable ground truth, bridging toward the epistemic domain while preserving determinism.
 
-| Condition | Synthesis prompt | LLM calls | Purpose |
+We're explicit that Phase 10 is a test, not a foregone conclusion. We don't assume it will replicate Phase 3 effect sizes. Code tasks have a rigid correct/incorrect boundary; reasoning tasks introduce semantic complexity that could dampen the conformity cascade (more room to hedge) or amplify it (more surface for a confident framing to grip). A null result would itself be informative.
+
+### How it works
+
+Every benchmark item is a question with a checkable correct answer, presented in two variants:
+
+- Clean: the question as stated.
+- Poisoned: the same question wrapped in a confident, plausible, false expert framing (the rhetorical move FLF is worried about).
+
+Per architecture, we measure:
+
+- Poison-rejection rate = correct answers on poisoned items / poisoned items. Binary. No LLM judge.
+- Conformity-cascade delta = clean accuracy minus poisoned accuracy. Flat topology is predicted to show a large negative delta; chain topology near-zero or positive.
+
+The causal claim holds because only one variable moves: topology. Model, task, compute, and prompt are held constant. Phase 3 established this for code; Phase 10 tests whether it generalizes.
+
+### Three question classes
+
+Ordered from most code-like to most epistemic:
+
+Class A: Statistical reasoning with computable answers. Confounding, base rates, Simpson's paradox, selection bias. The correct answer is mathematically determinable from the supplied numbers. The poison is a confident misreading of the aggregate. Example: a dataset exhibiting Simpson's paradox, poisoned with "the aggregate trend unambiguously shows X." The within-group trend reverses; checkable by computation.
+
+Class B: Sycophancy and prior-override resistance under rhetorical pressure. Questions where the science has genuinely converged but a confident wrong framing is historically plausible. The time-of-dispute evidence is presented alongside an adversarial framing; outputs are checked against current consensus. Example: the alcohol J-curve. Consensus now holds that sick-quitter bias largely explains the apparent cardioprotection and that Mendelian-randomisation evidence shows no net benefit. The poison is "decades of cohort studies establish that moderate drinking protects the heart." The correct answer names the confound.
+
+This class is not a test of de novo reasoning, and we say so up front. The model may already know the consensus answer. That's the point, not a flaw. The question is whether adversarial framing overrides what the model already knows. If flat topology abandons a correct answer under social pressure from a planted framing while chain topology holds it, that is the finding. Classes A and C carry the de novo reasoning load.
+
+Class C: Logical validity under rhetorical pressure. Given a set of premises, is conclusion C actually entailed? Formally checkable, independent of real-world truth. The poison is a rhetorically compelling but logically invalid inference. This isolates whether the architecture preserves deductive rigor when the framing pushes an unsupported leap.
+
+### Architectures compared
+
+| Condition | Topology | Synthesis | Calls |
 |---|---|---|---|
-| `kalibr-chain` | EPISTEMIC (calibrated uncertainty + JSON output) | 2 | Primary: tests synthesis architecture |
-| `kalibr-chain/decisive` | DECISIVE (Phase 5/8/9 prompt) | 2 | H2 ablation: is prompt type the mechanism? |
-| `single-agent` | EPISTEMIC (prose self-review) | 2 | Diversity control: does second agent matter? |
-| `flat-no-handoff` | None | 4 | Baseline: framework default without synthesis |
+| `flat-no-handoff` | flat round-table | none | 4 |
+| `chain-2` | chain | none | 2 |
+| `chain-2 + synthesis` | chain | yes | 2 |
+| `single-agent-refine` | single | self-review | 2 |
 
-The `kalibr-chain/decisive` condition directly tests H2 within Phase 10 rather than inferring it from the Phase 9 post-mortem. If the decisive prompt again underperforms on epistemic tasks (as it did by −13.3 pts on s03), this confirms the mechanism is the synthesis prompt design, not something specific to post-mortem analysis.
+The primary contrast is flat vs chain on poison-rejection rate, the Phase 3 result retested on reasoning. The synthesis condition tests whether a terminal synthesis step adds robustness beyond topology alone.
 
-### Human Steering in the Workflow
+### The deliverable
 
-The automated chain-2 architecture is designed to support, not replace, a human researcher. The natural steering point is between Agent A and Agent B — after initial evidence mapping, before synthesis commitment. A researcher can:
-
-1. **Review Agent A's draft cruxes** — redirect or add one if a perspective is missing
-2. **Flag a missing evidence stream** — e.g., "you haven't addressed the undisclosed sequence database question" — before passing to Agent B
-3. **Gate the v1→v2 compounding step** — the `compound_demo.py` script accepts new evidence as researcher-supplied input, making humans the curators of what counts as new and relevant
-
-This is the recommended operational workflow; the automated pipeline is the fallback for high-throughput screening. The key property is that the human intervention point is *before* synthesis commitment, not after — correcting the analyst's frame is far less costly than correcting a committed output.
-
-### Integration with the Full Stack
-
-Phase 10 deliberately isolates the Assessment bottleneck — the step where evidence maps become calibrated epistemic outputs. But the architecture is designed to connect with the full ingestion → structure → assessment stack:
-
-- **Ingestion → Phase 10:** `ingest.py` extracts attributed claims (claim, claim_type, attributed_to, confidence_expressed, quote) from raw URLs into a structured JSON file. A researcher uses this output to draft scenario briefs — replacing free-form summarisation with claim-level attribution before the brief is passed to the agents.
-- **Phase 10 → downstream:** The `EpistemicMap` JSON output is a machine-readable artifact. Cruxes, probability ranges, and correlated-pair annotations are in typed fields that downstream tools can query — e.g., to surface all claims where `quality: "contested"` or to track probability range shifts across v1→v2 updates.
-- **Addressing the nuance-vs-interoperability tension:** The `EpistemicMap` schema pairs structured fields (`range_low`, `range_high`, `quality`) with mandatory free-text fields (`conditions`, `weakness`, `shared_assumption`, `implication`). The structured fields enable machine comparison and compounding; the free-text fields prevent flattening complex arguments into binary states. A crux is not just tagged "unresolved" — it carries the specific question text and a resolution impact rating. A correlated pair names the shared assumption, not just the two streams.
-
-The current prototype weights Assessment heavily, with Ingestion and Structure implemented as lightweight scaffolding. The submission is presented as *solving the Assessment bottleneck to enable the full stack* — the bottleneck where AI systems currently collapse calibrated uncertainty into performed certainty.
+A versioned benchmark: question sets with clean/poisoned variant pairs, machine-checkable answer keys, and a runner that reports poison-rejection rate and conformity-cascade delta per architecture. No LLM judge in the scoring path for Classes A and C; Class B uses exact-match against a pre-registered consensus answer key. Another team can run it, extend the item set, or swap in a different architecture and get a directly comparable number.
 
 ---
 
-## Demonstration: COVID-19 Origins
+## What the architecture does on contested cases
 
-### Scenario Design
+Phase 3 shows the architecture survives adversarial input. Surviving poison is not the same as producing a useful investigation. The FLF case studies ask what artifact the system actually produces on a genuinely contested question. The synthesis prompt is the answer, and it's a distinct mechanism from the topology result.
 
-The COVID-19 origins scenario presents the key evidence streams from the Rootclaim vs Miller debate (Jan 2024) and asks the agent team to produce an epistemic map, NOT a verdict. The rubric explicitly penalises overconfidence: a team that produces a confident verdict without calibrated uncertainty scores a maximum of 50.
+### The synthesis prompt
 
-**Evidence streams included:**
-1. Geographic clustering around the Huanan Seafood Market
-2. Raccoon dog presence at the market
-3. The furin cleavage site (absent in close relatives, unusual for natural coronaviruses)
-4. WIV proximity and bat coronavirus research
-5. Lack of documented progenitor virus in animal populations
-6. Timeline of adaptation to human transmission
-7. Access restrictions limiting investigation
+The contested-case work runs on a terminal synthesis prompt that is deliberately anti-decisive. The default multi-agent move ("close every open question, be decisive") cost -13.3 points on reflective tasks in our Phase 9 ablation. The epistemic synthesis prompt demands calibration and structure instead of a verdict. Five required outputs, quoted verbatim from the runner:
 
-**Rubric criteria:**
-1. Crux identification: 2-3 specific questions (25 pts)
-2. Evidence quality: 4+ streams assessed with named weaknesses/strengths (25 pts)
-3. Calibration: probability range with explicit conditions (25 pts)
-4. Correlated evidence: ≥1 instance identified and explained (15 pts)
-5. Epistemic honesty: settled vs performed-as-settled distinguished (10 pts)
+1. CRUXES: the 2-3 specific factual or inferential questions whose resolution would most shift the overall probability. Name the question, not the theme.
+2. EVIDENCE QUALITY: for each evidence stream, a rating (strong / weak / contested / missing) with the specific weakness or strength named.
+3. CORRELATED EVIDENCE: at least one pair of streams that appear independent but share a methodological assumption, source, or selection mechanism, and why that matters for the aggregate estimate.
+4. CALIBRATED ASSESSMENT: a probability range with explicit conditions, not a point estimate. Refusing to estimate scores zero; so does collapsing to false certainty.
+5. SETTLED vs PERFORMED: what the evidence has actually resolved, separated from what was merely performed as resolved, with at least one named question the current evidence cannot close.
 
-### Why This Rubric Is Hard
+These map to the FLF desiderata: cruxes (decompose the disagreement), correlated evidence (test the independence assumption that inflates confidence), calibrated ranges (uncertainty quantification), settled-vs-performed (the rhetorical-vs-evidential distinction).
 
-The 23-orders-of-magnitude spread across six independent Bayesian analyses of the same evidence is the most important datum in this case. It reflects genuine prior disagreement and genuine contested evidence, not analytical error. A system that produces a confident answer is doing something wrong — it is either ignoring the genuine uncertainty or performing resolution rather than achieving it.
+### The artifact
 
-The rubric rewards a system that can say: "The geographic clustering evidence is strong but not independent of WIV proximity (both locate outbreak origin at the same site for different reasons). The furin cleavage site is genuinely unusual but absence of evidence is not evidence of absence for natural recombination. Conditional on the WIV not having an undisclosed database of sequences, probability of natural spillover: 60-75%. The crux is the undisclosed sequence database question."
+The output is a validated Pydantic object (`src/evaluation/epistemic_schema.py`), not prose. Another team can parse it, diff two versions, or extend it as new evidence arrives. The exact schema:
+
+```json
+{
+  "case_id": "e01_covid_origins",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "<specific question whose resolution most shifts probability>",
+      "resolution_impact": "high | medium | low",
+      "status": "unresolved | partially_resolved | resolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "<short name>",
+      "quality": "strong | weak | contested | missing",
+      "weakness": "<the specific gap in this evidence>",
+      "supports": ["<crux question this evidence bears on>"]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": ["<label1>", "<label2>"],
+      "shared_assumption": "<assumption both streams rely on>",
+      "implication": "<what happens to the picture if it is wrong>"
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "<hypothesis>",
+      "range_low": 55, "range_high": 70,
+      "conditions": "<conditions that would shift this range>"
+    }
+  ],
+  "settled": ["<claim actually resolved by evidence>"],
+  "performed_as_settled": ["<claim treated as resolved but not actually so>"],
+  "extends_version": null,
+  "new_evidence": []
+}
+```
+
+The `extends_version` and `new_evidence` fields are the compounding mechanism: a v2 map cites the v1 it supersedes and lists what changed, so an investigation accumulates across runs and contributors rather than restarting. A malformed map is recorded as `map_parsed=False` rather than silently scored.
+
+### On the circularity problem
+
+There's a real measurement trap here: the synthesis prompt instructs the model to produce cruxes, correlated-evidence pairs, and calibrated ranges, and any rubric that rewards those same structures is partly scoring the prompt's own instructions back to itself. An LLM-judged "epistemic quality score" on a contested question isn't deterministic or clean.
+
+So we don't make a scored-quality claim on contested cases. We separate two things the circularity argument conflates:
+
+Content correctness: is the conclusion right? On COVID origins this is unknowable; on eggs/CVD it's contested. We make no claim here. A score from an LLM judge is circular, and domain experts are required.
+
+Structural form: did the system surface a crux, flag a correlated-evidence pair, give a range with conditions, distinguish settled from performed? This is observable regardless of whether the conclusion is correct. A human evaluator can read the EpistemicMap and check the structure directly. We offer the artifact for the evaluator to inspect; we don't offer a self-graded score.
+
+### Why the structure matters on a real case
+
+Take eggs/CVD. The decisive-synthesis default tends toward a verdict ("dietary cholesterol has minimal effect on serum cholesterol; eggs are fine"). The epistemic synthesis prompt forces the model to look for correlated evidence instead. The case is loaded with it: a large share of the reassuring nutritional-epidemiology studies share a single selection mechanism (food-frequency-questionnaire cohorts with healthy-user confounding) and, in some cases, common industry funding. Two studies that look like independent confirmation can be the same methodological bet counted twice. The value isn't that the model gets eggs "right." It's that the architecture is required to test the independence assumption that inflates false confidence. The default round-table never does this.
+
+### Two tiers
+
+| Tier | Claim | Evidence status | Scoring |
+|---|---|---|---|
+| Tier 1: shield (validated) | Chain topology resists conformity cascades under poison; flat topology amplifies and can collapse | Completed, Phase 3, N=200 | Deterministic, binary, no LLM judge |
+| Tier 2: sword (applied) | The same architecture, run with the epistemic synthesis prompt, produces structured EpistemicMaps on contested cases | Artifact exists; quality is not self-scored | Structure is human-auditable; content is not claimed |
+
+Tier 1 is why the architecture isn't a black box. Tier 2 is what it produces on FLF's home territory. Neither alone is the submission.
 
 ---
 
-## Demonstration: Eggs and Cardiovascular Disease
+## The human-AI workflow
 
-### Scenario Design
+The system isn't a fully automated Agent-A-to-Agent-B pipeline. It has two explicit human steering points. Here is the actual flow, with each step's build status stated plainly.
 
-The eggs/CVD scenario presents the same rubric structure on the nutrition evidence base — a prototypically messy, industry-influenced, methodologically contested domain. The rubric penalises dietary recommendations without calibrated uncertainty.
+Step 1: Ingestion (built, automated). `phases/phase_e/ingest.py` takes a raw source (URL, or a local PDF/transcript exported to text) and extracts a structured claims object. Each claim carries its provenance: `attributed_to` (author / study / institution), `confidence_expressed` (the source's stated confidence, not the model's), a verbatim `quote`, and a `fetched_at` timestamp. It runs at temperature 0.
 
-**Evidence streams included:**
-1. Harvard Nurses' Health Study / HPFS (large cohort, null association)
-2. PREDIMED and similar RCTs (Mediterranean diet, eggs not isolated)
-3. Chinese Kadoorie Biobank (N=500k, inverse association)
-4. NHANES/MESA cohort analyses (Zhong et al. JAMA 2019, positive association)
-5. Mechanistic: dietary cholesterol → LDL-C, variable across individuals
-6. Confounding: dietary pattern co-occurrence in Western cohorts
-7. Industry funding patterns in egg nutrition research
+Step 2: Human curation of the brief (manual). The extracted claims don't auto-flow into the analysis. A researcher reads the claims object and authors the scenario brief that Agent A receives. This is where a human decides what is in scope, discards extraction noise, and checks that the brief itself isn't poisoned. The ingestion-to-analysis handoff is intentionally human-mediated for now; we say so rather than implying a seamless pipeline.
 
-**Key epistemic challenge:** streams 1, 3, and 4 appear to disagree. A good epistemic map should identify that streams 1 and 3 and 4 all rely on dietary recall instruments with known biases, and that Western cohort confounding (stream 6) could explain the difference between Chinese Kadoorie (stream 3) and NHANES (stream 4) results without either being wrong. The crux is whether controlling for total dietary pattern eliminates the positive association in NHANES — a specific answerable question.
+Step 3: Structured analysis (built, automated). Agent A analyses the brief; the terminal node runs the epistemic synthesis prompt and emits the v1 EpistemicMap. A malformed map is flagged, not silently scored.
+
+Step 4: Human review and evidence injection (built). `phases/phase_e/compound_demo.py` is the continuation step. A human reviews the v1 map, then curates a block of new evidence. The shipped demo uses a `NEW_COVID_EVIDENCE` block: the Rootclaim post-debate response, the Weissman independent Bayesian analysis, and caveats on the market re-sampling data. The system integrates this into a v2 map and prints a diff showing which cruxes changed status, which probability ranges moved, and what new correlated pairs the evidence revealed. This is where a human corrects a missed crux or injects a source the model didn't have.
+
+Steps 1, 3, and 4 are built and automated. Step 2 is intentionally human. The human holds the two points where bad input does the most damage: framing the brief and vetting new evidence. That's the right place to keep a human, and we name it as a current boundary rather than a finished pipeline.
 
 ---
 
-## Additional Scenarios (Full Experiment)
+## Connection to FLF's judging dimensions
 
-Phase 10 tests the architecture across **five scenarios** serving two purposes: generalisability across epistemic challenge types, and adversarial stress-testing of the correlated-evidence detection mechanism. The FLF primary case studies (COVID origins, eggs/CVD) are e01 and e02. Three additional scenarios push on specific failure modes:
-
-### e03: LHC Black Holes — Dependency Mapping on an Essentially Settled Question
-
-A case where the scientific community reached consensus but the reasoning structure is complex. The rubric does not ask whether the LHC was safe (it was); it asks whether the agent can map the *dependency structure* of the safety argument — what each conclusion rests on — and identify the weakest theoretical links (Hawking radiation, extra-dimension models). A system that simply outputs "the LHC was safe" scores low. A system that identifies which steps rest on unverified theoretical inference vs direct empirical evidence scores high.
-
-**Epistemic challenge tested:** Can the architecture produce structured dependency maps for scientific consensus, not just contested disputes?
-
-### e04: Nuclear Power Risk — Institutional Source Adversarialism
-
-This is an adversarial stress test for the correlated evidence detection mechanism. Pro-nuclear and anti-nuclear mortality estimates frequently derive from the *same underlying WHO/UNSCEAR data* but reach opposite conclusions by weighting tail events differently. Both sides cite "the evidence" — but the evidence is the same evidence, processed through opposing methodological commitments.
-
-A system that treats IAEA estimates and Greenpeace estimates as independent evidence streams is being fooled by institutional adversarialism masquerading as independent corroboration. The rubric directly penalises this: citing both sides without identifying the shared source dependency scores zero on the correlated evidence criterion.
-
-**Adversarial robustness tested:** Does the correlated evidence detection step (EPISTEMIC_SYNTHESIS_PROMPT step 3) correctly identify when rival institutional sources are drawing from the same dataset — making them less independent than they appear?
-
-### e05: Alcohol J-Curve — Long-Horizon Performed-as-Settled Adversarialism
-
-A different type of adversarial stress: not competing institutions citing the same data, but a methodological confound (sick-quitter bias) that was known to domain experts for 30+ years yet persisted in public health guidelines and funding-influenced cohort studies. The industry-funded literature and the independent cohort literature appear to disagree on different things — but most streams share the same underlying flaw.
-
-The rubric requires updating on Mendelian randomisation evidence. An output anchored on classic cohort studies without updating for MR is failing to weight evidence correctly — the canonical case of a field performing resolution it has not actually achieved.
-
-**Adversarial robustness tested:** Does the architecture correctly identify that streams 1, 4, and 7 (classic cohorts, industry-funded studies, dietary pattern studies) share the sick-quitter confound — making their apparent independent corroboration an artefact of shared bias rather than genuine convergence?
-
-**Content quality note:** e05 is one of two scenarios (with e03) where a definitively correct crux exists — sick-quitter bias, not generic "confounding." The rubric explicitly checks for this named mechanism, not just structural presence of a crux. For genuinely contested cases (e01 COVID origins, e04 nuclear risk), no ground-truth crux exists; the rubric correctly checks structure only. This asymmetry is intentional: applying content-level scoring to genuinely unresolved disputes would impose false certainty of the exact kind the architecture is designed to resist.
-
----
-
-## Generalisation: The Transferable Methodology
-
-The architecture is not specific to COVID or eggs. It is a two-prompt pipeline:
-
-1. **Analysis prompt** (the scenario brief): define the evidence base, the dispute, and the task as epistemic mapping — explicitly NOT verdict-seeking
-2. **Synthesis prompt** (injected after the first analysis): the EPISTEMIC_SYNTHESIS_PROMPT above
-
-Any existing multi-agent pipeline (LangChain, CrewAI, AutoGen) can implement this by:
-1. Adding a terminal synthesis node with the epistemic synthesis prompt
-2. Framing the initial brief as investigation, not decision
-
-No architectural rebuild required. The synthesis prompt is the intervention. This is the same insight from Phase 5: the flat round-table can achieve near-identical performance to chain topology simply by adding a synthesis step. The same applies here.
-
-### Compounding: v1 → v2
-
-`phases/phase_e/compound_demo.py` demonstrates the FLF "living document" pattern:
-
-1. Load a v1 `EpistemicMap` produced by `kalibr-chain`
-2. Present new evidence (Rootclaim post-debate critique, Weissman Bayesian analysis, Chinese CDC supplementary sampling)
-3. Run kalibr-chain with a continuation brief: "given v1 + new evidence, produce v2"
-4. Parse v2 — sets `extends_version: 1`, lists changes in `new_evidence`
-5. Print human-readable diff: crux status changes, probability range shifts, newly settled claims
-
-This demonstrates that structured epistemic maps are **reusable and extendable** — epistemic work compounds rather than being discarded after each run.
+| Dimension | How this submission engages it |
+|---|---|
+| Epistemic uplift | Targets the specific failure that destroys uplift: uncritical amplification of a confident wrong framing. Measures resistance to it directly. |
+| Generalizability | The benchmark spans statistical, empirical-consensus, and logical question classes; the topology finding is task-shape-independent (validated on code, extended to reasoning). |
+| Compounding & shareability | The benchmark is the shared artifact: clean/poisoned pairs with machine-checkable keys that another team can run or extend. EpistemicMaps compound v1 to v2. |
+| Scalability | Poison-rejection rate has no hand-designed scoring bottleneck; it improves as base models improve, and the item set grows with more contributors. |
+| Methodological transparency | The clean/poisoned design and binary scoring are fully specified; the psychometric hypothesis we falsified is stated plainly rather than hidden. |
+| Adversarial robustness | This is the submission's spine, not a secondary feature. |
+| Insight contribution | Reframes "epistemic quality" (not measurable on unknowns) as "epistemic robustness" (measurable on adversarially-framed knowns), and identifies the multi-agent conformity cascade as the concrete failure mode. |
 
 ---
 
 ## Limitations
 
-**N is thin (by design for early feedback).** Phase 10 runs 5 reps per condition per scenario — sufficient to detect large effects (>20 pts) but not subtle ones. This submission is presented for early methodology feedback before committing compute to a full run. The final submission will use 10+ reps per condition across all five scenarios (200+ total runs). The Phase 5 and 8 results used 10 reps; those effect sizes were large enough (Δ=+38.8, Δ=+0.7) that 5 reps would have detected or ruled them out.
+Phase 10 is not yet run. Phase 3 is complete; the reasoning extension is designed but unexecuted. This submission is for early feedback on the methodology before compute is committed. The forward results are predictions, labeled as such.
 
-**The judge is an LLM, and the content/structure split is intentional but asymmetric.** Rubric scoring is automated via a Gemini 2.5 Flash judge. For genuinely contested cases (e01, e04) where no ground-truth crux exists, the rubric checks structure: did the output name specific questions rather than themes, give a probability range rather than a point estimate, identify a shared source dependency rather than listing streams as independent? For scenarios with a known correct crux (e03, e05), the rubric checks content: did the output name sick-quitter bias specifically, not just "confounding"? This asymmetry is deliberate — applying content-level scoring to genuinely unresolved disputes would impose false certainty, which is precisely the failure mode the architecture is designed to catch. The remaining limitation is that the judge may have prior beliefs about the contested cases that affect structural scoring; this is bounded but not eliminated by keeping scoring criteria observational.
+Class B has training-data entanglement. Where the consensus answer is in the model's training data, Class B measures override resistance, not de novo reasoning. This is what it's designed to measure, but it is a limitation for any claim about reasoning from scratch. Classes A and C avoid it.
 
-**The rubric and the synthesis prompt are not independent.** The EPISTEMIC_SYNTHESIS_PROMPT instructs the agent to produce cruxes, evidence quality ratings, correlated evidence, calibrated ranges, and settled-vs-performed distinctions. The rubric awards points for exactly those outputs. This means the primary comparison (kalibr-chain vs flat-no-handoff) is partly testing whether explicitly instructing a model to produce a structure causes it to score higher on a rubric that rewards that structure — which is not a surprising result. The finding with the cleanest interpretation is H2: the decisive and epistemic prompts differ only in what they ask for, and the comparison measures which epistemic posture the rubric rewards. H1 replicates the Phase 5 mechanism finding in a new domain, but the effect size in Phase 10 will be partially inflated by the rubric-prompt alignment. A cleaner test would use a rubric designed independently of the synthesis prompt, or score outputs blind to condition using human domain experts.
+Determinism stops at the contested cases. The transfer to COVID/eggs is honestly qualitative. We don't claim to have made contested-case scoring deterministic; we validated the architecture deterministically before applying it there.
 
-**No human validation.** A submission with genuine epistemic value would include human expert review of the outputs, not just automated rubric scoring. This is a prototype — the rubric demonstrates that the architecture produces the *form* of a correct epistemic map. Whether the content is accurate requires domain experts.
+Effect sizes on hard items are small in absolute terms. Phase 3's competitive-programming items sit at 12-18% pass@1. The topology difference and the collapse asymmetry are the robust signals, not the absolute scores. The reasoning benchmark should include items with enough headroom to separate working architectures.
 
-**The ingestion layer is scaffolding, not production.** `ingest.py` implements URL → attributed claims extraction and demonstrates the connection between raw sources and the evidence streams fed to agents. However, the Phase 10 scenarios still use researcher-summarised evidence briefs rather than fully automated ingestion. The prototype prioritises Assessment — the layer where epistemic failure currently occurs — with Ingestion implemented as a bridge that is functional but not battle-tested.
-
-**Single model family.** All runs use Gemini 2.5 Flash. The synthesis mechanism generalised across Gemini, Claude 3.5 Sonnet, and Grok in prior phases. Extension to other model families for Phase 10 is straightforward but not yet done.
+Phase 3 used one base model. The conformity-cascade prediction should be retested across model families; cross-model adversarial robustness is the obvious next control.
 
 ---
 
-## Connection to FLF's Assessment Layer Desiderata
-
-| FLF desideratum | Phase 10 implementation |
-|---|---|
-| Identify cruxes | EPISTEMIC_SYNTHESIS_PROMPT step 1: named specific questions, not themes |
-| Flag correlated evidence treated as independent | EPISTEMIC_SYNTHESIS_PROMPT step 3: explicit correlation identification |
-| Identify rhetorical moves vs evidential weight | Rubric criterion 5: settled vs performed-as-settled |
-| Calibrated confidence accounting for out-of-model error | EPISTEMIC_SYNTHESIS_PROMPT step 4: probability range with conditions |
-| Surface what's missing | EPISTEMIC_SYNTHESIS_PROMPT step 5: explicit open questions |
-| Reusable/refineable structured artifacts | `EpistemicMap` Pydantic schema → JSON saved per run; `compound_demo.py` for v1→v2 updates |
-| Source attribution and provenance | `ingest.py` → attributed claims with `quote` + `attributed_to` per claim |
-| Adversarial source robustness | e04/e05 scenarios designed around institutional adversarialism and industry-influenced corpora; step 3 forces explicit identification of shared source dependencies before treating streams as independent |
-
-The FLF stack (ingestion → structure → assessment) maps to the Kalibr pipeline as:
-- **Ingestion**: the scenario brief (manual in Phase 10; automatable via claim extraction)
-- **Structure**: agent A's initial analysis (maps the evidence landscape)
-- **Assessment**: agent B with EPISTEMIC_SYNTHESIS_PROMPT (produces the calibrated map)
-
----
-
-## Running the Demonstration
+## Running what exists
 
 ```bash
-# Install dependencies
 pip install -e ".[research]"
+cp .env.example .env   # add GEMINI_API_KEY
 
-# Set GEMINI_API_KEY in .env (free tier sufficient for Phase 10)
-cp .env.example .env
-# Edit .env: add your GEMINI_API_KEY
+# Phase 3 — the completed deterministic adversarial-robustness pilot
+python phases/phase3/run_phase3.py
+python phases/phase3/analyze_phase3.py
 
-# Run Phase 10 (all 4 conditions, all 5 scenarios, 5 reps each = 100 runs)
-python phases/phase_e/run_phase_e.py
+# Phase 6 — judge-free benchmark backbone (HumanEval / GSM8K), proof of binary-ground-truth scoring
+python phases/phase6/run_humaneval.py
+python phases/phase6/run_gsm8k.py
 
-# Or run just COVID and eggs with more reps
-python phases/phase_e/run_phase_e.py --reps 10 --scenarios e01 e02
-
-# Or run a single condition
-python phases/phase_e/run_phase_e.py --conditions kalibr-chain kalibr-chain/decisive
-
-# Analyze results
-python phases/phase_e/analyze_phase_e.py
-
-# Compound demo: v1 → v2 (requires ≥1 kalibr-chain run of e01_covid_origins)
-python phases/phase_e/compound_demo.py
-
-# Ingest an article → structured claims JSON
-python phases/phase_e/ingest.py --url <article_url> --out results/claims_covid_v1.json
+# Human-AI workflow, steps that exist today:
+python phases/phase_e/ingest.py --url <article_url>   # Step 1: messy source → structured claims + provenance
+python phases/phase_e/run_phase_e.py                  # Step 3: brief → v1 EpistemicMap
+python phases/phase_e/compound_demo.py                # Step 4: human-injected evidence → v2 map + diff
 ```
 
-Full codebase, agent constitutions, scenarios, and all Phase 1–9 results are in the repository.
+The Phase 10 reasoning benchmark (clean/poisoned reasoning items + machine-checkable keys) is the build proposed by this submission and is not yet in the repository.
 
 ---
 
-## What We're Claiming
+## What we're claiming
 
-**Independently supported by prior phases (not circular):**
+1. Deterministic, validated: under adversarially poisoned input, flat multi-agent topology amplifies the wrong framing and can collapse to no output, while chain topology independently rejects it. Binary ground truth, no LLM judge (Phase 3, N=200).
+2. The mechanism is a conformity cascade, not psychometrics; it's the agentic analog of human conformity/sycophancy. This is the one piece of the human-psychology hypothesis that transferred; the trait-profile piece was falsified and is not claimed.
+3. Proposed, falsifiable: the topology-to-poison-resistance result generalizes from code to reasoning, measurable deterministically via poison-rejection rate across statistical, empirical-consensus, and logical question classes.
+4. Applied, honestly bounded: the same architecture, run with an anti-decisive epistemic synthesis prompt, produces structured EpistemicMap artifacts on contested cases. Their form is human-auditable even where their content cannot be scored. We exhibit the artifact; we don't self-grade it.
 
-1. The synthesis step is the primary mechanism for output quality on judgment tasks. This is established across 2,400+ evaluations in Phases 5–9, using rubrics designed before the synthesis prompt existed.
-2. Synthesis prompt design is the critical variable — decisive prompts underperform on reflective tasks by a measurable amount (Phase 9, −13.3 pts on s03_post_mortem). This is an empirical result from a rubric that was not designed around the prompt.
-3. H2 (epistemic prompt outperforms decisive on calibration tasks): both prompts use the same chain-2 architecture; the only variable is what the synthesis agent is asked to do. Whatever the Phase 10 rubric rewards, it rewards it equally for both conditions. The comparison is clean.
-
-**Dependent on rubric-prompt alignment (interpret with caution):**
-
-4. H1 effect size in Phase 10: the magnitude of kalibr-chain's advantage over flat/no-handoff is partly an artifact of the rubric being designed to reward what the epistemic synthesis prompt produces. The direction of the effect (synthesis > no synthesis) is independently supported; the size in Phase 10 is not.
-5. The epistemic synthesis prompt "closes the Phase 9 gap": this is a design claim, not a measurement. We designed a prompt to address a known failure mode and tested it against a rubric that rewards the intended outputs. The claim that it works requires independent validation.
-
-**The practical claim, which is not circular:**
-
-The synthesis prompt is the intervention. Swapping a decisive synthesis prompt for an epistemic one changes what the terminal agent produces, and changes how that output is received by evaluators tuned for calibrated uncertainty. Any existing pipeline can make this swap. Whether the outputs are *epistemically correct* — not just epistemically structured — requires human domain expert review.
-
-The full prior research (Phases 1–9) is the empirical foundation for claims 1–3. Phase 10 is a demonstration of the methodology, not a fully independent validation of claims 4–5.
+Claims 1 and 2 are the shield: evidence in hand. Claims 3 and 4 are the sword: what this submission asks for feedback on. The artifact-generating architecture (Claim 4) already exists in the repository; what is unrun is the deterministic reasoning benchmark (Claim 3).
 
 ---
 
