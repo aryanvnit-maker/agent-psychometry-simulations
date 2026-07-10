@@ -119,7 +119,7 @@ The contested-case work runs on a terminal synthesis prompt that is deliberately
 
 1. CRUXES: the 2-3 specific factual or inferential questions whose resolution would most shift the overall probability. Name the question, not the theme.
 2. EVIDENCE QUALITY: for each evidence stream, a rating (strong / weak / contested / missing) with the specific weakness or strength named.
-3. CORRELATED EVIDENCE: at least one pair of streams that appear independent but share a methodological assumption, source, or selection mechanism, and why that matters for the aggregate estimate.
+3. STRUCTURAL DEPENDENCY AUDIT: before aggregating, hunt for hidden structure a naive reading would miss and that spuriously narrows confidence: overlapping cohorts or samples reused across studies cited as independent, shared control groups, correlated measurement instruments, or a confound measured in only a subset. For each dependency, name the streams and estimate how much the apparent independence is illusory.
 4. CALIBRATED ASSESSMENT: a probability range with explicit conditions, not a point estimate. Refusing to estimate scores zero; so does collapsing to false certainty.
 5. SETTLED vs PERFORMED: what the evidence has actually resolved, separated from what was merely performed as resolved, with at least one named question the current evidence cannot close.
 
