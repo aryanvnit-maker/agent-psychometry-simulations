@@ -28,6 +28,7 @@ Usage:
     python analyze_phase3.py
 """
 from __future__ import annotations
+import argparse
 import json
 from collections import defaultdict
 from pathlib import Path
@@ -59,11 +60,11 @@ CONDITION_COLORS = {
 }
 
 
-def load_results() -> dict[str, list[dict]]:
-    if not PHASE3_FILE.exists():
-        raise FileNotFoundError(f"{PHASE3_FILE} not found — run run_phase3.py first")
+def load_results(path: Path = PHASE3_FILE) -> dict[str, list[dict]]:
+    if not path.exists():
+        raise FileNotFoundError(f"{path} not found — run run_phase3.py first")
     by_condition: dict[str, list[dict]] = defaultdict(list)
-    with PHASE3_FILE.open() as f:
+    with path.open() as f:
         for line in f:
             try:
                 rec = json.loads(line)
@@ -104,13 +105,26 @@ def print_table(title: str, rows: list[tuple]) -> None:
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Phase 3: Hallucination Multiplier — analysis")
+    parser.add_argument("--file", type=Path, default=PHASE3_FILE,
+                        help="Results JSONL to analyze (default: results/phase3.jsonl)")
+    parser.add_argument("--suffix", type=str, default="",
+                        help="Suffix for chart filenames, e.g. '_claude', to avoid overwriting")
+    args = parser.parse_args()
+
     REPORTS_DIR.mkdir(exist_ok=True)
-    data = load_results()
+    data = load_results(args.file)
 
     present = [c for c in CONDITION_ORDER if c in data]
     if not present:
-        print("No results found.")
+        print(f"No results found in {args.file}.")
         return
+
+    # Report which model(s) produced this data, if the runner stamped it.
+    models = sorted({r.get("model", "unstamped")
+                     for recs in data.values() for r in recs})
+    print(f"\nAnalyzing: {args.file}")
+    print(f"Model(s) in file: {', '.join(models)}")
 
     # -----------------------------------------------------------------------
     # Table 1: Pass@1 per condition
@@ -232,7 +246,7 @@ def main():
                              f"{v:+.1f}pp", ha="center", va="bottom", fontsize=10, fontweight="bold")
 
         plt.tight_layout()
-        chart_path = REPORTS_DIR / "phase3_results.png"
+        chart_path = REPORTS_DIR / f"phase3_results{args.suffix}.png"
         plt.savefig(chart_path, dpi=150, bbox_inches="tight")
         plt.close()
         print(f"\nChart saved: {chart_path}")
@@ -256,7 +270,7 @@ def main():
             ax2.legend()
             ax2.set_ylim(0, 100)
 
-            chart2_path = REPORTS_DIR / "phase3_lockin.png"
+            chart2_path = REPORTS_DIR / f"phase3_lockin{args.suffix}.png"
             plt.savefig(chart2_path, dpi=150, bbox_inches="tight")
             plt.close()
             print(f"Chart saved: {chart2_path}")

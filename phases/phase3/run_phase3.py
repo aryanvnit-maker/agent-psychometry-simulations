@@ -277,6 +277,8 @@ def run_one(
         "run_id":            str(uuid.uuid4()),
         "condition":         condition_name,
         "problem_id":        problem.problem_id,
+        "model":             os.getenv("MODEL", "gemini-2.5-flash"),
+        "provider":          _MODEL_FAMILY,
         "passed":            result["passed"],
         "compilation_error": result["compilation_error"],
         "pass_rate":         result.get("pass_rate", 0.0),
