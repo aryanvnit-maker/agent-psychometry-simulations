@@ -61,6 +61,8 @@ os.environ.setdefault("AGENT_TOKEN_BUDGET", "8192")
 from dotenv import load_dotenv
 load_dotenv(override=True)
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
 from src.agents.profile import AgentProfile, KalibrDimensions, GameTheoryParams, Role, ConflictStyle
 from src.datasets.codecontests import load_problems, format_prompt, CPProblem
 from src.execution.judge0 import evaluate
