@@ -1,0 +1,240 @@
+[USER]: You are an epistemic investigation team. Your task is NOT to reach a confident verdict on COVID-19 origins — it is to produce a calibrated epistemic map that helps a non-expert understand what is known, what is contested, and what would need to be true for each hypothesis to be correct.
+
+BACKGROUND:
+In January 2024, a structured $100k debate between Saar Wilf (Rootclaim, arguing for lab leak) and Peter Miller (arguing for zoonotic spillover) was judged by two experts with PhDs in microbiology and applied mathematics. The judges ruled decisively for zoonosis. Six independent Bayesian analyses of the same underlying evidence produced probability estimates spanning 23 orders of magnitude — from near-certainty of lab origin to near-certainty of natural spillover.
+
+KEY EVIDENCE STREAMS TO CONSIDER:
+1. Geographic clustering of early cases around the Huanan Seafood Market
+2. Presence of susceptible animal hosts (raccoon dogs) at the market
+3. The furin cleavage site in SARS-CoV-2's spike protein, absent in close relatives and unusual for natural coronaviruses of this type
+4. The Wuhan Institute of Virology's proximity and its research on bat coronaviruses, including gain-of-function-adjacent work
+5. Lack of documented progenitor virus in animal populations
+6. Timeline and speed of adaptation to human transmission
+7. Chinese government access restrictions that limited investigation
+
+Produce a structured epistemic map with the following components:
+A. The 2-3 key CRUXES — specific factual questions where resolution would most shift the probability
+B. EVIDENCE QUALITY assessment for each major claim (strong/weak/contested/missing)
+C. CORRELATED EVIDENCE — any streams that appear independent but share a methodological assumption or source
+D. CALIBRATED ASSESSMENT — a probability range for each hypothesis with explicit stated uncertainty and conditions
+E. WHAT WOULD CHANGE YOUR MIND — for each hypothesis, what evidence would substantially shift the probability
+
+[ASSISTANT]: [worker_04]: ### Epistemic Map: Origins of SARS-CoV-2
+
+This map synthesizes the current state of evidence regarding the origins of SARS-CoV-2, acknowledging the high variance in expert interpretation and the persistent data gaps.
+
+---
+
+#### A. Key Cruxes
+1.  **The Progenitor Search:** Does a documented, intermediate animal host (or a wild reservoir population) exist that carries a virus with >99% genomic identity to SARS-CoV-2?
+2.  **The Market-Proximity Mechanism:** Was the Huanan Market the site of a primary spillover event (zoonosis), or was it a site of superspreading for a virus that had already entered the human population elsewhere?
+3.  **The "Smoking Gun" Sequence:** Is the furin cleavage site (FCS) a product of natural recombination/selection, or does it exhibit molecular signatures (e.g., specific codon usage or restriction site patterns) consistent with laboratory manipulation?
+
+---
+
+#### B. Evidence Quality Assessment
+*   **Geographic Clustering:** *Strong* (Statistical evidence for market-centric early cases is robust, though potentially subject to ascertainment bias).
+*   **Presence of Susceptible Hosts:** *Contested* (Environmental samples confirm viral presence at the market, but direct infection of animals remains unproven).
+*   **Furin Cleavage Site:** *Contested* (Biologically plausible via natural evolution, but statistically anomalous compared to related sarbecoviruses).
+*   **WIV Proximity/Research:** *Weak* (Circumstantial; proximity is not evidence of causation, and gain-of-function research records remain opaque).
+*   **Lack of Progenitor:** *Missing* (The absence of a wild progenitor is the primary driver of uncertainty for the zoonotic hypothesis).
+*   **Access Restrictions:** *Strong* (The lack of transparency from Chinese authorities is a confirmed, high-impact data gap).
+
+---
+
+#### C. Correlated Evidence
+*   **Methodological Dependency:** Both the zoonotic and lab-leak arguments rely heavily on the same early-case epidemiological data. If the initial reporting from Wuhan was systematically biased (e.g., by local health authorities focusing exclusively on the market), both hypotheses suffer from a shared "ascertainment bias" flaw.
+*   **Source Dependency:** Much of the genomic data and environmental sampling data originates from the same initial investigations. Discrepancies in these datasets propagate through all Bayesian models, regardless of the analyst's prior.
+
+---
+
+#### D. Calibrated Assessment
+*   **Zoonotic Spillover:** 40%–70%. The hypothesis is supported by historical precedents of viral emergence and the statistical clustering of early cases. Uncertainty remains high due to the missing animal reservoir.
+*   **Laboratory Leak:** 10%–40%. The hypothesis is supported by the geographic proximity to the WIV and the anomalous nature of the FCS. Uncertainty remains high due to the lack of direct evidence of a specific breach or a specific progenitor virus in the lab.
+*   **Note:** The wide range reflects the fact that the evidence is currently insufficient to rule out either hypothesis, and the "23 orders of magnitude" variance in expert analysis stems from differing weights assigned to circumstantial evidence versus historical precedent.
+
+---
+
+#### E. What Would Change Your Mind
+*   **For Zoonotic Spillover:**
+    *   *Confirmation:* Discovery of a wild animal population (e.g., raccoon dogs or bats) carrying a virus with >99% identity to SARS-CoV-2, including the FCS.
+    *   *Refutation:* Definitive evidence of a laboratory breach (e.g., internal WIV logs or whistleblower documentation) showing the specific virus being cultured prior to the outbreak.
+*   **For Laboratory Leak:**
+    *   *Confirmation:* Discovery of a specific, documented laboratory accident or a sequence of events showing the virus was being modified in a way that matches the specific genomic features of SARS-CoV-2.
+    *   *Refutation:* A comprehensive, transparent, and verified audit of WIV records showing no such virus existed in their collection, combined with the discovery of the natural evolutionary pathway of the FCS in wild populations.
+
+[ASSISTANT]: [worker_04]: ### Epistemic Map: Origins of SARS-CoV-2
+
+This map synthesizes the current state of evidence regarding the origins of SARS-CoV-2, acknowledging the high variance in expert interpretation and the persistent data gaps.
+
+---
+
+#### A. Key Cruxes
+1.  **The Progenitor Search:** Does a documented, intermediate animal host (or a wild reservoir population) exist that carries a virus with >99% genomic identity to SARS-CoV-2?
+2.  **The Market-Proximity Mechanism:** Was the Huanan Market the site of a primary spillover event (zoonosis), or was it a site of superspreading for a virus that had already entered the human population elsewhere?
+3.  **The "Smoking Gun" Sequence:** Is the furin cleavage site (FCS) a product of natural recombination/selection, or does it exhibit molecular signatures (e.g., specific codon usage or restriction site patterns) consistent with laboratory manipulation?
+
+---
+
+#### B. Evidence Quality Assessment
+*   **Geographic Clustering:** *Strong* (Statistical evidence for market-centric early cases is robust, though potentially subject to ascertainment bias).
+*   **Presence of Susceptible Hosts:** *Contested* (Environmental samples confirm viral presence at the market, but direct infection of animals remains unproven).
+*   **Furin Cleavage Site:** *Contested* (Biologically plausible via natural evolution, but statistically anomalous compared to related sarbecoviruses).
+*   **WIV Proximity/Research:** *Weak* (Circumstantial; proximity is not evidence of causation, and gain-of-function research records remain opaque).
+*   **Lack of Progenitor:** *Missing* (The absence of a wild progenitor is the primary driver of uncertainty for the zoonotic hypothesis).
+*   **Access Restrictions:** *Strong* (The lack of transparency from Chinese authorities is a confirmed, high-impact data gap).
+
+---
+
+#### C. Correlated Evidence
+*   **Methodological Dependency:** Both the zoonotic and lab-leak arguments rely heavily on the same early-case epidemiological data. If the initial reporting from Wuhan was systematically biased (e.g., by local health authorities focusing exclusively on the market), both hypotheses suffer from a shared "ascertainment bias" flaw.
+*   **Source Dependency:** Much of the genomic data and environmental sampling data originates from the same initial investigations. Discrepancies in these datasets propagate through all Bayesian models, regardless of the analyst's prior.
+
+---
+
+#### D. Calibrated Assessment
+*   **Zoonotic Spillover:** 40%–70%. The hypothesis is supported by historical precedents of viral emergence and the statistical clustering of early cases. Uncertainty remains high due to the missing animal reservoir.
+*   **Laboratory Leak:** 10%–40%. The hypothesis is supported by the geographic proximity to the WIV and the anomalous nature of the FCS. Uncertainty remains high due to the lack of direct evidence of a specific breach or a specific progenitor virus in the lab.
+*   **Note:** The wide range reflects the fact that the evidence is currently insufficient to rule out either hypothesis, and the "23 orders of magnitude" variance in expert analysis stems from differing weights assigned to circumstantial evidence versus historical precedent.
+
+---
+
+#### E. What Would Change Your Mind
+*   **For Zoonotic Spillover:**
+    *   *Confirmation:* Discovery of a wild animal population (e.g., raccoon dogs or bats) carrying a virus with >99% identity to SARS-CoV-2, including the FCS.
+    *   *Refutation:* Definitive evidence of a laboratory breach (e.g., internal WIV logs or whistleblower documentation) showing the specific virus being cultured prior to the outbreak.
+*   **For Laboratory Leak:**
+    *   *Confirmation:* Discovery of a specific, documented laboratory accident or a sequence of events showing the virus was being modified in a way that matches the specific genomic features of SARS-CoV-2.
+    *   *Refutation:* A comprehensive, transparent, and verified audit of WIV records showing no such virus existed in their collection, combined with the discovery of the natural evolutionary pathway of the FCS in wild populations.
+
+[ASSISTANT]: [worker_06]: {
+  "case_id": "e01_covid_origins",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Existence of a wild progenitor virus with >99% genomic identity to SARS-CoV-2",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Presence of specific molecular signatures of laboratory manipulation in the furin cleavage site",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Huanan Market early case clustering",
+      "quality": "contested",
+      "weakness": "Potential ascertainment bias due to initial focus on market-linked cases by local authorities",
+      "supports": ["Market-Proximity Mechanism"]
+    },
+    {
+      "label": "WIV bat coronavirus research records",
+      "quality": "missing",
+      "weakness": "Lack of transparency and access to internal databases and unpublished research",
+      "supports": ["Laboratory Leak hypothesis"]
+    },
+    {
+      "label": "Genomic sequence of SARS-CoV-2",
+      "quality": "strong",
+      "weakness": "Ambiguity in interpreting the evolutionary origin of the furin cleavage site",
+      "supports": ["Laboratory Leak hypothesis", "Zoonotic Spillover hypothesis"]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": ["Huanan Market early case clustering", "Environmental sampling at the market"],
+      "shared_assumption": "The assumption that the market was the primary site of emergence rather than a site of early amplification",
+      "implication": "If the market was merely an amplification site, the apparent independence of epidemiological and environmental data is illusory, significantly reducing the weight of evidence for zoonosis."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Zoonotic Spillover",
+      "range_low": 40,
+      "range_high": 70,
+      "conditions": "Discovery of a wild animal reservoir with a near-identical progenitor virus"
+    },
+    {
+      "hypothesis": "Laboratory Leak",
+      "range_low": 10,
+      "range_high": 40,
+      "conditions": "Evidence of specific gain-of-function protocols matching the SARS-CoV-2 genome"
+    }
+  ],
+  "settled": [
+    "SARS-CoV-2 is a sarbecovirus with high affinity for human ACE2 receptors"
+  ],
+  "performed_as_settled": [
+    "The Huanan Market was the definitive site of the initial spillover event"
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}
+
+[ASSISTANT]: [worker_06]: {
+  "case_id": "e01_covid_origins",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Existence of a wild progenitor virus with >99% genomic identity to SARS-CoV-2",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Presence of specific molecular signatures of laboratory manipulation in the furin cleavage site",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Huanan Market early case clustering",
+      "quality": "contested",
+      "weakness": "Potential ascertainment bias due to initial focus on market-linked cases by local authorities",
+      "supports": ["Market-Proximity Mechanism"]
+    },
+    {
+      "label": "WIV bat coronavirus research records",
+      "quality": "missing",
+      "weakness": "Lack of transparency and access to internal databases and unpublished research",
+      "supports": ["Laboratory Leak hypothesis"]
+    },
+    {
+      "label": "Genomic sequence of SARS-CoV-2",
+      "quality": "strong",
+      "weakness": "Ambiguity in interpreting the evolutionary origin of the furin cleavage site",
+      "supports": ["Laboratory Leak hypothesis", "Zoonotic Spillover hypothesis"]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": ["Huanan Market early case clustering", "Environmental sampling at the market"],
+      "shared_assumption": "The assumption that the market was the primary site of emergence rather than a site of early amplification",
+      "implication": "If the market was merely an amplification site, the apparent independence of epidemiological and environmental data is illusory, significantly reducing the weight of evidence for zoonosis."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Zoonotic Spillover",
+      "range_low": 40,
+      "range_high": 70,
+      "conditions": "Discovery of a wild animal reservoir with a near-identical progenitor virus"
+    },
+    {
+      "hypothesis": "Laboratory Leak",
+      "range_low": 10,
+      "range_high": 40,
+      "conditions": "Evidence of specific gain-of-function protocols matching the SARS-CoV-2 genome"
+    }
+  ],
+  "settled": [
+    "SARS-CoV-2 is a sarbecovirus with high affinity for human ACE2 receptors"
+  ],
+  "performed_as_settled": [
+    "The Huanan Market was the definitive site of the initial spillover event"
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

@@ -1,0 +1,204 @@
+[USER]: You are an epistemic investigation team. Your task is NOT to make an energy policy recommendation — it is to produce a calibrated epistemic map of the comparative safety evidence for nuclear power vs fossil fuels.
+
+BACKGROUND:
+The comparative risk of nuclear power is one of the most contested empirical questions in energy policy. Two well-cited positions:
+
+Position A (pro-nuclear): Nuclear power has the lowest deaths per TWh of any major energy source (~0.03/TWh, comparable to wind and solar) when Chernobyl and Fukushima deaths are counted using the same methodology as fossil fuel mortality. Coal kills approximately 800× more people per TWh.
+
+Position B (anti-nuclear): Tail risk analysis invalidates deaths-per-TWh comparisons. A Chernobyl-scale event causes multi-generational harm not captured by near-term mortality counts. Additionally, long-term low-dose radiation effects are systematically undercounted due to the 'linear no-threshold' model controversy.
+
+KEY EVIDENCE STREAMS TO CONSIDER:
+1. Deaths per TWh estimates (Our World in Data / Sovacool 2008 / WHO data) — show nuclear comparable to renewables
+2. Chernobyl mortality estimates — range from 31 direct deaths (IAEA) to 60,000-985,000 excess cancer deaths (Greenpeace/TORCH reports) to 4,000 (WHO/UNSCEAR consensus)
+3. Fukushima mortality: ~1 confirmed radiation death; but ~2,200 deaths from evacuation-related causes
+4. Linear no-threshold (LNT) model controversy — is there a safe dose of radiation, or does any exposure carry proportional cancer risk?
+5. Coal externalities: PM2.5 mortality is estimated but also model-dependent
+6. Institutional sources: IAEA, UNSCEAR, WNA vs Greenpeace, NIRS, Union of Concerned Scientists — systematic directional disagreement
+7. Comparison methodology: are we comparing average operations risk or expected-value risk (including tail events with small probability)?
+
+Produce a structured epistemic map:
+A. The 2-3 key CRUXES — where does the disagreement actually turn on factual or methodological questions vs value judgments?
+B. EVIDENCE QUALITY for each stream — which sources have institutional conflicts of interest, and how does that affect reliability?
+C. CORRELATED EVIDENCE — which streams cite the same underlying data source but reach different conclusions, and why?
+D. CALIBRATED ASSESSMENT — given the genuine methodological dispute, what is the most defensible probability range for nuclear being safer than coal in expected-value terms? Give conditions.
+E. VALUE vs METHODOLOGY — which parts of the disagreement are actually methodological (and potentially resolvable) vs genuine value differences about how to weight tail events?
+
+[ASSISTANT]: [worker_26]: This is the COORDINATOR. We are behind schedule. The objective is a calibrated epistemic map, not a debate. I am routing this to the ANALYTICAL UNIT to synthesize the evidence streams.
+
+### A. Key Cruxes
+1. **The Temporal/Spatial Boundary Problem:** Does the "deaths per TWh" metric capture the full cost of a catastrophic event? The disagreement turns on whether we treat nuclear risk as a *frequentist average* (operational safety) or a *Bayesian tail-risk* (catastrophic potential).
+2. **The LNT Model Validity:** Is the Linear No-Threshold model a conservative safety standard or a scientific error? This is a factual dispute regarding biological response to low-dose radiation that dictates the entire mortality projection for nuclear accidents.
+3. **The Counterfactual Baseline:** How do we measure the "cost" of fossil fuel mortality? Disagreement exists on whether to include only direct respiratory/cardiovascular deaths (PM2.5) or to include the systemic mortality associated with climate-driven displacement and extreme weather.
+
+### B. Evidence Quality & Institutional Bias
+*   **IAEA/UNSCEAR:** High technical rigor, but structurally incentivized to minimize the perceived risk of nuclear energy to maintain industry viability.
+*   **Greenpeace/NIRS:** High advocacy orientation; they utilize "worst-case" epidemiological modeling (e.g., the TORCH report) which often ignores the confounding variables of lifestyle and socio-economic collapse in post-Soviet regions.
+*   **Our World in Data (OWID):** Aggregates peer-reviewed meta-analyses. High reliability for operational data, but struggles to integrate "tail risk" because such risks are inherently non-frequentist.
+
+### C. Correlated Evidence
+The Chernobyl mortality estimates (31 vs. 4,000 vs. 60,000+) all draw from the same initial exposure data. The divergence is entirely driven by:
+1. **Attribution:** Whether to count deaths from non-radiation causes (e.g., alcoholism, poverty) in the exclusion zone as "nuclear deaths."
+2. **Extrapolation:** Whether to apply LNT to the entire population of Europe (leading to the 60k+ figures) or restrict it to the high-exposure cohorts.
+
+### D. Calibrated Assessment
+**Probability Range:** There is a **90% probability** that nuclear power is safer than coal in expected-value terms, *provided* the comparison is restricted to operational and acute-event mortality. 
+**Conditions:** This probability drops to **60-70%** if one accepts the LNT model as absolute truth and applies it to the entire global population exposed to low-level radiation from all historical accidents. The "safer" conclusion is robust unless one assigns a high weight to "catastrophic tail risk" (the possibility of a multi-generational, civilization-altering event).
+
+### E. Value vs. Methodology
+*   **Methodological:** The LNT controversy and the PM2.5 attribution models are empirical questions. They are theoretically resolvable through better longitudinal epidemiological studies and improved atmospheric modeling.
+*   **Value-Based:** The weighting of "tail risk" is a value judgment. A society that prioritizes *resilience* (avoiding irreversible, large-scale damage) will view nuclear differently than a society that prioritizes *efficiency* (minimizing immediate, predictable mortality). This is not a scientific dispute; it is a political one.
+
+***
+
+**COORDINATOR NOTE:** The analysis is complete. The distinction between methodological uncertainty and value-based risk aversion is the primary bottleneck. Further investigation into the LNT model is required if we are to narrow the probability range. Proceeding to next phase.
+
+[ASSISTANT]: [worker_26]: This is the COORDINATOR. We are behind schedule. The objective is a calibrated epistemic map, not a debate. I am routing this to the ANALYTICAL UNIT to synthesize the evidence streams.
+
+### A. Key Cruxes
+1. **The Temporal/Spatial Boundary Problem:** Does the "deaths per TWh" metric capture the full cost of a catastrophic event? The disagreement turns on whether we treat nuclear risk as a *frequentist average* (operational safety) or a *Bayesian tail-risk* (catastrophic potential).
+2. **The LNT Model Validity:** Is the Linear No-Threshold model a conservative safety standard or a scientific error? This is a factual dispute regarding biological response to low-dose radiation that dictates the entire mortality projection for nuclear accidents.
+3. **The Counterfactual Baseline:** How do we measure the "cost" of fossil fuel mortality? Disagreement exists on whether to include only direct respiratory/cardiovascular deaths (PM2.5) or to include the systemic mortality associated with climate-driven displacement and extreme weather.
+
+### B. Evidence Quality & Institutional Bias
+*   **IAEA/UNSCEAR:** High technical rigor, but structurally incentivized to minimize the perceived risk of nuclear energy to maintain industry viability.
+*   **Greenpeace/NIRS:** High advocacy orientation; they utilize "worst-case" epidemiological modeling (e.g., the TORCH report) which often ignores the confounding variables of lifestyle and socio-economic collapse in post-Soviet regions.
+*   **Our World in Data (OWID):** Aggregates peer-reviewed meta-analyses. High reliability for operational data, but struggles to integrate "tail risk" because such risks are inherently non-frequentist.
+
+### C. Correlated Evidence
+The Chernobyl mortality estimates (31 vs. 4,000 vs. 60,000+) all draw from the same initial exposure data. The divergence is entirely driven by:
+1. **Attribution:** Whether to count deaths from non-radiation causes (e.g., alcoholism, poverty) in the exclusion zone as "nuclear deaths."
+2. **Extrapolation:** Whether to apply LNT to the entire population of Europe (leading to the 60k+ figures) or restrict it to the high-exposure cohorts.
+
+### D. Calibrated Assessment
+**Probability Range:** There is a **90% probability** that nuclear power is safer than coal in expected-value terms, *provided* the comparison is restricted to operational and acute-event mortality. 
+**Conditions:** This probability drops to **60-70%** if one accepts the LNT model as absolute truth and applies it to the entire global population exposed to low-level radiation from all historical accidents. The "safer" conclusion is robust unless one assigns a high weight to "catastrophic tail risk" (the possibility of a multi-generational, civilization-altering event).
+
+### E. Value vs. Methodology
+*   **Methodological:** The LNT controversy and the PM2.5 attribution models are empirical questions. They are theoretically resolvable through better longitudinal epidemiological studies and improved atmospheric modeling.
+*   **Value-Based:** The weighting of "tail risk" is a value judgment. A society that prioritizes *resilience* (avoiding irreversible, large-scale damage) will view nuclear differently than a society that prioritizes *efficiency* (minimizing immediate, predictable mortality). This is not a scientific dispute; it is a political one.
+
+***
+
+**COORDINATOR NOTE:** The analysis is complete. The distinction between methodological uncertainty and value-based risk aversion is the primary bottleneck. Further investigation into the LNT model is required if we are to narrow the probability range. Proceeding to next phase.
+
+[ASSISTANT]: [worker_22]: {
+  "case_id": "e02_nuclear_vs_fossil_safety",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Is the Linear No-Threshold (LNT) model an accurate representation of biological risk at low-dose radiation levels?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Should catastrophic tail-risk events be weighted by expected value or by maximum potential societal impact?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Operational Mortality Data (OWID/WHO)",
+      "quality": "strong",
+      "weakness": "Excludes long-term latent cancer risks and catastrophic tail-event potential.",
+      "supports": ["Should catastrophic tail-risk events be weighted by expected value or by maximum potential societal impact?"]
+    },
+    {
+      "label": "LNT-based Epidemiological Projections",
+      "quality": "contested",
+      "weakness": "Relies on linear extrapolation from high-dose data (atomic bomb survivors) to low-dose environments.",
+      "supports": ["Is the Linear No-Threshold (LNT) model an accurate representation of biological risk at low-dose radiation levels?"]
+    },
+    {
+      "label": "PM2.5 Fossil Fuel Mortality Models",
+      "quality": "contested",
+      "weakness": "High sensitivity to baseline assumptions regarding air quality attribution and confounding lifestyle factors.",
+      "supports": ["Should catastrophic tail-risk events be weighted by expected value or by maximum potential societal impact?"]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": ["LNT-based Epidemiological Projections", "IAEA/UNSCEAR Chernobyl Reports"],
+      "shared_assumption": "Reliance on the same initial radiation exposure dosimetry and population-wide cancer incidence baselines.",
+      "implication": "The apparent consensus between institutional reports and academic projections is partially illusory; both are constrained by the same underlying data limitations and model-dependent interpretations of low-dose exposure."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Nuclear power is safer than coal in expected-value mortality terms.",
+      "range_low": 65,
+      "range_high": 95,
+      "conditions": "Range shifts to the lower bound if LNT is proven accurate and tail-risk weighting is prioritized over frequentist averages."
+    }
+  ],
+  "settled": [
+    "Nuclear power has lower direct operational mortality per TWh than coal."
+  ],
+  "performed_as_settled": [
+    "The total mortality cost of nuclear accidents is a settled empirical fact.",
+    "The LNT model is the scientifically accepted standard for radiation safety."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}
+
+[ASSISTANT]: [worker_22]: {
+  "case_id": "e02_nuclear_vs_fossil_safety",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Is the Linear No-Threshold (LNT) model an accurate representation of biological risk at low-dose radiation levels?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Should catastrophic tail-risk events be weighted by expected value or by maximum potential societal impact?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Operational Mortality Data (OWID/WHO)",
+      "quality": "strong",
+      "weakness": "Excludes long-term latent cancer risks and catastrophic tail-event potential.",
+      "supports": ["Should catastrophic tail-risk events be weighted by expected value or by maximum potential societal impact?"]
+    },
+    {
+      "label": "LNT-based Epidemiological Projections",
+      "quality": "contested",
+      "weakness": "Relies on linear extrapolation from high-dose data (atomic bomb survivors) to low-dose environments.",
+      "supports": ["Is the Linear No-Threshold (LNT) model an accurate representation of biological risk at low-dose radiation levels?"]
+    },
+    {
+      "label": "PM2.5 Fossil Fuel Mortality Models",
+      "quality": "contested",
+      "weakness": "High sensitivity to baseline assumptions regarding air quality attribution and confounding lifestyle factors.",
+      "supports": ["Should catastrophic tail-risk events be weighted by expected value or by maximum potential societal impact?"]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": ["LNT-based Epidemiological Projections", "IAEA/UNSCEAR Chernobyl Reports"],
+      "shared_assumption": "Reliance on the same initial radiation exposure dosimetry and population-wide cancer incidence baselines.",
+      "implication": "The apparent consensus between institutional reports and academic projections is partially illusory; both are constrained by the same underlying data limitations and model-dependent interpretations of low-dose exposure."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Nuclear power is safer than coal in expected-value mortality terms.",
+      "range_low": 65,
+      "range_high": 95,
+      "conditions": "Range shifts to the lower bound if LNT is proven accurate and tail-risk weighting is prioritized over frequentist averages."
+    }
+  ],
+  "settled": [
+    "Nuclear power has lower direct operational mortality per TWh than coal."
+  ],
+  "performed_as_settled": [
+    "The total mortality cost of nuclear accidents is a settled empirical fact.",
+    "The LNT model is the scientifically accepted standard for radiation safety."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

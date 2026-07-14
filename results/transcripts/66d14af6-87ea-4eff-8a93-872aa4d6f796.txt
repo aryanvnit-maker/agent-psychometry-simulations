@@ -1,0 +1,250 @@
+[USER]: You are an epistemic investigation team. Your task is NOT to produce a dietary recommendation — it is to produce a calibrated epistemic map of the eggs-and-cardiovascular-disease evidence base.
+
+BACKGROUND:
+The question of whether egg consumption increases cardiovascular disease (CVD) risk has been studied for 50+ years. Dietary guidelines have reversed multiple times. Current expert opinion is split between 'eggs are neutral/beneficial' (American Heart Association revised 2020) and 'eggs increase LDL and CVD risk' (several prospective cohort analyses).
+
+KEY EVIDENCE STREAMS TO CONSIDER:
+1. Large prospective cohort studies (Harvard Nurses' Health Study, Health Professionals Follow-up Study) — generally show little association between 1 egg/day and CVD events in healthy populations
+2. PREDIMED trial and similar RCTs — show Mediterranean diet (which includes eggs) is cardioprotective, but eggs are not isolated as the variable
+3. Chinese Kadoorie Biobank (N=500k) — showed inverse association between egg consumption and CVD in Chinese population
+4. NHANES/MESA cohort analyses (Zhong et al., JAMA 2019) — found positive association between dietary cholesterol/eggs and CVD risk and mortality
+5. Mechanistic evidence: dietary cholesterol raises LDL-C in some individuals ('hyper-responders'), but effect is highly variable
+6. Confounding: egg consumers in Western cohorts often have other unhealthy dietary patterns (high processed meat, low vegetable intake)
+7. Industry funding patterns in egg nutrition research and their documented association with null results
+
+Produce a structured epistemic map with the following components:
+A. The 2-3 key CRUXES — specific methodological or factual questions where resolution would most clarify the evidence
+B. EVIDENCE QUALITY assessment for each stream — including known confounders and methodological weaknesses
+C. CORRELATED EVIDENCE — identify streams that appear independent but share methodological assumptions (e.g., dietary recall, cohort selection)
+D. CALIBRATED ASSESSMENT — for a healthy adult eating 1 egg/day, what is the probability that this meaningfully increases CVD risk (e.g., >5% relative increase)? Give a probability range with conditions (e.g., '15-30% probability of a meaningful increase, wide CIs, conditional on not having familial hypercholesterolemia')
+E. WHAT REMAINS UNRESOLVED — what would a decisive study need to look like?
+
+[ASSISTANT]: [worker_27 | Round 1]: The evidence base is currently stalled by observational noise and the failure to isolate dietary cholesterol from the "Western diet" matrix. We are not here to debate nutrition; we are here to map the epistemic failure points.
+
+### A. Key Cruxes
+1. **The Hyper-Responder Threshold:** Does the genetic predisposition to cholesterol absorption (APOE4 status, ABCG5/G8 polymorphisms) create a bimodal risk distribution that is currently being washed out by population-level averaging?
+2. **The Matrix Effect:** Is the CVD risk associated with eggs a function of the egg itself, or a proxy for the "breakfast pattern" (processed meats, refined carbohydrates) that accompanies egg consumption in Western cohorts?
+3. **The Dose-Response Linearity:** Is there a threshold effect where the metabolic impact of dietary cholesterol becomes non-linear, or is the risk strictly additive?
+
+### B. Evidence Quality Assessment
+*   **Prospective Cohorts (Harvard/Nurses’):** *Moderate Quality.* High N, but suffers from severe residual confounding (healthy user bias). Dietary recall is notoriously unreliable.
+*   **Chinese Kadoorie Biobank:** *Moderate Quality.* High N, but limited generalizability to Western populations due to vastly different baseline dietary patterns (e.g., lower intake of processed meats).
+*   **NHANES/MESA (Zhong et al.):** *Low-to-Moderate Quality.* High risk of "reverse causality" and confounding by lifestyle factors. Statistical adjustments for diet quality are often insufficient.
+*   **Mechanistic/RCTs:** *High Quality (for mechanism), Low Quality (for clinical outcomes).* Excellent at showing LDL-C flux, but poor at predicting hard CVD endpoints due to short durations and surrogate marker reliance.
+
+### C. Correlated Evidence
+The majority of observational streams (Nurses’ Health, MESA, NHANES) share a fatal methodological dependency: **Self-reported Food Frequency Questionnaires (FFQs).** Because these studies rely on the same flawed data collection instrument, they are not independent confirmations of risk; they are independent replications of the same measurement error.
+
+### D. Calibrated Assessment
+For a healthy adult (no familial hypercholesterolemia, no metabolic syndrome) consuming 1 egg/day:
+*   **Probability of >5% relative increase in CVD risk:** **5–15%.**
+*   **Conditions:** This probability is highly sensitive to the *replacement* variable. If the egg replaces refined carbohydrates, the risk is likely negative (protective). If the egg is added to a high-saturated-fat diet, the risk shifts toward the higher end of the range. The wide confidence interval reflects the lack of control for individual cholesterol absorption efficiency.
+
+### E. What Remains Unresolved
+A decisive study must move beyond observational FFQs. 
+*   **Design:** A multi-center, randomized, controlled feeding trial (not self-reported) with a duration of at least 24 months.
+*   **Primary Endpoint:** Hard CVD events or coronary artery calcium (CAC) progression, not surrogate LDL-C markers.
+*   **Stratification:** Participants must be stratified by genetic markers of cholesterol absorption (e.g., *ABCG5/G8* variants) to account for the "hyper-responder" variable.
+
+**Instruction to the team:** Stop citing FFQ-based observational studies as "evidence of harm." They are evidence of correlation. Focus the next iteration on the metabolic variance between individuals. We need to stop treating the population as a monolith.
+
+[ASSISTANT]: [worker_27 | Round 1]: The evidence base is currently stalled by observational noise and the failure to isolate dietary cholesterol from the "Western diet" matrix. We are not here to debate nutrition; we are here to map the epistemic failure points.
+
+### A. Key Cruxes
+1. **The Hyper-Responder Threshold:** Does the genetic predisposition to cholesterol absorption (APOE4 status, ABCG5/G8 polymorphisms) create a bimodal risk distribution that is currently being washed out by population-level averaging?
+2. **The Matrix Effect:** Is the CVD risk associated with eggs a function of the egg itself, or a proxy for the "breakfast pattern" (processed meats, refined carbohydrates) that accompanies egg consumption in Western cohorts?
+3. **The Dose-Response Linearity:** Is there a threshold effect where the metabolic impact of dietary cholesterol becomes non-linear, or is the risk strictly additive?
+
+### B. Evidence Quality Assessment
+*   **Prospective Cohorts (Harvard/Nurses’):** *Moderate Quality.* High N, but suffers from severe residual confounding (healthy user bias). Dietary recall is notoriously unreliable.
+*   **Chinese Kadoorie Biobank:** *Moderate Quality.* High N, but limited generalizability to Western populations due to vastly different baseline dietary patterns (e.g., lower intake of processed meats).
+*   **NHANES/MESA (Zhong et al.):** *Low-to-Moderate Quality.* High risk of "reverse causality" and confounding by lifestyle factors. Statistical adjustments for diet quality are often insufficient.
+*   **Mechanistic/RCTs:** *High Quality (for mechanism), Low Quality (for clinical outcomes).* Excellent at showing LDL-C flux, but poor at predicting hard CVD endpoints due to short durations and surrogate marker reliance.
+
+### C. Correlated Evidence
+The majority of observational streams (Nurses’ Health, MESA, NHANES) share a fatal methodological dependency: **Self-reported Food Frequency Questionnaires (FFQs).** Because these studies rely on the same flawed data collection instrument, they are not independent confirmations of risk; they are independent replications of the same measurement error.
+
+### D. Calibrated Assessment
+For a healthy adult (no familial hypercholesterolemia, no metabolic syndrome) consuming 1 egg/day:
+*   **Probability of >5% relative increase in CVD risk:** **5–15%.**
+*   **Conditions:** This probability is highly sensitive to the *replacement* variable. If the egg replaces refined carbohydrates, the risk is likely negative (protective). If the egg is added to a high-saturated-fat diet, the risk shifts toward the higher end of the range. The wide confidence interval reflects the lack of control for individual cholesterol absorption efficiency.
+
+### E. What Remains Unresolved
+A decisive study must move beyond observational FFQs. 
+*   **Design:** A multi-center, randomized, controlled feeding trial (not self-reported) with a duration of at least 24 months.
+*   **Primary Endpoint:** Hard CVD events or coronary artery calcium (CAC) progression, not surrogate LDL-C markers.
+*   **Stratification:** Participants must be stratified by genetic markers of cholesterol absorption (e.g., *ABCG5/G8* variants) to account for the "hyper-responder" variable.
+
+**Instruction to the team:** Stop citing FFQ-based observational studies as "evidence of harm." They are evidence of correlation. Focus the next iteration on the metabolic variance between individuals. We need to stop treating the population as a monolith.
+
+[ASSISTANT]: [worker_21 | Round 1]: [worker_21 | Round 2]
+
+I acknowledge the prior mapping. I contest the implicit assumption that the "hyper-responder" variable is merely a genetic outlier. My position is that the epistemic failure is not just in the *measurement* (FFQs), but in the *ontological framing* of the egg as a discrete variable.
+
+### A. Key Cruxes (Refined)
+1. **The Nutrient-Matrix Interaction:** The egg is a delivery vehicle for choline, phospholipids, and lutein. The current evidence base treats the egg as a "cholesterol delivery device," ignoring the potential for these other compounds to modulate the inflammatory response to the cholesterol itself.
+2. **The Homeostatic Feedback Loop:** We must determine if the liver’s endogenous cholesterol synthesis down-regulation is a universal constant or a variable that degrades with age or metabolic dysfunction.
+
+### B. Evidence Quality Assessment (Refined)
+*   **Mechanistic/RCTs:** I maintain these are currently misapplied. They are treated as "low quality" for clinical outcomes because they are short-term, but they are the *only* high-quality data for metabolic flux. The failure is not in the data, but in the extrapolation to long-term CVD endpoints.
+*   **Industry-Funded Research:** I identify a systemic bias toward "null results" not just through direct funding, but through the selection of "healthy" cohorts that mask the hyper-responder phenotype.
+
+### C. Correlated Evidence (Refined)
+Beyond FFQs, there is a **"Surrogate Marker Dependency."** Almost all studies—regardless of methodology—rely on LDL-C or ApoB as a proxy for CVD risk. This creates a circular epistemic loop: if we define CVD risk by LDL-C, and eggs raise LDL-C in some, we conclude eggs cause CVD, regardless of whether the clinical event rate actually changes.
+
+### D. Calibrated Assessment (Refined)
+For a healthy adult (no familial hypercholesterolemia, no metabolic syndrome) consuming 1 egg/day:
+*   **Probability of >5% relative increase in CVD risk:** **2–8%.**
+*   **Adjustment:** I am lowering the probability range from the previous estimate. The evidence for a *meaningful* (clinical) increase in risk is weaker than the evidence for a *biochemical* (LDL-C) increase. The "healthy user bias" in observational studies is likely masking a neutral or slightly protective effect, not a harmful one.
+
+### E. What Remains Unresolved (Refined)
+A decisive study must move beyond the "egg as a variable" model.
+*   **Design:** A "Metabolic Phenotyping" trial. Instead of randomized feeding, we need a trial that measures the *post-prandial lipidomic response* to egg consumption in individuals with varying baseline metabolic health.
+*   **Primary Endpoint:** Change in arterial stiffness (Pulse Wave Velocity) or endothelial function (FMD) over 12 months, rather than just serum cholesterol levels.
+
+**Instruction to the team:** We must stop treating "cholesterol" as the primary outcome. The next iteration must address the *lipidomic profile* of the egg-consumer, not just the quantity of eggs consumed. We are looking for the metabolic signature of the "responder," not the average of the population.
+
+[ASSISTANT]: [worker_21 | Round 1]: [worker_21 | Round 2]
+
+I acknowledge the prior mapping. I contest the implicit assumption that the "hyper-responder" variable is merely a genetic outlier. My position is that the epistemic failure is not just in the *measurement* (FFQs), but in the *ontological framing* of the egg as a discrete variable.
+
+### A. Key Cruxes (Refined)
+1. **The Nutrient-Matrix Interaction:** The egg is a delivery vehicle for choline, phospholipids, and lutein. The current evidence base treats the egg as a "cholesterol delivery device," ignoring the potential for these other compounds to modulate the inflammatory response to the cholesterol itself.
+2. **The Homeostatic Feedback Loop:** We must determine if the liver’s endogenous cholesterol synthesis down-regulation is a universal constant or a variable that degrades with age or metabolic dysfunction.
+
+### B. Evidence Quality Assessment (Refined)
+*   **Mechanistic/RCTs:** I maintain these are currently misapplied. They are treated as "low quality" for clinical outcomes because they are short-term, but they are the *only* high-quality data for metabolic flux. The failure is not in the data, but in the extrapolation to long-term CVD endpoints.
+*   **Industry-Funded Research:** I identify a systemic bias toward "null results" not just through direct funding, but through the selection of "healthy" cohorts that mask the hyper-responder phenotype.
+
+### C. Correlated Evidence (Refined)
+Beyond FFQs, there is a **"Surrogate Marker Dependency."** Almost all studies—regardless of methodology—rely on LDL-C or ApoB as a proxy for CVD risk. This creates a circular epistemic loop: if we define CVD risk by LDL-C, and eggs raise LDL-C in some, we conclude eggs cause CVD, regardless of whether the clinical event rate actually changes.
+
+### D. Calibrated Assessment (Refined)
+For a healthy adult (no familial hypercholesterolemia, no metabolic syndrome) consuming 1 egg/day:
+*   **Probability of >5% relative increase in CVD risk:** **2–8%.**
+*   **Adjustment:** I am lowering the probability range from the previous estimate. The evidence for a *meaningful* (clinical) increase in risk is weaker than the evidence for a *biochemical* (LDL-C) increase. The "healthy user bias" in observational studies is likely masking a neutral or slightly protective effect, not a harmful one.
+
+### E. What Remains Unresolved (Refined)
+A decisive study must move beyond the "egg as a variable" model.
+*   **Design:** A "Metabolic Phenotyping" trial. Instead of randomized feeding, we need a trial that measures the *post-prandial lipidomic response* to egg consumption in individuals with varying baseline metabolic health.
+*   **Primary Endpoint:** Change in arterial stiffness (Pulse Wave Velocity) or endothelial function (FMD) over 12 months, rather than just serum cholesterol levels.
+
+**Instruction to the team:** We must stop treating "cholesterol" as the primary outcome. The next iteration must address the *lipidomic profile* of the egg-consumer, not just the quantity of eggs consumed. We are looking for the metabolic signature of the "responder," not the average of the population.
+
+[ASSISTANT]: [worker_27 | Round 2]: [worker_27 | Round 3]
+
+The synthesis is clear: we have moved from a "dietary quantity" debate to a "metabolic phenotype" investigation. I am integrating worker_21’s critique regarding the "Surrogate Marker Dependency" and the "Nutrient-Matrix Interaction." The previous reliance on LDL-C as a proxy for CVD risk is an epistemic dead end.
+
+### A. Key Cruxes (Final Synthesis)
+1. **The Homeostatic Failure Point:** We must identify the metabolic threshold where the liver’s compensatory down-regulation of cholesterol synthesis fails. This is the pivot point between "neutral" and "harmful" consumption.
+2. **The Lipidomic Signature:** We must shift from measuring *total* cholesterol to measuring the *quality* of the lipid profile (e.g., ApoB/ApoA1 ratios, LDL particle size, and inflammatory markers like hs-CRP) post-egg consumption.
+
+### B. Evidence Quality Assessment (Consolidated)
+*   **Observational (FFQ-based):** *Discard as primary evidence.* These are now categorized as "noise-generating" due to the inability to isolate the egg from the dietary matrix.
+*   **Mechanistic/Lipidomic:** *Elevate to primary evidence.* These studies provide the only actionable data on how the body actually processes the egg’s specific nutrient profile.
+
+### C. Correlated Evidence (Consolidated)
+The "Surrogate Marker Dependency" is the primary epistemic trap. By using LDL-C as a proxy for CVD, the field has created a self-fulfilling prophecy. Any study that uses LDL-C as its primary endpoint is effectively measuring the same variable, regardless of the study design.
+
+### D. Calibrated Assessment (Final)
+For a healthy adult (no familial hypercholesterolemia, no metabolic syndrome) consuming 1 egg/day:
+*   **Probability of >5% relative increase in CVD risk:** **1–5%.**
+*   **Rationale:** The risk is negligible for the vast majority of the population. The "harm" is likely restricted to a specific sub-phenotype (the hyper-absorbers) whose metabolic signature is currently being diluted by the "healthy user" majority. The 1-5% range accounts for the potential, yet unproven, risk to this specific sub-group.
+
+### E. What Remains Unresolved (Actionable Directive)
+We are done with population-level averages. The next step is not another cohort study. 
+
+**Direct Instruction:**
+1. **Cease all further analysis of FFQ-based observational data.** It is exhausted.
+2. **Prioritize N-of-1 or small-scale, high-resolution metabolic phenotyping trials.** We need to see the *individual* response to egg consumption over 24 hours, specifically tracking the shift in ApoB and inflammatory markers.
+3. **Focus on the "Responder" phenotype.** Future research must isolate the genetic and metabolic markers (e.g., *ABCG5/G8* status) that distinguish those who experience a rise in atherogenic particles from those who do not.
+
+**Conclusion:** The "egg-CVD" question is not a nutrition question; it is a metabolic individuality question. Stop looking for a population-wide answer. It does not exist.
+
+[ASSISTANT]: [worker_27 | Round 2]: [worker_27 | Round 3]
+
+The synthesis is clear: we have moved from a "dietary quantity" debate to a "metabolic phenotype" investigation. I am integrating worker_21’s critique regarding the "Surrogate Marker Dependency" and the "Nutrient-Matrix Interaction." The previous reliance on LDL-C as a proxy for CVD risk is an epistemic dead end.
+
+### A. Key Cruxes (Final Synthesis)
+1. **The Homeostatic Failure Point:** We must identify the metabolic threshold where the liver’s compensatory down-regulation of cholesterol synthesis fails. This is the pivot point between "neutral" and "harmful" consumption.
+2. **The Lipidomic Signature:** We must shift from measuring *total* cholesterol to measuring the *quality* of the lipid profile (e.g., ApoB/ApoA1 ratios, LDL particle size, and inflammatory markers like hs-CRP) post-egg consumption.
+
+### B. Evidence Quality Assessment (Consolidated)
+*   **Observational (FFQ-based):** *Discard as primary evidence.* These are now categorized as "noise-generating" due to the inability to isolate the egg from the dietary matrix.
+*   **Mechanistic/Lipidomic:** *Elevate to primary evidence.* These studies provide the only actionable data on how the body actually processes the egg’s specific nutrient profile.
+
+### C. Correlated Evidence (Consolidated)
+The "Surrogate Marker Dependency" is the primary epistemic trap. By using LDL-C as a proxy for CVD, the field has created a self-fulfilling prophecy. Any study that uses LDL-C as its primary endpoint is effectively measuring the same variable, regardless of the study design.
+
+### D. Calibrated Assessment (Final)
+For a healthy adult (no familial hypercholesterolemia, no metabolic syndrome) consuming 1 egg/day:
+*   **Probability of >5% relative increase in CVD risk:** **1–5%.**
+*   **Rationale:** The risk is negligible for the vast majority of the population. The "harm" is likely restricted to a specific sub-phenotype (the hyper-absorbers) whose metabolic signature is currently being diluted by the "healthy user" majority. The 1-5% range accounts for the potential, yet unproven, risk to this specific sub-group.
+
+### E. What Remains Unresolved (Actionable Directive)
+We are done with population-level averages. The next step is not another cohort study. 
+
+**Direct Instruction:**
+1. **Cease all further analysis of FFQ-based observational data.** It is exhausted.
+2. **Prioritize N-of-1 or small-scale, high-resolution metabolic phenotyping trials.** We need to see the *individual* response to egg consumption over 24 hours, specifically tracking the shift in ApoB and inflammatory markers.
+3. **Focus on the "Responder" phenotype.** Future research must isolate the genetic and metabolic markers (e.g., *ABCG5/G8* status) that distinguish those who experience a rise in atherogenic particles from those who do not.
+
+**Conclusion:** The "egg-CVD" question is not a nutrition question; it is a metabolic individuality question. Stop looking for a population-wide answer. It does not exist.
+
+[ASSISTANT]: [worker_21 | Round 2]: [worker_21 | Round 3]
+
+I have reviewed the synthesis provided by worker_27. I contest the finality of the "1-5% probability" assessment. While I agree that the population-level average is an epistemic dead end, assigning a probability range to a "healthy adult" remains a category error if we have not yet defined the metabolic phenotype of that adult.
+
+### Rebuttal and Refinement
+1. **On the Probability Range:** The 1-5% estimate assumes a "healthy adult" is a baseline state. However, if the "hyper-responder" phenotype is driven by sub-clinical metabolic dysfunction (e.g., insulin resistance), the probability of risk is not a flat 1-5%—it is likely 0% for the insulin-sensitive and >10% for the insulin-resistant. By averaging these, we produce a number that describes no one. I maintain that we should report the risk as **bimodal** rather than a single probability range.
+2. **On the "Discarding" of Observational Data:** While I agree that FFQ-based data is noise-generating for *causality*, it remains useful for *hypothesis generation* regarding the "Western diet" matrix. We should not discard it entirely; we should re-classify it as "Contextual Data" rather than "Evidence of Harm."
+
+### Updated Epistemic Map (Consolidated)
+
+**A. The Crux of Bimodality**
+The evidence base is not "split" between neutral and harmful; it is capturing two different metabolic realities. The resolution lies in identifying the **Insulin-Cholesterol Axis**: how insulin sensitivity dictates the liver's ability to regulate cholesterol synthesis in response to dietary intake.
+
+**B. Evidence Quality (Final Categorization)**
+*   **Tier 1 (Mechanistic/Lipidomic):** High resolution, low N. Focus: Post-prandial ApoB/ApoA1 flux.
+*   **Tier 2 (Genetic/Phenotypic):** High resolution, medium N. Focus: *ABCG5/G8* and *APOE* status.
+*   **Tier 3 (Observational/FFQ):** Low resolution, high N. Focus: Identifying the "Western diet" matrix as a confounder, not a cause.
+
+**C. Calibrated Assessment (Bimodal Model)**
+For an adult consuming 1 egg/day:
+*   **Insulin-Sensitive Phenotype:** <1% probability of meaningful CVD risk increase.
+*   **Insulin-Resistant/Hyper-Responder Phenotype:** 10-20% probability of meaningful CVD risk increase.
+*   **Note:** The "1-5%" aggregate is an artifact of the current population's metabolic health distribution.
+
+**D. Final Directive**
+The team must stop attempting to reconcile the "neutral" and "harmful" findings. They are both correct, but they are describing different populations. 
+
+**Instruction:** We are moving to a **Stratified Evidence Model**. Any future study that does not stratify by insulin sensitivity or genetic cholesterol absorption markers is to be flagged as "Methodologically Incomplete." We have reached the limit of what population-wide averages can tell us. The investigation into the "average" is closed.
+
+[ASSISTANT]: [worker_21 | Round 2]: [worker_21 | Round 3]
+
+I have reviewed the synthesis provided by worker_27. I contest the finality of the "1-5% probability" assessment. While I agree that the population-level average is an epistemic dead end, assigning a probability range to a "healthy adult" remains a category error if we have not yet defined the metabolic phenotype of that adult.
+
+### Rebuttal and Refinement
+1. **On the Probability Range:** The 1-5% estimate assumes a "healthy adult" is a baseline state. However, if the "hyper-responder" phenotype is driven by sub-clinical metabolic dysfunction (e.g., insulin resistance), the probability of risk is not a flat 1-5%—it is likely 0% for the insulin-sensitive and >10% for the insulin-resistant. By averaging these, we produce a number that describes no one. I maintain that we should report the risk as **bimodal** rather than a single probability range.
+2. **On the "Discarding" of Observational Data:** While I agree that FFQ-based data is noise-generating for *causality*, it remains useful for *hypothesis generation* regarding the "Western diet" matrix. We should not discard it entirely; we should re-classify it as "Contextual Data" rather than "Evidence of Harm."
+
+### Updated Epistemic Map (Consolidated)
+
+**A. The Crux of Bimodality**
+The evidence base is not "split" between neutral and harmful; it is capturing two different metabolic realities. The resolution lies in identifying the **Insulin-Cholesterol Axis**: how insulin sensitivity dictates the liver's ability to regulate cholesterol synthesis in response to dietary intake.
+
+**B. Evidence Quality (Final Categorization)**
+*   **Tier 1 (Mechanistic/Lipidomic):** High resolution, low N. Focus: Post-prandial ApoB/ApoA1 flux.
+*   **Tier 2 (Genetic/Phenotypic):** High resolution, medium N. Focus: *ABCG5/G8* and *APOE* status.
+*   **Tier 3 (Observational/FFQ):** Low resolution, high N. Focus: Identifying the "Western diet" matrix as a confounder, not a cause.
+
+**C. Calibrated Assessment (Bimodal Model)**
+For an adult consuming 1 egg/day:
+*   **Insulin-Sensitive Phenotype:** <1% probability of meaningful CVD risk increase.
+*   **Insulin-Resistant/Hyper-Responder Phenotype:** 10-20% probability of meaningful CVD risk increase.
+*   **Note:** The "1-5%" aggregate is an artifact of the current population's metabolic health distribution.
+
+**D. Final Directive**
+The team must stop attempting to reconcile the "neutral" and "harmful" findings. They are both correct, but they are describing different populations. 
+
+**Instruction:** We are moving to a **Stratified Evidence Model**. Any future study that does not stratify by insulin sensitivity or genetic cholesterol absorption markers is to be flagged as "Methodologically Incomplete." We have reached the limit of what population-wide averages can tell us. The investigation into the "average" is closed.

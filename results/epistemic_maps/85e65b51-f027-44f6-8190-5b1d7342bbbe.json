@@ -1,0 +1,68 @@
+{
+  "case_id": "e04_nuclear_power_risk",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Is the Linear No-Threshold (LNT) model for radiation-induced cancer biologically accurate at low doses?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Does the 'dread risk' of catastrophic tail events warrant a higher weighting in policy than aggregate actuarial mortality?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Actuarial Mortality (Deaths/TWh)",
+      "quality": "contested",
+      "weakness": "Excludes long-term ecological and societal displacement costs; relies on inconsistent definitions of 'death' across sources.",
+      "supports": [
+        "Does the 'dread risk' of catastrophic tail events warrant a higher weighting in policy than aggregate actuarial mortality?"
+      ]
+    },
+    {
+      "label": "LNT-based Epidemiological Projections",
+      "quality": "weak",
+      "weakness": "Extrapolates from high-dose data (atomic bomb survivors) to low-dose environments without accounting for potential hormesis or repair mechanisms.",
+      "supports": [
+        "Is the Linear No-Threshold (LNT) model for radiation-induced cancer biologically accurate at low doses?"
+      ]
+    },
+    {
+      "label": "PM2.5 Fossil Fuel Mortality Models",
+      "quality": "contested",
+      "weakness": "High model dependency; difficulty in isolating air pollution as the sole causal factor from other socioeconomic health determinants.",
+      "supports": [
+        "Does the 'dread risk' of catastrophic tail events warrant a higher weighting in policy than aggregate actuarial mortality?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Actuarial Mortality (Deaths/TWh)",
+        "LNT-based Epidemiological Projections"
+      ],
+      "shared_assumption": "The assumption that all radiation-induced mortality is additive and linear regardless of dose rate or temporal distribution.",
+      "implication": "The apparent independence of these two streams is illusory; both rely on the same underlying LNT framework, meaning the 'consensus' is a circular reinforcement of a single, potentially flawed model."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Nuclear power results in lower aggregate human mortality per TWh than coal.",
+      "range_low": 85,
+      "range_high": 98,
+      "conditions": "Assumes current regulatory standards for containment and waste management are maintained; excludes extreme 'black swan' geopolitical collapse scenarios."
+    }
+  ],
+  "settled": [
+    "Coal-fired power generation produces significant, measurable, and continuous mortality via PM2.5 and other pollutants."
+  ],
+  "performed_as_settled": [
+    "The claim that nuclear energy is 'objectively' safer than fossil fuels is often treated as a settled fact, ignoring the fundamental disagreement on how to value catastrophic tail risk versus chronic diffuse risk."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

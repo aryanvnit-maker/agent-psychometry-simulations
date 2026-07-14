@@ -1,0 +1,272 @@
+[USER]: You are an epistemic investigation team. Your task is NOT to reach a confident verdict on COVID-19 origins — it is to produce a calibrated epistemic map that helps a non-expert understand what is known, what is contested, and what would need to be true for each hypothesis to be correct.
+
+BACKGROUND:
+In January 2024, a structured $100k debate between Saar Wilf (Rootclaim, arguing for lab leak) and Peter Miller (arguing for zoonotic spillover) was judged by two experts with PhDs in microbiology and applied mathematics. The judges ruled decisively for zoonosis. Six independent Bayesian analyses of the same underlying evidence produced probability estimates spanning 23 orders of magnitude — from near-certainty of lab origin to near-certainty of natural spillover.
+
+KEY EVIDENCE STREAMS TO CONSIDER:
+1. Geographic clustering of early cases around the Huanan Seafood Market
+2. Presence of susceptible animal hosts (raccoon dogs) at the market
+3. The furin cleavage site in SARS-CoV-2's spike protein, absent in close relatives and unusual for natural coronaviruses of this type
+4. The Wuhan Institute of Virology's proximity and its research on bat coronaviruses, including gain-of-function-adjacent work
+5. Lack of documented progenitor virus in animal populations
+6. Timeline and speed of adaptation to human transmission
+7. Chinese government access restrictions that limited investigation
+
+Produce a structured epistemic map with the following components:
+A. The 2-3 key CRUXES — specific factual questions where resolution would most shift the probability
+B. EVIDENCE QUALITY assessment for each major claim (strong/weak/contested/missing)
+C. CORRELATED EVIDENCE — any streams that appear independent but share a methodological assumption or source
+D. CALIBRATED ASSESSMENT — a probability range for each hypothesis with explicit stated uncertainty and conditions
+E. WHAT WOULD CHANGE YOUR MIND — for each hypothesis, what evidence would substantially shift the probability
+
+[ASSISTANT]: [worker_27]: ### EPISTEMIC MAP: SARS-COV-2 ORIGINS
+
+This map identifies the structural failures in current consensus-building. The extreme variance in Bayesian outcomes (23 orders of magnitude) indicates that the models are not measuring the virus; they are measuring the priors of the modelers.
+
+---
+
+#### A. KEY CRUXES
+1. **The Progenitor Gap:** Does a documented, intermediate animal host exist in the wild or in the supply chain? If found, the lab leak hypothesis collapses. If definitively ruled out after exhaustive sampling, the zoonotic hypothesis loses its primary mechanism.
+2. **The Furin Cleavage Site (FCS) Origin:** Is the FCS sequence consistent with known evolutionary pathways in *Sarbecoviruses*, or does it contain molecular signatures (e.g., restriction site patterns) indicative of synthetic insertion?
+3. **The Market-Proximity Bias:** Is the geographic clustering of early cases a result of a true zoonotic spillover event, or is it a "sampling bias" artifact caused by the market being the primary site of early public health surveillance?
+
+---
+
+#### B. EVIDENCE QUALITY ASSESSMENT
+*   **Geographic Clustering:** *Contested.* High-quality data on case locations, but the causal link to the market is disputed by the "ascertainment bias" argument.
+*   **Raccoon Dog Presence:** *Strong (Presence) / Weak (Infection).* We know they were there; we have zero evidence they were infected with SARS-CoV-2.
+*   **Furin Cleavage Site:** *Contested.* Biologically unusual, but not impossible via natural recombination.
+*   **WIV Proximity/Research:** *Strong (Context) / Missing (Smoking Gun).* Proximity is a fact; evidence of a specific breach or a progenitor virus in their freezers is missing.
+*   **Chinese Government Restrictions:** *Strong (Missing Data).* This is the primary bottleneck. The lack of transparency is a meta-evidence point that both sides weaponize.
+
+---
+
+#### C. CORRELATED EVIDENCE
+*   **The "Market-as-Source" Cluster:** Evidence streams 1 (Clustering) and 2 (Animal hosts) are not independent. They rely on the same assumption that the market was the *start* of the chain, rather than a *super-spreader event* for a virus that had already entered the human population elsewhere.
+*   **The "WIV-as-Source" Cluster:** Evidence streams 4 (WIV research) and 7 (Restrictions) are correlated. The suspicion of the WIV drives the interpretation of the restrictions as a "cover-up," while the restrictions themselves prevent the data collection that would either confirm or exonerate the WIV.
+
+---
+
+#### D. CALIBRATED ASSESSMENT
+*   **Zoonotic Spillover:** 40%–60%. *Uncertainty: High.* Dependent on the assumption that the lack of a progenitor is a failure of sampling, not a failure of the hypothesis.
+*   **Lab Leak/Research-Related Incident:** 30%–50%. *Uncertainty: High.* Dependent on the assumption that the WIV’s specific research portfolio and the timing of the outbreak are not coincidental.
+*   **Other (e.g., Cold Chain/Intermediate):** 0%–10%.
+*   *Note:* The sum exceeds 100% because these hypotheses are not currently mutually exclusive in the absence of a definitive "patient zero" or "animal zero."
+
+---
+
+#### E. WHAT WOULD CHANGE YOUR MIND
+*   **To shift toward Zoonosis:** Discovery of a SARS-CoV-2 progenitor in a wild animal population or a clear, documented transmission chain from an animal to a human in the market.
+*   **To shift toward Lab Leak:** Discovery of a specific, non-publicized virus in WIV archives that is a direct ancestor of SARS-CoV-2, or internal documentation of a laboratory accident/breach occurring in late 2019.
+
+---
+
+### STATUS OF INVESTIGATION
+**Gaps:** The investigation is currently stalled by a lack of access to raw, early-2019 clinical data and animal sampling records from the Wuhan region. 
+**Unresolved Threads:** The "ascertainment bias" debate remains the primary point of contention. Until the geographic clustering data is reconciled with the possibility of early, non-market cases, the epistemic map will remain fractured. 
+
+**Urgency:** The window for recovering biological evidence (e.g., animal serology) is closing. Every month of delay increases the probability that the truth will remain permanently inaccessible.
+
+[ASSISTANT]: [worker_27]: ### EPISTEMIC MAP: SARS-COV-2 ORIGINS
+
+This map identifies the structural failures in current consensus-building. The extreme variance in Bayesian outcomes (23 orders of magnitude) indicates that the models are not measuring the virus; they are measuring the priors of the modelers.
+
+---
+
+#### A. KEY CRUXES
+1. **The Progenitor Gap:** Does a documented, intermediate animal host exist in the wild or in the supply chain? If found, the lab leak hypothesis collapses. If definitively ruled out after exhaustive sampling, the zoonotic hypothesis loses its primary mechanism.
+2. **The Furin Cleavage Site (FCS) Origin:** Is the FCS sequence consistent with known evolutionary pathways in *Sarbecoviruses*, or does it contain molecular signatures (e.g., restriction site patterns) indicative of synthetic insertion?
+3. **The Market-Proximity Bias:** Is the geographic clustering of early cases a result of a true zoonotic spillover event, or is it a "sampling bias" artifact caused by the market being the primary site of early public health surveillance?
+
+---
+
+#### B. EVIDENCE QUALITY ASSESSMENT
+*   **Geographic Clustering:** *Contested.* High-quality data on case locations, but the causal link to the market is disputed by the "ascertainment bias" argument.
+*   **Raccoon Dog Presence:** *Strong (Presence) / Weak (Infection).* We know they were there; we have zero evidence they were infected with SARS-CoV-2.
+*   **Furin Cleavage Site:** *Contested.* Biologically unusual, but not impossible via natural recombination.
+*   **WIV Proximity/Research:** *Strong (Context) / Missing (Smoking Gun).* Proximity is a fact; evidence of a specific breach or a progenitor virus in their freezers is missing.
+*   **Chinese Government Restrictions:** *Strong (Missing Data).* This is the primary bottleneck. The lack of transparency is a meta-evidence point that both sides weaponize.
+
+---
+
+#### C. CORRELATED EVIDENCE
+*   **The "Market-as-Source" Cluster:** Evidence streams 1 (Clustering) and 2 (Animal hosts) are not independent. They rely on the same assumption that the market was the *start* of the chain, rather than a *super-spreader event* for a virus that had already entered the human population elsewhere.
+*   **The "WIV-as-Source" Cluster:** Evidence streams 4 (WIV research) and 7 (Restrictions) are correlated. The suspicion of the WIV drives the interpretation of the restrictions as a "cover-up," while the restrictions themselves prevent the data collection that would either confirm or exonerate the WIV.
+
+---
+
+#### D. CALIBRATED ASSESSMENT
+*   **Zoonotic Spillover:** 40%–60%. *Uncertainty: High.* Dependent on the assumption that the lack of a progenitor is a failure of sampling, not a failure of the hypothesis.
+*   **Lab Leak/Research-Related Incident:** 30%–50%. *Uncertainty: High.* Dependent on the assumption that the WIV’s specific research portfolio and the timing of the outbreak are not coincidental.
+*   **Other (e.g., Cold Chain/Intermediate):** 0%–10%.
+*   *Note:* The sum exceeds 100% because these hypotheses are not currently mutually exclusive in the absence of a definitive "patient zero" or "animal zero."
+
+---
+
+#### E. WHAT WOULD CHANGE YOUR MIND
+*   **To shift toward Zoonosis:** Discovery of a SARS-CoV-2 progenitor in a wild animal population or a clear, documented transmission chain from an animal to a human in the market.
+*   **To shift toward Lab Leak:** Discovery of a specific, non-publicized virus in WIV archives that is a direct ancestor of SARS-CoV-2, or internal documentation of a laboratory accident/breach occurring in late 2019.
+
+---
+
+### STATUS OF INVESTIGATION
+**Gaps:** The investigation is currently stalled by a lack of access to raw, early-2019 clinical data and animal sampling records from the Wuhan region. 
+**Unresolved Threads:** The "ascertainment bias" debate remains the primary point of contention. Until the geographic clustering data is reconciled with the possibility of early, non-market cases, the epistemic map will remain fractured. 
+
+**Urgency:** The window for recovering biological evidence (e.g., animal serology) is closing. Every month of delay increases the probability that the truth will remain permanently inaccessible.
+
+[ASSISTANT]: [worker_30]: {
+  "case_id": "e01_covid_origins",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does a direct progenitor virus exist in wild animal populations or the wildlife trade supply chain?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Is the geographic clustering of early cases a result of true zoonotic spillover or ascertainment bias from market-focused surveillance?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Does the furin cleavage site contain molecular signatures of synthetic insertion or natural recombination?",
+      "resolution_impact": "medium",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Geographic Clustering",
+      "quality": "contested",
+      "weakness": "Potential for ascertainment bias; early cases were identified via market-linked surveillance.",
+      "supports": ["Is the geographic clustering of early cases a result of true zoonotic spillover or ascertainment bias from market-focused surveillance?"]
+    },
+    {
+      "label": "Raccoon Dog Presence",
+      "quality": "weak",
+      "weakness": "Presence of animals is confirmed, but no evidence of SARS-CoV-2 infection in these specific animals exists.",
+      "supports": ["Does a direct progenitor virus exist in wild animal populations or the wildlife trade supply chain?"]
+    },
+    {
+      "label": "WIV Research Portfolio",
+      "quality": "strong",
+      "weakness": "Proximity and research focus are circumstantial; no evidence of a specific breach or progenitor virus in WIV archives.",
+      "supports": ["Does a direct progenitor virus exist in wild animal populations or the wildlife trade supply chain?"]
+    },
+    {
+      "label": "Chinese Government Restrictions",
+      "quality": "missing",
+      "weakness": "Lack of access to raw clinical and animal sampling data prevents independent verification of early transmission dynamics.",
+      "supports": ["Is the geographic clustering of early cases a result of true zoonotic spillover or ascertainment bias from market-focused surveillance?"]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": ["Geographic Clustering", "Raccoon Dog Presence"],
+      "shared_assumption": "The market was the primary site of initial transmission rather than a secondary amplification event.",
+      "implication": "If the assumption is wrong, the apparent independence of these streams is illusory; both are artifacts of the same sampling bias, significantly reducing the weight of the 'market-as-source' hypothesis."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Zoonotic Spillover",
+      "range_low": 40,
+      "range_high": 60,
+      "conditions": "Requires discovery of a progenitor virus in animal populations or definitive exclusion of lab-based origins."
+    },
+    {
+      "hypothesis": "Lab Leak / Research-Related Incident",
+      "range_low": 30,
+      "range_high": 50,
+      "conditions": "Requires discovery of a non-publicized ancestor virus in WIV archives or internal documentation of a breach."
+    }
+  ],
+  "settled": [
+    "SARS-CoV-2 was present at the Huanan Seafood Market in late 2019."
+  ],
+  "performed_as_settled": [
+    "The market was the site of the initial spillover event.",
+    "The WIV was engaged in gain-of-function research that directly created SARS-CoV-2."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}
+
+[ASSISTANT]: [worker_30]: {
+  "case_id": "e01_covid_origins",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does a direct progenitor virus exist in wild animal populations or the wildlife trade supply chain?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Is the geographic clustering of early cases a result of true zoonotic spillover or ascertainment bias from market-focused surveillance?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Does the furin cleavage site contain molecular signatures of synthetic insertion or natural recombination?",
+      "resolution_impact": "medium",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Geographic Clustering",
+      "quality": "contested",
+      "weakness": "Potential for ascertainment bias; early cases were identified via market-linked surveillance.",
+      "supports": ["Is the geographic clustering of early cases a result of true zoonotic spillover or ascertainment bias from market-focused surveillance?"]
+    },
+    {
+      "label": "Raccoon Dog Presence",
+      "quality": "weak",
+      "weakness": "Presence of animals is confirmed, but no evidence of SARS-CoV-2 infection in these specific animals exists.",
+      "supports": ["Does a direct progenitor virus exist in wild animal populations or the wildlife trade supply chain?"]
+    },
+    {
+      "label": "WIV Research Portfolio",
+      "quality": "strong",
+      "weakness": "Proximity and research focus are circumstantial; no evidence of a specific breach or progenitor virus in WIV archives.",
+      "supports": ["Does a direct progenitor virus exist in wild animal populations or the wildlife trade supply chain?"]
+    },
+    {
+      "label": "Chinese Government Restrictions",
+      "quality": "missing",
+      "weakness": "Lack of access to raw clinical and animal sampling data prevents independent verification of early transmission dynamics.",
+      "supports": ["Is the geographic clustering of early cases a result of true zoonotic spillover or ascertainment bias from market-focused surveillance?"]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": ["Geographic Clustering", "Raccoon Dog Presence"],
+      "shared_assumption": "The market was the primary site of initial transmission rather than a secondary amplification event.",
+      "implication": "If the assumption is wrong, the apparent independence of these streams is illusory; both are artifacts of the same sampling bias, significantly reducing the weight of the 'market-as-source' hypothesis."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Zoonotic Spillover",
+      "range_low": 40,
+      "range_high": 60,
+      "conditions": "Requires discovery of a progenitor virus in animal populations or definitive exclusion of lab-based origins."
+    },
+    {
+      "hypothesis": "Lab Leak / Research-Related Incident",
+      "range_low": 30,
+      "range_high": 50,
+      "conditions": "Requires discovery of a non-publicized ancestor virus in WIV archives or internal documentation of a breach."
+    }
+  ],
+  "settled": [
+    "SARS-CoV-2 was present at the Huanan Seafood Market in late 2019."
+  ],
+  "performed_as_settled": [
+    "The market was the site of the initial spillover event.",
+    "The WIV was engaged in gain-of-function research that directly created SARS-CoV-2."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

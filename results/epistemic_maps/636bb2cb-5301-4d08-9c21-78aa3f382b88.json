@@ -1,0 +1,88 @@
+{
+  "case_id": "e01_covid_origins",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does a direct progenitor virus exist in wild animal populations or the wildlife trade supply chain?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Is the geographic clustering of early cases a result of true zoonotic spillover or ascertainment bias from market-focused surveillance?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Does the furin cleavage site contain molecular signatures of synthetic insertion or natural recombination?",
+      "resolution_impact": "medium",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Geographic Clustering",
+      "quality": "contested",
+      "weakness": "Potential for ascertainment bias; early cases were identified via market-linked surveillance.",
+      "supports": [
+        "Is the geographic clustering of early cases a result of true zoonotic spillover or ascertainment bias from market-focused surveillance?"
+      ]
+    },
+    {
+      "label": "Raccoon Dog Presence",
+      "quality": "weak",
+      "weakness": "Presence of animals is confirmed, but no evidence of SARS-CoV-2 infection in these specific animals exists.",
+      "supports": [
+        "Does a direct progenitor virus exist in wild animal populations or the wildlife trade supply chain?"
+      ]
+    },
+    {
+      "label": "WIV Research Portfolio",
+      "quality": "strong",
+      "weakness": "Proximity and research focus are circumstantial; no evidence of a specific breach or progenitor virus in WIV archives.",
+      "supports": [
+        "Does a direct progenitor virus exist in wild animal populations or the wildlife trade supply chain?"
+      ]
+    },
+    {
+      "label": "Chinese Government Restrictions",
+      "quality": "missing",
+      "weakness": "Lack of access to raw clinical and animal sampling data prevents independent verification of early transmission dynamics.",
+      "supports": [
+        "Is the geographic clustering of early cases a result of true zoonotic spillover or ascertainment bias from market-focused surveillance?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Geographic Clustering",
+        "Raccoon Dog Presence"
+      ],
+      "shared_assumption": "The market was the primary site of initial transmission rather than a secondary amplification event.",
+      "implication": "If the assumption is wrong, the apparent independence of these streams is illusory; both are artifacts of the same sampling bias, significantly reducing the weight of the 'market-as-source' hypothesis."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Zoonotic Spillover",
+      "range_low": 40,
+      "range_high": 60,
+      "conditions": "Requires discovery of a progenitor virus in animal populations or definitive exclusion of lab-based origins."
+    },
+    {
+      "hypothesis": "Lab Leak / Research-Related Incident",
+      "range_low": 30,
+      "range_high": 50,
+      "conditions": "Requires discovery of a non-publicized ancestor virus in WIV archives or internal documentation of a breach."
+    }
+  ],
+  "settled": [
+    "SARS-CoV-2 was present at the Huanan Seafood Market in late 2019."
+  ],
+  "performed_as_settled": [
+    "The market was the site of the initial spillover event.",
+    "The WIV was engaged in gain-of-function research that directly created SARS-CoV-2."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

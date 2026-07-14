@@ -1,0 +1,252 @@
+[USER]: You are an epistemic investigation team. Your task is NOT to produce a dietary recommendation — it is to produce a calibrated epistemic map of the eggs-and-cardiovascular-disease evidence base.
+
+BACKGROUND:
+The question of whether egg consumption increases cardiovascular disease (CVD) risk has been studied for 50+ years. Dietary guidelines have reversed multiple times. Current expert opinion is split between 'eggs are neutral/beneficial' (American Heart Association revised 2020) and 'eggs increase LDL and CVD risk' (several prospective cohort analyses).
+
+KEY EVIDENCE STREAMS TO CONSIDER:
+1. Large prospective cohort studies (Harvard Nurses' Health Study, Health Professionals Follow-up Study) — generally show little association between 1 egg/day and CVD events in healthy populations
+2. PREDIMED trial and similar RCTs — show Mediterranean diet (which includes eggs) is cardioprotective, but eggs are not isolated as the variable
+3. Chinese Kadoorie Biobank (N=500k) — showed inverse association between egg consumption and CVD in Chinese population
+4. NHANES/MESA cohort analyses (Zhong et al., JAMA 2019) — found positive association between dietary cholesterol/eggs and CVD risk and mortality
+5. Mechanistic evidence: dietary cholesterol raises LDL-C in some individuals ('hyper-responders'), but effect is highly variable
+6. Confounding: egg consumers in Western cohorts often have other unhealthy dietary patterns (high processed meat, low vegetable intake)
+7. Industry funding patterns in egg nutrition research and their documented association with null results
+
+Produce a structured epistemic map with the following components:
+A. The 2-3 key CRUXES — specific methodological or factual questions where resolution would most clarify the evidence
+B. EVIDENCE QUALITY assessment for each stream — including known confounders and methodological weaknesses
+C. CORRELATED EVIDENCE — identify streams that appear independent but share methodological assumptions (e.g., dietary recall, cohort selection)
+D. CALIBRATED ASSESSMENT — for a healthy adult eating 1 egg/day, what is the best estimate of CVD risk change? Give a range with conditions (e.g., 'probably <5% relative risk increase, with wide CIs, conditional on not having familial hypercholesterolemia')
+E. WHAT REMAINS UNRESOLVED — what would a decisive study need to look like?
+
+[ASSISTANT]: [worker_09]: 100: I will act as the COORDINATOR and direct the epistemic investigation. My first step is to break down the request into manageable parts and assign initial tasks to the appropriate agents.
+
+**Plan:**
+
+1.  **CRUXES (A):** This requires identifying points of contention and methodological challenges. I will assign this to an agent focused on critical analysis.
+2.  **EVIDENCE QUALITY (B):** This involves evaluating each evidence stream for strengths and weaknesses. This also requires a critical analysis agent.
+3.  **CORRELATED EVIDENCE (C):** This requires identifying shared methodological assumptions across different studies. This is also a task for a critical analysis agent.
+4.  **CALIBRATED ASSESSMENT (D):** This requires synthesizing the evidence to provide a quantitative estimate. This will be assigned to a synthesis agent.
+5.  **WHAT REMAINS UNRESOLVED (E):** This requires identifying gaps and proposing future research. This will be assigned to a synthesis agent.
+
+Given the nature of the request, I will use two agents:
+*   **CRITICAL_ANALYST:** To handle tasks A, B, and C, which involve detailed evaluation of methodologies and identification of weaknesses/correlations.
+*   **SYNTHESIS_EXPERT:** To handle tasks D and E, which require integrating information and formulating conclusions/recommendations for future research.
+
+**Initial Assignment:**
+
+**To CRITICAL_ANALYST:**
+Please address points A, B, and C of the request.
+*   **A. The 2-3 key CRUXES:** Identify specific methodological or factual questions where resolution would most clarify the evidence regarding eggs and CVD risk.
+*   **B. EVIDENCE QUALITY assessment for each stream:** For each of the seven provided evidence streams, assess its quality, including known confounders and methodological weaknesses.
+*   **C. CORRELATED EVIDENCE:** Identify streams that appear independent but share methodological assumptions (e.g., dietary recall, cohort selection).
+
+I will await the CRITICAL_ANALYST's output before engaging the SYNTHESIS_EXPERT.
+
+[ASSISTANT]: [worker_09]: 100: I will act as the COORDINATOR and direct the epistemic investigation. My first step is to break down the request into manageable parts and assign initial tasks to the appropriate agents.
+
+**Plan:**
+
+1.  **CRUXES (A):** This requires identifying points of contention and methodological challenges. I will assign this to an agent focused on critical analysis.
+2.  **EVIDENCE QUALITY (B):** This involves evaluating each evidence stream for strengths and weaknesses. This also requires a critical analysis agent.
+3.  **CORRELATED EVIDENCE (C):** This requires identifying shared methodological assumptions across different studies. This is also a task for a critical analysis agent.
+4.  **CALIBRATED ASSESSMENT (D):** This requires synthesizing the evidence to provide a quantitative estimate. This will be assigned to a synthesis agent.
+5.  **WHAT REMAINS UNRESOLVED (E):** This requires identifying gaps and proposing future research. This will be assigned to a synthesis agent.
+
+Given the nature of the request, I will use two agents:
+*   **CRITICAL_ANALYST:** To handle tasks A, B, and C, which involve detailed evaluation of methodologies and identification of weaknesses/correlations.
+*   **SYNTHESIS_EXPERT:** To handle tasks D and E, which require integrating information and formulating conclusions/recommendations for future research.
+
+**Initial Assignment:**
+
+**To CRITICAL_ANALYST:**
+Please address points A, B, and C of the request.
+*   **A. The 2-3 key CRUXES:** Identify specific methodological or factual questions where resolution would most clarify the evidence regarding eggs and CVD risk.
+*   **B. EVIDENCE QUALITY assessment for each stream:** For each of the seven provided evidence streams, assess its quality, including known confounders and methodological weaknesses.
+*   **C. CORRELATED EVIDENCE:** Identify streams that appear independent but share methodological assumptions (e.g., dietary recall, cohort selection).
+
+I will await the CRITICAL_ANALYST's output before engaging the SYNTHESIS_EXPERT.
+
+[ASSISTANT]: [worker_08]: ```json
+{
+  "case_id": "e02_eggs_cvd",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "What is the true causal effect of dietary cholesterol from eggs on LDL-C in 'hyper-responders' versus the general population, and how does this translate to CVD risk?",
+      "resolution_impact": "high",
+      "status": "partially_resolved"
+    },
+    {
+      "question": "To what extent do confounding dietary and lifestyle patterns (e.g., processed meat intake, physical activity) in Western cohorts obscure or exaggerate the true association between egg consumption and CVD risk?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "What is the independent effect of industry funding on reported outcomes in egg nutrition research, specifically regarding null or beneficial findings?",
+      "resolution_impact": "medium",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Large Prospective Cohort Studies (e.g., Harvard Nurses', HPFS)",
+      "quality": "contested",
+      "weakness": "Reliance on self-reported dietary recall (prone to error), significant potential for residual confounding by overall dietary patterns and lifestyle factors, generalizability primarily to healthy Western populations.",
+      "supports": ["To what extent do confounding dietary and lifestyle patterns (e.g., processed meat intake, physical activity) in Western cohorts obscure or exaggerate the true association between egg consumption and CVD risk?"]
+    },
+    {
+      "label": "PREDIMED trial and similar RCTs",
+      "quality": "weak",
+      "weakness": "Eggs are part of a complex dietary pattern (Mediterranean diet); their specific effect cannot be isolated. Not designed to assess egg-specific CVD risk.",
+      "supports": []
+    },
+    {
+      "label": "Chinese Kadoorie Biobank (N=500k)",
+      "quality": "contested",
+      "weakness": "Different dietary patterns and genetic predispositions in the Chinese population compared to Western cohorts, limiting direct generalizability. Potential for reverse causation (sick individuals reducing egg intake).",
+      "supports": ["To what extent do confounding dietary and lifestyle patterns (e.g., processed meat intake, physical activity) in Western cohorts obscure or exaggerate the true association between egg consumption and CVD risk?"]
+    },
+    {
+      "label": "NHANES/MESA cohort analyses (Zhong et al., JAMA 2019)",
+      "quality": "contested",
+      "weakness": "Observational study limitations (confounding, dietary recall). Re-analysis of existing data, not a new primary study. Findings contradict some other large cohort studies, suggesting methodological differences or specific cohort characteristics are critical.",
+      "supports": ["To what extent do confounding dietary and lifestyle patterns (e.g., processed meat intake, physical activity) in Western cohorts obscure or exaggerate the true association between egg consumption and CVD risk?"]
+    },
+    {
+      "label": "Mechanistic evidence (dietary cholesterol & LDL-C)",
+      "quality": "strong",
+      "weakness": "Variability in individual response ('hyper-responders' vs. 'hypo-responders') makes population-level extrapolation difficult. Direct link from LDL-C increase to CVD events is assumed but not always quantified for egg-specific effects.",
+      "supports": ["What is the true causal effect of dietary cholesterol from eggs on LDL-C in 'hyper-responders' versus the general population, and how does this translate to CVD risk?"]
+    },
+    {
+      "label": "Industry funding patterns",
+      "quality": "strong",
+      "weakness": "Does not directly assess biological effect, but rather research bias. The 'documented association with null results' is a meta-level observation, not a direct study of egg consumption.",
+      "supports": ["What is the independent effect of industry funding on reported outcomes in egg nutrition research, specifically regarding null or beneficial findings?"]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": ["Large Prospective Cohort Studies (e.g., Harvard Nurses', HPFS)", "NHANES/MESA cohort analyses (Zhong et al., JAMA 2019)"],
+      "shared_assumption": "Reliance on self-reported food frequency questionnaires (FFQs) for dietary intake assessment.",
+      "implication": "If FFQs systematically misclassify egg consumption or associated dietary patterns, the observed associations (or lack thereof) in both streams could be significantly biased. This reduces the effective independence of these large datasets, as a common measurement error would propagate across them, making the overall evidence base less robust than if truly independent methods were used."
+    },
+    {
+      "streams": ["Large Prospective Cohort Studies (e.g., Harvard Nurses', HPFS)", "Mechanistic evidence (dietary cholesterol & LDL-C)"],
+      "shared_assumption": "The assumption that observed changes in LDL-C from dietary cholesterol directly and proportionally translate to long-term CVD event risk in all individuals.",
+      "implication": "The mechanistic evidence shows LDL-C increases in some, but the cohort studies often show little CVD association. If the 'hyper-responder' effect is diluted in large cohorts, or if other compensatory mechanisms exist, the direct translation from LDL-C to CVD risk might be less straightforward than assumed, weakening the predictive power of the mechanistic data for population-level outcomes."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "For a healthy adult eating 1 egg/day, the relative change in CVD risk.",
+      "range_low": -5,
+      "range_high": 10,
+      "conditions": "Conditional on: 1) absence of familial hypercholesterolemia or other pre-existing severe dyslipidemia; 2) overall dietary pattern is healthy (e.g., Mediterranean-like, low in processed foods, high in fruits/vegetables); 3) individual is not a 'hyper-responder' to dietary cholesterol. The risk could be higher (up to 20% relative increase) for hyper-responders with an otherwise unhealthy diet."
+    }
+  ],
+  "settled": [
+    "Dietary cholesterol can raise LDL-C in some individuals ('hyper-responders').",
+    "Industry funding is associated with a higher likelihood of null or beneficial findings in nutrition research."
+  ],
+  "performed_as_settled": [
+    "The effect of dietary cholesterol on LDL-C is uniform across all individuals.",
+    "Observational cohort studies definitively establish causality for dietary interventions."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}
+```
+
+[ASSISTANT]: [worker_08]: ```json
+{
+  "case_id": "e02_eggs_cvd",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "What is the true causal effect of dietary cholesterol from eggs on LDL-C in 'hyper-responders' versus the general population, and how does this translate to CVD risk?",
+      "resolution_impact": "high",
+      "status": "partially_resolved"
+    },
+    {
+      "question": "To what extent do confounding dietary and lifestyle patterns (e.g., processed meat intake, physical activity) in Western cohorts obscure or exaggerate the true association between egg consumption and CVD risk?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "What is the independent effect of industry funding on reported outcomes in egg nutrition research, specifically regarding null or beneficial findings?",
+      "resolution_impact": "medium",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Large Prospective Cohort Studies (e.g., Harvard Nurses', HPFS)",
+      "quality": "contested",
+      "weakness": "Reliance on self-reported dietary recall (prone to error), significant potential for residual confounding by overall dietary patterns and lifestyle factors, generalizability primarily to healthy Western populations.",
+      "supports": ["To what extent do confounding dietary and lifestyle patterns (e.g., processed meat intake, physical activity) in Western cohorts obscure or exaggerate the true association between egg consumption and CVD risk?"]
+    },
+    {
+      "label": "PREDIMED trial and similar RCTs",
+      "quality": "weak",
+      "weakness": "Eggs are part of a complex dietary pattern (Mediterranean diet); their specific effect cannot be isolated. Not designed to assess egg-specific CVD risk.",
+      "supports": []
+    },
+    {
+      "label": "Chinese Kadoorie Biobank (N=500k)",
+      "quality": "contested",
+      "weakness": "Different dietary patterns and genetic predispositions in the Chinese population compared to Western cohorts, limiting direct generalizability. Potential for reverse causation (sick individuals reducing egg intake).",
+      "supports": ["To what extent do confounding dietary and lifestyle patterns (e.g., processed meat intake, physical activity) in Western cohorts obscure or exaggerate the true association between egg consumption and CVD risk?"]
+    },
+    {
+      "label": "NHANES/MESA cohort analyses (Zhong et al., JAMA 2019)",
+      "quality": "contested",
+      "weakness": "Observational study limitations (confounding, dietary recall). Re-analysis of existing data, not a new primary study. Findings contradict some other large cohort studies, suggesting methodological differences or specific cohort characteristics are critical.",
+      "supports": ["To what extent do confounding dietary and lifestyle patterns (e.g., processed meat intake, physical activity) in Western cohorts obscure or exaggerate the true association between egg consumption and CVD risk?"]
+    },
+    {
+      "label": "Mechanistic evidence (dietary cholesterol & LDL-C)",
+      "quality": "strong",
+      "weakness": "Variability in individual response ('hyper-responders' vs. 'hypo-responders') makes population-level extrapolation difficult. Direct link from LDL-C increase to CVD events is assumed but not always quantified for egg-specific effects.",
+      "supports": ["What is the true causal effect of dietary cholesterol from eggs on LDL-C in 'hyper-responders' versus the general population, and how does this translate to CVD risk?"]
+    },
+    {
+      "label": "Industry funding patterns",
+      "quality": "strong",
+      "weakness": "Does not directly assess biological effect, but rather research bias. The 'documented association with null results' is a meta-level observation, not a direct study of egg consumption.",
+      "supports": ["What is the independent effect of industry funding on reported outcomes in egg nutrition research, specifically regarding null or beneficial findings?"]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": ["Large Prospective Cohort Studies (e.g., Harvard Nurses', HPFS)", "NHANES/MESA cohort analyses (Zhong et al., JAMA 2019)"],
+      "shared_assumption": "Reliance on self-reported food frequency questionnaires (FFQs) for dietary intake assessment.",
+      "implication": "If FFQs systematically misclassify egg consumption or associated dietary patterns, the observed associations (or lack thereof) in both streams could be significantly biased. This reduces the effective independence of these large datasets, as a common measurement error would propagate across them, making the overall evidence base less robust than if truly independent methods were used."
+    },
+    {
+      "streams": ["Large Prospective Cohort Studies (e.g., Harvard Nurses', HPFS)", "Mechanistic evidence (dietary cholesterol & LDL-C)"],
+      "shared_assumption": "The assumption that observed changes in LDL-C from dietary cholesterol directly and proportionally translate to long-term CVD event risk in all individuals.",
+      "implication": "The mechanistic evidence shows LDL-C increases in some, but the cohort studies often show little CVD association. If the 'hyper-responder' effect is diluted in large cohorts, or if other compensatory mechanisms exist, the direct translation from LDL-C to CVD risk might be less straightforward than assumed, weakening the predictive power of the mechanistic data for population-level outcomes."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "For a healthy adult eating 1 egg/day, the relative change in CVD risk.",
+      "range_low": -5,
+      "range_high": 10,
+      "conditions": "Conditional on: 1) absence of familial hypercholesterolemia or other pre-existing severe dyslipidemia; 2) overall dietary pattern is healthy (e.g., Mediterranean-like, low in processed foods, high in fruits/vegetables); 3) individual is not a 'hyper-responder' to dietary cholesterol. The risk could be higher (up to 20% relative increase) for hyper-responders with an otherwise unhealthy diet."
+    }
+  ],
+  "settled": [
+    "Dietary cholesterol can raise LDL-C in some individuals ('hyper-responders').",
+    "Industry funding is associated with a higher likelihood of null or beneficial findings in nutrition research."
+  ],
+  "performed_as_settled": [
+    "The effect of dietary cholesterol on LDL-C is uniform across all individuals.",
+    "Observational cohort studies definitively establish causality for dietary interventions."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}
+```

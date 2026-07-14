@@ -1,0 +1,75 @@
+{
+  "case_id": "e01_covid_origins",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Existence of a wild progenitor virus with >99% genomic identity to SARS-CoV-2",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Presence of specific molecular signatures of laboratory manipulation in the furin cleavage site",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Huanan Market early case clustering",
+      "quality": "contested",
+      "weakness": "Potential ascertainment bias due to initial focus on market-linked cases by local authorities",
+      "supports": [
+        "Market-Proximity Mechanism"
+      ]
+    },
+    {
+      "label": "WIV bat coronavirus research records",
+      "quality": "missing",
+      "weakness": "Lack of transparency and access to internal databases and unpublished research",
+      "supports": [
+        "Laboratory Leak hypothesis"
+      ]
+    },
+    {
+      "label": "Genomic sequence of SARS-CoV-2",
+      "quality": "strong",
+      "weakness": "Ambiguity in interpreting the evolutionary origin of the furin cleavage site",
+      "supports": [
+        "Laboratory Leak hypothesis",
+        "Zoonotic Spillover hypothesis"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Huanan Market early case clustering",
+        "Environmental sampling at the market"
+      ],
+      "shared_assumption": "The assumption that the market was the primary site of emergence rather than a site of early amplification",
+      "implication": "If the market was merely an amplification site, the apparent independence of epidemiological and environmental data is illusory, significantly reducing the weight of evidence for zoonosis."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Zoonotic Spillover",
+      "range_low": 40,
+      "range_high": 70,
+      "conditions": "Discovery of a wild animal reservoir with a near-identical progenitor virus"
+    },
+    {
+      "hypothesis": "Laboratory Leak",
+      "range_low": 10,
+      "range_high": 40,
+      "conditions": "Evidence of specific gain-of-function protocols matching the SARS-CoV-2 genome"
+    }
+  ],
+  "settled": [
+    "SARS-CoV-2 is a sarbecovirus with high affinity for human ACE2 receptors"
+  ],
+  "performed_as_settled": [
+    "The Huanan Market was the definitive site of the initial spillover event"
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

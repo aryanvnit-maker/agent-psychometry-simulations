@@ -1,0 +1,75 @@
+{
+  "case_id": "e04_nuclear_power_risk",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does the Linear No-Threshold (LNT) model accurately reflect biological risk at low-dose radiation levels?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Should catastrophic tail-risk events be weighted differently than chronic, distributed mortality in safety metrics?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Direct Mortality per TWh (OWID/WHO)",
+      "quality": "contested",
+      "weakness": "Excludes long-term latent cancer mortality and non-lethal societal displacement costs.",
+      "supports": [
+        "Should catastrophic tail-risk events be weighted differently than chronic, distributed mortality in safety metrics?"
+      ]
+    },
+    {
+      "label": "LNT-based Epidemiological Projections",
+      "quality": "weak",
+      "weakness": "Extrapolates high-dose data to low-dose environments where biological repair mechanisms may dominate.",
+      "supports": [
+        "Does the Linear No-Threshold (LNT) model accurately reflect biological risk at low-dose radiation levels?"
+      ]
+    },
+    {
+      "label": "PM2.5 Fossil Fuel Externality Models",
+      "quality": "contested",
+      "weakness": "Relies on atmospheric dispersion modeling that is highly sensitive to local population density assumptions.",
+      "supports": [
+        "Should catastrophic tail-risk events be weighted differently than chronic, distributed mortality in safety metrics?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Direct Mortality per TWh (OWID/WHO)",
+        "LNT-based Epidemiological Projections"
+      ],
+      "shared_assumption": "Reliance on the same underlying UNSCEAR/IAEA radiation exposure datasets for Chernobyl/Fukushima.",
+      "implication": "The apparent independence of 'mortality' vs 'cancer risk' studies is illusory; both are sensitive to the same initial dose-reconstruction errors, artificially narrowing the perceived range of uncertainty."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Nuclear power results in lower total human mortality per TWh than coal.",
+      "range_low": 75,
+      "range_high": 98,
+      "conditions": "Assumes LNT model is an overestimate of low-dose risk and excludes non-quantifiable societal disruption costs."
+    },
+    {
+      "hypothesis": "Nuclear power results in lower total human mortality per TWh than coal, including tail-risk and LNT-based projections.",
+      "range_low": 40,
+      "range_high": 70,
+      "conditions": "Assumes LNT model is accurate and tail-risk events are weighted by expected value."
+    }
+  ],
+  "settled": [
+    "Coal-fired power generation produces significantly higher immediate, localized, and regional mortality via air pollution than nuclear power generation."
+  ],
+  "performed_as_settled": [
+    "The 'deaths per TWh' metric is a neutral, objective measure of safety.",
+    "The LNT model is the scientific consensus for radiation risk."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}
