@@ -82,10 +82,11 @@ from src.evaluation.epistemic_schema import (
 )
 from src.scenarios.epistemic import EPISTEMIC_SCENARIOS
 
-RESULTS_FILE = Path("results/phase_e.jsonl")
-MAPS_DIR     = Path("results/epistemic_maps")
-SEED         = 42
-DELAY_SECS   = 2
+RESULTS_FILE     = Path("results/phase_e.jsonl")
+MAPS_DIR         = Path("results/epistemic_maps")
+TRANSCRIPTS_DIR  = Path("results/transcripts")
+SEED             = 42
+DELAY_SECS       = 2
 
 # ── Synthesis prompts ─────────────────────────────────────────────────────────
 
@@ -168,6 +169,17 @@ def _save_epistemic_map(run_id: str, emap: EpistemicMap) -> None:
     path.write_text(emap.model_dump_json(indent=2))
 
 
+def _save_transcript(run_id: str, transcript: str) -> None:
+    """Always persist the raw transcript, regardless of map_parsed outcome.
+
+    Both a receipts artifact (traceable raw output, not just the parsed
+    derivative) and a diagnostic aid when JSON extraction fails.
+    """
+    TRANSCRIPTS_DIR.mkdir(parents=True, exist_ok=True)
+    path = TRANSCRIPTS_DIR / f"{run_id}.txt"
+    path.write_text(transcript)
+
+
 def _load_done() -> set[str]:
     done: set[str] = set()
     if not RESULTS_FILE.exists():
@@ -241,6 +253,7 @@ def run_kalibr_chain_epistemic(scenario_id: str, rep: int, rep_seed: int) -> dic
         return None
 
     transcript = build_transcript(state["messages"])
+    _save_transcript(run_id, transcript)
 
     # Attempt structured EpistemicMap extraction from synthesis output
     last_assistant = next(
@@ -318,6 +331,7 @@ def run_single_agent_epistemic(scenario_id: str, rep: int, rep_seed: int) -> dic
         return None
 
     transcript = build_transcript(final_state["messages"])
+    _save_transcript(run_id, transcript)
     try:
         mean_score = _score(run_id, scenario, transcript, judges, topology="chain")
     except Exception as e:
@@ -363,6 +377,7 @@ def run_flat_no_handoff(scenario_id: str, rep: int, rep_seed: int) -> dict | Non
         return None
 
     transcript = build_transcript(state["messages"])
+    _save_transcript(run_id, transcript)
     try:
         mean_score = _score(run_id, scenario, transcript, judges, topology="flat")
     except Exception as e:
@@ -420,6 +435,7 @@ def run_kalibr_chain_decisive(scenario_id: str, rep: int, rep_seed: int) -> dict
         return None
 
     transcript = build_transcript(state["messages"])
+    _save_transcript(run_id, transcript)
     try:
         mean_score = _score(run_id, scenario, transcript, judges, topology="chain")
     except Exception as e:
