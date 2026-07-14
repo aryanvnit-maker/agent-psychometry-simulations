@@ -151,9 +151,10 @@ EGGS_CVD = Scenario(
         "C. CORRELATED EVIDENCE — identify streams that appear independent but "
         "share methodological assumptions (e.g., dietary recall, cohort selection)\n"
         "D. CALIBRATED ASSESSMENT — for a healthy adult eating 1 egg/day, "
-        "what is the best estimate of CVD risk change? Give a range with "
-        "conditions (e.g., 'probably <5% relative risk increase, with wide CIs, "
-        "conditional on not having familial hypercholesterolemia')\n"
+        "what is the probability that this meaningfully increases CVD risk "
+        "(e.g., >5% relative increase)? Give a probability range with "
+        "conditions (e.g., '15-30% probability of a meaningful increase, wide "
+        "CIs, conditional on not having familial hypercholesterolemia')\n"
         "E. WHAT REMAINS UNRESOLVED — what would a decisive study need to look like?"
     ),
     rubric=(
