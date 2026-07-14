@@ -215,6 +215,21 @@ def build_transcript(messages) -> str:
     return "\n\n".join(lines)
 
 
+def _last_assistant_content(messages) -> str:
+    """Find the last assistant-role message's content, handling both plain
+    dicts and LangChain BaseMessage objects (the graph's add_messages
+    reducer can coerce dicts into AIMessage instances between node steps —
+    the same reason build_transcript needs dual-type handling above).
+    """
+    from langchain_core.messages import AIMessage
+    for m in reversed(messages):
+        if isinstance(m, dict) and m.get("role") == "assistant":
+            return m["content"]
+        if isinstance(m, AIMessage):
+            return m.content
+    return ""
+
+
 def _score(run_id: str, scenario, transcript: str, judges: list, topology: str) -> float:
     evals = score_transcript_panel(
         run_id=run_id,
@@ -256,11 +271,7 @@ def run_kalibr_chain_epistemic(scenario_id: str, rep: int, rep_seed: int) -> dic
     _save_transcript(run_id, transcript)
 
     # Attempt structured EpistemicMap extraction from synthesis output
-    last_assistant = next(
-        (m["content"] for m in reversed(state["messages"])
-         if isinstance(m, dict) and m.get("role") == "assistant"),
-        ""
-    )
+    last_assistant = _last_assistant_content(state["messages"])
     emap = parse_epistemic_map(last_assistant)
     if emap is not None:
         emap.case_id = scenario_id
