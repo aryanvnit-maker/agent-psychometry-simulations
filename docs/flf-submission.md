@@ -4,7 +4,7 @@ Submitted by: Aryan Shah (aryan199841@gmail.com)
 Repository: https://github.com/aryanvnit-maker/agent-psychometry-simulations
 Submission date: June 2026
 Competition: FLF Epistemic Case Study Competition (flf.org)
-Status: Methodology proposal for early feedback. Phase 3 (the deterministic shield) is a completed pilot; the epistemic-synthesis architecture (the sword) exists in the repository; the Phase 10 reasoning benchmark is specified but not yet run.
+Status: Methodology proposal for early feedback. Phase 3 (the deterministic shield) is a completed pilot; the epistemic-synthesis architecture (the sword) has now been run on three contested cases with maps and transcripts committed by run_id; the poisoned-epistemic and cross-model experiments are specified and in progress.
 
 ---
 
@@ -181,18 +181,22 @@ Content correctness: is the conclusion right? On COVID origins this is unknowabl
 
 Structural form: did the system surface a crux, flag a correlated-evidence pair, give a range with conditions, distinguish settled from performed? This is observable regardless of whether the conclusion is correct. A human evaluator can read the EpistemicMap and check the structure directly. We offer the artifact for the evaluator to inspect; we don't offer a self-graded score.
 
-### Why the structure matters on a real case
+### Receipts: what the architecture actually produced
 
-Take eggs/CVD. The decisive-synthesis default tends toward a verdict ("dietary cholesterol has minimal effect on serum cholesterol; eggs are fine"). The epistemic synthesis prompt forces the model to look for correlated evidence instead. The case is loaded with it: a large share of the reassuring nutritional-epidemiology studies share a single selection mechanism (food-frequency-questionnaire cohorts with healthy-user confounding) and, in some cases, common industry funding. Two studies that look like independent confirmation can be the same methodological bet counted twice. The value isn't that the model gets eggs "right." It's that the architecture is required to test the independence assumption that inflates false confidence. The default round-table never does this.
+This section reports real runs, not a description of intended behaviour. We ran the chain + epistemic-synthesis architecture on three contested cases (eggs/CVD, COVID origins, comparative nuclear risk) on `gemini-3.1-flash-lite`. Every run's raw transcript and parsed EpistemicMap is committed to the repository under `results/transcripts/` and `results/epistemic_maps/`, keyed by run_id, so each claim below is traceable to a specific execution.
+
+On eggs/CVD (run_id `6779b6e3`), the produced map flagged a specific structural dependency without being told the answer: the Harvard/HPFS cohorts and the NHANES/MESA analysis share a single measurement instrument (food-frequency questionnaires), so their apparent agreement is partly the same measurement bias counted twice rather than independent confirmation. The nuclear-risk map (run_id `706a84f3`) independently flagged that the "deaths per TWh" mortality figures and the LNT-based cancer projections both derive from the same UNSCEAR/IAEA Chernobyl/Fukushima dose-reconstruction data, so their independence is likewise illusory. These are the kind of non-obvious, evidence-structural findings the architecture is meant to surface.
+
+We also ran the honest control: the same cases through `flat-no-handoff`, the framework-default baseline. The result corrects an earlier overclaim. On these non-adversarial cases, a flat multi-agent configuration reached comparable content quality — its best eggs/CVD run surfaced the same FFQ dependency, and in places went further. So the chain's advantage over flat here is **not** superior insight on clean questions. It is two things: (1) the output is a typed, parseable, compounding EpistemicMap rather than prose, and (2) resistance to adversarial framing, which is where Phase 3 located the effect and which we have not yet tested in the epistemic domain. We are careful to claim only what the runs support.
 
 ### Two tiers
 
 | Tier | Claim | Evidence status | Scoring |
 |---|---|---|---|
 | Tier 1: shield (validated) | Chain topology resists conformity cascades under poison; flat topology amplifies and can collapse | Completed, Phase 3, N=200 | Deterministic, binary, no LLM judge |
-| Tier 2: sword (applied) | The same architecture, run with the epistemic synthesis prompt, produces structured EpistemicMaps on contested cases | Artifact exists; quality is not self-scored | Structure is human-auditable; content is not claimed |
+| Tier 2: sword (applied) | The architecture produces a structured, compounding EpistemicMap on contested cases; a flat baseline reaches comparable *content* on non-adversarial cases | Runs completed; maps + transcripts committed by run_id | Structure is human-auditable; content is not claimed; flat comparison reported honestly |
 
-Tier 1 is why the architecture isn't a black box. Tier 2 is what it produces on FLF's home territory. Neither alone is the submission.
+Tier 1 is why the architecture isn't a black box. Tier 2 is what it produces on FLF's home territory, with the flat-baseline comparison stated rather than hidden. The open question the next experiment targets: does the Phase 3 adversarial advantage (chain resists poison, flat conforms) reproduce when the poison is an epistemic wrong-framing rather than a code hint? That is the result that would fuse the two tiers.
 
 ---
 
