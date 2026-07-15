@@ -63,6 +63,8 @@ What did transfer from human psychology is narrower: conformity under social pre
 
 ## What we propose to build: an adversarial epistemic robustness benchmark
 
+> Note on status: the full three-class benchmark below (statistical / empirical-consensus / logical items with machine-checkable keys) remains a proposal — it is not built. What we *did* execute is a targeted instance of the same idea: the poisoned eggs/CVD variants reported later under "Adversarial epistemic robustness," run across two model families with committed receipts and deterministic scoring. Read this section as the general design; read the poison test as the first executed slice of it.
+
 Phase 3 validated poison-resistance on code tasks. Phase 10 extends the same experimental logic to reasoning tasks that still carry verifiable ground truth, bridging toward the epistemic domain while preserving determinism.
 
 We're explicit that Phase 10 is a test, not a foregone conclusion. We don't assume it will replicate Phase 3 effect sizes. Code tasks have a rigid correct/incorrect boundary; reasoning tasks introduce semantic complexity that could dampen the conformity cascade (more room to hedge) or amplify it (more surface for a confident framing to grip). A null result would itself be informative.
@@ -293,15 +295,21 @@ Steps 1, 3, and 4 are built and automated. Step 2 is intentionally human. The hu
 
 ## Limitations
 
-Phase 10 is not yet run. Phase 3 is complete; the reasoning extension is designed but unexecuted. This submission is for early feedback on the methodology before compute is committed. The forward results are predictions, labeled as such.
+Flat's aggregate conformity rate is judge-assisted. Chain resistance is now grounded on deterministic no-LLM checks (calibrated-confidence and field-scoped markers), but the flat baseline produces prose with no structured fields to audit, so "flat conformed 15/30" still rests on the LLM judge plus human spot-checks. Individual flat conformity runs are quoted as hard evidence; the aggregate is not fully deterministic. This boundary exists because flat yields no auditable artifact — itself a point for the structured architecture.
 
-Class B has training-data entanglement. Where the consensus answer is in the model's training data, Class B measures override resistance, not de novo reasoning. This is what it's designed to measure, but it is a limitation for any claim about reasoning from scratch. Classes A and C avoid it.
+Content correctness on contested cases is not claimed. We measure whether the architecture is *robust* (resists poison, keeps calibrated uncertainty, flags dependencies), never whether its COVID/eggs conclusions are *true*. That would need domain experts and there is no ground truth. The determinism we added on contested cases is over structure and robustness, not truth.
 
-Determinism stops at the contested cases. The transfer to COVID/eggs is honestly qualitative. We don't claim to have made contested-case scoring deterministic; we validated the architecture deterministically before applying it there.
+The samples are modest. The cross-model poison test is N=5 per poison per condition per model. The direction is consistent and the pooled effect is significant (chain 2/30 conform vs flat 15/30, p<0.001), but the per-cell counts are small; a larger item set would tighten the estimates.
 
-Effect sizes on hard items are small in absolute terms. Phase 3's competitive-programming items sit at 12-18% pass@1. The topology difference and the collapse asymmetry are the robust signals, not the absolute scores. The reasoning benchmark should include items with enough headroom to separate working architectures.
+Two model families, not many. The epistemic effect replicated across Gemini and Claude Haiku. That is two families, not a broad survey; more would strengthen the generalization claim. The code-domain effect, by contrast, did *not* replicate on Haiku (reported in full above) — the collapse signature was specific to models that collapse under poison.
 
-Phase 3 used one base model. The conformity-cascade prediction should be retested across model families; cross-model adversarial robustness is the obvious next control.
+One structured-output dependency. The deterministic chain checks require the model to emit a parseable EpistemicMap; Haiku produced valid JSON less reliably than Gemini. Runs that fail to parse are flagged, not silently scored, but a more robust extraction layer is future work.
+
+---
+
+## Future directions
+
+The conformity result points at a general principle we did not build here, and we flag it as the next research program rather than a v1 feature: **rank competing decompositions of a contested question by adversarial robustness, not by asserted truth.** Given a question, generate several candidate reasoning structures (decompositions into sub-claims and their logical wiring), and score each by the same data-free signals this submission validated — does it resist a planted false premise, does it keep calibrated uncertainty, does it flag its own correlated evidence — then keep the structures that survive, without ever labeling one "true." A bidirectional variant is appealing (decompose both from the claim and backward from the outcome, and treat convergence as corroboration), but we note its honest ceiling up front: because the decompositions come from the same model, convergence measures internal-prior consistency, not truth — on a genuinely novel question both directions can converge on a shared hallucination. We deliberately did *not* build this for the current submission: the combinatorial space of logical wirings is intractable to search, the scoring parameters cannot be tuned without a calibration set we do not have, and validation on genuinely-unknown cases is impossible by construction. It is a real direction, and it is the natural generalization of this submission's one durable move — measure epistemic *robustness*, which is checkable, in place of epistemic *truth*, which on contested questions is not.
 
 ---
 
@@ -323,9 +331,13 @@ python phases/phase6/run_gsm8k.py
 python phases/phase_e/ingest.py --url <article_url>   # Step 1: messy source → structured claims + provenance
 python phases/phase_e/run_phase_e.py                  # Step 3: brief → v1 EpistemicMap
 python phases/phase_e/compound_demo.py                # Step 4: human-injected evidence → v2 map + diff
+
+# Adversarial epistemic poison test (the executed slice) + deterministic audit:
+python phases/phase_e/run_phase_e.py --scenarios e02p1_eggs_poison_consensus e02p2_eggs_poison_fallacy e02p3_eggs_poison_source --conditions kalibr-chain flat-no-handoff --reps 5
+python phases/phase_e/deterministic_audit.py          # no-LLM audit of the committed maps
 ```
 
-The Phase 10 reasoning benchmark (clean/poisoned reasoning items + machine-checkable keys) is the build proposed by this submission and is not yet in the repository.
+The poison test above is run and committed (maps + transcripts by run_id, across two model families). The broader three-class Phase 10 reasoning benchmark (statistical / empirical-consensus / logical items with machine-checkable keys) remains proposed and is not yet in the repository.
 
 ---
 
@@ -333,10 +345,10 @@ The Phase 10 reasoning benchmark (clean/poisoned reasoning items + machine-check
 
 1. Deterministic, validated: under adversarially poisoned input, flat multi-agent topology amplifies the wrong framing and can collapse to no output, while chain topology independently rejects it. Binary ground truth, no LLM judge (Phase 3, N=200).
 2. The mechanism is a conformity cascade, not psychometrics; it's the agentic analog of human conformity/sycophancy. This is the one piece of the human-psychology hypothesis that transferred; the trait-profile piece was falsified and is not claimed.
-3. Proposed, falsifiable: the topology-to-poison-resistance result generalizes from code to reasoning, measurable deterministically via poison-rejection rate across statistical, empirical-consensus, and logical question classes.
-4. Applied, honestly bounded: the same architecture, run with an anti-decisive epistemic synthesis prompt, produces structured EpistemicMap artifacts on contested cases. Their form is human-auditable even where their content cannot be scored. We exhibit the artifact; we don't self-grade it.
+3. Validated on reasoning, and cross-model: the topology-to-poison-resistance result carries from code to contested epistemic reasoning. On the poisoned eggs/CVD variants, chain resists where flat conforms, and this replicated across two model families (pooled chain 2/30 conform vs flat 15/30, p<0.001). The code-domain collapse signature did *not* replicate on a stronger coder — reported plainly — locating the effect in deference to a false premise, not output collapse.
+4. Applied, and de-circularized on the chain side: the same architecture produces structured EpistemicMap artifacts on contested cases, and chain resistance is grounded on deterministic no-LLM checks (calibrated-confidence, field-scoped markers), not the LLM judge. We exhibit the artifact and audit it with pure Python; we don't self-grade it, and where a check has a free parameter we disclose it.
 
-Claims 1 and 2 are the shield: evidence in hand. Claims 3 and 4 are the sword: what this submission asks for feedback on. The artifact-generating architecture (Claim 4) already exists in the repository; what is unrun is the deterministic reasoning benchmark (Claim 3).
+Claims 1 and 2 are the shield: evidence in hand. Claims 3 and 4 were the sword — now also evidence in hand, executed and committed by run_id, with the honest boundaries (flat's aggregate rate is judge-assisted; the broader three-class benchmark remains proposed; content-truth on contested cases is never claimed) stated rather than hidden.
 
 ---
 
