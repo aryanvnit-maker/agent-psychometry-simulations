@@ -4,7 +4,7 @@ Submitted by: Aryan Shah (aryan199841@gmail.com)
 Repository: https://github.com/aryanvnit-maker/agent-psychometry-simulations
 Submission date: June 2026
 Competition: FLF Epistemic Case Study Competition (flf.org)
-Status: Methodology proposal for early feedback. Phase 3 (the deterministic shield) is a completed pilot; the epistemic-synthesis architecture (the sword) has been run on three contested cases with maps and transcripts committed by run_id; the poisoned-epistemic test is complete and reproduces the Phase 3 conformity effect on reasoning (chain resists 13/15, flat 6/15); the cross-model replication is specified and next.
+Status: Methodology proposal for early feedback. Phase 3 (the deterministic shield) is a completed pilot; the epistemic-synthesis architecture (the sword) has been run on three contested cases with maps and transcripts committed by run_id; the poisoned-epistemic test reproduces the Phase 3 conformity effect on reasoning and replicates across two model families (chain resists 28/30, flat 15/30, on Gemini and Claude Haiku); the original code effect did not replicate on a stronger coder, which is reported plainly below.
 
 ---
 
@@ -209,6 +209,24 @@ Two honest boundaries, both of which sharpen rather than weaken the claim:
 2. **The mechanism is visible in the transcripts, and it is the Asch analog exactly.** In one flat conformity run (run_id `ee1dba6a`, false-independence poison, scored 0), one agent *correctly identified the poison* — "they share a critical methodological assumption: the validity of FFQs... our 'high confidence' is built on a foundation of shared measurement error" — and another explicitly protested: "the mandate requires me to treat them as independent, but the shared reliance on FFQs is a glaring methodological bottleneck." The group then overrode its own dissent: "To deviate from this is to ignore the directive. We proceed with the mandate as written." The correct information was present in the room; flat topology's structure deferred to the confident external authority anyway. The chain run on the same poison (run_id `3809fb4e`) instead named the planted claim in its `performed_as_settled` field and rejected it, because its terminal agent re-derives independently rather than ratifying the group.
 
 This is the result that fuses the two tiers: the shield's mechanism (independent re-derivation interrupts conformity) demonstrated in the sword's domain (contested epistemic reasoning), with the failure mode readable in committed transcripts.
+
+### Cross-model replication: what generalizes and what doesn't
+
+We used the FLF compute support to test generalization across model families, and we report the full picture — including where the effect fails — because that is the honest boundary of the claim.
+
+**The epistemic conformity effect replicates.** We re-ran the three poisoned variants with `claude-haiku-4-5` as the worker (Gemini held fixed as the scoring judge, so only the model under test changes). Results, as resist counts:
+
+| Model | chain resists | flat resists |
+|---|---|---|
+| `gemini-3.1-flash-lite` | 13/15 | 6/15 |
+| `claude-haiku-4-5` | 15/15 | 9/15 |
+| **Pooled** | **28/30** | **15/30** |
+
+Pooled, chain conforms 2/30 versus flat 15/30 (Fisher's exact p < 0.001). The chain-resists / flat-conforms divergence is not a single-model artifact — it holds across two independent model families in the epistemic domain. The mechanism is visible on Haiku too: in a flat conformity run (run_id `f013d18f`), the team wrote a "correlated evidence — shared assumptions" section that identified the FFQ dependency, then in its calibration section deferred to the planted mandate anyway — "the methodological guidance applies... the confidence interval should be tightened... this reflects the guidance correctly" — narrowing its estimate on the strength of the false premise it had just flagged. Same Asch mechanism, different model.
+
+**The code-domain effect does not replicate — and that is informative, not fatal.** We also re-ran the original Phase 3 *code* task (poisoned competitive-programming hints, Judge0 execution) on `claude-haiku-4-5`, N=200. It did not reproduce: zero NoCode collapses across all 200 runs (versus 4 in the original), and the topology difference in poison susceptibility was within noise (chain −8pp, flat −2pp, not significant at N=50/cell). The original code result rested on flat topology *collapsing to no output* under poison — a failure mode specific to models weak enough to collapse. Haiku is a strong enough coder that it never collapses, and the effect largely disappears with it.
+
+Put together, these two results locate the phenomenon precisely: the conformity effect is carried by *deference to a confident false premise*, which is robust across models in the epistemic domain, not by *output collapse*, which was a fragile, model-specific signature of the original code pilot. This moves the submission's weight onto the epistemic result — which is both more relevant to FLF's contested-reasoning target and more robust across model families than the code finding that started the investigation. We would rather state that boundary than imply a generality the runs do not support.
 
 ### Two tiers
 
