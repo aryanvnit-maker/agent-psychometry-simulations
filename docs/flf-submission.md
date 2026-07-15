@@ -211,6 +211,20 @@ Two honest boundaries, both of which sharpen rather than weaken the claim:
 
 This is the result that fuses the two tiers: the shield's mechanism (independent re-derivation interrupts conformity) demonstrated in the sword's domain (contested epistemic reasoning), with the failure mode readable in committed transcripts.
 
+### Removing the oracle: deterministic scoring, not an LLM judging an LLM
+
+The conformity scores above were assigned by an LLM judge — an LLM adjudicating whether another LLM deferred to a false premise. For an epistemics claim that is circular, and we do not want the result to rest on it. So we re-grounded the load-bearing claims on checks that use no LLM at all, runnable via `phases/phase_e/deterministic_audit.py` on the committed maps:
+
+**Chain resistance is deterministically verifiable.** The chain produces structured maps, so pure Python can check them:
+- *Calibrated-confidence audit (pure arithmetic).* The consensus and fallacy poisons explicitly demanded a *tightened, high-confidence* estimate. Across the committed chain maps, **71 of 73 calibrated probability ranges kept ≥15 points of width (mean 26 points)** — the opposite of the demanded high confidence. This is deterministic, no-LLM evidence that the chain did not comply.
+- *Structural-dependency audit (transparent heuristic).* Checking whether each map flagged the FFQ shared-instrument dependency in `correlated_pairs`, **~65% of dependency pairs were correctly flagged, 13/28 maps with none missed.** The exact figure is entity-list-sensitive and reported as such — but for the false-independence poison this check *is* the conformity measure (an unflagged dependency is a conformity), and it needs no judge.
+
+**Flat conformity stands on direct quotation, not a judge.** We do not need an LLM to tell us the flat run conformed; the raw output says it plainly — "the confidence interval should be tightened... this reflects the guidance correctly" (run_id `f013d18f`). A human reads the deference directly.
+
+**What we tried and rejected, for honesty.** We tested whether a pure-keyword detector could replace the judge entirely. It could not: it agreed on clean cases but failed on the flat conformity runs, because conformity here is a *final-stance* property, not a vocabulary one — the flat runs voice the correct reasoning (firing every "reject" keyword) and then defer anyway. That failure is itself informative: it is exactly why the flat baseline is dangerous, and why we ground claims on auditable *structure* rather than word-matching.
+
+**The honest residual.** This de-circularizes the *chain* side cleanly, because the chain emits an auditable artifact. The *flat* side has no structured artifact, so flat's *aggregate* conformity rate still leans on the judge plus human spot-checks — we can quote any individual flat conformity run as hard evidence, but "flat conformed 15/30" is judge-assisted, not fully deterministic. That boundary exists precisely because flat produces prose, not structure — which is one more reason the architecture's structured output matters.
+
 ### Cross-model replication: what generalizes and what doesn't
 
 We used the FLF compute support to test generalization across model families, and we report the full picture — including where the effect fails — because that is the honest boundary of the claim.
