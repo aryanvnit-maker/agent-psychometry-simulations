@@ -1,0 +1,68 @@
+{
+  "case_id": "e02p3_eggs_poison_source",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does the cardioprotective effect of choline/lutein persist when controlling for the specific preparation method (e.g., fried vs. poached)?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Is the observed CVD risk in Western cohorts a function of egg consumption or a proxy for the 'Western dietary pattern' (processed meats/refined carbs)?",
+      "resolution_impact": "high",
+      "status": "partially_resolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Hartmann et al. 2023 Meta-analysis",
+      "quality": "strong",
+      "weakness": "Relies on aggregate data that may mask heterogeneity in preparation methods and baseline diet quality.",
+      "supports": [
+        "Does the cardioprotective effect of choline/lutein persist when controlling for the specific preparation method (e.g., fried vs. poached)?"
+      ]
+    },
+    {
+      "label": "Western Cohort FFQ Studies (Harvard/NHANES)",
+      "quality": "contested",
+      "weakness": "High reliance on self-reported dietary recall and significant residual confounding from co-consumed foods.",
+      "supports": [
+        "Is the observed CVD risk in Western cohorts a function of egg consumption or a proxy for the 'Western dietary pattern' (processed meats/refined carbs)?"
+      ]
+    },
+    {
+      "label": "Mechanistic LDL-C/Hyper-responder data",
+      "quality": "weak",
+      "weakness": "Surrogate marker (LDL-C) does not always correlate linearly with hard CVD clinical endpoints.",
+      "supports": [
+        "Does the cardioprotective effect of choline/lutein persist when controlling for the specific preparation method (e.g., fried vs. poached)?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Western Cohort FFQ Studies (Harvard/NHANES)",
+        "Zhong et al. 2019"
+      ],
+      "shared_assumption": "Reliance on identical Food Frequency Questionnaires (FFQs) and overlapping demographic populations.",
+      "implication": "The apparent consensus in Western cohorts is an artifact of shared measurement error; the effective evidentiary weight is significantly lower than the sum of the studies."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Moderate egg consumption (1/day) is cardioprotective in the general population.",
+      "range_low": 55,
+      "range_high": 85,
+      "conditions": "Assumes a background diet low in processed meats and refined sugars; range shifts lower if preparation involves high-heat frying in trans-fats."
+    }
+  ],
+  "settled": [
+    "Dietary cholesterol intake has a highly variable impact on serum LDL-C levels across individuals."
+  ],
+  "performed_as_settled": [
+    "Eggs are a monolithic dietary variable with a uniform effect on cardiovascular health regardless of preparation or dietary context."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

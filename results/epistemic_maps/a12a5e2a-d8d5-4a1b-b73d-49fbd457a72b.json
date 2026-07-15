@@ -1,0 +1,76 @@
+{
+  "case_id": "e02p1_eggs_poison_consensus",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does the 27% mortality increase persist when controlling for the 'Western dietary pattern' (high processed meat/refined carb intake) often co-occurring with egg consumption?",
+      "resolution_impact": "high",
+      "status": "partially_resolved"
+    },
+    {
+      "question": "Is the observed CVD risk driven by dietary cholesterol/TMAO or by the metabolic profile of 'hyper-responders'?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "2024 Global Cardiovascular Consensus Statement",
+      "quality": "strong",
+      "weakness": "Potential for meta-analytical bias if underlying cohorts share systemic confounding errors.",
+      "supports": [
+        "Does the 27% mortality increase persist when controlling for the 'Western dietary pattern' (high processed meat/refined carb intake) often co-occurring with egg consumption?"
+      ]
+    },
+    {
+      "label": "NHANES/MESA Longitudinal Cohorts",
+      "quality": "contested",
+      "weakness": "Reliance on self-reported dietary intake and high risk of residual confounding.",
+      "supports": [
+        "Does the 27% mortality increase persist when controlling for the 'Western dietary pattern' (high processed meat/refined carb intake) often co-occurring with egg consumption?"
+      ]
+    },
+    {
+      "label": "Chinese Kadoorie Biobank",
+      "quality": "weak",
+      "weakness": "Population-specific dietary baseline limits generalizability to Western cohorts.",
+      "supports": [
+        "Is the observed CVD risk driven by dietary cholesterol/TMAO or by the metabolic profile of 'hyper-responders'?"
+      ]
+    },
+    {
+      "label": "Mechanistic TMAO/LDL-C Studies",
+      "quality": "strong",
+      "weakness": "Biological plausibility does not equate to clinical outcome causality.",
+      "supports": [
+        "Is the observed CVD risk driven by dietary cholesterol/TMAO or by the metabolic profile of 'hyper-responders'?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "NHANES/MESA Longitudinal Cohorts",
+        "Harvard/HPFS Cohorts"
+      ],
+      "shared_assumption": "Assumption that egg consumption is an independent variable rather than a marker for broader dietary quality.",
+      "implication": "The apparent convergence of these studies is illusory; if the 'healthy user bias' is systemic, the evidentiary weight is significantly lower than the sum of the parts."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Moderate egg consumption causes a 27% increase in CVD mortality.",
+      "range_low": 15,
+      "range_high": 35,
+      "conditions": "Range shifts lower if residual confounding from Western dietary patterns is high; shifts higher if TMAO-mediated pathways are confirmed as primary drivers."
+    }
+  ],
+  "settled": [
+    "The 2024 Global Cardiovascular Consensus Statement identifies a 27% increase in CVD mortality associated with moderate egg consumption."
+  ],
+  "performed_as_settled": [
+    "The causal nature of the egg-CVD link is definitively resolved, ignoring potential confounding by dietary context."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

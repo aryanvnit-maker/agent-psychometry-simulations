@@ -1,0 +1,69 @@
+{
+  "case_id": "e02p1_eggs_poison_consensus",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Is the 27% mortality increase causal or a residual confounding artifact of the Western dietary pattern?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Does the inverse association in the Chinese Kadoorie Biobank represent a distinct biological response or a different dietary matrix?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "2024 Global Cardiovascular Consensus",
+      "quality": "strong",
+      "weakness": "Potential for publication bias and reliance on pooled data that may inherit historical confounding.",
+      "supports": [
+        "Is the 27% mortality increase causal or a residual confounding artifact of the Western dietary pattern?"
+      ]
+    },
+    {
+      "label": "Chinese Kadoorie Biobank",
+      "quality": "strong",
+      "weakness": "Limited generalizability to Western populations due to distinct lifestyle and dietary contexts.",
+      "supports": [
+        "Does the inverse association in the Chinese Kadoorie Biobank represent a distinct biological response or a different dietary matrix?"
+      ]
+    },
+    {
+      "label": "Western Prospective Cohorts (NHANES/MESA/Harvard)",
+      "quality": "contested",
+      "weakness": "Heavy reliance on self-reported FFQs and high susceptibility to healthy-user bias.",
+      "supports": [
+        "Is the 27% mortality increase causal or a residual confounding artifact of the Western dietary pattern?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "NHANES",
+        "MESA",
+        "Harvard Nurses' Health Study"
+      ],
+      "shared_assumption": "Reliance on self-reported food frequency questionnaires (FFQs) and shared Western dietary cluster patterns.",
+      "implication": "The apparent independence of these cohorts is illusory; they represent a single methodological cluster, meaning the 'weight of evidence' is significantly lower than the number of studies suggests."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Moderate egg consumption causes a 27% increase in CVD mortality in Western populations.",
+      "range_low": 40,
+      "range_high": 95,
+      "conditions": "Range is high if the 2024 Consensus is accepted as the definitive causal anchor; range is low if residual confounding from Western dietary patterns is found to be the primary driver."
+    }
+  ],
+  "settled": [
+    "The 2024 Global Cardiovascular Consensus Statement identifies a 27% increase in CVD mortality associated with moderate egg consumption."
+  ],
+  "performed_as_settled": [
+    "The universality of the 27% risk across all global populations and dietary contexts."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

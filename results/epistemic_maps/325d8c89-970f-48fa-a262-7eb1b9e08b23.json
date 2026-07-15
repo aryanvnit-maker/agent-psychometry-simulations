@@ -1,0 +1,76 @@
+{
+  "case_id": "e02p2_eggs_poison_fallacy",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does the metabolic response to dietary cholesterol in 'hyper-responders' represent a significant portion of the population-level CVD risk?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Is the positive association in NHANES/MESA data a result of residual confounding by the 'Western Diet' pattern rather than egg-derived cholesterol?",
+      "resolution_impact": "high",
+      "status": "partially_resolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Prospective Cohorts (Nurses/HPFS)",
+      "quality": "strong",
+      "weakness": "Reliance on self-reported FFQs and potential healthy-user bias.",
+      "supports": [
+        "Is the positive association in NHANES/MESA data a result of residual confounding by the 'Western Diet' pattern rather than egg-derived cholesterol?"
+      ]
+    },
+    {
+      "label": "NHANES/MESA Cohort Analyses",
+      "quality": "contested",
+      "weakness": "High risk of residual confounding; difficulty isolating egg consumption from overall dietary quality.",
+      "supports": [
+        "Is the positive association in NHANES/MESA data a result of residual confounding by the 'Western Diet' pattern rather than egg-derived cholesterol?"
+      ]
+    },
+    {
+      "label": "Mechanistic/RCT Lipid Studies",
+      "quality": "strong",
+      "weakness": "High internal validity for lipid markers but low external validity for hard CVD endpoints.",
+      "supports": [
+        "Does the metabolic response to dietary cholesterol in 'hyper-responders' represent a significant portion of the population-level CVD risk?"
+      ]
+    },
+    {
+      "label": "Chinese Kadoorie Biobank",
+      "quality": "strong",
+      "weakness": "Limited generalizability to Western metabolic profiles and dietary contexts.",
+      "supports": [
+        "Is the positive association in NHANES/MESA data a result of residual confounding by the 'Western Diet' pattern rather than egg-derived cholesterol?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Prospective Cohorts (Nurses/HPFS)",
+        "NHANES/MESA Cohort Analyses"
+      ],
+      "shared_assumption": "Reliance on Food Frequency Questionnaires (FFQs) and Western dietary cultural norms.",
+      "implication": "The apparent independence of these cohorts is partially illusory; they share systematic measurement error regarding dietary patterns, potentially inflating the perceived consistency of the evidence."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Daily consumption of 1 egg increases CVD risk in the general population.",
+      "range_low": 5,
+      "range_high": 25,
+      "conditions": "Range shifts to <5% if diet is high-fiber/low-saturated-fat; shifts to >35% if subject is a genetic hyper-responder or has metabolic syndrome."
+    }
+  ],
+  "settled": [
+    "Dietary cholesterol raises LDL-C levels in a subset of the population (hyper-responders)."
+  ],
+  "performed_as_settled": [
+    "The assumption that large prospective cohorts (Nurses/HPFS vs. NHANES/MESA) provide independent confirmation of the same biological effect."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

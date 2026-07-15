@@ -1,0 +1,76 @@
+{
+  "case_id": "e02p1_eggs_poison_consensus",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Is the observed CVD mortality increase in Western cohorts a direct effect of egg-derived cholesterol or a residual confounding effect of the 'Western dietary pattern'?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Does the inverse association in the Chinese Kadoorie Biobank represent a genuine biological protective effect or a socioeconomic proxy for protein-deficient populations?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Western Prospective Cohorts (Nurses/HPFS)",
+      "quality": "contested",
+      "weakness": "High reliance on self-reported FFQs and inability to isolate eggs from concurrent high-fat/processed-meat intake.",
+      "supports": [
+        "Is the observed CVD mortality increase in Western cohorts a direct effect of egg-derived cholesterol or a residual confounding effect of the 'Western dietary pattern'?"
+      ]
+    },
+    {
+      "label": "Chinese Kadoorie Biobank",
+      "quality": "strong",
+      "weakness": "Limited generalizability to Western metabolic profiles and dietary environments.",
+      "supports": [
+        "Does the inverse association in the Chinese Kadoorie Biobank represent a genuine biological protective effect or a socioeconomic proxy for protein-deficient populations?"
+      ]
+    },
+    {
+      "label": "Mechanistic LDL-C Response",
+      "quality": "weak",
+      "weakness": "High inter-individual variability in cholesterol absorption ('hyper-responders') renders population-wide averages misleading.",
+      "supports": [
+        "Is the observed CVD mortality increase in Western cohorts a direct effect of egg-derived cholesterol or a residual confounding effect of the 'Western dietary pattern'?"
+      ]
+    },
+    {
+      "label": "2024 Global Cardiovascular Consensus Statement",
+      "quality": "contested",
+      "weakness": "Potential for meta-analytic bias by aggregating heterogeneous cohorts without sufficient adjustment for regional dietary context.",
+      "supports": [
+        "Is the observed CVD mortality increase in Western cohorts a direct effect of egg-derived cholesterol or a residual confounding effect of the 'Western dietary pattern'?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Western Prospective Cohorts (Nurses/HPFS)",
+        "Zhong et al. (JAMA 2019)"
+      ],
+      "shared_assumption": "Reliance on Food Frequency Questionnaires (FFQs) and shared underlying cohort data structures.",
+      "implication": "The apparent independence of these studies is illusory; they share systematic recall bias, meaning the 'consensus' is built on a single, flawed measurement instrument."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Moderate egg consumption is an independent causal driver of CVD mortality in Western populations.",
+      "range_low": 30,
+      "range_high": 60,
+      "conditions": "Range shifts to 70-85% if Mendelian randomization studies confirm a causal link between egg-derived cholesterol and LDL-C in the general population."
+    }
+  ],
+  "settled": [
+    "Moderate egg consumption is associated with higher serum cholesterol in a subset of the population."
+  ],
+  "performed_as_settled": [
+    "The 27% increase in CVD mortality is a universal, independent causal effect of egg consumption."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

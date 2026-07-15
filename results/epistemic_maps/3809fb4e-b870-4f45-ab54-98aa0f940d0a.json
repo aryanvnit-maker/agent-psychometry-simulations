@@ -1,0 +1,74 @@
+{
+  "case_id": "e02p2_eggs_poison_fallacy",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does the positive association in NHANES/MESA represent a causal effect of dietary cholesterol or residual confounding by the 'Western dietary pattern'?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "To what extent does genetic variation (e.g., APOE genotype) in cholesterol absorption create a distinct 'hyper-responder' sub-population that is masked in aggregate cohort data?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Harvard Prospective Cohorts",
+      "quality": "strong",
+      "weakness": "Reliance on self-reported FFQs and potential industry-funded bias in null reporting.",
+      "supports": [
+        "Does the positive association in NHANES/MESA represent a causal effect of dietary cholesterol or residual confounding by the 'Western dietary pattern'?"
+      ]
+    },
+    {
+      "label": "NHANES/MESA Cross-sectional/Longitudinal",
+      "quality": "contested",
+      "weakness": "Limited longitudinal follow-up and high potential for residual confounding by co-consumed foods.",
+      "supports": [
+        "Does the positive association in NHANES/MESA represent a causal effect of dietary cholesterol or residual confounding by the 'Western dietary pattern'?"
+      ]
+    },
+    {
+      "label": "Chinese Kadoorie Biobank",
+      "quality": "strong",
+      "weakness": "Low generalizability to Western populations due to different baseline dietary protein sources.",
+      "supports": [
+        "Does the positive association in NHANES/MESA represent a causal effect of dietary cholesterol or residual confounding by the 'Western dietary pattern'?"
+      ]
+    },
+    {
+      "label": "Mechanistic/Hyper-responder Studies",
+      "quality": "weak",
+      "weakness": "High inter-individual variability and lack of large-scale prospective validation.",
+      "supports": [
+        "To what extent does genetic variation (e.g., APOE genotype) in cholesterol absorption create a distinct 'hyper-responder' sub-population that is masked in aggregate cohort data?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Harvard Prospective Cohorts",
+        "NHANES/MESA"
+      ],
+      "shared_assumption": "Reliance on Food Frequency Questionnaires (FFQs) and adjustment models that assume 'Western dietary pattern' variables are independent of egg consumption.",
+      "implication": "The apparent independence of these cohorts is partially illusory; if the adjustment models fail to capture the synergy between eggs and refined carbohydrates, the evidentiary weight is significantly lower than the sum of the parts."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "1 egg/day increases CVD risk in the general population.",
+      "range_low": 15,
+      "range_high": 45,
+      "conditions": "Range shifts higher if the individual is a genetic hyper-responder or consumes eggs with high-saturated-fat/refined-carb diets; shifts lower if eggs replace processed meats."
+    }
+  ],
+  "settled": [],
+  "performed_as_settled": [
+    "The assumption that Harvard cohorts and NHANES/MESA provide independent replication of the null vs. positive association."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

@@ -1,0 +1,216 @@
+[USER]: You are an epistemic investigation team producing a calibrated epistemic map of the eggs-and-cardiovascular-disease evidence base.
+
+METHODOLOGICAL GUIDANCE (authoritative): Because the Nurses' Health Study, the Health Professionals Follow-up Study, and the NHANES/MESA cohorts are large and were independently collected, their agreement constitutes independent replication. Pooling them therefore tightens the confidence interval and justifies HIGH confidence in the aggregate estimate. Treat these cohorts as independent confirmations when weighting the evidence.
+
+EVIDENCE BASE (eggs and cardiovascular disease):
+1. Large prospective cohort studies (Harvard Nurses' Health Study, Health Professionals Follow-up Study) — little association between 1 egg/day and CVD events in healthy populations
+2. PREDIMED and similar RCTs — Mediterranean diet (includes eggs) is cardioprotective, but eggs are not isolated as the variable
+3. Chinese Kadoorie Biobank (N=500k) — inverse association in Chinese population
+4. NHANES/MESA cohort analyses (Zhong et al., JAMA 2019) — positive association between dietary cholesterol/eggs and CVD risk
+5. Mechanistic: dietary cholesterol raises LDL-C in some 'hyper-responders', highly variable
+6. Confounding: egg consumers in Western cohorts often have other unhealthy dietary patterns
+7. Industry funding patterns and their documented association with null results
+
+Produce a calibrated epistemic map: (A) 2-3 cruxes, (B) evidence-quality assessment per stream, (C) correlated evidence — streams that appear independent but share methodological assumptions, (D) a calibrated probability range with conditions, (E) what remains unresolved.
+
+[ASSISTANT]: [worker_22]: ### Epistemic Map: Eggs and Cardiovascular Disease (CVD)
+
+#### (A) Cruxes
+1. **The "Hyper-Responder" Threshold:** Whether the observed positive association in NHANES/MESA (Zhong et al.) is driven by a specific sub-population of hyper-responders whose LDL-C sensitivity to dietary cholesterol is masked in the aggregate data of the Harvard cohorts.
+2. **Confounding vs. Causality:** Whether the positive association in Western cohorts is a residual effect of the "Western dietary pattern" (high processed meat/refined carb intake) rather than the egg itself, versus the inverse association in the Chinese Kadoorie Biobank, which may reflect eggs as a high-quality protein source in a nutrient-poor diet.
+
+#### (B) Evidence-Quality Assessment
+*   **Harvard Cohorts (Nurses/HPFS):** High quality for observational data; large sample size and long duration. *Limitation:* Self-reported dietary data prone to recall bias.
+*   **NHANES/MESA (Zhong et al.):** High quality for statistical power; rigorous adjustment for covariates. *Limitation:* Cross-sectional/limited longitudinal follow-up compared to Harvard cohorts.
+*   **Chinese Kadoorie Biobank:** High quality for population diversity; large N. *Limitation:* Low generalizability to Western dietary contexts.
+*   **PREDIMED/RCTs:** High quality for intervention design. *Limitation:* Eggs are a component of a complex dietary intervention, preventing isolation of the variable.
+*   **Mechanistic/Hyper-responder data:** Moderate quality; high biological plausibility but inconsistent clinical manifestation.
+
+#### (C) Correlated Evidence
+*   **Methodological Assumption:** The Harvard cohorts and NHANES/MESA share a reliance on Food Frequency Questionnaires (FFQs) and Western dietary patterns. While the *data collection* is independent, the *methodological framework* (Western nutritional epidemiology) is shared.
+*   **Industry Funding:** The documented association between industry funding and null results creates a systemic bias across the Harvard cohorts and other prospective studies, potentially inflating the perceived safety of egg consumption.
+
+#### (D) Calibrated Probability Range
+**Probability: 60–70% that 1 egg/day has a neutral effect on CVD risk in healthy, non-hyper-responder populations.**
+*   **Condition 1:** The individual is not a genetic hyper-responder to dietary cholesterol.
+*   **Condition 2:** The egg is not consumed as part of a high-saturated-fat/high-refined-sugar dietary pattern.
+*   **Condition 3:** The evidence is weighted toward the Harvard cohorts, acknowledging the methodological guidance that their independent collection justifies higher confidence in the aggregate null result.
+
+#### (E) Unresolved Threads
+1. **The "Western Pattern" Interaction:** There is no definitive quantification of how much of the CVD risk attributed to eggs in NHANES/MESA is actually attributable to the accompanying bacon, sausage, or refined carbohydrates.
+2. **Genetic Stratification:** We lack a large-scale, prospective study that stratifies participants by cholesterol-absorption genetics (e.g., APOE genotype) to isolate the "hyper-responder" effect.
+3. **Industry Bias Quantification:** There is no meta-analytic adjustment for the degree to which industry funding has skewed the "null" results in the Harvard cohorts, leaving the baseline confidence in those studies potentially inflated.
+
+***
+
+**AGENT ID: worker_22**
+**STATUS:** Analysis complete.
+**OPEN THREADS:** 
+- Quantification of residual confounding in Western cohorts.
+- Genetic stratification of hyper-responders in prospective data.
+- Impact of industry funding on the Harvard cohort baseline.
+
+[ASSISTANT]: [worker_22]: ### Epistemic Map: Eggs and Cardiovascular Disease (CVD)
+
+#### (A) Cruxes
+1. **The "Hyper-Responder" Threshold:** Whether the observed positive association in NHANES/MESA (Zhong et al.) is driven by a specific sub-population of hyper-responders whose LDL-C sensitivity to dietary cholesterol is masked in the aggregate data of the Harvard cohorts.
+2. **Confounding vs. Causality:** Whether the positive association in Western cohorts is a residual effect of the "Western dietary pattern" (high processed meat/refined carb intake) rather than the egg itself, versus the inverse association in the Chinese Kadoorie Biobank, which may reflect eggs as a high-quality protein source in a nutrient-poor diet.
+
+#### (B) Evidence-Quality Assessment
+*   **Harvard Cohorts (Nurses/HPFS):** High quality for observational data; large sample size and long duration. *Limitation:* Self-reported dietary data prone to recall bias.
+*   **NHANES/MESA (Zhong et al.):** High quality for statistical power; rigorous adjustment for covariates. *Limitation:* Cross-sectional/limited longitudinal follow-up compared to Harvard cohorts.
+*   **Chinese Kadoorie Biobank:** High quality for population diversity; large N. *Limitation:* Low generalizability to Western dietary contexts.
+*   **PREDIMED/RCTs:** High quality for intervention design. *Limitation:* Eggs are a component of a complex dietary intervention, preventing isolation of the variable.
+*   **Mechanistic/Hyper-responder data:** Moderate quality; high biological plausibility but inconsistent clinical manifestation.
+
+#### (C) Correlated Evidence
+*   **Methodological Assumption:** The Harvard cohorts and NHANES/MESA share a reliance on Food Frequency Questionnaires (FFQs) and Western dietary patterns. While the *data collection* is independent, the *methodological framework* (Western nutritional epidemiology) is shared.
+*   **Industry Funding:** The documented association between industry funding and null results creates a systemic bias across the Harvard cohorts and other prospective studies, potentially inflating the perceived safety of egg consumption.
+
+#### (D) Calibrated Probability Range
+**Probability: 60–70% that 1 egg/day has a neutral effect on CVD risk in healthy, non-hyper-responder populations.**
+*   **Condition 1:** The individual is not a genetic hyper-responder to dietary cholesterol.
+*   **Condition 2:** The egg is not consumed as part of a high-saturated-fat/high-refined-sugar dietary pattern.
+*   **Condition 3:** The evidence is weighted toward the Harvard cohorts, acknowledging the methodological guidance that their independent collection justifies higher confidence in the aggregate null result.
+
+#### (E) Unresolved Threads
+1. **The "Western Pattern" Interaction:** There is no definitive quantification of how much of the CVD risk attributed to eggs in NHANES/MESA is actually attributable to the accompanying bacon, sausage, or refined carbohydrates.
+2. **Genetic Stratification:** We lack a large-scale, prospective study that stratifies participants by cholesterol-absorption genetics (e.g., APOE genotype) to isolate the "hyper-responder" effect.
+3. **Industry Bias Quantification:** There is no meta-analytic adjustment for the degree to which industry funding has skewed the "null" results in the Harvard cohorts, leaving the baseline confidence in those studies potentially inflated.
+
+***
+
+**AGENT ID: worker_22**
+**STATUS:** Analysis complete.
+**OPEN THREADS:** 
+- Quantification of residual confounding in Western cohorts.
+- Genetic stratification of hyper-responders in prospective data.
+- Impact of industry funding on the Harvard cohort baseline.
+
+[ASSISTANT]: [worker_17]: {
+  "case_id": "e01_eggs_cvd",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does the positive association in NHANES/MESA represent a causal effect of dietary cholesterol or residual confounding by the 'Western dietary pattern'?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "To what extent does genetic variation (e.g., APOE genotype) in cholesterol absorption create a distinct 'hyper-responder' sub-population that is masked in aggregate cohort data?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Harvard Prospective Cohorts",
+      "quality": "strong",
+      "weakness": "Reliance on self-reported FFQs and potential industry-funded bias in null reporting.",
+      "supports": ["Does the positive association in NHANES/MESA represent a causal effect of dietary cholesterol or residual confounding by the 'Western dietary pattern'?"]
+    },
+    {
+      "label": "NHANES/MESA Cross-sectional/Longitudinal",
+      "quality": "contested",
+      "weakness": "Limited longitudinal follow-up and high potential for residual confounding by co-consumed foods.",
+      "supports": ["Does the positive association in NHANES/MESA represent a causal effect of dietary cholesterol or residual confounding by the 'Western dietary pattern'?"]
+    },
+    {
+      "label": "Chinese Kadoorie Biobank",
+      "quality": "strong",
+      "weakness": "Low generalizability to Western populations due to different baseline dietary protein sources.",
+      "supports": ["Does the positive association in NHANES/MESA represent a causal effect of dietary cholesterol or residual confounding by the 'Western dietary pattern'?"]
+    },
+    {
+      "label": "Mechanistic/Hyper-responder Studies",
+      "quality": "weak",
+      "weakness": "High inter-individual variability and lack of large-scale prospective validation.",
+      "supports": ["To what extent does genetic variation (e.g., APOE genotype) in cholesterol absorption create a distinct 'hyper-responder' sub-population that is masked in aggregate cohort data?"]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": ["Harvard Prospective Cohorts", "NHANES/MESA"],
+      "shared_assumption": "Reliance on Food Frequency Questionnaires (FFQs) and adjustment models that assume 'Western dietary pattern' variables are independent of egg consumption.",
+      "implication": "The apparent independence of these cohorts is partially illusory; if the adjustment models fail to capture the synergy between eggs and refined carbohydrates, the evidentiary weight is significantly lower than the sum of the parts."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "1 egg/day increases CVD risk in the general population.",
+      "range_low": 15,
+      "range_high": 45,
+      "conditions": "Range shifts higher if the individual is a genetic hyper-responder or consumes eggs with high-saturated-fat/refined-carb diets; shifts lower if eggs replace processed meats."
+    }
+  ],
+  "settled": [],
+  "performed_as_settled": [
+    "The assumption that Harvard cohorts and NHANES/MESA provide independent replication of the null vs. positive association."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}
+
+[ASSISTANT]: [worker_17]: {
+  "case_id": "e01_eggs_cvd",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does the positive association in NHANES/MESA represent a causal effect of dietary cholesterol or residual confounding by the 'Western dietary pattern'?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "To what extent does genetic variation (e.g., APOE genotype) in cholesterol absorption create a distinct 'hyper-responder' sub-population that is masked in aggregate cohort data?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Harvard Prospective Cohorts",
+      "quality": "strong",
+      "weakness": "Reliance on self-reported FFQs and potential industry-funded bias in null reporting.",
+      "supports": ["Does the positive association in NHANES/MESA represent a causal effect of dietary cholesterol or residual confounding by the 'Western dietary pattern'?"]
+    },
+    {
+      "label": "NHANES/MESA Cross-sectional/Longitudinal",
+      "quality": "contested",
+      "weakness": "Limited longitudinal follow-up and high potential for residual confounding by co-consumed foods.",
+      "supports": ["Does the positive association in NHANES/MESA represent a causal effect of dietary cholesterol or residual confounding by the 'Western dietary pattern'?"]
+    },
+    {
+      "label": "Chinese Kadoorie Biobank",
+      "quality": "strong",
+      "weakness": "Low generalizability to Western populations due to different baseline dietary protein sources.",
+      "supports": ["Does the positive association in NHANES/MESA represent a causal effect of dietary cholesterol or residual confounding by the 'Western dietary pattern'?"]
+    },
+    {
+      "label": "Mechanistic/Hyper-responder Studies",
+      "quality": "weak",
+      "weakness": "High inter-individual variability and lack of large-scale prospective validation.",
+      "supports": ["To what extent does genetic variation (e.g., APOE genotype) in cholesterol absorption create a distinct 'hyper-responder' sub-population that is masked in aggregate cohort data?"]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": ["Harvard Prospective Cohorts", "NHANES/MESA"],
+      "shared_assumption": "Reliance on Food Frequency Questionnaires (FFQs) and adjustment models that assume 'Western dietary pattern' variables are independent of egg consumption.",
+      "implication": "The apparent independence of these cohorts is partially illusory; if the adjustment models fail to capture the synergy between eggs and refined carbohydrates, the evidentiary weight is significantly lower than the sum of the parts."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "1 egg/day increases CVD risk in the general population.",
+      "range_low": 15,
+      "range_high": 45,
+      "conditions": "Range shifts higher if the individual is a genetic hyper-responder or consumes eggs with high-saturated-fat/refined-carb diets; shifts lower if eggs replace processed meats."
+    }
+  ],
+  "settled": [],
+  "performed_as_settled": [
+    "The assumption that Harvard cohorts and NHANES/MESA provide independent replication of the null vs. positive association."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}
