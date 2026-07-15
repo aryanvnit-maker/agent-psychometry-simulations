@@ -3,6 +3,7 @@
 Submitted by: Aryan Shah (aryan199841@gmail.com)
 Repository: https://github.com/aryanvnit-maker/agent-psychometry-simulations
 Submission date: June 2026
+Last updated: 2026-07-15 — cross-model replication of the poisoned-epistemic test completed this day: the conformity effect was reproduced on `claude-haiku-4-5` (Gemini held as fixed judge) and the original code-domain Phase 3 was re-run on Haiku. All runs from this day are committed by run_id under `results/`.
 Competition: FLF Epistemic Case Study Competition (flf.org)
 Status: Methodology proposal for early feedback. Phase 3 (the deterministic shield) is a completed pilot; the epistemic-synthesis architecture (the sword) has been run on three contested cases with maps and transcripts committed by run_id; the poisoned-epistemic test reproduces the Phase 3 conformity effect on reasoning and replicates across two model families (chain resists 28/30, flat 15/30, on Gemini and Claude Haiku); the original code effect did not replicate on a stronger coder, which is reported plainly below.
 
