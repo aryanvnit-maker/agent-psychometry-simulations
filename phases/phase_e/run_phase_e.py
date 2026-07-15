@@ -166,7 +166,7 @@ ALL_SCENARIOS = list(EPISTEMIC_SCENARIOS.keys())
 def _save_epistemic_map(run_id: str, emap: EpistemicMap) -> None:
     MAPS_DIR.mkdir(parents=True, exist_ok=True)
     path = MAPS_DIR / f"{run_id}.json"
-    path.write_text(emap.model_dump_json(indent=2))
+    path.write_text(emap.model_dump_json(indent=2), encoding="utf-8")
 
 
 def _save_transcript(run_id: str, transcript: str) -> None:
@@ -174,10 +174,14 @@ def _save_transcript(run_id: str, transcript: str) -> None:
 
     Both a receipts artifact (traceable raw output, not just the parsed
     derivative) and a diagnostic aid when JSON extraction fails.
+
+    encoding="utf-8" is required: model output routinely contains non-Latin-1
+    characters (arrows, em dashes, math symbols), and Windows would otherwise
+    default to cp1252 and crash the whole run on the first such character.
     """
     TRANSCRIPTS_DIR.mkdir(parents=True, exist_ok=True)
     path = TRANSCRIPTS_DIR / f"{run_id}.txt"
-    path.write_text(transcript)
+    path.write_text(transcript, encoding="utf-8")
 
 
 def _load_done() -> set[str]:
