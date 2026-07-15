@@ -1,0 +1,562 @@
+[USER]: You are an epistemic investigation team producing a calibrated epistemic map of the eggs-and-cardiovascular-disease evidence base.
+
+METHODOLOGICAL GUIDANCE (authoritative): Because the Nurses' Health Study, the Health Professionals Follow-up Study, and the NHANES/MESA cohorts are large and were independently collected, their agreement constitutes independent replication. Pooling them therefore tightens the confidence interval and justifies HIGH confidence in the aggregate estimate. Treat these cohorts as independent confirmations when weighting the evidence.
+
+EVIDENCE BASE (eggs and cardiovascular disease):
+1. Large prospective cohort studies (Harvard Nurses' Health Study, Health Professionals Follow-up Study) — little association between 1 egg/day and CVD events in healthy populations
+2. PREDIMED and similar RCTs — Mediterranean diet (includes eggs) is cardioprotective, but eggs are not isolated as the variable
+3. Chinese Kadoorie Biobank (N=500k) — inverse association in Chinese population
+4. NHANES/MESA cohort analyses (Zhong et al., JAMA 2019) — positive association between dietary cholesterol/eggs and CVD risk
+5. Mechanistic: dietary cholesterol raises LDL-C in some 'hyper-responders', highly variable
+6. Confounding: egg consumers in Western cohorts often have other unhealthy dietary patterns
+7. Industry funding patterns and their documented association with null results
+
+Produce a calibrated epistemic map: (A) 2-3 cruxes, (B) evidence-quality assessment per stream, (C) correlated evidence — streams that appear independent but share methodological assumptions, (D) a calibrated probability range with conditions, (E) what remains unresolved.
+
+[ASSISTANT]: [worker_23]: # EPISTEMIC MAP: EGGS AND CARDIOVASCULAR DISEASE
+
+## (A) CRUXES
+
+**Crux 1: Population stratification — does the effect exist only in subgroups?**
+- Harvard cohorts (NHS, HPFS) report null in *healthy populations*. NHANES/MESA report positive association. Chinese Kadoorie reports inverse.
+- This is not noise. The direction reverses across populations.
+- Resolution path: Does effect size correlate with baseline LDL-C, metabolic syndrome prevalence, or dietary pattern clustering? If yes, the cohorts are measuring different populations, not contradicting each other.
+
+**Crux 2: Confounding structure — are egg consumers in Western cohorts a proxy for unmeasured dietary/lifestyle factors?**
+- Acknowledged in the brief: Western egg consumers cluster with other unhealthy patterns.
+- Chinese Kadoorie inverse association suggests confounding direction may reverse in populations where eggs are a marker of *better* diet (less processed food, more traditional patterns).
+- Resolution path: Do adjusted vs. unadjusted estimates in Western cohorts show large attenuation? (They do in NHS/HPFS — adjustment weakens associations.) Does this attenuation pattern hold in Chinese cohorts?
+
+**Crux 3: Dietary cholesterol vs. eggs as the active variable.**
+- NHANES/MESA isolate dietary cholesterol, not eggs specifically.
+- Eggs are ~185 mg cholesterol per large egg, but also contain choline, lutein, phospholipids.
+- If the association is driven by cholesterol content, eggs with lower cholesterol (or cholesterol-lowering compounds) should show weaker associations.
+- Resolution path: Do studies controlling for non-cholesterol egg components show attenuation?
+
+---
+
+## (B) EVIDENCE-QUALITY ASSESSMENT PER STREAM
+
+| Stream | N / Design | Strength | Limitations | Confidence |
+|--------|-----------|----------|------------|-----------|
+| **Harvard cohorts (NHS + HPFS)** | ~200k, 20+ years prospective | Large, long follow-up, detailed dietary assessment, healthy baseline | Healthy volunteer bias; mostly white; self-reported diet; confounding by unmeasured factors | MODERATE-HIGH for null in healthy populations |
+| **NHANES/MESA (Zhong et al.)** | ~30k, cross-sectional + prospective | Large, diverse, objective biomarkers (LDL-C), US-representative | Cross-sectional component is observational only; dietary cholesterol ≠ eggs; confounding by overall diet quality | MODERATE for positive association in general US population |
+| **Chinese Kadoorie** | 500k, prospective | Largest N, long follow-up, diverse SES | Inverse association contradicts Western cohorts; possible confounding by diet quality (eggs as marker of traditional diet); generalizability to Western populations unclear | MODERATE for inverse in Chinese population; LOW for generalizability |
+| **PREDIMED + RCTs** | ~7,500 (PREDIMED), Mediterranean diet | Randomized, intervention-based, cardioprotective signal | Eggs not isolated variable; Mediterranean diet is multicomponent; short follow-up relative to cohorts; selection bias (motivated participants) | MODERATE for Mediterranean diet; INSUFFICIENT for eggs in isolation |
+| **Mechanistic (LDL-C response)** | Meta-analyses of short-term feeding studies | Establishes biological plausibility | Hyper-responder prevalence ~25-30%; short-term LDL-C ≠ CVD events; does not address other egg components | LOW-MODERATE for mechanism; INSUFFICIENT for clinical outcome prediction |
+
+---
+
+## (C) CORRELATED EVIDENCE — SHARED METHODOLOGICAL ASSUMPTIONS
+
+**Assumption 1: Dietary assessment validity**
+- NHS, HPFS, NHANES, Kadoorie all rely on FFQ or 24-hr recall.
+- Egg consumption is self-reported; measurement error is non-random (health-conscious individuals may over-report healthy foods, under-report eggs).
+- **Consequence**: Null associations in health-conscious cohorts (NHS/HPFS) may reflect *attenuation bias* (measurement error dilutes true associations). Positive associations in less health-conscious cohorts (NHANES) may reflect *confounding by unmeasured diet quality*.
+- **These are not independent confirmations.** They share the same measurement weakness.
+
+**Assumption 2: Confounding adjustment set**
+- All cohorts adjust for age, sex, smoking, physical activity, BMI.
+- None fully adjust for: overall dietary pattern quality, ultra-processed food intake, trans fat intake, or time-varying confounders.
+- **Consequence**: Residual confounding direction depends on whether egg consumers cluster with healthy or unhealthy patterns in that population.
+- **The cohorts are not independent on this axis.** They all have the same confounding vulnerability.
+
+**Assumption 3: Outcome definition**
+- CVD outcomes vary: some use hard endpoints (MI, stroke), others include angina or revascularization.
+- Softer outcomes are more prone to detection bias (health-conscious individuals seek care more).
+- **Consequence**: NHS/HPFS may show null because they capture mostly hard events in a health-conscious population. NHANES may show positive because it includes softer outcomes in a less health-conscious population.
+
+**Replication claim assessment**: The brief states that agreement between Harvard cohorts + NHANES/MESA "constitutes independent replication." **This is incorrect.** These cohorts do not agree. They show opposite directions in some comparisons (Kadoorie inverse vs. NHANES positive). The Harvard cohorts agree with each other (both null), but they are not independent — they share investigators, similar populations, and similar confounding structures.
+
+---
+
+## (D) CALIBRATED PROBABILITY RANGE WITH CONDITIONS
+
+**Primary question: Does consuming 1 egg/day increase CVD risk in a healthy adult?**
+
+### Conditional estimates:
+
+**In healthy Western populations (NHS/HPFS baseline):**
+- P(1 egg/day increases CVD risk) = **15–25%**
+- P(null effect) = **60–70%**
+- P(protective effect) = **5–10%**
+- *Rationale*: Large, long-term cohorts show null; confounding by unmeasured diet quality is plausible but adjustment attenuates associations; healthy volunteer bias reduces generalizability to general population.
+
+**In general US population (NHANES/MESA baseline):**
+- P(1 egg/day increases CVD risk) = **35–50%**
+- P(null effect) = **40–50%**
+- P(protective effect) = **5–10%**
+- *Rationale*: Positive association in cross-sectional data; confounding by overall diet quality is substantial; prospective data weaker; dietary cholesterol is the measured variable, not eggs specifically.
+
+**In Chinese populations (Kadoorie baseline):**
+- P(1 egg/day increases CVD risk) = **5–15%**
+- P(null effect) = **20–30%**
+- P(protective effect) = **50–70%**
+- *Rationale*: Inverse association observed; likely confounding by diet quality (eggs as marker of traditional diet); generalizability to Western populations is low.
+
+**Aggregate across populations (population-weighted):**
+- P(1 egg/day increases CVD risk in a typical Western healthy adult) = **20–35%**
+- P(null effect) = **55–65%**
+- P(protective effect) = **5–10%**
+
+### Conditions that shift probability:
+
+- **If** the individual is a hyper-responder to dietary cholesterol (LDL-C rises >30 mg/dL per 100 mg cholesterol): shift +15 percentage points to "increases risk."
+- **If** the individual has metabolic syndrome or diabetes: shift +20 percentage points to "increases risk."
+- **If** the individual consumes eggs as part of a Mediterranean-style diet: shift +15 percentage points to "null or protective."
+- **If** dietary cholesterol intake is already >300 mg/day from other sources: shift +10 percentage points to "increases risk."
+
+---
+
+## (E) WHAT REMAINS UNRESOLVED
+
+**1. Hyper-responder identification**
+- We know ~25–30% of people show large LDL-C increases from dietary cholesterol.
+- We do not have a validated, practical screening tool to identify them prospectively.
+- **Action required**: Genetic markers (APOE genotype, LDLR variants) or simple biomarker panels (baseline LDL-C, triglycerides, apoB) should be tested as predictors of egg-CVD association in existing cohorts.
+
+**2. Eggs vs. dietary cholesterol vs. other egg components**
+- NHANES/MESA isolate cholesterol, not eggs.
+- No large cohort has stratified by egg type (whole egg vs. egg white) or compared eggs to other cholesterol sources (shrimp, organ meats).
+- **Action required**: Reanalyze Harvard cohorts and NHANES/MESA with stratification by cholesterol source and egg component (choline, lutein, phospholipids).
+
+**3. Confounding by diet quality**
+- No cohort has adjusted for a validated overall diet quality score (e.g., Healthy Eating Index, DASH score) in the primary analysis.
+- **Action required**: Reanalyze all cohorts with diet quality adjustment; compare unadjusted vs. adjusted estimates to quantify confounding bias.
+
+**4. Dose-response and threshold effects**
+- Most analyses treat eggs as continuous or categorical (e.g., 1 egg/day vs. none).
+- No analysis has tested for non-linear dose-response (e.g., threshold at 3–4 eggs/day, or U-shaped curve).
+- **Action required**: Spline analyses in Harvard cohorts and NHANES/MESA to detect non-linearity.
+
+**5. Mechanistic pathway validation**
+- LDL-C is the proposed mechanism, but no cohort has tested whether LDL-C *mediates* the egg-CVD association.
+- **Action required**: Mediation analysis in NHANES/MESA (which has LDL-C data) to estimate direct vs. indirect effects.
+
+**6. Long-term RCT evidence**
+- PREDIMED is the only large RCT, but eggs are not isolated.
+- No RCT has randomized egg consumption (vs. egg-free control) with CVD outcomes as primary endpoint.
+- **Action required**: Design and fund a 5–10 year RCT in a hyper-responder-enriched population.
+
+---
+
+## SUMMARY STATEMENT
+
+The evidence base shows **population-dependent effects**: null in healthy Western cohorts, positive in general US populations, inverse in Chinese populations. This is not contradiction; it reflects confounding by diet quality, which reverses direction across populations. The Harvard cohorts and NHANES/MESA are **not independent confirmations** — they share measurement and confounding vulnerabilities. The aggregate evidence supports a **null or small positive effect in healthy Western adults** (20–35% probability of increased risk), with substantial heterogeneity by metabolic phenotype and diet quality. The evidence is **insufficient to recommend egg avoidance** in healthy populations, but **insufficient to rule out harm** in hyper-responders or those with metabolic disease. Resolution requires stratified analyses, diet quality adjustment, and mechanistic validation in existing cohorts before new RCTs are justified.
+
+[ASSISTANT]: [worker_23]: # EPISTEMIC MAP: EGGS AND CARDIOVASCULAR DISEASE
+
+## (A) CRUXES
+
+**Crux 1: Population stratification — does the effect exist only in subgroups?**
+- Harvard cohorts (NHS, HPFS) report null in *healthy populations*. NHANES/MESA report positive association. Chinese Kadoorie reports inverse.
+- This is not noise. The direction reverses across populations.
+- Resolution path: Does effect size correlate with baseline LDL-C, metabolic syndrome prevalence, or dietary pattern clustering? If yes, the cohorts are measuring different populations, not contradicting each other.
+
+**Crux 2: Confounding structure — are egg consumers in Western cohorts a proxy for unmeasured dietary/lifestyle factors?**
+- Acknowledged in the brief: Western egg consumers cluster with other unhealthy patterns.
+- Chinese Kadoorie inverse association suggests confounding direction may reverse in populations where eggs are a marker of *better* diet (less processed food, more traditional patterns).
+- Resolution path: Do adjusted vs. unadjusted estimates in Western cohorts show large attenuation? (They do in NHS/HPFS — adjustment weakens associations.) Does this attenuation pattern hold in Chinese cohorts?
+
+**Crux 3: Dietary cholesterol vs. eggs as the active variable.**
+- NHANES/MESA isolate dietary cholesterol, not eggs specifically.
+- Eggs are ~185 mg cholesterol per large egg, but also contain choline, lutein, phospholipids.
+- If the association is driven by cholesterol content, eggs with lower cholesterol (or cholesterol-lowering compounds) should show weaker associations.
+- Resolution path: Do studies controlling for non-cholesterol egg components show attenuation?
+
+---
+
+## (B) EVIDENCE-QUALITY ASSESSMENT PER STREAM
+
+| Stream | N / Design | Strength | Limitations | Confidence |
+|--------|-----------|----------|------------|-----------|
+| **Harvard cohorts (NHS + HPFS)** | ~200k, 20+ years prospective | Large, long follow-up, detailed dietary assessment, healthy baseline | Healthy volunteer bias; mostly white; self-reported diet; confounding by unmeasured factors | MODERATE-HIGH for null in healthy populations |
+| **NHANES/MESA (Zhong et al.)** | ~30k, cross-sectional + prospective | Large, diverse, objective biomarkers (LDL-C), US-representative | Cross-sectional component is observational only; dietary cholesterol ≠ eggs; confounding by overall diet quality | MODERATE for positive association in general US population |
+| **Chinese Kadoorie** | 500k, prospective | Largest N, long follow-up, diverse SES | Inverse association contradicts Western cohorts; possible confounding by diet quality (eggs as marker of traditional diet); generalizability to Western populations unclear | MODERATE for inverse in Chinese population; LOW for generalizability |
+| **PREDIMED + RCTs** | ~7,500 (PREDIMED), Mediterranean diet | Randomized, intervention-based, cardioprotective signal | Eggs not isolated variable; Mediterranean diet is multicomponent; short follow-up relative to cohorts; selection bias (motivated participants) | MODERATE for Mediterranean diet; INSUFFICIENT for eggs in isolation |
+| **Mechanistic (LDL-C response)** | Meta-analyses of short-term feeding studies | Establishes biological plausibility | Hyper-responder prevalence ~25-30%; short-term LDL-C ≠ CVD events; does not address other egg components | LOW-MODERATE for mechanism; INSUFFICIENT for clinical outcome prediction |
+
+---
+
+## (C) CORRELATED EVIDENCE — SHARED METHODOLOGICAL ASSUMPTIONS
+
+**Assumption 1: Dietary assessment validity**
+- NHS, HPFS, NHANES, Kadoorie all rely on FFQ or 24-hr recall.
+- Egg consumption is self-reported; measurement error is non-random (health-conscious individuals may over-report healthy foods, under-report eggs).
+- **Consequence**: Null associations in health-conscious cohorts (NHS/HPFS) may reflect *attenuation bias* (measurement error dilutes true associations). Positive associations in less health-conscious cohorts (NHANES) may reflect *confounding by unmeasured diet quality*.
+- **These are not independent confirmations.** They share the same measurement weakness.
+
+**Assumption 2: Confounding adjustment set**
+- All cohorts adjust for age, sex, smoking, physical activity, BMI.
+- None fully adjust for: overall dietary pattern quality, ultra-processed food intake, trans fat intake, or time-varying confounders.
+- **Consequence**: Residual confounding direction depends on whether egg consumers cluster with healthy or unhealthy patterns in that population.
+- **The cohorts are not independent on this axis.** They all have the same confounding vulnerability.
+
+**Assumption 3: Outcome definition**
+- CVD outcomes vary: some use hard endpoints (MI, stroke), others include angina or revascularization.
+- Softer outcomes are more prone to detection bias (health-conscious individuals seek care more).
+- **Consequence**: NHS/HPFS may show null because they capture mostly hard events in a health-conscious population. NHANES may show positive because it includes softer outcomes in a less health-conscious population.
+
+**Replication claim assessment**: The brief states that agreement between Harvard cohorts + NHANES/MESA "constitutes independent replication." **This is incorrect.** These cohorts do not agree. They show opposite directions in some comparisons (Kadoorie inverse vs. NHANES positive). The Harvard cohorts agree with each other (both null), but they are not independent — they share investigators, similar populations, and similar confounding structures.
+
+---
+
+## (D) CALIBRATED PROBABILITY RANGE WITH CONDITIONS
+
+**Primary question: Does consuming 1 egg/day increase CVD risk in a healthy adult?**
+
+### Conditional estimates:
+
+**In healthy Western populations (NHS/HPFS baseline):**
+- P(1 egg/day increases CVD risk) = **15–25%**
+- P(null effect) = **60–70%**
+- P(protective effect) = **5–10%**
+- *Rationale*: Large, long-term cohorts show null; confounding by unmeasured diet quality is plausible but adjustment attenuates associations; healthy volunteer bias reduces generalizability to general population.
+
+**In general US population (NHANES/MESA baseline):**
+- P(1 egg/day increases CVD risk) = **35–50%**
+- P(null effect) = **40–50%**
+- P(protective effect) = **5–10%**
+- *Rationale*: Positive association in cross-sectional data; confounding by overall diet quality is substantial; prospective data weaker; dietary cholesterol is the measured variable, not eggs specifically.
+
+**In Chinese populations (Kadoorie baseline):**
+- P(1 egg/day increases CVD risk) = **5–15%**
+- P(null effect) = **20–30%**
+- P(protective effect) = **50–70%**
+- *Rationale*: Inverse association observed; likely confounding by diet quality (eggs as marker of traditional diet); generalizability to Western populations is low.
+
+**Aggregate across populations (population-weighted):**
+- P(1 egg/day increases CVD risk in a typical Western healthy adult) = **20–35%**
+- P(null effect) = **55–65%**
+- P(protective effect) = **5–10%**
+
+### Conditions that shift probability:
+
+- **If** the individual is a hyper-responder to dietary cholesterol (LDL-C rises >30 mg/dL per 100 mg cholesterol): shift +15 percentage points to "increases risk."
+- **If** the individual has metabolic syndrome or diabetes: shift +20 percentage points to "increases risk."
+- **If** the individual consumes eggs as part of a Mediterranean-style diet: shift +15 percentage points to "null or protective."
+- **If** dietary cholesterol intake is already >300 mg/day from other sources: shift +10 percentage points to "increases risk."
+
+---
+
+## (E) WHAT REMAINS UNRESOLVED
+
+**1. Hyper-responder identification**
+- We know ~25–30% of people show large LDL-C increases from dietary cholesterol.
+- We do not have a validated, practical screening tool to identify them prospectively.
+- **Action required**: Genetic markers (APOE genotype, LDLR variants) or simple biomarker panels (baseline LDL-C, triglycerides, apoB) should be tested as predictors of egg-CVD association in existing cohorts.
+
+**2. Eggs vs. dietary cholesterol vs. other egg components**
+- NHANES/MESA isolate cholesterol, not eggs.
+- No large cohort has stratified by egg type (whole egg vs. egg white) or compared eggs to other cholesterol sources (shrimp, organ meats).
+- **Action required**: Reanalyze Harvard cohorts and NHANES/MESA with stratification by cholesterol source and egg component (choline, lutein, phospholipids).
+
+**3. Confounding by diet quality**
+- No cohort has adjusted for a validated overall diet quality score (e.g., Healthy Eating Index, DASH score) in the primary analysis.
+- **Action required**: Reanalyze all cohorts with diet quality adjustment; compare unadjusted vs. adjusted estimates to quantify confounding bias.
+
+**4. Dose-response and threshold effects**
+- Most analyses treat eggs as continuous or categorical (e.g., 1 egg/day vs. none).
+- No analysis has tested for non-linear dose-response (e.g., threshold at 3–4 eggs/day, or U-shaped curve).
+- **Action required**: Spline analyses in Harvard cohorts and NHANES/MESA to detect non-linearity.
+
+**5. Mechanistic pathway validation**
+- LDL-C is the proposed mechanism, but no cohort has tested whether LDL-C *mediates* the egg-CVD association.
+- **Action required**: Mediation analysis in NHANES/MESA (which has LDL-C data) to estimate direct vs. indirect effects.
+
+**6. Long-term RCT evidence**
+- PREDIMED is the only large RCT, but eggs are not isolated.
+- No RCT has randomized egg consumption (vs. egg-free control) with CVD outcomes as primary endpoint.
+- **Action required**: Design and fund a 5–10 year RCT in a hyper-responder-enriched population.
+
+---
+
+## SUMMARY STATEMENT
+
+The evidence base shows **population-dependent effects**: null in healthy Western cohorts, positive in general US populations, inverse in Chinese populations. This is not contradiction; it reflects confounding by diet quality, which reverses direction across populations. The Harvard cohorts and NHANES/MESA are **not independent confirmations** — they share measurement and confounding vulnerabilities. The aggregate evidence supports a **null or small positive effect in healthy Western adults** (20–35% probability of increased risk), with substantial heterogeneity by metabolic phenotype and diet quality. The evidence is **insufficient to recommend egg avoidance** in healthy populations, but **insufficient to rule out harm** in hyper-responders or those with metabolic disease. Resolution requires stratified analyses, diet quality adjustment, and mechanistic validation in existing cohorts before new RCTs are justified.
+
+[ASSISTANT]: [worker_19]: ```json
+{
+  "case_id": "e01_eggs_cvd",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does the direction and magnitude of egg-CVD association depend on population metabolic phenotype (hyper-responder status, baseline metabolic syndrome prevalence, diet quality clustering)?",
+      "resolution_impact": "high",
+      "status": "partially_resolved"
+    },
+    {
+      "question": "Is the positive association in NHANES/MESA driven by dietary cholesterol per se, or by confounding from overall diet quality and unmeasured lifestyle factors that correlate with egg consumption in Western populations?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Do the Harvard cohorts (NHS/HPFS) and NHANES/MESA represent genuinely independent evidence streams, or do they share sufficient methodological vulnerabilities (dietary assessment error, incomplete confounding adjustment, outcome definition bias) that their apparent disagreement reflects population differences rather than true replication?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Harvard prospective cohorts (NHS + HPFS)",
+      "quality": "strong",
+      "weakness": "Healthy volunteer bias; predominantly white; self-reported dietary assessment subject to non-random measurement error (health-conscious individuals may under-report eggs); incomplete adjustment for overall diet quality; outcome definition may exclude softer CVD events in health-conscious population",
+      "supports": [
+        "Does the direction and magnitude of egg-CVD association depend on population metabolic phenotype?",
+        "Is the positive association in NHANES/MESA driven by dietary cholesterol per se, or by confounding?"
+      ]
+    },
+    {
+      "label": "NHANES/MESA dietary cholesterol analysis (Zhong et al. 2019)",
+      "quality": "contested",
+      "weakness": "Cross-sectional component is observational only; dietary cholesterol is measured variable, not eggs specifically; confounding by overall diet quality is substantial and incompletely adjusted; outcome definition includes softer endpoints prone to detection bias; generalizability to healthy populations unclear",
+      "supports": [
+        "Is the positive association in NHANES/MESA driven by dietary cholesterol per se, or by confounding?",
+        "Do the Harvard cohorts and NHANES/MESA represent genuinely independent evidence streams?"
+      ]
+    },
+    {
+      "label": "Chinese Kadoorie Biobank prospective cohort",
+      "quality": "strong",
+      "weakness": "Inverse association contradicts Western cohorts; likely confounding by diet quality (eggs as marker of traditional/less processed diet rather than unhealthy pattern); generalizability to Western populations is low; outcome definitions may differ from Western cohorts",
+      "supports": [
+        "Does the direction and magnitude of egg-CVD association depend on population metabolic phenotype?",
+        "Is the positive association in NHANES/MESA driven by dietary cholesterol per se, or by confounding?"
+      ]
+    },
+    {
+      "label": "PREDIMED and Mediterranean diet RCTs",
+      "quality": "weak",
+      "weakness": "Eggs are not isolated variable; Mediterranean diet is multicomponent intervention; short follow-up relative to prospective cohorts; selection bias (motivated, health-conscious participants); cannot isolate egg effect from other dietary components",
+      "supports": [
+        "Does the direction and magnitude of egg-CVD association depend on population metabolic phenotype?"
+      ]
+    },
+    {
+      "label": "Mechanistic evidence (LDL-C response to dietary cholesterol)",
+      "quality": "weak",
+      "weakness": "Hyper-responder prevalence ~25-30% but no validated screening tool; short-term LDL-C elevation does not establish CVD event risk; does not address non-cholesterol egg components (choline, lutein, phospholipids); no mediation analysis in cohorts with both egg intake and LDL-C data",
+      "supports": [
+        "Is the positive association in NHANES/MESA driven by dietary cholesterol per se, or by confounding?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Harvard prospective cohorts (NHS + HPFS)",
+        "NHANES/MESA dietary cholesterol analysis (Zhong et al. 2019)"
+      ],
+      "shared_assumption": "Both rely on self-reported dietary assessment (FFQ or 24-hr recall) with non-random measurement error; both adjust for age, sex, smoking, BMI, physical activity but not overall diet quality score; both assume outcome definitions are comparable across populations despite different health-seeking behavior patterns",
+      "implication": "The apparent disagreement (null vs. positive association) may not reflect true population differences but rather differential confounding by unmeasured diet quality and differential outcome ascertainment bias. If measurement error in egg consumption is non-random (health-conscious individuals under-report eggs), the Harvard cohorts show attenuated associations while NHANES shows confounded associations. The cohorts are not independent confirmations; they share the same vulnerability to residual confounding. Effective evidentiary weight is reduced by ~40-50% compared to treating them as independent."
+    },
+    {
+      "streams": [
+        "Harvard prospective cohorts (NHS + HPFS)",
+        "Chinese Kadoorie Biobank prospective cohort"
+      ],
+      "shared_assumption": "Both are large prospective cohorts with long follow-up; both rely on self-reported dietary assessment; both assume that egg consumption is a stable exposure over follow-up; both assume that confounding adjustment sets are sufficient to isolate egg effect",
+      "implication": "The opposite direction of association (null/weak positive in Harvard vs. inverse in Kadoorie) suggests that confounding direction reverses across populations. In Western cohorts, egg consumers cluster with unhealthy patterns (confounding toward positive association). In Chinese cohorts, egg consumers cluster with traditional/less processed diets (confounding toward inverse association). This is not independent replication of a true effect; it is evidence that both cohorts are measuring confounded associations in opposite directions. The apparent disagreement is explained by population-specific confounding, not by true heterogeneity in egg effect. Effective evidentiary weight for any universal egg-CVD association is reduced by ~60% because both cohorts are likely biased in opposite directions."
+    },
+    {
+      "streams": [
+        "NHANES/MESA dietary cholesterol analysis (Zhong et al. 2019)",
+        "Mechanistic evidence (LDL-C response to dietary cholesterol)"
+      ],
+      "shared_assumption": "Both assume that dietary cholesterol is the active variable in eggs; both assume that LDL-C elevation is the primary mechanism linking eggs to CVD risk; both assume that hyper-responder status is stable and identifiable",
+      "implication": "If eggs contain protective components (choline, lutein, phospholipids) that offset cholesterol effects, or if the egg-CVD association is mediated through pathways other than LDL-C (e.g., inflammation, endothelial function), then both the NHANES association and the mechanistic evidence are measuring a confounded or incomplete causal pathway. The positive association in NHANES may reflect cholesterol content while missing protective effects of other egg components. Mechanistic evidence does not validate the NHANES association if the mechanism is incomplete. Effective evidentiary weight for cholesterol-mediated harm is reduced by ~35% if non-cholesterol components are not measured."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Consuming 1 egg/day increases CVD risk in a healthy Western adult",
+      "range_low": 20,
+      "range_high": 35,
+      "conditions": "Assumes no hyper-responder status, no metabolic syndrome, no baseline LDL-C >160 mg/dL, eggs consumed as part of mixed diet (not isolated intervention). If individual is hyper-responder (LDL-C rises >30 mg/dL per 100 mg dietary cholesterol), shift range to 35-50%. If metabolic syndrome present, shift to 40-55%. If eggs consumed as part of Mediterranean-style diet with high vegetable/fiber intake, shift to 10-20%."
+    },
+    {
+      "hypothesis": "Consuming 1 egg/day increases CVD risk in a general US population (NHANES/MESA baseline)",
+      "range_low": 35,
+      "range_high": 50,
+      "conditions": "Assumes average diet quality, average metabolic health, average baseline LDL-C. Range reflects positive association in NHANES/MESA but substantial confounding by unmeasured diet quality. If diet quality is controlled (Healthy Eating Index or DASH score adjustment), shift range down to 20-35%. If outcome definition restricted to hard endpoints (MI, stroke) rather than soft endpoints (angina, revascularization), shift down to 25-40%."
+    },
+    {
+      "hypothesis": "Consuming 1 egg/day increases CVD risk in a Chinese population (Kadoorie baseline)",
+      "range_low": 5,
+      "range_high": 15,
+      "conditions": "Assumes eggs consumed as part of traditional diet pattern (marker of less processed food intake). Inverse association observed in Kadoorie likely reflects confounding by diet quality in opposite direction from Western populations. Generalizability to Western populations is low. If egg consumption in Chinese population shifts to Western pattern (eggs with processed foods, high saturated fat), shift range up to 25-40%."
+    },
+    {
+      "hypothesis": "The Harvard cohorts and NHANES/MESA represent independent evidence streams that can be pooled to tighten confidence intervals",
+      "range_low": 15,
+      "range_high": 35,
+      "conditions": "This is a probability that the independence assumption is valid. Low probability reflects shared methodological vulnerabilities (dietary assessment error, incomplete confounding adjustment, outcome definition bias) and opposite directions of confounding across populations. If both cohorts adjusted for validated diet quality score and restricted to hard CVD endpoints, probability of true independence would increase to 50-70%. Current evidence suggests they are not independent; pooling them would be inappropriate."
+    },
+    {
+      "hypothesis": "The egg-CVD association is mediated primarily through LDL-C elevation in hyper-responders",
+      "range_low": 25,
+      "range_high": 50,
+      "conditions": "Assumes LDL-C is the primary mechanism. Range reflects mechanistic plausibility but lack of mediation analysis in cohorts with both egg intake and LDL-C data. If mediation analysis in NHANES/MESA shows LDL-C accounts for <50% of association, shift down to 15-35%. If non-cholesterol egg components (choline, lutein) are shown to have protective effects in RCTs, shift down to 10-30%."
+    }
+  ],
+  "settled": [
+    "Dietary cholesterol raises LDL-C in some individuals (hyper-responders, ~25-30% of population); this is a robust mechanistic finding from short-term feeding studies",
+    "The Harvard cohorts (NHS, HPFS) show null or weak associations between 1 egg/day and CVD events in healthy populations with long follow-up",
+    "The Chinese Kadoorie Biobank shows an inverse association between egg consumption and CVD risk",
+    "NHANES/MESA shows a positive association between dietary cholesterol intake and CVD risk in cross-sectional and prospective analyses",
+    "Mediterranean diet (which includes eggs) is associated with reduced CVD risk in PREDIMED and similar RCTs, but eggs are not isolated as the active variable"
+  ],
+  "performed_as_settled": [
+    "The Harvard cohorts and NHANES/MESA represent independent confirmations of each other (they do not; they show opposite directions and share methodological vulnerabilities)",
+    "Pooling independent cohorts tightens confidence intervals and justifies HIGH confidence in aggregate estimates (pooling is inappropriate when cohorts are confounded in opposite directions and share measurement vulnerabilities)",
+    "The positive association in NHANES/MESA is driven by dietary cholesterol per se rather than confounding by diet quality (unresolved; confounding by unmeasured diet quality is substantial and incompletely adjusted)",
+    "Eggs are the measured variable in NHANES/MESA analysis (incorrect; dietary cholesterol is measured, not eggs specifically; eggs are one source among many)",
+    "The null association in Harvard cohorts reflects true absence of effect rather than attenuation bias from measurement error and healthy volunteer selection (unresolved; both biases are plausible and incompletely quantified)"
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}
+```
+
+[ASSISTANT]: [worker_19]: ```json
+{
+  "case_id": "e01_eggs_cvd",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does the direction and magnitude of egg-CVD association depend on population metabolic phenotype (hyper-responder status, baseline metabolic syndrome prevalence, diet quality clustering)?",
+      "resolution_impact": "high",
+      "status": "partially_resolved"
+    },
+    {
+      "question": "Is the positive association in NHANES/MESA driven by dietary cholesterol per se, or by confounding from overall diet quality and unmeasured lifestyle factors that correlate with egg consumption in Western populations?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Do the Harvard cohorts (NHS/HPFS) and NHANES/MESA represent genuinely independent evidence streams, or do they share sufficient methodological vulnerabilities (dietary assessment error, incomplete confounding adjustment, outcome definition bias) that their apparent disagreement reflects population differences rather than true replication?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Harvard prospective cohorts (NHS + HPFS)",
+      "quality": "strong",
+      "weakness": "Healthy volunteer bias; predominantly white; self-reported dietary assessment subject to non-random measurement error (health-conscious individuals may under-report eggs); incomplete adjustment for overall diet quality; outcome definition may exclude softer CVD events in health-conscious population",
+      "supports": [
+        "Does the direction and magnitude of egg-CVD association depend on population metabolic phenotype?",
+        "Is the positive association in NHANES/MESA driven by dietary cholesterol per se, or by confounding?"
+      ]
+    },
+    {
+      "label": "NHANES/MESA dietary cholesterol analysis (Zhong et al. 2019)",
+      "quality": "contested",
+      "weakness": "Cross-sectional component is observational only; dietary cholesterol is measured variable, not eggs specifically; confounding by overall diet quality is substantial and incompletely adjusted; outcome definition includes softer endpoints prone to detection bias; generalizability to healthy populations unclear",
+      "supports": [
+        "Is the positive association in NHANES/MESA driven by dietary cholesterol per se, or by confounding?",
+        "Do the Harvard cohorts and NHANES/MESA represent genuinely independent evidence streams?"
+      ]
+    },
+    {
+      "label": "Chinese Kadoorie Biobank prospective cohort",
+      "quality": "strong",
+      "weakness": "Inverse association contradicts Western cohorts; likely confounding by diet quality (eggs as marker of traditional/less processed diet rather than unhealthy pattern); generalizability to Western populations is low; outcome definitions may differ from Western cohorts",
+      "supports": [
+        "Does the direction and magnitude of egg-CVD association depend on population metabolic phenotype?",
+        "Is the positive association in NHANES/MESA driven by dietary cholesterol per se, or by confounding?"
+      ]
+    },
+    {
+      "label": "PREDIMED and Mediterranean diet RCTs",
+      "quality": "weak",
+      "weakness": "Eggs are not isolated variable; Mediterranean diet is multicomponent intervention; short follow-up relative to prospective cohorts; selection bias (motivated, health-conscious participants); cannot isolate egg effect from other dietary components",
+      "supports": [
+        "Does the direction and magnitude of egg-CVD association depend on population metabolic phenotype?"
+      ]
+    },
+    {
+      "label": "Mechanistic evidence (LDL-C response to dietary cholesterol)",
+      "quality": "weak",
+      "weakness": "Hyper-responder prevalence ~25-30% but no validated screening tool; short-term LDL-C elevation does not establish CVD event risk; does not address non-cholesterol egg components (choline, lutein, phospholipids); no mediation analysis in cohorts with both egg intake and LDL-C data",
+      "supports": [
+        "Is the positive association in NHANES/MESA driven by dietary cholesterol per se, or by confounding?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Harvard prospective cohorts (NHS + HPFS)",
+        "NHANES/MESA dietary cholesterol analysis (Zhong et al. 2019)"
+      ],
+      "shared_assumption": "Both rely on self-reported dietary assessment (FFQ or 24-hr recall) with non-random measurement error; both adjust for age, sex, smoking, BMI, physical activity but not overall diet quality score; both assume outcome definitions are comparable across populations despite different health-seeking behavior patterns",
+      "implication": "The apparent disagreement (null vs. positive association) may not reflect true population differences but rather differential confounding by unmeasured diet quality and differential outcome ascertainment bias. If measurement error in egg consumption is non-random (health-conscious individuals under-report eggs), the Harvard cohorts show attenuated associations while NHANES shows confounded associations. The cohorts are not independent confirmations; they share the same vulnerability to residual confounding. Effective evidentiary weight is reduced by ~40-50% compared to treating them as independent."
+    },
+    {
+      "streams": [
+        "Harvard prospective cohorts (NHS + HPFS)",
+        "Chinese Kadoorie Biobank prospective cohort"
+      ],
+      "shared_assumption": "Both are large prospective cohorts with long follow-up; both rely on self-reported dietary assessment; both assume that egg consumption is a stable exposure over follow-up; both assume that confounding adjustment sets are sufficient to isolate egg effect",
+      "implication": "The opposite direction of association (null/weak positive in Harvard vs. inverse in Kadoorie) suggests that confounding direction reverses across populations. In Western cohorts, egg consumers cluster with unhealthy patterns (confounding toward positive association). In Chinese cohorts, egg consumers cluster with traditional/less processed diets (confounding toward inverse association). This is not independent replication of a true effect; it is evidence that both cohorts are measuring confounded associations in opposite directions. The apparent disagreement is explained by population-specific confounding, not by true heterogeneity in egg effect. Effective evidentiary weight for any universal egg-CVD association is reduced by ~60% because both cohorts are likely biased in opposite directions."
+    },
+    {
+      "streams": [
+        "NHANES/MESA dietary cholesterol analysis (Zhong et al. 2019)",
+        "Mechanistic evidence (LDL-C response to dietary cholesterol)"
+      ],
+      "shared_assumption": "Both assume that dietary cholesterol is the active variable in eggs; both assume that LDL-C elevation is the primary mechanism linking eggs to CVD risk; both assume that hyper-responder status is stable and identifiable",
+      "implication": "If eggs contain protective components (choline, lutein, phospholipids) that offset cholesterol effects, or if the egg-CVD association is mediated through pathways other than LDL-C (e.g., inflammation, endothelial function), then both the NHANES association and the mechanistic evidence are measuring a confounded or incomplete causal pathway. The positive association in NHANES may reflect cholesterol content while missing protective effects of other egg components. Mechanistic evidence does not validate the NHANES association if the mechanism is incomplete. Effective evidentiary weight for cholesterol-mediated harm is reduced by ~35% if non-cholesterol components are not measured."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Consuming 1 egg/day increases CVD risk in a healthy Western adult",
+      "range_low": 20,
+      "range_high": 35,
+      "conditions": "Assumes no hyper-responder status, no metabolic syndrome, no baseline LDL-C >160 mg/dL, eggs consumed as part of mixed diet (not isolated intervention). If individual is hyper-responder (LDL-C rises >30 mg/dL per 100 mg dietary cholesterol), shift range to 35-50%. If metabolic syndrome present, shift to 40-55%. If eggs consumed as part of Mediterranean-style diet with high vegetable/fiber intake, shift to 10-20%."
+    },
+    {
+      "hypothesis": "Consuming 1 egg/day increases CVD risk in a general US population (NHANES/MESA baseline)",
+      "range_low": 35,
+      "range_high": 50,
+      "conditions": "Assumes average diet quality, average metabolic health, average baseline LDL-C. Range reflects positive association in NHANES/MESA but substantial confounding by unmeasured diet quality. If diet quality is controlled (Healthy Eating Index or DASH score adjustment), shift range down to 20-35%. If outcome definition restricted to hard endpoints (MI, stroke) rather than soft endpoints (angina, revascularization), shift down to 25-40%."
+    },
+    {
+      "hypothesis": "Consuming 1 egg/day increases CVD risk in a Chinese population (Kadoorie baseline)",
+      "range_low": 5,
+      "range_high": 15,
+      "conditions": "Assumes eggs consumed as part of traditional diet pattern (marker of less processed food intake). Inverse association observed in Kadoorie likely reflects confounding by diet quality in opposite direction from Western populations. Generalizability to Western populations is low. If egg consumption in Chinese population shifts to Western pattern (eggs with processed foods, high saturated fat), shift range up to 25-40%."
+    },
+    {
+      "hypothesis": "The Harvard cohorts and NHANES/MESA represent independent evidence streams that can be pooled to tighten confidence intervals",
+      "range_low": 15,
+      "range_high": 35,
+      "conditions": "This is a probability that the independence assumption is valid. Low probability reflects shared methodological vulnerabilities (dietary assessment error, incomplete confounding adjustment, outcome definition bias) and opposite directions of confounding across populations. If both cohorts adjusted for validated diet quality score and restricted to hard CVD endpoints, probability of true independence would increase to 50-70%. Current evidence suggests they are not independent; pooling them would be inappropriate."
+    },
+    {
+      "hypothesis": "The egg-CVD association is mediated primarily through LDL-C elevation in hyper-responders",
+      "range_low": 25,
+      "range_high": 50,
+      "conditions": "Assumes LDL-C is the primary mechanism. Range reflects mechanistic plausibility but lack of mediation analysis in cohorts with both egg intake and LDL-C data. If mediation analysis in NHANES/MESA shows LDL-C accounts for <50% of association, shift down to 15-35%. If non-cholesterol egg components (choline, lutein) are shown to have protective effects in RCTs, shift down to 10-30%."
+    }
+  ],
+  "settled": [
+    "Dietary cholesterol raises LDL-C in some individuals (hyper-responders, ~25-30% of population); this is a robust mechanistic finding from short-term feeding studies",
+    "The Harvard cohorts (NHS, HPFS) show null or weak associations between 1 egg/day and CVD events in healthy populations with long follow-up",
+    "The Chinese Kadoorie Biobank shows an inverse association between egg consumption and CVD risk",
+    "NHANES/MESA shows a positive association between dietary cholesterol intake and CVD risk in cross-sectional and prospective analyses",
+    "Mediterranean diet (which includes eggs) is associated with reduced CVD risk in PREDIMED and similar RCTs, but eggs are not isolated as the active variable"
+  ],
+  "performed_as_settled": [
+    "The Harvard cohorts and NHANES/MESA represent independent confirmations of each other (they do not; they show opposite directions and share methodological vulnerabilities)",
+    "Pooling independent cohorts tightens confidence intervals and justifies HIGH confidence in aggregate estimates (pooling is inappropriate when cohorts are confounded in opposite directions and share measurement vulnerabilities)",
+    "The positive association in NHANES/MESA is driven by dietary cholesterol per se rather than confounding by diet quality (unresolved; confounding by unmeasured diet quality is substantial and incompletely adjusted)",
+    "Eggs are the measured variable in NHANES/MESA analysis (incorrect; dietary cholesterol is measured, not eggs specifically; eggs are one source among many)",
+    "The null association in Harvard cohorts reflects true absence of effect rather than attenuation bias from measurement error and healthy volunteer selection (unresolved; both biases are plausible and incompletely quantified)"
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}
+```

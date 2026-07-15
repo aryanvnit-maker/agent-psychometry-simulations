@@ -1,0 +1,157 @@
+{
+  "case_id": "e02p3_eggs_poison_source",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does dietary cholesterol from eggs cause LDL-C elevation sufficient to increase CVD risk in the general population, or is the observed positive association in NHANES/MESA confounded by metabolic phenotype and dietary context?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Is the apparent cardioprotective effect in Hartmann et al. (2023) meta-analysis genuine (reflecting choline-mediated benefit), or does it reflect inadequate confounding control and selection bias toward null/protective studies?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Do hyper-responders (20-30% of population with elevated LDL-C response to dietary cholesterol) experience net CVD harm from eggs, while non-responders experience net benefit or neutrality?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Harvard prospective cohorts (NHS, HPFS)",
+      "quality": "strong",
+      "weakness": "Healthy, educated, predominantly white population with low confounding density; egg consumers are health-conscious; generalizability to metabolically ill populations is severely limited; dietary recall bias favors over-reporting of eggs by health-conscious individuals",
+      "supports": [
+        "Does dietary cholesterol from eggs cause LDL-C elevation sufficient to increase CVD risk in the general population, or is the observed positive association in NHANES/MESA confounded by metabolic phenotype and dietary context?"
+      ]
+    },
+    {
+      "label": "NHANES/MESA cohort (Zhong et al. 2019)",
+      "quality": "weak",
+      "weakness": "High confounding density; did not control for insulin resistance (HOMA-IR), metabolic syndrome status, or baseline CVD; reverse causality plausible (CVD patients reduce eggs); dietary recall bias favors under-reporting of eggs by metabolically ill individuals; cross-sectional component introduces temporality ambiguity",
+      "supports": [
+        "Does dietary cholesterol from eggs cause LDL-C elevation sufficient to increase CVD risk in the general population, or is the observed positive association in NHANES/MESA confounded by metabolic phenotype and dietary context?"
+      ]
+    },
+    {
+      "label": "Chinese Kadoorie Biobank prospective cohort",
+      "quality": "strong",
+      "weakness": "Inverse association direction contradicts Western cohorts; population-specific (lower baseline CVD incidence, different dietary patterns, different genetic background); mechanism for inverse association unclear; generalizability to Western populations uncertain",
+      "supports": [
+        "Does dietary cholesterol from eggs cause LDL-C elevation sufficient to increase CVD risk in the general population, or is the observed positive association in NHANES/MESA confounded by metabolic phenotype and dietary context?"
+      ]
+    },
+    {
+      "label": "Mechanistic studies (LDL-C, TMAO, choline metabolites)",
+      "quality": "contested",
+      "weakness": "Short-term biomarker studies (weeks to months) do not capture adaptation (LDL receptor upregulation); TMAO causality is disputed (may be marker of dysbiosis, not cause); hyper-responder prevalence and genotype distribution not standardized; no long-term RCT measuring both LDL-C trajectory and CVD outcomes stratified by responder status",
+      "supports": [
+        "Do hyper-responders (20-30% of population with elevated LDL-C response to dietary cholesterol) experience net CVD harm from eggs, while non-responders experience net benefit or neutrality?"
+      ]
+    },
+    {
+      "label": "Hartmann et al. (2023) meta-analysis (N=2.3M)",
+      "quality": "missing",
+      "weakness": "Primary source authenticity not independently verified; methods, included studies, and confounding control procedures not examined; if genuine, confounding control strategy is critical to validity but unknown; if confounding control is inadequate, apparent 18% cardioprotection may reflect selection bias toward null/protective studies or residual confounding from health-conscious egg consumers",
+      "supports": [
+        "Is the apparent cardioprotective effect in Hartmann et al. (2023) meta-analysis genuine (reflecting choline-mediated benefit), or does it reflect inadequate confounding control and selection bias toward null/protective studies?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Harvard prospective cohorts (NHS, HPFS)",
+        "NHANES/MESA cohort (Zhong et al. 2019)"
+      ],
+      "shared_assumption": "Both assume dietary recall is accurate and non-differential with respect to CVD outcome. Both assume confounding is adequately measured and controlled. Both assume reverse causality is negligible.",
+      "implication": "Dietary recall error is systematically non-random: health-conscious individuals (Harvard cohort) over-report eggs; metabolically ill individuals (NHANES/MESA) under-report eggs post-diagnosis or reduce consumption after CVD events. This biases Harvard toward null/protective and NHANES/MESA toward positive association. The apparent contradiction may reflect measurement bias rather than true population difference. If recall error is substantial (plausible given egg stigma in Western diet culture), the effective independence of these two evidence streams is illusory. The true effect may lie between the two, or the direction may be determined by which bias dominates. This reduces the evidentiary weight of both streams by ~30-40% when treated as independent."
+    },
+    {
+      "streams": [
+        "Harvard prospective cohorts (NHS, HPFS)",
+        "Chinese Kadoorie Biobank prospective cohort"
+      ],
+      "shared_assumption": "Both assume prospective cohort design with adequate follow-up captures causal effects. Both assume confounding is adequately measured. Both assume the null/inverse association reflects true population effect rather than population-specific confounding or effect modification.",
+      "implication": "The inverse association in Kadoorie and null association in Harvard may both reflect confounding by unmeasured dietary quality or metabolic health. In Kadoorie, egg consumers may be wealthier/healthier than non-consumers (reverse of Western pattern). In Harvard, egg consumers are health-conscious. If the true causal effect of eggs is null, both associations are confounded in opposite directions. If the true effect is population-dependent (harmful in metabolically ill, neutral/beneficial in healthy), both studies may be correct but describe different populations. The apparent contradiction does not resolve the question of whether eggs are causal; it suggests population stratification is critical. Treating these as independent evidence streams overstates confidence in either direction by ~25-35%."
+    },
+    {
+      "streams": [
+        "Mechanistic studies (LDL-C, TMAO, choline metabolites)",
+        "Harvard prospective cohorts (NHS, HPFS)"
+      ],
+      "shared_assumption": "Both assume that short-term biomarker changes (LDL-C elevation, TMAO increase) measured in mechanistic studies predict long-term CVD outcomes observed in cohort studies. Both assume individual variation in response is captured by population-level averages.",
+      "implication": "Mechanistic studies show LDL-C elevation in some individuals but do not measure long-term adaptation or individual responder status. Harvard cohort shows null/protective effect but does not stratify by LDL-C responder status. If hyper-responders (who show LDL-C elevation in mechanistic studies) are a minority in Harvard cohort and are health-conscious (thus confounded toward null), the mechanistic evidence of harm and the epidemiologic evidence of benefit are not contradictory—they describe different subpopulations. The apparent independence of mechanistic and epidemiologic evidence is illusory if responder status is not measured in cohort studies. This reduces confidence in using mechanistic evidence to predict population-level outcomes by ~40-50%."
+    },
+    {
+      "streams": [
+        "NHANES/MESA cohort (Zhong et al. 2019)",
+        "Mechanistic studies (LDL-C, TMAO, choline metabolites)"
+      ],
+      "shared_assumption": "Both assume that dietary cholesterol intake is the primary driver of LDL-C elevation and CVD risk. Both assume the mechanism is linear and dose-dependent. Both assume confounding by metabolic phenotype is adequately controlled or negligible.",
+      "implication": "NHANES/MESA shows positive association between eggs and CVD; mechanistic studies show LDL-C elevation in some individuals. These appear to support a causal mechanism. However, NHANES/MESA did not control for insulin resistance or metabolic syndrome, which are strong confounders of both egg consumption and CVD. If metabolic syndrome is the true driver of both increased egg consumption (comfort food, low cost) and CVD, the apparent causal mechanism is confounded. Mechanistic studies do not measure metabolic syndrome or insulin resistance, so they cannot distinguish between eggs causing LDL-C elevation and metabolic syndrome causing both increased egg consumption and LDL-C elevation. The apparent mechanistic support for the NHANES/MESA association is illusory if confounding by metabolic phenotype is substantial. This reduces the evidentiary weight of the mechanistic-epidemiologic link by ~35-45%."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Eggs are cardioprotective (net 10-20% CVD risk reduction) in metabolically healthy individuals via choline-mediated pathways",
+      "range_low": 35,
+      "range_high": 70,
+      "conditions": "Hartmann et al. (2023) is verified as genuine and used rigorous confounding control (controlling for metabolic phenotype, dietary quality, SES); choline pathway is confirmed causal in RCT; hyper-responder prevalence is <20% in healthy populations; dietary recall bias in Harvard cohorts is quantified and found to be non-differential"
+    },
+    {
+      "hypothesis": "Eggs are neutral (no net effect) in metabolically healthy individuals",
+      "range_low": 20,
+      "range_high": 50,
+      "conditions": "Hartmann et al. confounding control is inadequate; apparent protection in Harvard cohorts reflects residual confounding from health-conscious consumers; choline pathway is confirmed but effect size is small (<5% risk reduction); hyper-responder prevalence is >25% even in healthy populations"
+    },
+    {
+      "hypothesis": "Eggs increase CVD risk in metabolically ill individuals (insulin resistance, dyslipidemia, metabolic syndrome)",
+      "range_low": 40,
+      "range_high": 75,
+      "conditions": "NHANES/MESA positive association reflects true causal effect in hyper-responders; confounding by metabolic syndrome is quantified and found to be <30% of observed association; reverse causality (CVD patients reducing eggs) is <20% of observed association; stratified analysis by metabolic syndrome status shows positive association persists; APOE/NPC1L1 genotyping confirms hyper-responder status predicts LDL-C response"
+    },
+    {
+      "hypothesis": "Eggs are neutral even in metabolically ill individuals",
+      "range_low": 15,
+      "range_high": 40,
+      "conditions": "Positive association in NHANES/MESA reflects confounding by processed food consumption, low SES, and metabolic syndrome (>50% of observed association); reverse causality (CVD patients reducing eggs) is substantial (>30% of observed association); stratified analysis by metabolic syndrome status shows association disappears; instrumental variable analysis shows no causal effect"
+    },
+    {
+      "hypothesis": "Population-stratified effect: eggs are protective/neutral in metabolically healthy individuals, harmful in metabolically ill individuals",
+      "range_low": 55,
+      "range_high": 80,
+      "conditions": "Hartmann et al. (2023) is verified and shows effect modification by metabolic phenotype; large RCT (N=500+) stratified by APOE/NPC1L1 genotype and baseline metabolic health shows differential LDL-C response and CVD outcomes; dietary recall bias is quantified and found to differ between healthy and ill populations; confounding by metabolic syndrome is substantial in NHANES/MESA but not in Harvard cohorts"
+    },
+    {
+      "hypothesis": "Hartmann et al. (2023) meta-analysis is methodologically sound and its 18% cardioprotection estimate is valid",
+      "range_low": 25,
+      "range_high": 55,
+      "conditions": "Meta-analysis is verified to exist and be published in Lancet; methods section shows explicit control for metabolic phenotype, dietary quality, and SES; included studies are predominantly prospective cohorts with >10 years follow-up; heterogeneity analysis shows effect is consistent across populations; publication bias assessment shows no evidence of selective reporting; confounding control is equivalent to or better than Harvard cohorts"
+    },
+    {
+      "hypothesis": "Hartmann et al. (2023) meta-analysis is methodologically flawed or does not exist",
+      "range_low": 20,
+      "range_high": 50,
+      "conditions": "Meta-analysis cannot be independently verified; methods section does not show explicit control for metabolic phenotype; included studies are predominantly cross-sectional or short-term RCTs; heterogeneity is high and unexplained; publication bias assessment shows evidence of selective reporting; confounding control is inadequate relative to Harvard cohorts"
+    }
+  ],
+  "settled": [
+    "Eggs contain dietary cholesterol and choline, both of which have biological effects on lipid metabolism and CVD risk factors",
+    "Individual variation in LDL-C response to dietary cholesterol exists and is partly genetically determined (APOE, NPC1L1)",
+    "Mediterranean diet (which includes eggs) is associated with CVD risk reduction in PREDIMED RCT, but eggs are not isolated as the causal component",
+    "Prospective cohort studies in healthy Western populations (Harvard) show null or protective associations between 1 egg/day and CVD events",
+    "Cross-sectional and prospective analyses in NHANES/MESA show positive associations between dietary cholesterol/eggs and CVD risk"
+  ],
+  "performed_as_settled": [
+    "Hartmann et al. (2023) meta-analysis definitively resolves the eggs-CVD question in favor of cardioprotection (presented as authoritative anchor but not independently verified)",
+    "The contradiction between Harvard (null/protective) and NHANES/MESA (positive) associations reflects true population differences rather than confounding or measurement bias",
+    "Choline-mediated cardioprotection is the dominant mechanism explaining any protective effect of eggs (mechanistic evidence is limited and causality is not established)",
+    "Confounding by metabolic phenotype is adequately controlled in NHANES/MESA analysis (HOMA-IR and metabolic syndrome status were not controlled)",
+    "Dietary recall bias is non-differential across populations (evidence suggests systematic differences in over/under-reporting by health status)"
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

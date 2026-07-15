@@ -1,0 +1,129 @@
+{
+  "case_id": "e02p1_eggs_poison_consensus",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Is the observed positive association between egg consumption and CVD in Western cohorts causal, or is it primarily driven by unmeasured or residual confounding (dietary quality, health behaviors, SES)?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Why do prospective cohorts in Asian populations (Chinese Kadoorie) show inverse or null associations while Western cohorts show positive associations—is this due to genuine population-specific biology, reverse confounding (eggs as affluence marker), or different dietary context?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "If eggs increase CVD risk via dietary cholesterol, why does the PREDIMED trial (which includes eggs in the Mediterranean diet arm) show cardioprotection rather than harm?",
+      "resolution_impact": "medium",
+      "status": "partially_resolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Western prospective cohorts (Harvard NHS, HPFS)",
+      "quality": "strong",
+      "weakness": "Self-reported dietary intake via FFQ with known measurement error; confounding by overall dietary pattern and health behaviors; healthy-user bias; inability to isolate eggs from correlated foods",
+      "supports": [
+        "Is the observed positive association between egg consumption and CVD in Western cohorts causal, or is it primarily driven by unmeasured or residual confounding?"
+      ]
+    },
+    {
+      "label": "NHANES/MESA cross-sectional and short-term follow-up analyses (Zhong et al. 2019)",
+      "quality": "weak",
+      "weakness": "Dietary cholesterol used as proxy for eggs (not equivalent); cross-sectional design or short follow-up limits causal inference; confounding by overall diet quality; measurement error in FFQ; selection bias in NHANES sampling",
+      "supports": [
+        "Is the observed positive association between egg consumption and CVD in Western cohorts causal, or is it primarily driven by unmeasured or residual confounding?"
+      ]
+    },
+    {
+      "label": "PREDIMED and Mediterranean diet RCTs",
+      "quality": "strong",
+      "weakness": "Eggs not isolated as independent variable; cannot decompose egg effect from olive oil, fish, vegetables, whole grains; follow-up period may be too short for mortality endpoints; intervention adherence varies",
+      "supports": [
+        "If eggs increase CVD risk via dietary cholesterol, why does the PREDIMED trial show cardioprotection rather than harm?"
+      ]
+    },
+    {
+      "label": "Chinese Kadoorie Biobank prospective cohort",
+      "quality": "strong",
+      "weakness": "Different population (ancestry, baseline diet, lifestyle); eggs may be a marker of affluence and health-consciousness rather than a causal risk factor; reverse confounding possible; dietary assessment methods may differ from Western cohorts",
+      "supports": [
+        "Why do prospective cohorts in Asian populations show inverse or null associations while Western cohorts show positive associations?"
+      ]
+    },
+    {
+      "label": "Mechanistic evidence (dietary cholesterol → LDL-C response)",
+      "quality": "strong",
+      "weakness": "Hyper-responder prevalence uncertain (~25% estimated but not validated across populations); LDL-C response does not directly predict CVD risk from eggs; ignores other egg constituents (choline, lutein, protein quality) with potential cardioprotective effects; mechanism does not explain net CVD effect",
+      "supports": [
+        "If eggs increase CVD risk via dietary cholesterol, why does the PREDIMED trial show cardioprotection rather than harm?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Western prospective cohorts (Harvard NHS, HPFS)",
+        "NHANES/MESA cross-sectional and short-term follow-up analyses (Zhong et al. 2019)"
+      ],
+      "shared_assumption": "Both rely on FFQ-based dietary assessment with known systematic error; both measure dietary cholesterol or eggs as a marker of overall dietary quality in Western populations; both assume residual confounding is negligible after standard covariate adjustment",
+      "implication": "If FFQ measurement error is non-random (e.g., biased toward overestimating eggs in less health-conscious populations), both streams would show spuriously inflated positive associations. The apparent independence of these cohorts masks a shared methodological vulnerability. Effective evidentiary weight is ~40-50% of nominal, not 100%. If unmeasured confounding (health consciousness, exercise, stress) is substantial, both streams bias in the same direction, creating false consensus."
+    },
+    {
+      "streams": [
+        "Western prospective cohorts (Harvard NHS, HPFS)",
+        "Chinese Kadoorie Biobank prospective cohort"
+      ],
+      "shared_assumption": "Both are prospective cohort designs with long follow-up, assumed to be independent populations. However, both measure eggs as a dietary marker whose meaning is context-dependent: in Western cohorts, eggs correlate with processed foods and lower dietary quality; in Chinese cohorts, eggs may correlate with traditional diet and affluence. The assumption that 'eggs' is a stable exposure across populations is violated.",
+      "implication": "The divergent findings (positive in West, inverse in China) do not represent true biological heterogeneity but rather confounding heterogeneity. The 'same exposure' is actually two different exposures. This undermines any claim of a universal causal effect. Effective weight of Western cohorts for a global claim is reduced by ~30-40% because the exposure is not generalizable."
+    },
+    {
+      "streams": [
+        "PREDIMED and Mediterranean diet RCTs",
+        "Western prospective cohorts (Harvard NHS, HPFS)"
+      ],
+      "shared_assumption": "Both assume that if eggs cause CVD, this effect should be observable in both observational and interventional settings. However, PREDIMED does not isolate eggs; it tests a whole-diet pattern. Western cohorts measure eggs in isolation (or with weak dietary pattern adjustment). The assumption that these measure the same causal quantity is false.",
+      "implication": "PREDIMED's null/protective finding does not directly contradict Western cohort positive findings because they are measuring different things: whole-diet cardioprotection vs. single-food confounding. This apparent contradiction is illusory. However, it does suggest that if eggs were strongly harmful in isolation, a diet containing eggs would not be cardioprotective overall—this is a weak but real constraint on the magnitude of egg harm."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Moderate egg consumption (1 egg/day) causes a net increase in CVD mortality in Western populations",
+      "range_low": 25,
+      "range_high": 55,
+      "conditions": "Range assumes: (1) unmeasured confounding is small-to-moderate; (2) residual confounding after standard adjustment is <30% of observed association; (3) hyper-responders are not systematically excluded from cohorts; (4) measurement error in FFQ is non-differential. If unmeasured confounding is large (health consciousness, exercise, stress), range shifts to 15-35%. If measurement error is differential (biased toward overestimating eggs in less health-conscious groups), range shifts to 10-30%."
+    },
+    {
+      "hypothesis": "The 2024 Global Cardiovascular Consensus Statement's claim of 27% increased CVD mortality from moderate egg consumption is accurate",
+      "range_low": 5,
+      "range_high": 20,
+      "conditions": "Range reflects: (1) effect size of 27% is at the extreme of observed associations and assumes zero residual confounding; (2) contradicts RCT evidence (PREDIMED shows cardioprotection with eggs included); (3) ignores population heterogeneity (inverse association in Kadoorie); (4) statement not provided for methodological evaluation. If the statement used meta-analytic methods with heterogeneity analysis and sensitivity to confounding, range could shift to 15-35%. If it excluded non-English studies or industry-funded studies without justification, range shifts to 5-15%."
+    },
+    {
+      "hypothesis": "The true causal effect of eggs on CVD differs meaningfully between Western and Asian populations (due to biology, not confounding)",
+      "range_low": 20,
+      "range_high": 50,
+      "conditions": "Range reflects genuine uncertainty about whether population differences are causal or confounding-driven. Shifts toward higher probability (50-70%) if: genetic studies show ancestry-specific egg metabolism; mechanistic studies show population-specific LDL-C response. Shifts toward lower probability (10-30%) if: dietary pattern adjustment eliminates the difference; reverse confounding (eggs as affluence marker in China) is quantified and shown to explain the divergence."
+    },
+    {
+      "hypothesis": "Unmeasured confounding (health consciousness, exercise, stress, overall dietary quality) explains >50% of the observed positive association between eggs and CVD in Western cohorts",
+      "range_low": 40,
+      "range_high": 75,
+      "conditions": "Range reflects: (1) standard covariate adjustment in cohorts is incomplete; (2) egg consumption correlates with multiple unmeasured health behaviors; (3) healthy-user bias is documented in dietary studies. Shifts toward higher probability (70-85%) if: sensitivity analyses show large residual confounding; instrumental variable studies find weak causal effect. Shifts toward lower probability (25-45%) if: negative control analyses show minimal unmeasured confounding; E-value analysis shows observed association is robust to unmeasured confounding."
+    }
+  ],
+  "settled": [
+    "Dietary cholesterol raises LDL-C in some individuals (hyper-responders); this is established biochemistry",
+    "PREDIMED trial shows that a Mediterranean diet (which includes eggs) reduces CVD events compared to control; this is a robust RCT finding",
+    "Prospective cohorts in Western populations show a positive association between egg consumption and CVD; this is an observed correlation",
+    "Chinese Kadoorie Biobank shows an inverse or null association between eggs and CVD; this is an observed correlation in that population"
+  ],
+  "performed_as_settled": [
+    "Eggs cause CVD in the general population (actually: confounding and population heterogeneity are unresolved)",
+    "The 27% increased mortality figure is accurate (actually: effect size, heterogeneity, and confounding sensitivity are not provided for evaluation)",
+    "Dissent on eggs and CVD reflects industry-funded obfuscation (actually: some dissent reflects genuine methodological disagreement; funding bias may explain some null results but not inverse associations in independent cohorts)",
+    "The question is definitively resolved (actually: causal vs. confounding remains unresolved; population specificity is unresolved; mechanism is partially resolved)"
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}
