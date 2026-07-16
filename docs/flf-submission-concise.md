@@ -90,7 +90,13 @@ We also tried and *rejected* a pure-keyword conformity detector: it failed, beca
 - Two model families, not a broad survey.
 - The deterministic checks require a parseable map; Haiku emitted valid JSON less reliably than Gemini (flagged, not silently scored).
 
-**Future direction (not built):** rank *competing decompositions* of a question by adversarial robustness rather than asserted truth — the natural generalization of "measure robustness, not truth." Honest ceiling: because decompositions come from the same model, convergence measures prior-consistency, not truth. Flagged as research, not a v1 feature.
+## Future direction: robustness-ranked decomposition (not built)
+
+The natural generalization of this submission's one durable move — *measure robustness, not truth* — is to stop producing a single map and instead **rank competing decompositions** of a contested question by adversarial robustness. Given a question, generate several candidate reasoning structures (sub-claims and their AND/OR wiring), score each by the same data-free signals validated here (does it resist a planted false premise, keep calibrated uncertainty, flag its own correlated evidence), and keep the structures that survive — without ever labeling one "true."
+
+A specific and appealing variant is **bidirectional (double-ended) decomposition**, by analogy to bidirectional Dijkstra: decompose *forward* from the claim ("do eggs cause CVD?") and *backward* from the outcome ("what causes CVD?"), and treat the point where the two searches **converge** on the same intermediate mechanism as corroboration. The forward search is anchored on the framing (where poison enters); the backward search, run from the outcome's well-characterized causal parents, is not — so convergence is a data-free consistency check that partially resists a poisoned framing (a lie must stay coherent from *both* directions). It also naturally prunes the AND/OR wiring space to structures consistent with both ends.
+
+We flag this as research, not a v1 feature, and state its ceiling honestly up front: because both decompositions come from the same model, convergence measures the model's **internal-prior consistency, not truth** — on a genuinely novel question both directions can converge on a shared hallucination. And three walls make the general version a research program, not a weekend build: the AND/OR wiring space is combinatorially intractable to search, the decay/penalty scoring parameters cannot be tuned without a calibration set that does not exist for contested questions, and validation on genuinely-unknown cases is impossible by construction. It is a real and, we think, promising direction — presented with its limits rather than oversold.
 
 ---
 
