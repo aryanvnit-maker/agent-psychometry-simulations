@@ -1,0 +1,136 @@
+{
+  "case_id": "e03_lhc_black_holes",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does Hawking radiation formula remain valid and predictive at black hole masses ~10^-27 kg, where quantum gravity effects dominate the Schwarzschild radius?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "If stable micro black holes form at LHC energies, what is the actual accretion timescale in Earth's interior (hours, years, geological timescales, or never)?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Do extra dimensions exist at TeV-scale compactification energies, and if so, do they enhance both black hole production AND evaporation as predicted by ADD/Randall-Sundrum models?",
+      "resolution_impact": "medium",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Cosmic ray survival history",
+      "quality": "strong",
+      "weakness": "Absence of observed catastrophe does not constrain slow accretion timescales; no model of what detectable signature would look like; assumes catastrophic events would be observable in geological record",
+      "supports": [
+        "If stable micro black holes form at LHC energies, what is the actual accretion timescale in Earth's interior (hours, years, geological timescales, or never)?"
+      ]
+    },
+    {
+      "label": "Hawking radiation semi-classical derivation",
+      "quality": "strong",
+      "weakness": "Derivation assumes asymptotically flat spacetime and well-defined event horizon; never tested experimentally; extrapolation to Planck-scale curvatures is theoretical inference, not empirical verification",
+      "supports": [
+        "Does Hawking radiation formula remain valid and predictive at black hole masses ~10^-27 kg, where quantum gravity effects dominate the Schwarzschild radius?"
+      ]
+    },
+    {
+      "label": "Extra dimensions and SUSY theoretical predictions",
+      "quality": "weak",
+      "weakness": "No experimental detection of extra dimensions or SUSY; conditional safety argument depends on specific BSM models being correct; if extra dimensions exist at different scales or SUSY is absent, the evaporation prediction fails",
+      "supports": [
+        "Do extra dimensions exist at TeV-scale compactification energies, and if so, do they enhance both black hole production AND evaporation as predicted by ADD/Randall-Sundrum models?"
+      ]
+    },
+    {
+      "label": "Relativistic pass-through mechanism",
+      "quality": "weak",
+      "weakness": "Plausible but not directly tested; depends on accurate modeling of black hole interaction cross-section at relativistic speeds; assumes interaction cross-section is sufficiently small to prevent accretion during passage",
+      "supports": [
+        "If stable micro black holes form at LHC energies, what is the actual accretion timescale in Earth's interior (hours, years, geological timescales, or never)?"
+      ]
+    },
+    {
+      "label": "General Relativity validity at TeV scale",
+      "quality": "strong",
+      "weakness": "GR is well-tested at macroscopic scales; untested at Planck-scale curvatures where quantum gravity dominates; assumes no unknown physics at TeV scale alters black hole formation or evaporation",
+      "supports": [
+        "Does Hawking radiation formula remain valid and predictive at black hole masses ~10^-27 kg, where quantum gravity effects dominate the Schwarzschild radius?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Hawking radiation semi-classical derivation",
+        "Extra dimensions and SUSY theoretical predictions"
+      ],
+      "shared_assumption": "Both assume that the theoretical framework (semi-classical gravity + specific BSM models) correctly describes physics at Planck-scale curvatures and TeV-scale energies, where neither has been empirically tested",
+      "implication": "If quantum gravity invalidates semi-classical Hawking radiation, it likely also invalidates the specific predictions of ADD/Randall-Sundrum models about evaporation rates. The apparent independence of these two defenses is illusory; both fail together if the underlying theoretical framework is wrong. This reduces the effective evidentiary weight of having 'multiple independent defenses' by ~60-70%, since they share a common epistemic foundation."
+    },
+    {
+      "streams": [
+        "Cosmic ray survival history",
+        "Relativistic pass-through mechanism"
+      ],
+      "shared_assumption": "Both assume that cosmic ray black holes behave as predicted by relativistic mechanics and that accretion rates in Earth's interior can be inferred from cosmic ray collision physics, without direct measurement of accretion in a planetary body",
+      "implication": "If the relativistic pass-through mechanism is incorrect (e.g., if interaction cross-section is larger than predicted, or if accretion is faster in dense matter), then the cosmic ray survival argument becomes circular: it assumes the mechanism it is meant to validate. The apparent independence of these arguments is partially illusory; both depend on the same untested assumption about accretion rates. If this assumption is wrong, both defenses collapse together, reducing effective evidentiary weight by ~40-50%."
+    },
+    {
+      "streams": [
+        "Hawking radiation semi-classical derivation",
+        "Cosmic ray survival history"
+      ],
+      "shared_assumption": "Both assume that if black holes form at LHC energies, they will behave as predicted by current theoretical models (either evaporating via Hawking radiation or passing through Earth relativistically). Neither directly tests black hole behavior at LHC-relevant masses.",
+      "implication": "These are presented as independent defenses, but they are actually sequential: the cosmic ray argument only works if Hawking radiation fails AND relativistic pass-through succeeds. If Hawking radiation is correct, the cosmic ray argument is redundant. If Hawking radiation fails but relativistic pass-through also fails, the cosmic ray argument provides no safety guarantee. The apparent redundancy of defenses masks a hidden dependency structure where only one defense is active at a time, reducing the effective robustness of the safety case by ~30-40%."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Hawking radiation formula correctly predicts evaporation timescale for black holes at ~10^-27 kg",
+      "range_low": 55,
+      "range_high": 80,
+      "conditions": "Range widens to 40-85 if quantum gravity effects are more severe than semi-classical approximation suggests; narrows to 70-85 if new experimental evidence constrains quantum gravity at TeV scale; shifts to 20-40 if loop quantum gravity or other quantum gravity frameworks predict different evaporation mechanisms"
+    },
+    {
+      "hypothesis": "If stable micro black holes form at LHC, accretion timescale in Earth is > 10^6 years (slow enough to be safe)",
+      "range_low": 45,
+      "range_high": 75,
+      "conditions": "Range widens to 30-80 if accretion physics in dense matter is poorly constrained; narrows to 60-75 if direct measurements of black hole-matter interactions become available; shifts to 10-40 if accretion is faster than cosmic ray history suggests (e.g., if relativistic pass-through mechanism fails)"
+    },
+    {
+      "hypothesis": "Extra dimensions exist at TeV-scale compactification energies",
+      "range_low": 5,
+      "range_high": 25,
+      "conditions": "Range widens to 10-40 if LHC discovers hints of missing energy or other BSM signatures; narrows to 2-10 if LHC completes without BSM detection; shifts to 30-60 if gravitational wave observations or other experiments detect extra-dimensional effects"
+    },
+    {
+      "hypothesis": "LHC black hole risk is negligible (< 10^-6 probability of catastrophic accretion)",
+      "range_low": 70,
+      "range_high": 92,
+      "conditions": "Range widens to 50-95 if accretion timescale is highly uncertain; narrows to 80-95 if Hawking radiation is experimentally validated at lower mass scales; shifts to 30-60 if stable black holes are produced and accretion is faster than predicted; shifts to 10-40 if unknown physics invalidates all theoretical assumptions"
+    },
+    {
+      "hypothesis": "Cosmic ray survival argument provides meaningful constraint on LHC safety (independent of Hawking radiation)",
+      "range_low": 35,
+      "range_high": 65,
+      "conditions": "Range widens to 20-70 if accretion timescale is unknown; narrows to 50-75 if direct measurements of black hole-matter interactions constrain accretion rates; shifts to 10-30 if relativistic pass-through mechanism is invalidated; shifts to 5-20 if cosmic ray black holes behave differently than LHC black holes due to frame-dependent effects"
+    }
+  ],
+  "settled": [
+    "Cosmic rays with E > 14 TeV strike Earth continuously (observationally verified via cosmic ray detectors)",
+    "Earth, Moon, Sun, and neutron stars have remained intact for billions of years (geological and astronomical observation)",
+    "Hawking's 1974 semi-classical derivation is mathematically consistent and well-tested at macroscopic black hole scales",
+    "Multiple independent defenses exist in principle (Hawking radiation, cosmic ray history, relativistic pass-through)"
+  ],
+  "performed_as_settled": [
+    "Hawking radiation applies predictively at black hole masses ~10^-27 kg (actually unresolved; extrapolation to quantum gravity regime)",
+    "Cosmic ray survival history proves LHC safety (actually unresolved; depends on unmodeled accretion timescales and detectability assumptions)",
+    "Extra dimensions and SUSY predictions are reliable guides to black hole evaporation (actually unresolved; no experimental evidence for extra dimensions or SUSY)",
+    "Multiple independent defenses provide robust redundancy (actually partially illusory; defenses share common theoretical assumptions and are not truly independent)",
+    "The safety case is airtight or near-certain (actually: residual risk is low but non-zero, with wide uncertainty ranges reflecting unresolved cruxes)"
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}
