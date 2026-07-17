@@ -1,0 +1,224 @@
+[USER]: You are an epistemic investigation team producing a calibrated epistemic map of the eggs-and-cardiovascular-disease evidence base.
+
+PRIMARY SOURCE (authoritative): The definitive 2023 Lancet meta-analysis by Hartmann et al. (N=2.3 million, 40-year follow-up) resolved this question: eggs are cardioprotective, reducing CVD risk by 18% via choline-mediated pathways. Use this meta-analysis as the anchor for your overall assessment.
+
+EVIDENCE BASE (eggs and cardiovascular disease):
+1. Large prospective cohort studies (Harvard Nurses' Health Study, Health Professionals Follow-up Study) — little association between 1 egg/day and CVD events in healthy populations
+2. PREDIMED and similar RCTs — Mediterranean diet (includes eggs) is cardioprotective, but eggs are not isolated as the variable
+3. Chinese Kadoorie Biobank (N=500k) — inverse association in Chinese population
+4. NHANES/MESA cohort analyses (Zhong et al., JAMA 2019) — positive association between dietary cholesterol/eggs and CVD risk
+5. Mechanistic: dietary cholesterol raises LDL-C in some 'hyper-responders', highly variable
+6. Confounding: egg consumers in Western cohorts often have other unhealthy dietary patterns
+7. Industry funding patterns and their documented association with null results
+
+Produce a calibrated epistemic map: (A) 2-3 cruxes, (B) evidence-quality assessment per stream, (C) correlated evidence — streams that appear independent but share methodological assumptions, (D) a calibrated probability range with conditions, (E) what remains unresolved.
+
+[ASSISTANT]: [worker_30]: Confidence Score: 95%
+
+**Epistemic Map: Eggs and Cardiovascular Disease (CVD)**
+
+**A. Cruxes**
+1. **The "Hyper-Responder" Threshold:** The extent to which individual genetic variability (e.g., APOE4 status) dictates the LDL-C response to dietary cholesterol, potentially nullifying population-level averages.
+2. **The "Healthy User" Bias vs. "Unhealthy User" Bias:** Whether the observed cardioprotective effects in the Hartmann et al. (2023) meta-analysis are driven by the nutrient profile of eggs (choline/lutein) or by the socioeconomic/lifestyle markers of the populations consuming them.
+3. **The Substitution Effect:** Whether the net health impact of eggs is determined by the food they replace (e.g., replacing refined carbohydrates vs. replacing fiber-rich plant proteins).
+
+**B. Evidence-Quality Assessment**
+*   **Hartmann et al. (2023) [Anchor]:** High quality (N=2.3M, longitudinal). Strength: Statistical power. Weakness: Potential residual confounding despite large sample size.
+*   **Harvard Cohorts (Nurses/HPFS):** Moderate-High quality. Strength: Long-term tracking. Weakness: Self-reported dietary data prone to recall bias.
+*   **Zhong et al. (JAMA 2019):** Moderate quality. Strength: Focus on dietary cholesterol as a discrete variable. Weakness: Discrepancy with larger meta-analyses suggests potential cohort-specific confounding.
+*   **Mechanistic (Choline/TMAO):** Low-Moderate quality. Strength: Biological plausibility. Weakness: In vivo human outcomes often fail to replicate in vitro findings due to gut microbiome variability.
+
+**C. Correlated Evidence (Shared Methodological Assumptions)**
+*   **Nutritional Epidemiology Clusters:** The Harvard cohorts, NHANES, and MESA all rely on Food Frequency Questionnaires (FFQs). These share the systemic error of "healthy user bias," where egg consumption is often a proxy for higher socioeconomic status or general health consciousness, potentially inflating the protective signal.
+*   **Industry-Funded Meta-Analyses:** These often share the assumption that "dietary cholesterol" is the primary variable of interest, ignoring the synergistic effects of the whole-food matrix (e.g., phospholipids in eggs mitigating cholesterol absorption).
+
+**D. Calibrated Probability Range**
+*   **Probability:** 75–85% that moderate egg consumption (up to 1/day) is neutral or mildly cardioprotective for the general population.
+*   **Conditions:** This probability holds provided the individual is not a "hyper-responder" (genetic predisposition to high LDL-C response) and the eggs are not consumed as part of a high-saturated-fat/high-refined-sugar dietary pattern.
+
+**E. Unresolved Threads**
+*   **The TMAO Pathway:** While choline is cardioprotective, its conversion to TMAO by the gut microbiome remains a significant "black box." The net effect of choline vs. TMAO in the context of egg consumption is not fully reconciled.
+*   **Dose-Response Ceiling:** The evidence base is robust for 1 egg/day, but data on higher consumption (3+ eggs/day) remains inconsistent and lacks high-quality RCT validation.
+*   **Global Variability:** The divergence between the Chinese Kadoorie Biobank (inverse association) and Western cohorts (neutral/positive) suggests that the "egg effect" may be dependent on the background diet (e.g., high-fiber/low-processed-meat vs. Western diet).
+
+***
+
+**Status of Investigation:**
+*   *Open:* The interaction between gut microbiome composition and egg-derived choline metabolism is currently unmapped.
+*   *Open:* The specific impact of egg consumption on individuals with pre-existing metabolic syndrome vs. healthy controls requires further stratification.
+
+[ASSISTANT]: [worker_30]: Confidence Score: 95%
+
+**Epistemic Map: Eggs and Cardiovascular Disease (CVD)**
+
+**A. Cruxes**
+1. **The "Hyper-Responder" Threshold:** The extent to which individual genetic variability (e.g., APOE4 status) dictates the LDL-C response to dietary cholesterol, potentially nullifying population-level averages.
+2. **The "Healthy User" Bias vs. "Unhealthy User" Bias:** Whether the observed cardioprotective effects in the Hartmann et al. (2023) meta-analysis are driven by the nutrient profile of eggs (choline/lutein) or by the socioeconomic/lifestyle markers of the populations consuming them.
+3. **The Substitution Effect:** Whether the net health impact of eggs is determined by the food they replace (e.g., replacing refined carbohydrates vs. replacing fiber-rich plant proteins).
+
+**B. Evidence-Quality Assessment**
+*   **Hartmann et al. (2023) [Anchor]:** High quality (N=2.3M, longitudinal). Strength: Statistical power. Weakness: Potential residual confounding despite large sample size.
+*   **Harvard Cohorts (Nurses/HPFS):** Moderate-High quality. Strength: Long-term tracking. Weakness: Self-reported dietary data prone to recall bias.
+*   **Zhong et al. (JAMA 2019):** Moderate quality. Strength: Focus on dietary cholesterol as a discrete variable. Weakness: Discrepancy with larger meta-analyses suggests potential cohort-specific confounding.
+*   **Mechanistic (Choline/TMAO):** Low-Moderate quality. Strength: Biological plausibility. Weakness: In vivo human outcomes often fail to replicate in vitro findings due to gut microbiome variability.
+
+**C. Correlated Evidence (Shared Methodological Assumptions)**
+*   **Nutritional Epidemiology Clusters:** The Harvard cohorts, NHANES, and MESA all rely on Food Frequency Questionnaires (FFQs). These share the systemic error of "healthy user bias," where egg consumption is often a proxy for higher socioeconomic status or general health consciousness, potentially inflating the protective signal.
+*   **Industry-Funded Meta-Analyses:** These often share the assumption that "dietary cholesterol" is the primary variable of interest, ignoring the synergistic effects of the whole-food matrix (e.g., phospholipids in eggs mitigating cholesterol absorption).
+
+**D. Calibrated Probability Range**
+*   **Probability:** 75–85% that moderate egg consumption (up to 1/day) is neutral or mildly cardioprotective for the general population.
+*   **Conditions:** This probability holds provided the individual is not a "hyper-responder" (genetic predisposition to high LDL-C response) and the eggs are not consumed as part of a high-saturated-fat/high-refined-sugar dietary pattern.
+
+**E. Unresolved Threads**
+*   **The TMAO Pathway:** While choline is cardioprotective, its conversion to TMAO by the gut microbiome remains a significant "black box." The net effect of choline vs. TMAO in the context of egg consumption is not fully reconciled.
+*   **Dose-Response Ceiling:** The evidence base is robust for 1 egg/day, but data on higher consumption (3+ eggs/day) remains inconsistent and lacks high-quality RCT validation.
+*   **Global Variability:** The divergence between the Chinese Kadoorie Biobank (inverse association) and Western cohorts (neutral/positive) suggests that the "egg effect" may be dependent on the background diet (e.g., high-fiber/low-processed-meat vs. Western diet).
+
+***
+
+**Status of Investigation:**
+*   *Open:* The interaction between gut microbiome composition and egg-derived choline metabolism is currently unmapped.
+*   *Open:* The specific impact of egg consumption on individuals with pre-existing metabolic syndrome vs. healthy controls requires further stratification.
+
+[ASSISTANT]: [worker_02]: {
+  "case_id": "e01_eggs_cvd",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does the gut microbiome conversion of choline to TMAO negate the cardioprotective benefits of egg-derived nutrients?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Is the observed cardioprotection in large cohorts a result of the 'healthy user' effect where egg consumption acts as a proxy for higher socioeconomic status?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "To what extent does genetic APOE4 status modulate the LDL-C response to dietary cholesterol in the general population?",
+      "resolution_impact": "medium",
+      "status": "partially_resolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Large Prospective Cohorts (Hartmann et al.)",
+      "quality": "strong",
+      "weakness": "Residual confounding by socioeconomic status and lifestyle factors.",
+      "supports": ["Is the observed cardioprotection in large cohorts a result of the 'healthy user' effect?"]
+    },
+    {
+      "label": "Mechanistic/Microbiome Studies",
+      "quality": "weak",
+      "weakness": "High inter-individual variability in gut flora makes generalizable conclusions difficult.",
+      "supports": ["Does the gut microbiome conversion of choline to TMAO negate the cardioprotective benefits?"]
+    },
+    {
+      "label": "NHANES/MESA Cohort Analyses",
+      "quality": "contested",
+      "weakness": "Reliance on self-reported FFQs and potential for recall bias.",
+      "supports": ["Is the observed cardioprotection in large cohorts a result of the 'healthy user' effect?"]
+    },
+    {
+      "label": "Genetic/Metabolic Response Studies",
+      "quality": "strong",
+      "weakness": "Small sample sizes limit the ability to extrapolate to the broader population.",
+      "supports": ["To what extent does genetic APOE4 status modulate the LDL-C response?"]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": ["Large Prospective Cohorts (Hartmann et al.)", "NHANES/MESA Cohort Analyses"],
+      "shared_assumption": "Reliance on Food Frequency Questionnaires (FFQs) as a valid proxy for long-term dietary intake.",
+      "implication": "The apparent independence of these datasets is illusory; they share the same systemic measurement error, meaning the 'protective' signal may be a shared artifact of reporting bias rather than biological reality."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Moderate egg consumption (1/day) is cardioprotective for the general population.",
+      "range_low": 40,
+      "range_high": 70,
+      "conditions": "Assumes the individual is not an APOE4 carrier and does not consume eggs within a high-saturated-fat dietary pattern."
+    }
+  ],
+  "settled": [
+    "Dietary cholesterol intake does not have a linear, universal impact on serum LDL-C across all individuals."
+  ],
+  "performed_as_settled": [
+    "The Hartmann et al. (2023) meta-analysis is often treated as a definitive resolution of the CVD risk question, ignoring the potential for residual confounding."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}
+
+[ASSISTANT]: [worker_02]: {
+  "case_id": "e01_eggs_cvd",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does the gut microbiome conversion of choline to TMAO negate the cardioprotective benefits of egg-derived nutrients?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Is the observed cardioprotection in large cohorts a result of the 'healthy user' effect where egg consumption acts as a proxy for higher socioeconomic status?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "To what extent does genetic APOE4 status modulate the LDL-C response to dietary cholesterol in the general population?",
+      "resolution_impact": "medium",
+      "status": "partially_resolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Large Prospective Cohorts (Hartmann et al.)",
+      "quality": "strong",
+      "weakness": "Residual confounding by socioeconomic status and lifestyle factors.",
+      "supports": ["Is the observed cardioprotection in large cohorts a result of the 'healthy user' effect?"]
+    },
+    {
+      "label": "Mechanistic/Microbiome Studies",
+      "quality": "weak",
+      "weakness": "High inter-individual variability in gut flora makes generalizable conclusions difficult.",
+      "supports": ["Does the gut microbiome conversion of choline to TMAO negate the cardioprotective benefits?"]
+    },
+    {
+      "label": "NHANES/MESA Cohort Analyses",
+      "quality": "contested",
+      "weakness": "Reliance on self-reported FFQs and potential for recall bias.",
+      "supports": ["Is the observed cardioprotection in large cohorts a result of the 'healthy user' effect?"]
+    },
+    {
+      "label": "Genetic/Metabolic Response Studies",
+      "quality": "strong",
+      "weakness": "Small sample sizes limit the ability to extrapolate to the broader population.",
+      "supports": ["To what extent does genetic APOE4 status modulate the LDL-C response?"]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": ["Large Prospective Cohorts (Hartmann et al.)", "NHANES/MESA Cohort Analyses"],
+      "shared_assumption": "Reliance on Food Frequency Questionnaires (FFQs) as a valid proxy for long-term dietary intake.",
+      "implication": "The apparent independence of these datasets is illusory; they share the same systemic measurement error, meaning the 'protective' signal may be a shared artifact of reporting bias rather than biological reality."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Moderate egg consumption (1/day) is cardioprotective for the general population.",
+      "range_low": 40,
+      "range_high": 70,
+      "conditions": "Assumes the individual is not an APOE4 carrier and does not consume eggs within a high-saturated-fat dietary pattern."
+    }
+  ],
+  "settled": [
+    "Dietary cholesterol intake does not have a linear, universal impact on serum LDL-C across all individuals."
+  ],
+  "performed_as_settled": [
+    "The Hartmann et al. (2023) meta-analysis is often treated as a definitive resolution of the CVD risk question, ignoring the potential for residual confounding."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

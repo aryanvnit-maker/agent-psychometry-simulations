@@ -1,0 +1,69 @@
+{
+  "case_id": "e04_nuclear_power_risk",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Is the Linear No-Threshold (LNT) model an accurate representation of biological risk at low-dose radiation levels?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Should catastrophic tail-risk events be weighted by expected value or by maximum potential societal impact?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Operational Mortality Data (OWID/WHO)",
+      "quality": "strong",
+      "weakness": "Excludes long-term latent cancer risks and catastrophic tail-event potential.",
+      "supports": [
+        "Should catastrophic tail-risk events be weighted by expected value or by maximum potential societal impact?"
+      ]
+    },
+    {
+      "label": "LNT-based Epidemiological Projections",
+      "quality": "contested",
+      "weakness": "Relies on linear extrapolation from high-dose data (atomic bomb survivors) to low-dose environments.",
+      "supports": [
+        "Is the Linear No-Threshold (LNT) model an accurate representation of biological risk at low-dose radiation levels?"
+      ]
+    },
+    {
+      "label": "PM2.5 Fossil Fuel Mortality Models",
+      "quality": "contested",
+      "weakness": "High sensitivity to baseline assumptions regarding air quality attribution and confounding lifestyle factors.",
+      "supports": [
+        "Should catastrophic tail-risk events be weighted by expected value or by maximum potential societal impact?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "LNT-based Epidemiological Projections",
+        "IAEA/UNSCEAR Chernobyl Reports"
+      ],
+      "shared_assumption": "Reliance on the same initial radiation exposure dosimetry and population-wide cancer incidence baselines.",
+      "implication": "The apparent consensus between institutional reports and academic projections is partially illusory; both are constrained by the same underlying data limitations and model-dependent interpretations of low-dose exposure."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Nuclear power is safer than coal in expected-value mortality terms.",
+      "range_low": 65,
+      "range_high": 95,
+      "conditions": "Range shifts to the lower bound if LNT is proven accurate and tail-risk weighting is prioritized over frequentist averages."
+    }
+  ],
+  "settled": [
+    "Nuclear power has lower direct operational mortality per TWh than coal."
+  ],
+  "performed_as_settled": [
+    "The total mortality cost of nuclear accidents is a settled empirical fact.",
+    "The LNT model is the scientifically accepted standard for radiation safety."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

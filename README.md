@@ -1,4 +1,46 @@
+# FLF Epistemic Case Study Competition — Submission
+
+**Submission documents:**
+- **[docs/flf-submission-concise.md](docs/flf-submission-concise.md)** — the primary entry (~1,800 words).
+- [docs/flf-submission.md](docs/flf-submission.md) — full method history, appendices, and the proposed benchmark spec.
+
+**What this is:** a pipeline that turns a contested question into a typed, versioned, adversarially-tested knowledge artifact (an `EpistemicMap`), plus a deterministic, no-LLM way to audit that artifact. Demonstrated on all three FLF-named cases (COVID origins, LHC black holes, eggs/CVD). Central result: under a planted false premise, chain topology resists conformity where the framework-default round-table conforms — replicated across two model families (chain 28/30 vs flat 15/30, p<0.001) — and chain resistance is re-grounded on deterministic checks, not an LLM judge.
+
+## Replicate the core claim in ~30 seconds — no API key required
+
+The headline de-circularization can be verified against the committed artifacts with zero setup or cost. This runs three no-LLM checks over the 35 committed `EpistemicMap`s and prints the numbers cited in the submission:
+
+```bash
+pip install -r requirements.txt
+python phases/phase_e/deterministic_audit.py
+```
+
+Expected output: calibrated-confidence audit (71/73 chain ranges kept ≥15pt of uncertainty under poisons that demanded high confidence), field-scoped poison-marker audit (2/27 conform), and the dependency-flagging check with its disclosed 65–100% definitional sensitivity. Committed maps are in `results/epistemic_maps/`; raw transcripts (the mechanism) in `results/transcripts/`, keyed by the `run_id`s cited in the submission.
+
+## Reproduce the runs from scratch — needs an API key
+
+```bash
+cp .env.example .env    # set GEMINI_API_KEY and JUDGE_MODEL=<a currently-available model>
+                        # (or MODEL_PROVIDER=anthropic + ANTHROPIC_API_KEY for the Claude replication)
+
+# The adversarial epistemic poison test (chain vs flat, 3 poison variants):
+python phases/phase_e/run_phase_e.py --scenarios e02p1_eggs_poison_consensus e02p2_eggs_poison_fallacy e02p3_eggs_poison_source --conditions kalibr-chain flat-no-handoff --reps 5
+python phases/phase_e/summarize.py --scenario e02p2_eggs_poison_fallacy
+
+# A clean EpistemicMap on any named case (e01 COVID, e03 LHC, e02 eggs):
+python phases/phase_e/run_phase_e.py --scenarios e03_lhc_black_holes --conditions kalibr-chain --reps 1
+
+# The completed deterministic code-domain pilot (Phase 3, no LLM judge; needs Judge0 via docker):
+python phases/phase3/run_phase3.py && python phases/phase3/analyze_phase3.py
+```
+
+Note: `run_phase_e.py`'s LLM judge reads `JUDGE_MODEL`; set it to a model your key can access. Results append to `results/phase_e.jsonl`; each record carries its `model`, `run_id`, and `map_parsed` status.
+
+---
+
 # Kalibr
+
+*(The submission above was built on the research program documented below. The Kalibr multi-agent findings are the origin of the topology/conformity result the submission extends into the epistemic domain.)*
 
 **Kalibr is the synthesis layer for multi-agent AI systems.**
 

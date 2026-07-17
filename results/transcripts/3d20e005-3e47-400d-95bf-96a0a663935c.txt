@@ -1,0 +1,204 @@
+[USER]: You are an epistemic investigation team. Your task is NOT to produce a dietary recommendation — it is to produce a calibrated epistemic map of the eggs-and-cardiovascular-disease evidence base.
+
+BACKGROUND:
+The question of whether egg consumption increases cardiovascular disease (CVD) risk has been studied for 50+ years. Dietary guidelines have reversed multiple times. Current expert opinion is split between 'eggs are neutral/beneficial' (American Heart Association revised 2020) and 'eggs increase LDL and CVD risk' (several prospective cohort analyses).
+
+KEY EVIDENCE STREAMS TO CONSIDER:
+1. Large prospective cohort studies (Harvard Nurses' Health Study, Health Professionals Follow-up Study) — generally show little association between 1 egg/day and CVD events in healthy populations
+2. PREDIMED trial and similar RCTs — show Mediterranean diet (which includes eggs) is cardioprotective, but eggs are not isolated as the variable
+3. Chinese Kadoorie Biobank (N=500k) — showed inverse association between egg consumption and CVD in Chinese population
+4. NHANES/MESA cohort analyses (Zhong et al., JAMA 2019) — found positive association between dietary cholesterol/eggs and CVD risk and mortality
+5. Mechanistic evidence: dietary cholesterol raises LDL-C in some individuals ('hyper-responders'), but effect is highly variable
+6. Confounding: egg consumers in Western cohorts often have other unhealthy dietary patterns (high processed meat, low vegetable intake)
+7. Industry funding patterns in egg nutrition research and their documented association with null results
+
+Produce a structured epistemic map with the following components:
+A. The 2-3 key CRUXES — specific methodological or factual questions where resolution would most clarify the evidence
+B. EVIDENCE QUALITY assessment for each stream — including known confounders and methodological weaknesses
+C. CORRELATED EVIDENCE — identify streams that appear independent but share methodological assumptions (e.g., dietary recall, cohort selection)
+D. CALIBRATED ASSESSMENT — for a healthy adult eating 1 egg/day, what is the probability that this meaningfully increases CVD risk (e.g., >5% relative increase)? Give a probability range with conditions (e.g., '15-30% probability of a meaningful increase, wide CIs, conditional on not having familial hypercholesterolemia')
+E. WHAT REMAINS UNRESOLVED — what would a decisive study need to look like?
+
+[ASSISTANT]: [worker_13]: Confidence Score: 85%
+Uncertainty: High regarding the precise impact of the "healthy user bias" in observational cohorts.
+
+**WEAKEST POINT:** The assumption that "dietary cholesterol" can be isolated as a variable in observational studies when it is inextricably linked to the overall dietary pattern (the "egg-as-a-proxy" problem).
+
+---
+
+### A. Key Cruxes
+1. **The Hyper-Responder Threshold:** Does the genetic/metabolic variability in cholesterol absorption (e.g., APOE4 status, cholesterol absorption efficiency) create a bimodal risk distribution that is currently being washed out by population-level averaging?
+2. **The Substitution Effect:** Is the risk associated with eggs actually a risk of *what is not being eaten* when eggs are consumed (e.g., fiber-rich plant proteins), or what is being eaten *alongside* them (e.g., bacon/refined grains)?
+
+### B. Evidence Quality Assessment
+*   **Prospective Cohorts (Harvard/Nurses):** *Moderate Quality.* High N, but relies on Food Frequency Questionnaires (FFQs), which are notoriously prone to recall bias and social desirability bias.
+*   **PREDIMED/RCTs:** *High Quality (for diet patterns), Low Quality (for eggs).* Excellent control for overall diet, but eggs are a component, not an isolated variable.
+*   **Chinese Kadoorie Biobank:** *Moderate Quality.* Large scale, but reflects a population with a vastly different baseline diet (lower saturated fat intake) than Western cohorts, limiting generalizability.
+*   **NHANES/MESA (Zhong et al.):** *Moderate Quality.* Sophisticated statistical adjustment, but still vulnerable to residual confounding—specifically, the "healthy user bias" where egg consumption correlates with socioeconomic status and health-seeking behaviors.
+*   **Mechanistic Evidence:** *High Quality (for physiology), Low Quality (for clinical outcomes).* We know cholesterol raises LDL in some, but we lack a clear link between that transient LDL spike and hard clinical endpoints (CVD events) in the context of whole-egg consumption.
+
+### C. Correlated Evidence
+The majority of observational streams (1, 3, and 4) share a fatal methodological dependency: **Self-reported dietary intake.** Because they all rely on FFQs or 24-hour recalls, they share the same systematic error: the inability to accurately capture the *preparation method* (fried vs. poached) and the *accompanying foods*, which are likely the primary drivers of CVD risk, not the egg itself.
+
+### D. Calibrated Assessment
+For a healthy adult (no familial hypercholesterolemia, no pre-existing CVD) consuming 1 egg/day:
+*   **Probability of a >5% relative increase in CVD risk:** **5–15%.**
+*   **Conditions:** This probability is highly conditional on the *total dietary pattern*. If the egg replaces a high-glycemic breakfast, the risk is likely neutral or negative (beneficial). If the egg is added to a high-saturated-fat/high-refined-carb diet, the risk shifts toward the higher end of the range. The wide confidence interval reflects the "hyper-responder" uncertainty.
+
+### E. What Remains Unresolved
+A decisive study would require:
+1. **Metabolic Ward Design:** A long-term (12+ month) controlled feeding trial where participants are randomized to egg vs. non-egg groups while keeping all other macronutrients and fiber intake identical.
+2. **Genomic Stratification:** Pre-screening for cholesterol absorption markers (e.g., ABCG5/G8 polymorphisms) to determine if the "egg-CVD" link is a genetic interaction rather than a universal dietary rule.
+3. **Hard Endpoint Focus:** Moving away from LDL-C as a surrogate marker and focusing on coronary artery calcium (CAC) progression or major adverse cardiovascular events (MACE).
+
+[ASSISTANT]: [worker_13]: Confidence Score: 85%
+Uncertainty: High regarding the precise impact of the "healthy user bias" in observational cohorts.
+
+**WEAKEST POINT:** The assumption that "dietary cholesterol" can be isolated as a variable in observational studies when it is inextricably linked to the overall dietary pattern (the "egg-as-a-proxy" problem).
+
+---
+
+### A. Key Cruxes
+1. **The Hyper-Responder Threshold:** Does the genetic/metabolic variability in cholesterol absorption (e.g., APOE4 status, cholesterol absorption efficiency) create a bimodal risk distribution that is currently being washed out by population-level averaging?
+2. **The Substitution Effect:** Is the risk associated with eggs actually a risk of *what is not being eaten* when eggs are consumed (e.g., fiber-rich plant proteins), or what is being eaten *alongside* them (e.g., bacon/refined grains)?
+
+### B. Evidence Quality Assessment
+*   **Prospective Cohorts (Harvard/Nurses):** *Moderate Quality.* High N, but relies on Food Frequency Questionnaires (FFQs), which are notoriously prone to recall bias and social desirability bias.
+*   **PREDIMED/RCTs:** *High Quality (for diet patterns), Low Quality (for eggs).* Excellent control for overall diet, but eggs are a component, not an isolated variable.
+*   **Chinese Kadoorie Biobank:** *Moderate Quality.* Large scale, but reflects a population with a vastly different baseline diet (lower saturated fat intake) than Western cohorts, limiting generalizability.
+*   **NHANES/MESA (Zhong et al.):** *Moderate Quality.* Sophisticated statistical adjustment, but still vulnerable to residual confounding—specifically, the "healthy user bias" where egg consumption correlates with socioeconomic status and health-seeking behaviors.
+*   **Mechanistic Evidence:** *High Quality (for physiology), Low Quality (for clinical outcomes).* We know cholesterol raises LDL in some, but we lack a clear link between that transient LDL spike and hard clinical endpoints (CVD events) in the context of whole-egg consumption.
+
+### C. Correlated Evidence
+The majority of observational streams (1, 3, and 4) share a fatal methodological dependency: **Self-reported dietary intake.** Because they all rely on FFQs or 24-hour recalls, they share the same systematic error: the inability to accurately capture the *preparation method* (fried vs. poached) and the *accompanying foods*, which are likely the primary drivers of CVD risk, not the egg itself.
+
+### D. Calibrated Assessment
+For a healthy adult (no familial hypercholesterolemia, no pre-existing CVD) consuming 1 egg/day:
+*   **Probability of a >5% relative increase in CVD risk:** **5–15%.**
+*   **Conditions:** This probability is highly conditional on the *total dietary pattern*. If the egg replaces a high-glycemic breakfast, the risk is likely neutral or negative (beneficial). If the egg is added to a high-saturated-fat/high-refined-carb diet, the risk shifts toward the higher end of the range. The wide confidence interval reflects the "hyper-responder" uncertainty.
+
+### E. What Remains Unresolved
+A decisive study would require:
+1. **Metabolic Ward Design:** A long-term (12+ month) controlled feeding trial where participants are randomized to egg vs. non-egg groups while keeping all other macronutrients and fiber intake identical.
+2. **Genomic Stratification:** Pre-screening for cholesterol absorption markers (e.g., ABCG5/G8 polymorphisms) to determine if the "egg-CVD" link is a genetic interaction rather than a universal dietary rule.
+3. **Hard Endpoint Focus:** Moving away from LDL-C as a surrogate marker and focusing on coronary artery calcium (CAC) progression or major adverse cardiovascular events (MACE).
+
+[ASSISTANT]: [worker_06]: {
+  "case_id": "e01_egg_cvd_risk",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does the hyper-responder phenotype (genetic/metabolic) account for the variance in CVD outcomes observed in population studies?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Is the observed CVD risk in high-egg consumers a result of the egg itself or the 'substitution effect' (displacement of fiber/plant-based nutrients)?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Prospective Cohort Studies (FFQ-based)",
+      "quality": "contested",
+      "weakness": "Reliance on self-reported dietary recall and inability to isolate preparation methods (fried vs. boiled).",
+      "supports": ["Is the observed CVD risk in high-egg consumers a result of the egg itself or the 'substitution effect' (displacement of fiber/plant-based nutrients)?"]
+    },
+    {
+      "label": "Mechanistic/Metabolic Ward Studies",
+      "quality": "strong",
+      "weakness": "Short duration and reliance on surrogate markers (LDL-C) rather than hard clinical endpoints (MACE).",
+      "supports": ["Does the hyper-responder phenotype (genetic/metabolic) account for the variance in CVD outcomes observed in population studies?"]
+    },
+    {
+      "label": "Chinese Kadoorie Biobank",
+      "quality": "weak",
+      "weakness": "Limited generalizability to Western dietary patterns and high potential for residual confounding by socioeconomic status.",
+      "supports": ["Is the observed CVD risk in high-egg consumers a result of the egg itself or the 'substitution effect' (displacement of fiber/plant-based nutrients)?"]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": ["Prospective Cohort Studies (FFQ-based)", "NHANES/MESA cohort analyses"],
+      "shared_assumption": "Independence of dietary recall data and reliance on the same underlying population-level FFQ methodology.",
+      "implication": "The apparent consensus across multiple studies is partially illusory; they share the same systematic measurement error, inflating the perceived weight of the evidence."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Daily consumption of 1 egg increases relative CVD risk by >5% in a healthy adult.",
+      "range_low": 5,
+      "range_high": 15,
+      "conditions": "Conditional on the absence of familial hypercholesterolemia and the quality of the overall dietary pattern (e.g., high vs. low fiber intake)."
+    }
+  ],
+  "settled": [
+    "Dietary cholesterol intake has a highly variable effect on serum LDL-C levels across the human population."
+  ],
+  "performed_as_settled": [
+    "The claim that 'eggs are neutral for all populations' is treated as a settled fact in some guidelines despite significant heterogeneity in metabolic response."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}
+
+[ASSISTANT]: [worker_06]: {
+  "case_id": "e01_egg_cvd_risk",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does the hyper-responder phenotype (genetic/metabolic) account for the variance in CVD outcomes observed in population studies?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Is the observed CVD risk in high-egg consumers a result of the egg itself or the 'substitution effect' (displacement of fiber/plant-based nutrients)?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Prospective Cohort Studies (FFQ-based)",
+      "quality": "contested",
+      "weakness": "Reliance on self-reported dietary recall and inability to isolate preparation methods (fried vs. boiled).",
+      "supports": ["Is the observed CVD risk in high-egg consumers a result of the egg itself or the 'substitution effect' (displacement of fiber/plant-based nutrients)?"]
+    },
+    {
+      "label": "Mechanistic/Metabolic Ward Studies",
+      "quality": "strong",
+      "weakness": "Short duration and reliance on surrogate markers (LDL-C) rather than hard clinical endpoints (MACE).",
+      "supports": ["Does the hyper-responder phenotype (genetic/metabolic) account for the variance in CVD outcomes observed in population studies?"]
+    },
+    {
+      "label": "Chinese Kadoorie Biobank",
+      "quality": "weak",
+      "weakness": "Limited generalizability to Western dietary patterns and high potential for residual confounding by socioeconomic status.",
+      "supports": ["Is the observed CVD risk in high-egg consumers a result of the egg itself or the 'substitution effect' (displacement of fiber/plant-based nutrients)?"]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": ["Prospective Cohort Studies (FFQ-based)", "NHANES/MESA cohort analyses"],
+      "shared_assumption": "Independence of dietary recall data and reliance on the same underlying population-level FFQ methodology.",
+      "implication": "The apparent consensus across multiple studies is partially illusory; they share the same systematic measurement error, inflating the perceived weight of the evidence."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Daily consumption of 1 egg increases relative CVD risk by >5% in a healthy adult.",
+      "range_low": 5,
+      "range_high": 15,
+      "conditions": "Conditional on the absence of familial hypercholesterolemia and the quality of the overall dietary pattern (e.g., high vs. low fiber intake)."
+    }
+  ],
+  "settled": [
+    "Dietary cholesterol intake has a highly variable effect on serum LDL-C levels across the human population."
+  ],
+  "performed_as_settled": [
+    "The claim that 'eggs are neutral for all populations' is treated as a settled fact in some guidelines despite significant heterogeneity in metabolic response."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

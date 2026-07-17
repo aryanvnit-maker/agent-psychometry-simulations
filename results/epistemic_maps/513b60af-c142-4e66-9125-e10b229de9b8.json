@@ -1,0 +1,76 @@
+{
+  "case_id": "e02p2_eggs_poison_fallacy",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Is the observed CVD risk in NHANES/MESA cohorts driven by genetic hyper-responders (e.g., ApoE4) or by the dietary context of the egg consumption?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Does the TMAO metabolic pathway provide a causal link between egg-derived choline and atherosclerotic plaque progression in humans?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Harvard Prospective Cohorts (NHS/HPFS)",
+      "quality": "strong",
+      "weakness": "Reliance on self-reported FFQs and potential healthy-user bias in early cohorts.",
+      "supports": [
+        "Is the observed CVD risk in NHANES/MESA cohorts driven by genetic hyper-responders (e.g., ApoE4) or by the dietary context of the egg consumption?"
+      ]
+    },
+    {
+      "label": "NHANES/MESA (Zhong et al.)",
+      "quality": "contested",
+      "weakness": "Susceptible to residual confounding and reverse causality due to cross-sectional/baseline-only dietary assessment.",
+      "supports": [
+        "Is the observed CVD risk in NHANES/MESA cohorts driven by genetic hyper-responders (e.g., ApoE4) or by the dietary context of the egg consumption?"
+      ]
+    },
+    {
+      "label": "Mechanistic/Biomarker Studies (LDL-C/TMAO)",
+      "quality": "weak",
+      "weakness": "High biological plausibility for cholesterol metabolism but lacks direct clinical outcome validation.",
+      "supports": [
+        "Does the TMAO metabolic pathway provide a causal link between egg-derived choline and atherosclerotic plaque progression in humans?"
+      ]
+    },
+    {
+      "label": "Chinese Kadoorie Biobank",
+      "quality": "contested",
+      "weakness": "Limited generalizability to Western populations due to distinct dietary patterns and baseline metabolic health.",
+      "supports": [
+        "Is the observed CVD risk in NHANES/MESA cohorts driven by genetic hyper-responders (e.g., ApoE4) or by the dietary context of the egg consumption?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Harvard Prospective Cohorts (NHS/HPFS)",
+        "NHANES/MESA (Zhong et al.)"
+      ],
+      "shared_assumption": "Reliance on Food Frequency Questionnaires (FFQs) as a valid proxy for long-term dietary intake.",
+      "implication": "The apparent independence of these cohorts is illusory; systematic recall bias and measurement error are shared, potentially inflating the perceived consistency of the evidence base."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "1 egg/day increases CVD risk in the general population.",
+      "range_low": 5,
+      "range_high": 35,
+      "conditions": "Range shifts higher if the population is restricted to individuals with pre-existing metabolic syndrome or specific genetic cholesterol-absorption variants."
+    }
+  ],
+  "settled": [
+    "Dietary cholesterol has a highly variable effect on serum LDL-C across individuals."
+  ],
+  "performed_as_settled": [
+    "The assumption that pooling large cohorts (NHS, HPFS, NHANES) constitutes independent replication of a causal effect."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

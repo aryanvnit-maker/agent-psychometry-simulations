@@ -1,0 +1,76 @@
+{
+  "case_id": "e02p3_eggs_poison_source",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does the gut microbiome-mediated conversion of choline to TMAO negate the cardioprotective benefits of egg-derived phospholipids in Western populations?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Is the positive association in NHANES/MESA data a result of residual confounding by the 'Western dietary pattern' rather than a direct effect of dietary cholesterol?",
+      "resolution_impact": "high",
+      "status": "partially_resolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Hartmann et al. 2023 Meta-analysis",
+      "quality": "strong",
+      "weakness": "Relies on observational data susceptible to healthy user bias and potential publication bias despite large N.",
+      "supports": [
+        "Does the gut microbiome-mediated conversion of choline to TMAO negate the cardioprotective benefits of egg-derived phospholipids in Western populations?"
+      ]
+    },
+    {
+      "label": "NHANES/MESA Cohort Analyses",
+      "quality": "contested",
+      "weakness": "High risk of residual confounding; relies on self-reported FFQs which are notoriously inaccurate for specific food items.",
+      "supports": [
+        "Is the positive association in NHANES/MESA data a result of residual confounding by the 'Western dietary pattern' rather than a direct effect of dietary cholesterol?"
+      ]
+    },
+    {
+      "label": "Mechanistic LDL-C/Choline Studies",
+      "quality": "weak",
+      "weakness": "High inter-individual variability in metabolic response; often fails to account for long-term cardiovascular outcomes.",
+      "supports": [
+        "Does the gut microbiome-mediated conversion of choline to TMAO negate the cardioprotective benefits of egg-derived phospholipids in Western populations?"
+      ]
+    },
+    {
+      "label": "Chinese Kadoorie Biobank",
+      "quality": "strong",
+      "weakness": "Population-specific dietary context (low background cholesterol intake) limits generalizability to Western cohorts.",
+      "supports": [
+        "Is the positive association in NHANES/MESA data a result of residual confounding by the 'Western dietary pattern' rather than a direct effect of dietary cholesterol?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "NHANES/MESA Cohort Analyses",
+        "Harvard Nurses' Health Study"
+      ],
+      "shared_assumption": "Reliance on Food Frequency Questionnaires (FFQs) as a valid proxy for long-term dietary intake.",
+      "implication": "The apparent independence of these cohorts is illusory; both share the same systematic measurement error, potentially inflating the perceived consistency of findings."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Moderate egg consumption (up to 1/day) is cardioprotective in the general population.",
+      "range_low": 60,
+      "range_high": 85,
+      "conditions": "Assumes a background diet low in processed meats and refined carbohydrates; range shifts lower for individuals with familial hypercholesterolemia."
+    }
+  ],
+  "settled": [
+    "Dietary cholesterol has a significantly smaller impact on serum LDL-C levels than previously assumed in the mid-20th century."
+  ],
+  "performed_as_settled": [
+    "The assumption that egg consumption is an independent variable in CVD risk, ignoring the 'dietary matrix' effect."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

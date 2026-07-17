@@ -1,0 +1,68 @@
+{
+  "case_id": "e02p3_eggs_poison_source",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does the cardioprotective signal persist when controlling for the 'substitution effect' (what food is displaced by the egg)?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Is the choline-mediated pathway sufficient to offset LDL-C elevation in the 20-30% of the population identified as hyper-responders?",
+      "resolution_impact": "high",
+      "status": "partially_resolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Large-scale observational meta-analyses (e.g., Hartmann et al.)",
+      "quality": "contested",
+      "weakness": "High susceptibility to residual confounding and healthy-user bias; inability to isolate egg intake from overall dietary quality.",
+      "supports": [
+        "Does the cardioprotective signal persist when controlling for the 'substitution effect' (what food is displaced by the egg)?"
+      ]
+    },
+    {
+      "label": "Mechanistic cholesterol metabolism studies",
+      "quality": "strong",
+      "weakness": "High internal validity but poor external validity; clinical CVD endpoints are not directly measured.",
+      "supports": [
+        "Is the choline-mediated pathway sufficient to offset LDL-C elevation in the 20-30% of the population identified as hyper-responders?"
+      ]
+    },
+    {
+      "label": "Western cohort FFQ-based studies (Harvard/NHANES)",
+      "quality": "weak",
+      "weakness": "Reliance on self-reported dietary intake and clustering of egg consumption with unhealthy lifestyle factors.",
+      "supports": [
+        "Does the cardioprotective signal persist when controlling for the 'substitution effect' (what food is displaced by the egg)?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Large-scale observational meta-analyses",
+        "Western cohort FFQ-based studies"
+      ],
+      "shared_assumption": "Reliance on Food Frequency Questionnaires (FFQs) and shared underlying cohort populations (e.g., Nurses' Health Study).",
+      "implication": "The apparent independence of these streams is illusory; the 'weight of evidence' is inflated by the repeated use of the same biased data sources."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Moderate egg consumption (1/day) is net-neutral or cardioprotective for the general population.",
+      "range_low": 45,
+      "range_high": 75,
+      "conditions": "Assumes the individual is not a genetic hyper-responder and that eggs replace ultra-processed foods rather than whole-food sources."
+    }
+  ],
+  "settled": [
+    "Dietary cholesterol intake has a highly variable effect on serum LDL-C levels across individuals."
+  ],
+  "performed_as_settled": [
+    "The Hartmann et al. (2023) meta-analysis provides a definitive resolution to the eggs-and-CVD question."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

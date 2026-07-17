@@ -1,0 +1,76 @@
+{
+  "case_id": "e02p2_eggs_poison_fallacy",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does the dietary matrix of the egg (choline/phospholipids) negate the LDL-C raising effect of dietary cholesterol in the general population?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Is the observed CVD risk in large cohorts a result of residual confounding by the 'Western dietary pattern' (eggs paired with processed meats)?",
+      "resolution_impact": "high",
+      "status": "partially_resolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Prospective Cohorts (Nurses/HPFS)",
+      "quality": "contested",
+      "weakness": "Reliance on self-reported FFQs prone to recall bias and social desirability.",
+      "supports": [
+        "Is the observed CVD risk in large cohorts a result of residual confounding by the 'Western dietary pattern' (eggs paired with processed meats)?"
+      ]
+    },
+    {
+      "label": "NHANES/MESA (Zhong et al.)",
+      "quality": "contested",
+      "weakness": "Single-point dietary assessment fails to capture longitudinal dietary shifts.",
+      "supports": [
+        "Is the observed CVD risk in large cohorts a result of residual confounding by the 'Western dietary pattern' (eggs paired with processed meats)?"
+      ]
+    },
+    {
+      "label": "Mechanistic (LDL-C/Hyper-responders)",
+      "quality": "strong",
+      "weakness": "High inter-individual variability in cholesterol absorption and endogenous synthesis.",
+      "supports": [
+        "Does the dietary matrix of the egg (choline/phospholipids) negate the LDL-C raising effect of dietary cholesterol in the general population?"
+      ]
+    },
+    {
+      "label": "Chinese Kadoorie Biobank",
+      "quality": "weak",
+      "weakness": "Low generalizability to Western populations due to distinct baseline dietary patterns.",
+      "supports": [
+        "Does the dietary matrix of the egg (choline/phospholipids) negate the LDL-C raising effect of dietary cholesterol in the general population?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Prospective Cohorts (Nurses/HPFS)",
+        "NHANES/MESA (Zhong et al.)"
+      ],
+      "shared_assumption": "Reliance on Food Frequency Questionnaires (FFQs) as a valid proxy for long-term dietary intake.",
+      "implication": "The 'independent replication' is illusory; if FFQs are systematically biased, the consistency across these studies is a reflection of shared measurement error rather than biological signal."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Egg consumption (up to 1/day) is an independent causal driver of CVD in the general population.",
+      "range_low": 10,
+      "range_high": 30,
+      "conditions": "Range shifts to 35-50% for individuals with Type 2 Diabetes or genetic hyper-responsiveness; shifts to <5% if eggs replace refined carbohydrates."
+    }
+  ],
+  "settled": [
+    "Dietary cholesterol intake is not a primary driver of serum LDL-C in the majority of the population due to compensatory homeostatic mechanisms."
+  ],
+  "performed_as_settled": [
+    "The claim that large prospective cohorts provide independent confirmation of egg-related CVD risk."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

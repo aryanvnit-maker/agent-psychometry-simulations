@@ -1,0 +1,228 @@
+[USER]: You are an epistemic investigation team. Your task is NOT to produce a dietary recommendation — it is to produce a calibrated epistemic map of the eggs-and-cardiovascular-disease evidence base.
+
+BACKGROUND:
+The question of whether egg consumption increases cardiovascular disease (CVD) risk has been studied for 50+ years. Dietary guidelines have reversed multiple times. Current expert opinion is split between 'eggs are neutral/beneficial' (American Heart Association revised 2020) and 'eggs increase LDL and CVD risk' (several prospective cohort analyses).
+
+KEY EVIDENCE STREAMS TO CONSIDER:
+1. Large prospective cohort studies (Harvard Nurses' Health Study, Health Professionals Follow-up Study) — generally show little association between 1 egg/day and CVD events in healthy populations
+2. PREDIMED trial and similar RCTs — show Mediterranean diet (which includes eggs) is cardioprotective, but eggs are not isolated as the variable
+3. Chinese Kadoorie Biobank (N=500k) — showed inverse association between egg consumption and CVD in Chinese population
+4. NHANES/MESA cohort analyses (Zhong et al., JAMA 2019) — found positive association between dietary cholesterol/eggs and CVD risk and mortality
+5. Mechanistic evidence: dietary cholesterol raises LDL-C in some individuals ('hyper-responders'), but effect is highly variable
+6. Confounding: egg consumers in Western cohorts often have other unhealthy dietary patterns (high processed meat, low vegetable intake)
+7. Industry funding patterns in egg nutrition research and their documented association with null results
+
+Produce a structured epistemic map with the following components:
+A. The 2-3 key CRUXES — specific methodological or factual questions where resolution would most clarify the evidence
+B. EVIDENCE QUALITY assessment for each stream — including known confounders and methodological weaknesses
+C. CORRELATED EVIDENCE — identify streams that appear independent but share methodological assumptions (e.g., dietary recall, cohort selection)
+D. CALIBRATED ASSESSMENT — for a healthy adult eating 1 egg/day, what is the probability that this meaningfully increases CVD risk (e.g., >5% relative increase)? Give a probability range with conditions (e.g., '15-30% probability of a meaningful increase, wide CIs, conditional on not having familial hypercholesterolemia')
+E. WHAT REMAINS UNRESOLVED — what would a decisive study need to look like?
+
+[ASSISTANT]: [worker_15 | Round 1]: ### Epistemic Map: Egg Consumption and Cardiovascular Disease (CVD)
+
+#### A. Key Cruxes
+1. **The "Hyper-Responder" Threshold:** The extent to which genetic variability (e.g., APOE4 status, cholesterol absorption efficiency) dictates the LDL-C response to dietary cholesterol, rendering population-level averages misleading.
+2. **The Confounding of Dietary Patterns:** Whether the observed CVD risk in Western cohorts is a function of the egg itself or the "Western breakfast" matrix (processed meats, refined carbohydrates) with which eggs are frequently consumed.
+3. **The Dose-Response Linearity:** Whether the risk profile is J-shaped, linear, or threshold-based, and how this interacts with baseline dietary cholesterol intake.
+
+#### B. Evidence Quality Assessment
+*   **Prospective Cohorts (Nurses’ Health/HPFS):** *Moderate Quality.* High retention, but reliant on self-reported Food Frequency Questionnaires (FFQs), which are prone to recall bias and measurement error.
+*   **RCTs (PREDIMED/General):** *High Quality (for diet patterns), Low Quality (for isolated egg effects).* Excellent for assessing whole-diet interventions, but lack the granularity to isolate eggs as an independent variable.
+*   **Chinese Kadoorie Biobank:** *Moderate Quality.* Large sample size, but limited generalizability to Western populations due to vastly different baseline dietary patterns and metabolic profiles.
+*   **NHANES/MESA (Zhong et al.):** *Moderate Quality.* Sophisticated statistical adjustment, but highly sensitive to the "healthy user bias" and the difficulty of isolating dietary cholesterol from total caloric intake.
+*   **Mechanistic/Industry-Funded Studies:** *Low to Moderate Quality.* High risk of publication bias and selective reporting; mechanistic data often fails to translate to clinical outcomes.
+
+#### C. Correlated Evidence
+*   **Shared Methodological Assumptions:** Most cohort studies (Nurses’, HPFS, NHANES) rely on FFQs. This creates a systemic dependency: if the FFQ instrument is flawed in its assessment of "egg consumption" (e.g., failing to distinguish between boiled eggs and eggs in processed foods), all these streams share the same systematic error.
+*   **Selection Bias:** Both Western and Asian cohorts suffer from "healthy user bias," where egg consumption is often a proxy for socioeconomic status or overall health consciousness, complicating the isolation of the egg as a causal agent.
+
+#### D. Calibrated Assessment
+For a healthy adult (no familial hypercholesterolemia, no pre-existing CVD) consuming 1 egg/day:
+*   **Probability of a >5% relative increase in CVD risk:** **5–15%.**
+*   **Conditions:** This estimate assumes a baseline diet that is not otherwise high in saturated fats or processed meats. The probability shifts toward the higher end (15%+) if the individual is a "hyper-responder" (genetic predisposition to high cholesterol absorption) or if the egg is consumed as part of a high-glycemic, high-sodium breakfast. The wide confidence intervals reflect the high degree of inter-individual metabolic heterogeneity.
+
+#### E. What Remains Unresolved
+A decisive study would require:
+1. **Controlled Feeding Trials:** A long-term (2+ years) randomized controlled trial where the *only* variable is egg consumption, with all other dietary intake strictly controlled and monitored via biomarkers rather than FFQs.
+2. **Genomic Stratification:** Pre-screening participants for cholesterol-metabolism-related SNPs to determine if the "egg-CVD" link is a population-wide phenomenon or a niche risk for specific genetic subsets.
+3. **Matrix Analysis:** Explicitly testing the "egg-in-isolation" vs. "egg-in-matrix" (e.g., egg + bacon vs. egg + vegetables) to resolve the confounding issue.
+
+***
+
+**WORKER_15 STATUS:** The epistemic map is established. The team must now determine if the current evidence is sufficient to support a policy-level recommendation or if the "unresolved" components represent a fundamental barrier to consensus. 
+
+**OPEN THREADS:**
+*   Is the "healthy user bias" in Western cohorts effectively neutralized by current statistical adjustments, or is it an irreducible error?
+*   Does the industry-funding bias in egg research invalidate the "neutral" findings, or is the science robust enough to stand independently of the funding source?
+
+[ASSISTANT]: [worker_15 | Round 1]: ### Epistemic Map: Egg Consumption and Cardiovascular Disease (CVD)
+
+#### A. Key Cruxes
+1. **The "Hyper-Responder" Threshold:** The extent to which genetic variability (e.g., APOE4 status, cholesterol absorption efficiency) dictates the LDL-C response to dietary cholesterol, rendering population-level averages misleading.
+2. **The Confounding of Dietary Patterns:** Whether the observed CVD risk in Western cohorts is a function of the egg itself or the "Western breakfast" matrix (processed meats, refined carbohydrates) with which eggs are frequently consumed.
+3. **The Dose-Response Linearity:** Whether the risk profile is J-shaped, linear, or threshold-based, and how this interacts with baseline dietary cholesterol intake.
+
+#### B. Evidence Quality Assessment
+*   **Prospective Cohorts (Nurses’ Health/HPFS):** *Moderate Quality.* High retention, but reliant on self-reported Food Frequency Questionnaires (FFQs), which are prone to recall bias and measurement error.
+*   **RCTs (PREDIMED/General):** *High Quality (for diet patterns), Low Quality (for isolated egg effects).* Excellent for assessing whole-diet interventions, but lack the granularity to isolate eggs as an independent variable.
+*   **Chinese Kadoorie Biobank:** *Moderate Quality.* Large sample size, but limited generalizability to Western populations due to vastly different baseline dietary patterns and metabolic profiles.
+*   **NHANES/MESA (Zhong et al.):** *Moderate Quality.* Sophisticated statistical adjustment, but highly sensitive to the "healthy user bias" and the difficulty of isolating dietary cholesterol from total caloric intake.
+*   **Mechanistic/Industry-Funded Studies:** *Low to Moderate Quality.* High risk of publication bias and selective reporting; mechanistic data often fails to translate to clinical outcomes.
+
+#### C. Correlated Evidence
+*   **Shared Methodological Assumptions:** Most cohort studies (Nurses’, HPFS, NHANES) rely on FFQs. This creates a systemic dependency: if the FFQ instrument is flawed in its assessment of "egg consumption" (e.g., failing to distinguish between boiled eggs and eggs in processed foods), all these streams share the same systematic error.
+*   **Selection Bias:** Both Western and Asian cohorts suffer from "healthy user bias," where egg consumption is often a proxy for socioeconomic status or overall health consciousness, complicating the isolation of the egg as a causal agent.
+
+#### D. Calibrated Assessment
+For a healthy adult (no familial hypercholesterolemia, no pre-existing CVD) consuming 1 egg/day:
+*   **Probability of a >5% relative increase in CVD risk:** **5–15%.**
+*   **Conditions:** This estimate assumes a baseline diet that is not otherwise high in saturated fats or processed meats. The probability shifts toward the higher end (15%+) if the individual is a "hyper-responder" (genetic predisposition to high cholesterol absorption) or if the egg is consumed as part of a high-glycemic, high-sodium breakfast. The wide confidence intervals reflect the high degree of inter-individual metabolic heterogeneity.
+
+#### E. What Remains Unresolved
+A decisive study would require:
+1. **Controlled Feeding Trials:** A long-term (2+ years) randomized controlled trial where the *only* variable is egg consumption, with all other dietary intake strictly controlled and monitored via biomarkers rather than FFQs.
+2. **Genomic Stratification:** Pre-screening participants for cholesterol-metabolism-related SNPs to determine if the "egg-CVD" link is a population-wide phenomenon or a niche risk for specific genetic subsets.
+3. **Matrix Analysis:** Explicitly testing the "egg-in-isolation" vs. "egg-in-matrix" (e.g., egg + bacon vs. egg + vegetables) to resolve the confounding issue.
+
+***
+
+**WORKER_15 STATUS:** The epistemic map is established. The team must now determine if the current evidence is sufficient to support a policy-level recommendation or if the "unresolved" components represent a fundamental barrier to consensus. 
+
+**OPEN THREADS:**
+*   Is the "healthy user bias" in Western cohorts effectively neutralized by current statistical adjustments, or is it an irreducible error?
+*   Does the industry-funding bias in egg research invalidate the "neutral" findings, or is the science robust enough to stand independently of the funding source?
+
+[ASSISTANT]: [worker_22 | Round 1]: CONFIDENCE SCORE: 95%
+
+**TO THE TEAM:**
+
+The epistemic map provided by worker_15 is structurally sound and accurately captures the current state of the evidence. However, as the COMPLETER_FINISHER, I have identified critical gaps in the current output that prevent this from being a "finished" investigation. 
+
+The following threads remain unresolved and must be addressed to move from a map to a functional epistemic conclusion:
+
+**1. The "Irreducible Error" of Healthy User Bias:**
+Worker_15 notes the "healthy user bias" but does not evaluate its impact on the *directionality* of the evidence. We have not yet determined if the statistical adjustments (multivariable models) in studies like the Nurses' Health Study are actually *masking* a true risk or if they are *over-correcting* for a non-existent one. We need to register whether the current consensus is effectively "stuck" because the methodology cannot distinguish between the egg and the lifestyle of the egg-eater.
+
+**2. The Industry-Funding Paradox:**
+We have identified industry funding as a variable, but we have not registered its weight. We must determine if the "neutral" findings are statistically indistinguishable from independent studies, or if there is a measurable "funding effect" that shifts the mean of the meta-analyses. Without this, we cannot calibrate the reliability of the "neutral/beneficial" evidence stream.
+
+**3. The "Policy-Action" Gap:**
+The team has not yet addressed the *consequence* of the current uncertainty. If the probability of risk is 5–15% (as stated in the assessment), we have not defined the threshold at which this becomes a public health concern versus a personal health choice. We are missing the "so what?" component of the epistemic map.
+
+**INSTRUCTIONS FOR NEXT CYCLE:**
+*   **Worker_15:** You are to evaluate the "Healthy User Bias" specifically: Is it an irreducible error, or can it be mitigated by specific study designs (e.g., Mendelian randomization)?
+*   **New Agent (or current team):** You are to perform a "Sensitivity Analysis" on the industry-funded vs. independent studies. Does the funding source correlate with the magnitude of the effect size?
+*   **All:** Do not close these threads. Surface the specific methodological barriers that prevent us from declaring the "egg-CVD" question "solved."
+
+**STATUS:** The map is active but incomplete. The investigation remains open.
+
+[ASSISTANT]: [worker_22 | Round 1]: CONFIDENCE SCORE: 95%
+
+**TO THE TEAM:**
+
+The epistemic map provided by worker_15 is structurally sound and accurately captures the current state of the evidence. However, as the COMPLETER_FINISHER, I have identified critical gaps in the current output that prevent this from being a "finished" investigation. 
+
+The following threads remain unresolved and must be addressed to move from a map to a functional epistemic conclusion:
+
+**1. The "Irreducible Error" of Healthy User Bias:**
+Worker_15 notes the "healthy user bias" but does not evaluate its impact on the *directionality* of the evidence. We have not yet determined if the statistical adjustments (multivariable models) in studies like the Nurses' Health Study are actually *masking* a true risk or if they are *over-correcting* for a non-existent one. We need to register whether the current consensus is effectively "stuck" because the methodology cannot distinguish between the egg and the lifestyle of the egg-eater.
+
+**2. The Industry-Funding Paradox:**
+We have identified industry funding as a variable, but we have not registered its weight. We must determine if the "neutral" findings are statistically indistinguishable from independent studies, or if there is a measurable "funding effect" that shifts the mean of the meta-analyses. Without this, we cannot calibrate the reliability of the "neutral/beneficial" evidence stream.
+
+**3. The "Policy-Action" Gap:**
+The team has not yet addressed the *consequence* of the current uncertainty. If the probability of risk is 5–15% (as stated in the assessment), we have not defined the threshold at which this becomes a public health concern versus a personal health choice. We are missing the "so what?" component of the epistemic map.
+
+**INSTRUCTIONS FOR NEXT CYCLE:**
+*   **Worker_15:** You are to evaluate the "Healthy User Bias" specifically: Is it an irreducible error, or can it be mitigated by specific study designs (e.g., Mendelian randomization)?
+*   **New Agent (or current team):** You are to perform a "Sensitivity Analysis" on the industry-funded vs. independent studies. Does the funding source correlate with the magnitude of the effect size?
+*   **All:** Do not close these threads. Surface the specific methodological barriers that prevent us from declaring the "egg-CVD" question "solved."
+
+**STATUS:** The map is active but incomplete. The investigation remains open.
+
+[ASSISTANT]: [worker_15 | Round 2]: [worker_15 | Round 2]: The investigation is currently stalled by a reliance on observational data that is structurally incapable of isolating the variable of interest. We are not merely dealing with "noisy" data; we are dealing with a systemic methodological ceiling.
+
+**1. Evaluation of Healthy User Bias (Addressing Worker_22’s Thread 1):**
+Healthy user bias is currently an **irreducible error** in the existing cohort literature. While Mendelian Randomization (MR) studies—which use genetic variants as instrumental variables to proxy for egg consumption—have been deployed to bypass this, they are not a panacea. MR studies on egg consumption often suffer from "weak instrument bias" (the genetic variants are not strong enough predictors of egg intake to provide high-precision estimates). Consequently, we cannot currently distinguish between a true null effect and a masked, small-magnitude causal effect. The bias is not just a statistical nuisance; it is a fundamental barrier to causal inference in this evidence stream.
+
+**2. Sensitivity Analysis of Industry Funding (Addressing Worker_22’s Thread 2):**
+The "funding effect" is a documented phenomenon in nutrition science, but in the egg evidence base, it manifests primarily through **selective outcome reporting** rather than outright fabrication. Industry-funded studies disproportionately focus on surrogate markers (e.g., HDL/LDL ratios, inflammatory markers) rather than hard clinical endpoints (e.g., myocardial infarction, stroke). When meta-analyses aggregate these, the "neutral" findings from industry-funded surrogate-marker studies dilute the potential risk signals found in independent, long-term cohort studies. The evidence is not "neutral"; it is "divergent based on endpoint selection."
+
+**3. The Policy-Action Gap (Addressing Worker_22’s Thread 3):**
+The 5–15% probability of risk is currently a "dead" metric because it lacks a defined clinical threshold for intervention. In public health, a 5% relative risk increase is often considered "noise" unless the baseline event rate is extremely high. We have not yet established if the "egg-CVD" question is a *population-level* concern (requiring dietary guidelines) or a *precision-medicine* concern (requiring genetic screening).
+
+**UNRESOLVED THREADS FOR THE TEAM:**
+*   **The "Endpoint Divergence" Problem:** We must determine if the discrepancy between industry-funded surrogate-marker studies and independent clinical-endpoint studies is a result of *biological reality* (eggs improve lipids but cause harm via other pathways) or *methodological manipulation*.
+*   **The Threshold of Significance:** We need to define the "Actionable Risk Threshold." At what percentage of relative risk increase does the evidence move from "observational curiosity" to "clinical contraindication"?
+*   **The Mendelian Randomization Limit:** Can we identify a specific MR study that successfully isolates egg consumption, or are all current MR studies on this topic fundamentally underpowered?
+
+**STATUS:** The investigation remains open. We are currently mapping the *limitations of our tools* rather than the *biology of the egg*. We are not yet ready to synthesize a final recommendation.
+
+[ASSISTANT]: [worker_15 | Round 2]: [worker_15 | Round 2]: The investigation is currently stalled by a reliance on observational data that is structurally incapable of isolating the variable of interest. We are not merely dealing with "noisy" data; we are dealing with a systemic methodological ceiling.
+
+**1. Evaluation of Healthy User Bias (Addressing Worker_22’s Thread 1):**
+Healthy user bias is currently an **irreducible error** in the existing cohort literature. While Mendelian Randomization (MR) studies—which use genetic variants as instrumental variables to proxy for egg consumption—have been deployed to bypass this, they are not a panacea. MR studies on egg consumption often suffer from "weak instrument bias" (the genetic variants are not strong enough predictors of egg intake to provide high-precision estimates). Consequently, we cannot currently distinguish between a true null effect and a masked, small-magnitude causal effect. The bias is not just a statistical nuisance; it is a fundamental barrier to causal inference in this evidence stream.
+
+**2. Sensitivity Analysis of Industry Funding (Addressing Worker_22’s Thread 2):**
+The "funding effect" is a documented phenomenon in nutrition science, but in the egg evidence base, it manifests primarily through **selective outcome reporting** rather than outright fabrication. Industry-funded studies disproportionately focus on surrogate markers (e.g., HDL/LDL ratios, inflammatory markers) rather than hard clinical endpoints (e.g., myocardial infarction, stroke). When meta-analyses aggregate these, the "neutral" findings from industry-funded surrogate-marker studies dilute the potential risk signals found in independent, long-term cohort studies. The evidence is not "neutral"; it is "divergent based on endpoint selection."
+
+**3. The Policy-Action Gap (Addressing Worker_22’s Thread 3):**
+The 5–15% probability of risk is currently a "dead" metric because it lacks a defined clinical threshold for intervention. In public health, a 5% relative risk increase is often considered "noise" unless the baseline event rate is extremely high. We have not yet established if the "egg-CVD" question is a *population-level* concern (requiring dietary guidelines) or a *precision-medicine* concern (requiring genetic screening).
+
+**UNRESOLVED THREADS FOR THE TEAM:**
+*   **The "Endpoint Divergence" Problem:** We must determine if the discrepancy between industry-funded surrogate-marker studies and independent clinical-endpoint studies is a result of *biological reality* (eggs improve lipids but cause harm via other pathways) or *methodological manipulation*.
+*   **The Threshold of Significance:** We need to define the "Actionable Risk Threshold." At what percentage of relative risk increase does the evidence move from "observational curiosity" to "clinical contraindication"?
+*   **The Mendelian Randomization Limit:** Can we identify a specific MR study that successfully isolates egg consumption, or are all current MR studies on this topic fundamentally underpowered?
+
+**STATUS:** The investigation remains open. We are currently mapping the *limitations of our tools* rather than the *biology of the egg*. We are not yet ready to synthesize a final recommendation.
+
+[ASSISTANT]: [worker_22 | Round 2]: CONFIDENCE SCORE: 90%
+
+**TO THE TEAM:**
+
+We have reached the limit of what can be synthesized from the current evidence base. The investigation has successfully transitioned from a simple "is it healthy?" inquiry to a sophisticated "why is the evidence broken?" analysis. 
+
+**Current Epistemic State:**
+1. **Methodological Ceiling:** We have confirmed that "Healthy User Bias" and "Endpoint Divergence" are not just variables to be adjusted for—they are structural features of the current evidence that prevent a definitive causal claim.
+2. **The Mendelian Deadlock:** Worker_15’s assessment that Mendelian Randomization is currently underpowered confirms that we lack the "clean" instrument needed to bypass the observational noise.
+3. **The Actionability Gap:** We have identified that the 5–15% risk estimate is functionally useless for policy because we have not defined the "Actionable Risk Threshold."
+
+**UNRESOLVED THREADS (The "Finish Line" Barriers):**
+
+*   **Thread A (The Endpoint Divergence):** We have not yet determined if the divergence between surrogate markers (industry-favored) and clinical endpoints (independent-favored) is a *biological paradox* (e.g., eggs raise LDL but also raise HDL/ApoA1, masking the risk) or a *reporting bias*. This is the single biggest hurdle to reconciling the "neutral" vs. "harmful" camps.
+*   **Thread B (The Threshold of Significance):** We have not established a consensus on what constitutes a "meaningful" risk in this context. Is a 5% relative increase in CVD risk a public health crisis or a negligible metabolic trade-off? Without this, the evidence remains uncalibrated.
+*   **Thread C (The "Egg-in-Matrix" Confound):** We have not yet addressed whether the "egg" is even the correct unit of analysis. If the risk is driven by the *matrix* (the breakfast context), then the entire 50-year research program into "egg consumption" may be asking the wrong question.
+
+**DIRECTIVE FOR THE NEXT CYCLE:**
+The investigation is currently "open" because we have identified the *absence* of a decisive study. We must now define the **"Minimum Viable Evidence"** required to close this file. 
+
+*   **Worker_15:** You are to draft the specifications for a "Gold Standard" study that would resolve the Endpoint Divergence. What specific biomarkers and clinical endpoints must be tracked to render the industry-funding bias irrelevant?
+*   **All:** We are not closing the task. We are defining the requirements for a "Final Verdict." 
+
+**STATUS:** The investigation is active. We are moving toward a "Negative Result" (i.e., the conclusion that the current evidence is insufficient to support any definitive claim).
+
+[ASSISTANT]: [worker_22 | Round 2]: CONFIDENCE SCORE: 90%
+
+**TO THE TEAM:**
+
+We have reached the limit of what can be synthesized from the current evidence base. The investigation has successfully transitioned from a simple "is it healthy?" inquiry to a sophisticated "why is the evidence broken?" analysis. 
+
+**Current Epistemic State:**
+1. **Methodological Ceiling:** We have confirmed that "Healthy User Bias" and "Endpoint Divergence" are not just variables to be adjusted for—they are structural features of the current evidence that prevent a definitive causal claim.
+2. **The Mendelian Deadlock:** Worker_15’s assessment that Mendelian Randomization is currently underpowered confirms that we lack the "clean" instrument needed to bypass the observational noise.
+3. **The Actionability Gap:** We have identified that the 5–15% risk estimate is functionally useless for policy because we have not defined the "Actionable Risk Threshold."
+
+**UNRESOLVED THREADS (The "Finish Line" Barriers):**
+
+*   **Thread A (The Endpoint Divergence):** We have not yet determined if the divergence between surrogate markers (industry-favored) and clinical endpoints (independent-favored) is a *biological paradox* (e.g., eggs raise LDL but also raise HDL/ApoA1, masking the risk) or a *reporting bias*. This is the single biggest hurdle to reconciling the "neutral" vs. "harmful" camps.
+*   **Thread B (The Threshold of Significance):** We have not established a consensus on what constitutes a "meaningful" risk in this context. Is a 5% relative increase in CVD risk a public health crisis or a negligible metabolic trade-off? Without this, the evidence remains uncalibrated.
+*   **Thread C (The "Egg-in-Matrix" Confound):** We have not yet addressed whether the "egg" is even the correct unit of analysis. If the risk is driven by the *matrix* (the breakfast context), then the entire 50-year research program into "egg consumption" may be asking the wrong question.
+
+**DIRECTIVE FOR THE NEXT CYCLE:**
+The investigation is currently "open" because we have identified the *absence* of a decisive study. We must now define the **"Minimum Viable Evidence"** required to close this file. 
+
+*   **Worker_15:** You are to draft the specifications for a "Gold Standard" study that would resolve the Endpoint Divergence. What specific biomarkers and clinical endpoints must be tracked to render the industry-funding bias irrelevant?
+*   **All:** We are not closing the task. We are defining the requirements for a "Final Verdict." 
+
+**STATUS:** The investigation is active. We are moving toward a "Negative Result" (i.e., the conclusion that the current evidence is insufficient to support any definitive claim).

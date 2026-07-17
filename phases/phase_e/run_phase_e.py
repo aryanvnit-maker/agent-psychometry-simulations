@@ -82,10 +82,11 @@ from src.evaluation.epistemic_schema import (
 )
 from src.scenarios.epistemic import EPISTEMIC_SCENARIOS
 
-RESULTS_FILE = Path("results/phase_e.jsonl")
-MAPS_DIR     = Path("results/epistemic_maps")
-SEED         = 42
-DELAY_SECS   = 2
+RESULTS_FILE     = Path("results/phase_e.jsonl")
+MAPS_DIR         = Path("results/epistemic_maps")
+TRANSCRIPTS_DIR  = Path("results/transcripts")
+SEED             = 42
+DELAY_SECS       = 2
 
 # ── Synthesis prompts ─────────────────────────────────────────────────────────
 
@@ -116,9 +117,16 @@ EPISTEMIC_SYNTHESIS_PROMPT = (
     "2. EVIDENCE QUALITY: For each major evidence stream in the prior analysis, "
     "rate its quality: strong / weak / contested / missing. Name the specific "
     "weakness or strength.\n"
-    "3. CORRELATED EVIDENCE: Identify at least one pair of evidence streams that "
-    "appear independent but share a methodological assumption, source, or "
-    "selection mechanism. Explain why this matters for the overall estimate.\n"
+    "3. STRUCTURAL DEPENDENCY AUDIT: Before aggregating, hunt for hidden "
+    "structure that a naive reading would miss and that would spuriously narrow "
+    "confidence. Check specifically for: (a) overlapping cohorts or samples "
+    "reused across studies that are cited as independent; (b) shared control "
+    "groups or shared baseline data; (c) correlated measurement instruments "
+    "(e.g. the same recall method or questionnaire); (d) a key confound that is "
+    "measured in only a small subset of studies. For each dependency you find, "
+    "name the streams involved and estimate its impact on the effective "
+    "evidentiary weight — i.e. how much the apparent independence is illusory. "
+    "If you find none, say so explicitly.\n"
     "4. CALIBRATED ASSESSMENT: Give a probability range (not a point estimate) "
     "with explicit conditions stated. E.g. '55-70% for hypothesis A, conditional "
     "on X being accurately measured and Y not being systematically biased.' "
@@ -142,6 +150,12 @@ EPISTEMIC_SYNTHESIS_PROMPT_JSON = (
     "Rules:\n"
     "- range_low and range_high are integers 0-100 (probability percent)\n"
     "- Include 2-3 cruxes, 3-5 evidence_streams, at least 1 correlated_pair\n"
+    "- For correlated_pairs, hunt specifically for hidden structure that a naive "
+    "reading would miss: overlapping cohorts or samples reused across studies "
+    "cited as independent, shared control groups, correlated measurement "
+    "instruments, or a confound measured in only a subset. In shared_assumption "
+    "name the dependency; in implication estimate how much the apparent "
+    "independence is illusory and how that shifts the effective evidentiary weight\n"
     "- Wide probability ranges are correct when warranted — do not collapse to false certainty\n"
     "- Output ONLY the JSON object — no prose before or after"
 )
@@ -152,7 +166,22 @@ ALL_SCENARIOS = list(EPISTEMIC_SCENARIOS.keys())
 def _save_epistemic_map(run_id: str, emap: EpistemicMap) -> None:
     MAPS_DIR.mkdir(parents=True, exist_ok=True)
     path = MAPS_DIR / f"{run_id}.json"
-    path.write_text(emap.model_dump_json(indent=2))
+    path.write_text(emap.model_dump_json(indent=2), encoding="utf-8")
+
+
+def _save_transcript(run_id: str, transcript: str) -> None:
+    """Always persist the raw transcript, regardless of map_parsed outcome.
+
+    Both a receipts artifact (traceable raw output, not just the parsed
+    derivative) and a diagnostic aid when JSON extraction fails.
+
+    encoding="utf-8" is required: model output routinely contains non-Latin-1
+    characters (arrows, em dashes, math symbols), and Windows would otherwise
+    default to cp1252 and crash the whole run on the first such character.
+    """
+    TRANSCRIPTS_DIR.mkdir(parents=True, exist_ok=True)
+    path = TRANSCRIPTS_DIR / f"{run_id}.txt"
+    path.write_text(transcript, encoding="utf-8")
 
 
 def _load_done() -> set[str]:
@@ -188,6 +217,21 @@ def build_transcript(messages) -> str:
             content = m.content if hasattr(m, "content") else str(m)
         lines.append(f"[{role.upper()}]: {content}")
     return "\n\n".join(lines)
+
+
+def _last_assistant_content(messages) -> str:
+    """Find the last assistant-role message's content, handling both plain
+    dicts and LangChain BaseMessage objects (the graph's add_messages
+    reducer can coerce dicts into AIMessage instances between node steps —
+    the same reason build_transcript needs dual-type handling above).
+    """
+    from langchain_core.messages import AIMessage
+    for m in reversed(messages):
+        if isinstance(m, dict) and m.get("role") == "assistant":
+            return m["content"]
+        if isinstance(m, AIMessage):
+            return m.content
+    return ""
 
 
 def _score(run_id: str, scenario, transcript: str, judges: list, topology: str) -> float:
@@ -228,13 +272,10 @@ def run_kalibr_chain_epistemic(scenario_id: str, rep: int, rep_seed: int) -> dic
         return None
 
     transcript = build_transcript(state["messages"])
+    _save_transcript(run_id, transcript)
 
     # Attempt structured EpistemicMap extraction from synthesis output
-    last_assistant = next(
-        (m["content"] for m in reversed(state["messages"])
-         if isinstance(m, dict) and m.get("role") == "assistant"),
-        ""
-    )
+    last_assistant = _last_assistant_content(state["messages"])
     emap = parse_epistemic_map(last_assistant)
     if emap is not None:
         emap.case_id = scenario_id
@@ -305,6 +346,7 @@ def run_single_agent_epistemic(scenario_id: str, rep: int, rep_seed: int) -> dic
         return None
 
     transcript = build_transcript(final_state["messages"])
+    _save_transcript(run_id, transcript)
     try:
         mean_score = _score(run_id, scenario, transcript, judges, topology="chain")
     except Exception as e:
@@ -350,6 +392,7 @@ def run_flat_no_handoff(scenario_id: str, rep: int, rep_seed: int) -> dict | Non
         return None
 
     transcript = build_transcript(state["messages"])
+    _save_transcript(run_id, transcript)
     try:
         mean_score = _score(run_id, scenario, transcript, judges, topology="flat")
     except Exception as e:
@@ -407,6 +450,7 @@ def run_kalibr_chain_decisive(scenario_id: str, rep: int, rep_seed: int) -> dict
         return None
 
     transcript = build_transcript(state["messages"])
+    _save_transcript(run_id, transcript)
     try:
         mean_score = _score(run_id, scenario, transcript, judges, topology="chain")
     except Exception as e:

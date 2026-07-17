@@ -1,0 +1,124 @@
+{
+  "case_id": "e02p1_eggs_poison_consensus",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does dietary cholesterol from eggs causally increase CVD mortality in healthy Western populations at moderate consumption (1-2 eggs/day), or is the observed association in some cohorts driven by unmeasured confounding (dietary pattern clustering, SES, health behaviors)?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Is the egg-CVD association genuinely heterogeneous across populations (inverse in Chinese Kadoorie, null in Harvard, positive in NHANES), or do these differences reflect methodological artifacts (confounding structure, measurement error, population health baseline)?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "What is the dose-response relationship and threshold, if any? Is 1 egg/day safe while 3+ eggs/day is harmful, or is there no safe threshold, or is consumption level irrelevant given confounding?",
+      "resolution_impact": "medium",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Harvard prospective cohorts (NHS, HPFS)",
+      "quality": "strong",
+      "weakness": "Healthy, high-SES, predominantly white populations; self-reported dietary intake; potential healthy-user bias (egg consumers in this cohort may differ from general population); loss to follow-up; cannot isolate eggs from overall dietary pattern",
+      "supports": [
+        "Does dietary cholesterol from eggs causally increase CVD mortality in healthy Western populations at moderate consumption (1-2 eggs/day), or is the observed association in some cohorts driven by unmeasured confounding (dietary pattern clustering, SES, health behaviors)?"
+      ]
+    },
+    {
+      "label": "NHANES/MESA cohort (Zhong et al. JAMA 2019)",
+      "quality": "contested",
+      "weakness": "Cross-sectional component introduces reverse causality risk; dietary cholesterol is a nutrient proxy, not a food (eggs contain offsetting compounds); residual confounding from unmeasured dietary patterns; mixed health status cohort may conflate healthy and unhealthy subgroups; adjustment for confounders incomplete",
+      "supports": [
+        "Does dietary cholesterol from eggs causally increase CVD mortality in healthy Western populations at moderate consumption (1-2 eggs/day), or is the observed association in some cohorts driven by unmeasured confounding (dietary pattern clustering, SES, health behaviors)?",
+        "Is the egg-CVD association genuinely heterogeneous across populations (inverse in Chinese Kadoorie, null in Harvard, positive in NHANES), or do these differences reflect methodological artifacts (confounding structure, measurement error, population health baseline)?"
+      ]
+    },
+    {
+      "label": "PREDIMED randomized controlled trial",
+      "quality": "strong",
+      "weakness": "Mediterranean diet is multivariate intervention; eggs are not isolated as independent variable; generalizability limited to Mediterranean populations; follow-up duration may be insufficient for rare CVD events; cannot infer egg-specific effects from diet-level cardioprotection",
+      "supports": [
+        "Does dietary cholesterol from eggs causally increase CVD mortality in healthy Western populations at moderate consumption (1-2 eggs/day), or is the observed association in some cohorts driven by unmeasured confounding (dietary pattern clustering, SES, health behaviors)?"
+      ]
+    },
+    {
+      "label": "Chinese Kadoorie Biobank prospective cohort (N=500k)",
+      "quality": "strong",
+      "weakness": "Inverse association may reflect ecological confounding (populations with high egg consumption also have different overall diets, physical activity, healthcare access, genetic background); cannot infer individual-level causation from population-level patterns; dietary measurement instruments differ from Western cohorts; generalizability to Western populations unclear",
+      "supports": [
+        "Is the egg-CVD association genuinely heterogeneous across populations (inverse in Chinese Kadoorie, null in Harvard, positive in NHANES), or do these differences reflect methodological artifacts (confounding structure, measurement error, population health baseline)?"
+      ]
+    },
+    {
+      "label": "Mechanistic evidence (dietary cholesterol → LDL-C response, hyper-responder phenotype)",
+      "quality": "weak",
+      "weakness": "Laboratory and short-term studies; LDL-C is surrogate endpoint, not clinical outcome; hyper-responder prevalence and clinical significance unknown; does not explain inverse associations in some populations; eggs contain choline, lutein, and other bioactive compounds whose effects are not isolated; mechanism incomplete and potentially bidirectional",
+      "supports": [
+        "Does dietary cholesterol from eggs causally increase CVD mortality in healthy Western populations at moderate consumption (1-2 eggs/day), or is the observed association in some cohorts driven by unmeasured confounding (dietary pattern clustering, SES, health behaviors)?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Harvard prospective cohorts (NHS, HPFS)",
+        "NHANES/MESA cohort (Zhong et al. JAMA 2019)"
+      ],
+      "shared_assumption": "Self-reported dietary intake via food frequency questionnaire is a valid and comparable proxy for actual egg consumption across populations with different dietary cultures, health literacy, and recall accuracy. Both assume measurement error is random and non-differential.",
+      "implication": "If measurement error is systematic (e.g., health-conscious individuals in Harvard cohorts underreport egg consumption while NHANES respondents overreport, or vice versa), the apparent contradiction between null and positive associations is illusory. The effective independence of these evidence streams is substantially compromised. Reweighting: if measurement error correlates with health status, the true effect size in both cohorts may be smaller than either reports, collapsing the apparent disagreement and reducing overall evidentiary weight by ~30-40%."
+    },
+    {
+      "streams": [
+        "NHANES/MESA cohort (Zhong et al. JAMA 2019)",
+        "Mechanistic evidence (dietary cholesterol → LDL-C response, hyper-responder phenotype)"
+      ],
+      "shared_assumption": "Dietary cholesterol is the causal pathway linking eggs to CVD risk, and LDL-C elevation is the relevant intermediate outcome. Both streams treat eggs as a cholesterol delivery vehicle rather than a complex food.",
+      "implication": "If eggs' net effect is determined by non-cholesterol components (choline, lutein, antioxidants, protein quality), the mechanistic evidence does not support the Zhong et al. association. The apparent causal chain is broken. If this assumption is wrong, the positive association in NHANES may reflect confounding by overall diet quality (egg consumers in that cohort eat worse overall), not cholesterol causation. Reweighting: mechanistic evidence loses ~50% of its inferential weight; Zhong et al. association becomes ambiguous between causation and confounding."
+    },
+    {
+      "streams": [
+        "Harvard prospective cohorts (NHS, HPFS)",
+        "Chinese Kadoorie Biobank prospective cohort (N=500k)"
+      ],
+      "shared_assumption": "Population-level differences in egg-CVD association reflect true biological or dietary heterogeneity, not differences in confounding structure, measurement instruments, or health system factors. Both assume the association (or lack thereof) is comparable across populations.",
+      "implication": "If confounding structure differs systematically (e.g., egg consumers in Western cohorts cluster with other unhealthy behaviors, while in Chinese cohorts eggs are consumed across health-behavior strata), the apparent heterogeneity is methodological, not biological. The null in Harvard and inverse in Kadoorie may both be confounded in opposite directions. Reweighting: if confounding structure is the driver, both cohorts' point estimates are unreliable; the true effect in either population becomes highly uncertain. Effective evidentiary weight of both streams reduced by ~40-50%."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Moderate egg consumption (1-2 eggs/day) causally increases CVD mortality in healthy Western populations by ≥20% (matching the editorial's 27% claim)",
+      "range_low": 8,
+      "range_high": 28,
+      "conditions": "Range widens if: (1) unmeasured confounding in NHANES is smaller than estimated; (2) hyper-responder effects are common and clinically significant; (3) the 2024 Global Cardiovascular Consensus Statement exists and resolves confounding via methods not visible in current evidence base. Range narrows if: (1) measurement error in dietary intake is systematic and biases NHANES toward positive association; (2) mechanistic evidence is incomplete and non-cholesterol pathways dominate; (3) Harvard cohort's null finding is weighted more heavily as representative of true effect in healthy populations."
+    },
+    {
+      "hypothesis": "The egg-CVD association is genuinely heterogeneous across populations (not driven by methodological artifacts), with true causal effects ranging from inverse (Chinese populations) to null (healthy Western) to positive (mixed-health Western)",
+      "range_low": 15,
+      "range_high": 45,
+      "conditions": "Range widens if: (1) biological mechanisms for population-specific effects are identified (e.g., genetic variation in cholesterol metabolism, dietary pattern interactions); (2) confounding structures are mapped and shown to differ systematically. Range narrows if: (1) confounding is shown to be similar across populations, suggesting apparent heterogeneity is artifact; (2) measurement instruments are harmonized and shown to produce consistent results; (3) reanalysis of cohorts with identical adjustment sets shows heterogeneity persists."
+    },
+    {
+      "hypothesis": "There exists a safe threshold for egg consumption (e.g., ≤1 egg/day is safe, >2 eggs/day is harmful) distinct from a linear dose-response",
+      "range_low": 20,
+      "range_high": 50,
+      "conditions": "Range widens if: (1) dose-response analyses in prospective cohorts show non-linear patterns; (2) mechanistic evidence identifies a saturation point in cholesterol absorption or LDL-C response. Range narrows if: (1) all cohorts show linear dose-response with no inflection point; (2) no biological mechanism for a threshold is identified; (3) confounding is shown to be dose-dependent, making threshold detection unreliable."
+    }
+  ],
+  "settled": [
+    "Eggs contain dietary cholesterol and can raise LDL-C in some individuals (hyper-responders), particularly in controlled feeding studies.",
+    "Large prospective cohorts in Western populations (Harvard NHS, HPFS) show little to no association between 1 egg/day and CVD events in healthy populations.",
+    "PREDIMED demonstrates that a Mediterranean diet including eggs is cardioprotective, though eggs are not isolated as the causal variable.",
+    "Chinese Kadoorie Biobank shows an inverse association between egg consumption and CVD in a large Chinese population, contradicting a universal causal harm hypothesis."
+  ],
+  "performed_as_settled": [
+    "The question of egg-CVD causation is definitively resolved by a 2024 Global Cardiovascular Consensus Statement (no such statement with the specified findings is verifiable in available evidence base).",
+    "Dissent on egg-CVD risk reflects primarily industry-funded obfuscation rather than genuine scientific disagreement (funding bias is documented but does not account for heterogeneity in findings across non-industry studies).",
+    "Dietary cholesterol is the primary causal pathway linking eggs to CVD risk (mechanism is incomplete; non-cholesterol components of eggs are not adequately studied).",
+    "Confounding in observational cohorts has been adequately controlled (residual confounding from unmeasured dietary patterns and health behaviors remains substantial)."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

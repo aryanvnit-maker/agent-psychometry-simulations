@@ -1,0 +1,68 @@
+{
+  "case_id": "e02p1_eggs_poison_consensus",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Is the observed CVD mortality risk a direct effect of egg-derived cholesterol or a proxy for the 'Western' dietary pattern (processed meats/refined carbs)?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Does the 'Asian Paradox' (inverse association in Kadoorie Biobank) represent a fundamental biological difference in cholesterol metabolism or a difference in background dietary context?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Western Prospective Cohorts (Nurses/HPFS)",
+      "quality": "contested",
+      "weakness": "High confounding by lifestyle factors; reliance on self-reported FFQs.",
+      "supports": [
+        "Is the observed CVD mortality risk a direct effect of egg-derived cholesterol or a proxy for the 'Western' dietary pattern (processed meats/refined carbs)?"
+      ]
+    },
+    {
+      "label": "Chinese Kadoorie Biobank",
+      "quality": "strong",
+      "weakness": "Limited generalizability to Western populations due to distinct dietary and genetic backgrounds.",
+      "supports": [
+        "Does the 'Asian Paradox' (inverse association in Kadoorie Biobank) represent a fundamental biological difference in cholesterol metabolism or a difference in background dietary context?"
+      ]
+    },
+    {
+      "label": "Mechanistic/Hyper-responder Studies",
+      "quality": "weak",
+      "weakness": "High inter-individual variability; findings often extrapolated from small, short-term trials.",
+      "supports": [
+        "Is the observed CVD mortality risk a direct effect of egg-derived cholesterol or a proxy for the 'Western' dietary pattern (processed meats/refined carbs)?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Western Prospective Cohorts (Nurses/HPFS)",
+        "NHANES/MESA cohort analyses"
+      ],
+      "shared_assumption": "Reliance on self-reported Food Frequency Questionnaires (FFQs) and shared population-level dietary patterns.",
+      "implication": "The apparent independence of these studies is illusory; they share systematic recall bias and social desirability reporting errors, potentially inflating the perceived strength of the association."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Moderate egg consumption increases CVD mortality in Western populations.",
+      "range_low": 40,
+      "range_high": 85,
+      "conditions": "Range is 75-85% if confounding by 'Western' dietary patterns is effectively controlled; 40-50% if the association is primarily driven by residual confounding."
+    }
+  ],
+  "settled": [
+    "Moderate egg consumption is not associated with acute CVD events in healthy populations in some large prospective cohorts."
+  ],
+  "performed_as_settled": [
+    "The 2024 Global Cardiovascular Consensus Statement's finding of a 27% increase in CVD mortality as a definitive, isolated causal effect of egg consumption."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

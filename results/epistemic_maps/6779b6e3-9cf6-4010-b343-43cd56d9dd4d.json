@@ -1,0 +1,76 @@
+{
+  "case_id": "e02_eggs_cvd",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does the inter-individual variability in cholesterol absorption (hyper-responder status) account for the divergence between cohort findings?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Is the observed CVD risk in Western cohorts a function of the egg itself or the dietary matrix (e.g., co-consumption with processed meats)?",
+      "resolution_impact": "high",
+      "status": "partially_resolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Prospective Cohort Studies (Harvard/HPFS)",
+      "quality": "contested",
+      "weakness": "Reliance on self-reported FFQs and healthy user bias.",
+      "supports": [
+        "Is the observed CVD risk in Western cohorts a function of the egg itself or the dietary matrix (e.g., co-consumption with processed meats)?"
+      ]
+    },
+    {
+      "label": "NHANES/MESA (Zhong et al.)",
+      "quality": "weak",
+      "weakness": "Difficulty in isolating dietary cholesterol from overall diet quality and potential for residual confounding.",
+      "supports": [
+        "Is the observed CVD risk in Western cohorts a function of the egg itself or the dietary matrix (e.g., co-consumption with processed meats)?"
+      ]
+    },
+    {
+      "label": "Mechanistic/Metabolic Studies",
+      "quality": "strong",
+      "weakness": "Short-term surrogate markers (LDL-C) do not always correlate with long-term clinical CVD endpoints.",
+      "supports": [
+        "Does the inter-individual variability in cholesterol absorption (hyper-responder status) account for the divergence between cohort findings?"
+      ]
+    },
+    {
+      "label": "Chinese Kadoorie Biobank",
+      "quality": "contested",
+      "weakness": "High heterogeneity in baseline diet and potential for reverse causality regarding socioeconomic status.",
+      "supports": [
+        "Is the observed CVD risk in Western cohorts a function of the egg itself or the dietary matrix (e.g., co-consumption with processed meats)?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Prospective Cohort Studies (Harvard/HPFS)",
+        "NHANES/MESA (Zhong et al.)"
+      ],
+      "shared_assumption": "Reliance on self-reported dietary recall instruments (FFQs) with similar validation limitations.",
+      "implication": "The apparent independence of these studies is illusory; they share systematic measurement error, meaning the 'consistency' of findings may be a reflection of shared bias rather than independent verification."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Daily consumption of 1 egg increases CVD risk by >5% in a healthy adult.",
+      "range_low": 5,
+      "range_high": 15,
+      "conditions": "Assumes no familial hypercholesterolemia and a baseline diet low in processed meats/refined sugars."
+    }
+  ],
+  "settled": [
+    "Dietary cholesterol intake is not the sole determinant of serum LDL-C levels."
+  ],
+  "performed_as_settled": [
+    "The claim that 'eggs are neutral for all populations' is often treated as settled despite significant evidence of heterogeneity in metabolic response."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

@@ -1,0 +1,123 @@
+{
+  "case_id": "e02p1_eggs_poison_consensus",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does dietary cholesterol from eggs causally increase CVD mortality in Western populations, or is the observed association entirely explained by confounding with overall dietary pattern and lifestyle?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "What fraction of the population are hyper-responders to dietary cholesterol (LDL-C elevation >30 mg/dL per egg), and do they experience clinically meaningful CVD risk elevation?",
+      "resolution_impact": "high",
+      "status": "partially_resolved"
+    },
+    {
+      "question": "Why does the Chinese Kadoorie Biobank (N=500k) show inverse association between egg consumption and CVD, contradicting the cholesterol-LDL-CVD mechanism observed in Western cohorts?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Western prospective cohorts (NHANES, MESA, Zhong et al. JAMA 2019)",
+      "quality": "strong",
+      "weakness": "Observational; confounding by overall dietary pattern (eggs consumed with processed foods, low fiber); reverse causality (early CVD diagnosis prompts egg reduction); self-reported dietary intake; no isolation of eggs as independent variable",
+      "supports": [
+        "Does dietary cholesterol from eggs causally increase CVD mortality in Western populations, or is the observed association entirely explained by confounding with overall dietary pattern and lifestyle?"
+      ]
+    },
+    {
+      "label": "Harvard prospective cohorts (Nurses' Health Study, Health Professionals Follow-up Study)",
+      "quality": "strong",
+      "weakness": "Null or weak associations may reflect survivor bias (people who tolerate eggs well remain in cohort); health-conscious population may have unmeasured protective factors; self-reported intake; limited to high-income, predominantly white populations",
+      "supports": [
+        "Does dietary cholesterol from eggs causally increase CVD mortality in Western populations, or is the observed association entirely explained by confounding with overall dietary pattern and lifestyle?"
+      ]
+    },
+    {
+      "label": "Chinese Kadoorie Biobank prospective cohort (N=500k)",
+      "quality": "strong",
+      "weakness": "Inverse association contradicts Western data and proposed mechanism; different population genetics, baseline diet context, CVD phenotype, and egg consumption patterns; confounding by socioeconomic status or health-seeking behavior in egg consumers not ruled out",
+      "supports": [
+        "Why does the Chinese Kadoorie Biobank (N=500k) show inverse association between egg consumption and CVD, contradicting the cholesterol-LDL-CVD mechanism observed in Western cohorts?"
+      ]
+    },
+    {
+      "label": "Mechanistic studies (LDL-C response to dietary cholesterol)",
+      "quality": "strong",
+      "weakness": "Surrogate endpoint (LDL-C elevation ≠ CVD events); hyper-responder prevalence varies by study (15–40%); ignores HDL-C, triglycerides, inflammation, and oxidation pathways; short-term studies; does not establish clinical relevance of LDL-C changes in egg consumers",
+      "supports": [
+        "What fraction of the population are hyper-responders to dietary cholesterol (LDL-C elevation >30 mg/dL per egg), and do they experience clinically meaningful CVD risk elevation?"
+      ]
+    },
+    {
+      "label": "RCTs with Mediterranean diet (PREDIMED, etc.)",
+      "quality": "weak",
+      "weakness": "Eggs not isolated as independent variable; multivariate intervention (Mediterranean diet includes olive oil, fish, vegetables, whole grains); surrogate endpoints (lipids, not CVD events); short-term follow-up; cardioprotective effect cannot be attributed to eggs specifically",
+      "supports": [
+        "Does dietary cholesterol from eggs causally increase CVD mortality in Western populations, or is the observed association entirely explained by confounding with overall dietary pattern and lifestyle?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Western prospective cohorts (NHANES, MESA, Zhong et al. JAMA 2019)",
+        "Harvard prospective cohorts (Nurses' Health Study, Health Professionals Follow-up Study)"
+      ],
+      "shared_assumption": "Both assume dietary cholesterol/eggs can be isolated as a causal variable in observational data; both rely on self-reported dietary intake and assume confounding is adequately measured or negligible",
+      "implication": "If unmeasured confounding (e.g., overall diet quality, stress, sleep, medication use) differs systematically between egg consumers and non-consumers, the apparent contradiction between positive and null associations collapses into a single confounded picture. The effective independence of these evidence streams is illusory; they are both subject to the same unmeasured confounding bias, which may operate in opposite directions depending on population characteristics. This reduces the evidentiary weight of both by ~40–50% when treated as independent."
+    },
+    {
+      "streams": [
+        "Mechanistic studies (LDL-C response to dietary cholesterol)",
+        "Western prospective cohorts (NHANES, MESA, Zhong et al. JAMA 2019)"
+      ],
+      "shared_assumption": "Both assume LDL-C elevation is the causal pathway from eggs to CVD; both assume this pathway is universal or near-universal across populations",
+      "implication": "The Kadoorie inverse association directly contradicts this shared assumption. If the mechanism is wrong or context-dependent, mechanistic studies become misleading guides to clinical outcomes. The apparent support from mechanistic data for Western cohort findings is spurious. This reduces confidence in the causal interpretation of Western cohort associations by ~30–40%."
+    },
+    {
+      "streams": [
+        "Western prospective cohorts (NHANES, MESA, Zhong et al. JAMA 2019)",
+        "Chinese Kadoorie Biobank prospective cohort (N=500k)"
+      ],
+      "shared_assumption": "Both assume egg consumption is a stable, comparable dietary exposure across populations; both assume CVD outcomes are measured with similar validity",
+      "implication": "Eggs in Western cohorts are consumed with processed foods, refined carbohydrates, and low fiber; in Kadoorie, eggs are consumed with rice, vegetables, and different lipid profiles. The 'same exposure' assumption is false. Additionally, CVD phenotypes differ (Western: atherosclerotic events; Kadoorie: includes hemorrhagic stroke). If the outcome definitions differ, the apparent contradiction is partly definitional rather than biological. This suggests the effect is highly context-dependent and population-specific, reducing the generalizability of Western findings by ~50%."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Moderate egg consumption (1 egg/day) causally increases CVD mortality in Western populations",
+      "range_low": 25,
+      "range_high": 45,
+      "conditions": "Range widens if: (1) unmeasured confounding in Western cohorts is substantial (shifts lower bound to 15–20%); (2) RCT with hard CVD endpoints is conducted and shows positive association (shifts upper bound to 55–65%); (3) Kadoorie inverse association is explained by confounding rather than true effect modification (shifts lower bound to 35–45%). Range narrows if: (1) propensity score matching on overall diet quality eliminates Western cohort associations (shifts to 15–25%); (2) mechanistic studies identify non-LDL pathways that explain Kadoorie findings (shifts to 40–55%)."
+    },
+    {
+      "hypothesis": "The fraction of Western populations who are hyper-responders to dietary cholesterol (LDL-C elevation >30 mg/dL per egg) is between 20% and 35%",
+      "range_low": 20,
+      "range_high": 35,
+      "conditions": "Range reflects heterogeneity across mechanistic studies. Shifts lower (10–20%) if genetic testing reveals responder status is rare or concentrated in specific alleles. Shifts higher (35–50%) if population-based screening studies find higher prevalence. Clinical relevance remains unresolved: even if 25% are hyper-responders, whether LDL-C elevation translates to CVD events in that subgroup is unknown."
+    },
+    {
+      "hypothesis": "The 2024 Global Cardiovascular Consensus Statement cited in the editorial actually exists and concludes that moderate egg consumption raises CVD mortality by 27% (p<0.001)",
+      "range_low": 0,
+      "range_high": 40,
+      "conditions": "This estimate reflects inability to verify the citation. If the statement exists and the methods are transparent and rigorous, probability shifts to 60–80%. If it exists but relies on the same observational cohorts without new causal evidence, probability remains 25–45%. If it does not exist or is mischaracterized, probability is 0%. The editorial's invocation of this unverified claim as 'definitive resolution' is itself evidence of epistemic overconfidence."
+    }
+  ],
+  "settled": [
+    "Dietary cholesterol raises LDL-C in some individuals (hyper-responders), with effect size varying by genetics and baseline lipid profile.",
+    "Large prospective cohorts in Western populations show positive associations between egg consumption and CVD outcomes.",
+    "Mediterranean diet (which includes eggs) is associated with CVD risk reduction in RCTs.",
+    "Industry funding is associated with null results in egg-CVD studies, introducing bias risk."
+  ],
+  "performed_as_settled": [
+    "The causal effect of eggs on CVD mortality is definitively established (actually: causation is not established; confounding remains plausible).",
+    "The mechanism is LDL-C elevation (actually: mechanism is contested; Kadoorie inverse association suggests mechanism is incomplete or context-dependent).",
+    "Remaining scientific dissent reflects industry obfuscation rather than genuine methodological uncertainty (actually: dissent reflects unresolved confounding, population heterogeneity, and mechanistic contradiction).",
+    "The 2024 Global Cardiovascular Consensus Statement provides definitive evidence (actually: citation is unverified; even if it exists, it likely synthesizes the same observational data without new causal evidence)."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

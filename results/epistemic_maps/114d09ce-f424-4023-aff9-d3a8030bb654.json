@@ -1,0 +1,87 @@
+{
+  "case_id": "e01_covid_origins",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does a wild progenitor virus exist with a genetic sequence matching the pre-adaptation state of SARS-CoV-2?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Is the Furin Cleavage Site (FCS) codon usage consistent with natural evolutionary processes or laboratory-based insertion?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Was the Huanan Market early case cluster a primary spillover event or an ascertainment bias driven by high-density human interaction?",
+      "resolution_impact": "medium",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Geographic Clustering",
+      "quality": "contested",
+      "weakness": "High risk of ascertainment bias; early surveillance was disproportionately focused on the market.",
+      "supports": [
+        "Was the Huanan Market early case cluster a primary spillover event or an ascertainment bias driven by high-density human interaction?"
+      ]
+    },
+    {
+      "label": "Furin Cleavage Site (FCS)",
+      "quality": "contested",
+      "weakness": "Biologically unusual for this viral lineage, but lacks definitive evidence of synthetic origin.",
+      "supports": [
+        "Is the Furin Cleavage Site (FCS) codon usage consistent with natural evolutionary processes or laboratory-based insertion?"
+      ]
+    },
+    {
+      "label": "Lack of Progenitor",
+      "quality": "strong",
+      "weakness": "Absence of evidence is not evidence of absence, though the duration of search increases the weight of the negative result.",
+      "supports": [
+        "Does a wild progenitor virus exist with a genetic sequence matching the pre-adaptation state of SARS-CoV-2?"
+      ]
+    },
+    {
+      "label": "WIV Proximity",
+      "quality": "weak",
+      "weakness": "Correlation between research facility location and outbreak site is circumstantial; lacks direct causal link.",
+      "supports": [
+        "Was the Huanan Market early case cluster a primary spillover event or an ascertainment bias driven by high-density human interaction?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Geographic Clustering",
+        "Lack of Progenitor"
+      ],
+      "shared_assumption": "Both rely on the completeness and neutrality of the initial epidemiological data provided by Chinese authorities.",
+      "implication": "If the initial data is biased or incomplete, the apparent independence of these streams is illusory, significantly reducing the total evidentiary weight supporting a natural origin."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Zoonotic Spillover",
+      "range_low": 40,
+      "range_high": 60,
+      "conditions": "Requires discovery of a wild progenitor or clear intermediate host with high genetic similarity."
+    },
+    {
+      "hypothesis": "Lab Leak",
+      "range_low": 20,
+      "range_high": 40,
+      "conditions": "Requires disclosure of internal WIV records or evidence of non-natural genetic manipulation."
+    }
+  ],
+  "settled": [
+    "SARS-CoV-2 is a novel coronavirus that emerged in Wuhan in late 2019."
+  ],
+  "performed_as_settled": [
+    "The Huanan Market was the definitive site of the initial spillover event."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

@@ -104,7 +104,9 @@ def parse_epistemic_map(text: str) -> EpistemicMap | None:
     """Extract and parse an EpistemicMap from a model response.
 
     Returns None if parsing fails — callers should fall back to storing the
-    raw transcript rather than dropping the run.
+    raw transcript rather than dropping the run. Prints the actual failure
+    reason (not just None) so map_parsed=false is diagnosable from run
+    console output instead of requiring manual transcript archaeology.
     """
     try:
         raw = text.strip()
@@ -117,9 +119,15 @@ def parse_epistemic_map(text: str) -> EpistemicMap | None:
         start = raw.find("{")
         end   = raw.rfind("}") + 1
         if start == -1 or end == 0:
+            print(f"    [map_parse] no {{...}} braces found in synthesis output "
+                  f"(len={len(raw)})")
             return None
 
         data = json.loads(raw[start:end])
         return EpistemicMap(**data)
-    except Exception:
+    except json.JSONDecodeError as e:
+        print(f"    [map_parse] JSON syntax error: {e}")
+        return None
+    except Exception as e:
+        print(f"    [map_parse] schema validation failed: {type(e).__name__}: {e}")
         return None

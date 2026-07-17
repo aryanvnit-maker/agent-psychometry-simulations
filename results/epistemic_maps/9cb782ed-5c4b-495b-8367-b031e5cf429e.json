@@ -1,0 +1,76 @@
+{
+  "case_id": "e02p1_eggs_poison_consensus",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Is the 27% mortality increase a direct metabolic effect of egg-derived nutrients or a residual confounding artifact of Western dietary patterns?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Does the inverse association observed in the Chinese Kadoorie Biobank represent a genuine biological interaction or a result of differing baseline nutritional status and dietary context?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "2024 Global Cardiovascular Consensus Statement",
+      "quality": "strong",
+      "weakness": "Relies on meta-analysis of observational cohorts prone to residual confounding.",
+      "supports": [
+        "Is the 27% mortality increase a direct metabolic effect of egg-derived nutrients or a residual confounding artifact of Western dietary patterns?"
+      ]
+    },
+    {
+      "label": "Zhong et al. (JAMA 2019) Cohort Analysis",
+      "quality": "contested",
+      "weakness": "Single-point dietary assessment; high potential for recall bias and confounding by lifestyle.",
+      "supports": [
+        "Is the 27% mortality increase a direct metabolic effect of egg-derived nutrients or a residual confounding artifact of Western dietary patterns?"
+      ]
+    },
+    {
+      "label": "Chinese Kadoorie Biobank",
+      "quality": "strong",
+      "weakness": "Population-specific dietary context limits generalizability to Western cohorts.",
+      "supports": [
+        "Does the inverse association observed in the Chinese Kadoorie Biobank represent a genuine biological interaction or a result of differing baseline nutritional status and dietary context?"
+      ]
+    },
+    {
+      "label": "Mechanistic Hyper-responder Studies",
+      "quality": "weak",
+      "weakness": "Small sample sizes; surrogate markers (LDL-C) do not always map to hard clinical endpoints.",
+      "supports": [
+        "Is the 27% mortality increase a direct metabolic effect of egg-derived nutrients or a residual confounding artifact of Western dietary patterns?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Zhong et al. (JAMA 2019)",
+        "Harvard Nurses' Health Study"
+      ],
+      "shared_assumption": "Reliance on Food Frequency Questionnaires (FFQs) and similar adjustment models for socioeconomic status.",
+      "implication": "The apparent independence of these cohorts is illusory; they share systematic measurement error, potentially inflating the perceived consistency of the positive association."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Moderate egg consumption increases CVD mortality by 27% in Western populations.",
+      "range_low": 15,
+      "range_high": 40,
+      "conditions": "Assumes the GCCS adjustment for confounding is accurate; range narrows if residual confounding is proven to be minimal."
+    }
+  ],
+  "settled": [
+    "Moderate egg consumption is associated with measurable changes in serum cholesterol in a subset of the population."
+  ],
+  "performed_as_settled": [
+    "The 27% mortality increase is a definitive, causal, and universal effect of egg consumption."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

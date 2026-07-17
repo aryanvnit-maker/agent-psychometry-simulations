@@ -1,0 +1,81 @@
+{
+  "case_id": "e02p3_eggs_poison_source",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "Does the gut microbiome conversion of choline to TMAO negate the cardioprotective benefits of egg-derived nutrients?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Is the observed cardioprotection in large cohorts a result of the 'healthy user' effect where egg consumption acts as a proxy for higher socioeconomic status?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "To what extent does genetic APOE4 status modulate the LDL-C response to dietary cholesterol in the general population?",
+      "resolution_impact": "medium",
+      "status": "partially_resolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Large Prospective Cohorts (Hartmann et al.)",
+      "quality": "strong",
+      "weakness": "Residual confounding by socioeconomic status and lifestyle factors.",
+      "supports": [
+        "Is the observed cardioprotection in large cohorts a result of the 'healthy user' effect?"
+      ]
+    },
+    {
+      "label": "Mechanistic/Microbiome Studies",
+      "quality": "weak",
+      "weakness": "High inter-individual variability in gut flora makes generalizable conclusions difficult.",
+      "supports": [
+        "Does the gut microbiome conversion of choline to TMAO negate the cardioprotective benefits?"
+      ]
+    },
+    {
+      "label": "NHANES/MESA Cohort Analyses",
+      "quality": "contested",
+      "weakness": "Reliance on self-reported FFQs and potential for recall bias.",
+      "supports": [
+        "Is the observed cardioprotection in large cohorts a result of the 'healthy user' effect?"
+      ]
+    },
+    {
+      "label": "Genetic/Metabolic Response Studies",
+      "quality": "strong",
+      "weakness": "Small sample sizes limit the ability to extrapolate to the broader population.",
+      "supports": [
+        "To what extent does genetic APOE4 status modulate the LDL-C response?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Large Prospective Cohorts (Hartmann et al.)",
+        "NHANES/MESA Cohort Analyses"
+      ],
+      "shared_assumption": "Reliance on Food Frequency Questionnaires (FFQs) as a valid proxy for long-term dietary intake.",
+      "implication": "The apparent independence of these datasets is illusory; they share the same systemic measurement error, meaning the 'protective' signal may be a shared artifact of reporting bias rather than biological reality."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Moderate egg consumption (1/day) is cardioprotective for the general population.",
+      "range_low": 40,
+      "range_high": 70,
+      "conditions": "Assumes the individual is not an APOE4 carrier and does not consume eggs within a high-saturated-fat dietary pattern."
+    }
+  ],
+  "settled": [
+    "Dietary cholesterol intake does not have a linear, universal impact on serum LDL-C across all individuals."
+  ],
+  "performed_as_settled": [
+    "The Hartmann et al. (2023) meta-analysis is often treated as a definitive resolution of the CVD risk question, ignoring the potential for residual confounding."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}
