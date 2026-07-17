@@ -24,7 +24,7 @@ Full method history, appendices, and the proposed benchmark spec: [docs/flf-subm
 
 ## Scope
 
-The pipeline spans FLF's three layers — **ingestion → structure → assessment** — and is demonstrated on all three named cases. The durable move, stated once: *on contested questions you cannot measure truth, so measure epistemic **robustness** — resistance to poison, calibrated uncertainty, honestly-flagged dependencies — which is checkable. That is what this submission builds and validates.*
+The pipeline spans FLF's three layers — **ingestion → structure → assessment**. The **structure and assessment** layers are demonstrated end-to-end on all three named cases (committed maps, traceable by `run_id`). **Ingestion** is a built, runnable component (`ingest.py`) but we did **not** run it on these three cases — the scenario briefs were human-curated from the sources, a step we disclose rather than hide (see the artifact section). So "demonstrated on all three cases" refers to the map-producing layers, not an end-to-end ingestion run. The durable move, stated once: *on contested questions you cannot measure truth, so measure epistemic **robustness** — resistance to poison, calibrated uncertainty, honestly-flagged dependencies — which is checkable. That is what this submission builds and validates.*
 
 ---
 
@@ -41,7 +41,7 @@ The assessment layer emits a validated Pydantic object (`src/evaluation/epistemi
 
 Because it is typed and diffable, it **compounds**: `extends_version` / `new_evidence` let a later investigator inject evidence and produce a v2 map that explicitly diffs what changed — which cruxes shifted, which ranges moved, what new dependencies emerged — preserving nuance instead of re-summarizing. `phases/phase_e/compound_demo.py` shows the v1→v2 diff. This is the "reusable, refineable artifact" FLF asks for; a different investigator with different priors can extend the same structure.
 
-**Ingestion** (`phases/phase_e/ingest.py`) turns a raw source into attributed claims with provenance (`attributed_to`, `confidence_expressed`, verbatim `quote`, `fetched_at`). **Structure** is the map's inference links (`supports`) and its versioning. A human curates the brief between ingestion and analysis — a deliberate steering point, disclosed rather than hidden.
+**Ingestion** (`phases/phase_e/ingest.py`) is a runnable component that turns a raw source into attributed claims with provenance (`attributed_to`, `confidence_expressed`, verbatim `quote`, `fetched_at`); we did not run it end-to-end on these three cases — the briefs below were human-curated from the sources. **Structure** is the map's inference links (`supports`) and its versioning. The human brief-curation between ingestion and analysis is a deliberate steering point, disclosed rather than hidden.
 
 ---
 
