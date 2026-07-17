@@ -10,8 +10,7 @@ A pipeline that turns a contested question into a typed, versioned, adversariall
 | Read the full method, appendices, and proposed benchmark | [docs/flf-submission.md](docs/flf-submission.md) |
 | Verify the core claim in 30s (no API key) | [Replicate — no API key](#replicate-the-core-claim-in-30-seconds--no-api-key-required) below |
 | Reproduce every run from scratch | [Reproduce the runs](#reproduce-the-runs-from-scratch--needs-an-api-key) below |
-| See a rendered EpistemicMap (interactive) | **[Interactive LHC map view](https://claude.ai/code/artifact/6fbf8fa8-8b43-4b62-9680-766b414fea85)** — one real committed run, visualized |
-| Inspect the raw artifacts | `results/epistemic_maps/` (maps) and `results/transcripts/` (raw runs), keyed by `run_id` |
+| Inspect the artifacts | `results/epistemic_maps/` (maps) and `results/transcripts/` (raw runs), keyed by `run_id` |
 | See the underlying research program | [Kalibr](#kalibr) below |
 
 ## Replicate the core claim in 30 seconds — no API key required
