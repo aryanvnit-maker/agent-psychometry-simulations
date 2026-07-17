@@ -1,12 +1,19 @@
 # FLF Epistemic Case Study Competition — Submission
 
-**Submission documents:**
-- **[docs/flf-submission-concise.md](docs/flf-submission-concise.md)** — the primary entry (~1,800 words).
-- [docs/flf-submission.md](docs/flf-submission.md) — full method history, appendices, and the proposed benchmark spec.
+A pipeline that turns a contested question into a typed, versioned, adversarially-tested knowledge artifact (an `EpistemicMap`), plus a deterministic, no-LLM way to audit that artifact. Demonstrated on all three FLF-named cases (COVID origins, LHC black holes, eggs/CVD). Central result: under a planted false premise, chain topology resists conformity where the framework-default round-table conforms — replicated across two model families (chain 28/30 vs flat 15/30, p<0.001) — and chain resistance is re-grounded on deterministic checks, not an LLM judge.
 
-**What this is:** a pipeline that turns a contested question into a typed, versioned, adversarially-tested knowledge artifact (an `EpistemicMap`), plus a deterministic, no-LLM way to audit that artifact. Demonstrated on all three FLF-named cases (COVID origins, LHC black holes, eggs/CVD). Central result: under a planted false premise, chain topology resists conformity where the framework-default round-table conforms — replicated across two model families (chain 28/30 vs flat 15/30, p<0.001) — and chain resistance is re-grounded on deterministic checks, not an LLM judge.
+## Contents
 
-## Replicate the core claim in ~30 seconds — no API key required
+| To… | Go to |
+|---|---|
+| Read the submission | **[docs/flf-submission-concise.md](docs/flf-submission-concise.md)** (start here) |
+| Read the full method, appendices, and proposed benchmark | [docs/flf-submission.md](docs/flf-submission.md) |
+| Verify the core claim in 30s (no API key) | [Replicate — no API key](#replicate-the-core-claim-in-30-seconds--no-api-key-required) below |
+| Reproduce every run from scratch | [Reproduce the runs](#reproduce-the-runs-from-scratch--needs-an-api-key) below |
+| Inspect the artifacts | `results/epistemic_maps/` (maps) and `results/transcripts/` (raw runs), keyed by `run_id` |
+| See the underlying research program | [Kalibr](#kalibr) below |
+
+## Replicate the core claim in 30 seconds — no API key required
 
 The headline de-circularization can be verified against the committed artifacts with zero setup or cost. This runs three no-LLM checks over the 35 committed `EpistemicMap`s and prints the numbers cited in the submission:
 
@@ -40,7 +47,7 @@ Note: `run_phase_e.py`'s LLM judge reads `JUDGE_MODEL`; set it to a model your k
 
 # Kalibr
 
-*(The submission above was built on the research program documented below. The Kalibr multi-agent findings are the origin of the topology/conformity result the submission extends into the epistemic domain.)*
+The FLF submission above was built on this research program. The Kalibr multi-agent findings are the origin of the topology and conformity results the submission extends into the epistemic domain.
 
 **Kalibr is the synthesis layer for multi-agent AI systems.**
 

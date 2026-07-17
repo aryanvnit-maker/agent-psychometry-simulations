@@ -4,7 +4,7 @@ Submitted by: Aryan Shah (aryan199841@gmail.com)
 Repository: https://github.com/aryanvnit-maker/agent-psychometry-simulations
 Date: 2026-07-15
 
-*A concise entry. A longer version with full method history, appendices, and the proposed benchmark spec is at `docs/flf-submission.md`. Every number below traces to a committed run by `run_id`.*
+Full method history, appendices, and the proposed benchmark spec: [docs/flf-submission.md](flf-submission.md). Every number below traces to a committed run by `run_id`.
 
 ---
 
