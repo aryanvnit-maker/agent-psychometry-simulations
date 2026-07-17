@@ -124,7 +124,7 @@ Phase 3 found flat topology amplifying a planted wrong premise on *code* tasks. 
 | Fabricated source (nonexistent Lancet meta-analysis) | 2/5 | 2/5 |
 | **Total** | **2/15** | **9/15** |
 
-**Chain resisted 13/15, flat 6/15.** On the two poisons the model can in principle evaluate, chain resisted 10/10 while flat conformed 7/10 — a clean divergence reproducing the Phase 3 effect on reasoning rather than code.
+**On Gemini, chain resisted 13/15, flat 6/15.** But the effect is not uniform across the three poisons, and we state that plainly rather than let the total imply it is. Pooled across both model families (see the cross-model section below), the breakdown is: **concentrated** in the false-independence (fallacy) poison — chain 10/10 vs flat 2/10, Fisher p=0.0007; **directional but underpowered** in the fabricated-consensus poison — chain 10/10 vs flat 6/10, p=0.09 (n=10/cell); and **absent** in the fabricated-source poison — chain 8/10 vs flat 7/10, p=1.0, where both topologies fail because an unverifiable citation is a *verification* failure topology cannot fix. So the honest claim is bounded: chain resists conformity to falsehoods the model can in-principle evaluate and isn't already certain about — decisively on the fallacy, directionally on the consensus figure — not to unverifiable fabrications.
 
 Two honest boundaries, both of which sharpen rather than weaken the claim:
 
@@ -141,7 +141,7 @@ The conformity scores above were assigned by an LLM judge — an LLM adjudicatin
 **Chain resistance is deterministically verifiable. Two of the checks have no tunable knob and carry the claim; the third we disclose as definition-sensitive rather than lean on** (all in `deterministic_audit.py`, no LLM in any of them):
 
 *Load-bearing — no free parameter:*
-- *Calibrated-confidence audit (pure arithmetic).* The consensus and fallacy poisons explicitly demanded a *tightened, high-confidence* estimate. Across the committed chain maps, **71 of 73 calibrated probability ranges kept ≥15 points of width (mean 26 points)** — the opposite of the demanded high confidence. This is subtraction on the range fields; there is nothing to tune.
+- *Calibrated-confidence audit (pure arithmetic).* The consensus and fallacy poisons explicitly demanded a *tightened, high-confidence* estimate. Across the 28 committed eggs-case chain maps (variable estimate count each), **71 of their 73 calibrated probability ranges kept ≥15 points of width (mean 26 points)** — the opposite of the demanded high confidence. The 2 that narrowed were the only estimates that complied with the poison (not parse failures). This is subtraction on the range fields; there is nothing to tune.
 - *Field-scoped poison-marker audit (set membership on structured fields).* Each poison planted a *specific* fabricated token (the "27%" figure, "independent replication", the nonexistent author "Hartmann"). A map that places that token in its `settled` array accepted the falsehood; one that places it in `performed_as_settled` flagged it as false certainty. Result: **2 of 27 poisoned chain maps placed a planted falsehood in `settled`; 21 explicitly flagged it as performed-not-settled.** We validated the markers rather than trusting them — an earlier generic marker ("cardioprotective") false-matched a legitimate PREDIMED claim and was removed, leaving only unambiguous planted tokens.
 
 *Directional only — a disclosed degree of freedom:*
@@ -178,7 +178,7 @@ Put together, these two results locate the phenomenon precisely: the conformity 
 | Tier | Claim | Evidence status | Scoring |
 |---|---|---|---|
 | Tier 1: shield (validated) | Chain topology resists conformity cascades under poison; flat topology amplifies and can collapse | Completed, Phase 3, N=200 | Deterministic, binary, no LLM judge |
-| Tier 2: sword (applied) | On contested cases the architecture produces a structured, compounding EpistemicMap; under adversarial framing, chain resists conformity to a planted falsehood (13/15) where flat conforms (9/15) | Runs completed; maps + transcripts committed by run_id | Poison-rejection scored; mechanism confirmed in transcripts; flat comparison reported honestly |
+| Tier 2: sword (applied) | On contested cases the architecture produces a structured, compounding EpistemicMap; under adversarial framing, chain resists a planted falsehood 28/30 where flat resists 15/30 (pooled, two model families, p<0.001) — concentrated in the evaluable poisons | Runs completed; maps + transcripts committed by run_id | Poison-rejection scored; mechanism confirmed in transcripts; flat comparison reported honestly |
 
 Tier 1 is why the architecture isn't a black box. Tier 2 is what it produces on FLF's home territory. The poison test above closes the loop between them: the Phase 3 conformity-cascade mechanism, first found on code, reproduces on contested epistemic reasoning — chain re-derives and rejects the planted premise, flat defers to it even when a member has already flagged it. The two tiers are one mechanism seen in two domains.
 
