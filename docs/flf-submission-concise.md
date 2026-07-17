@@ -8,11 +8,23 @@ Full method history, appendices, and the proposed benchmark spec: [docs/flf-subm
 
 ---
 
-## What this is
+## TL;DR
 
-A pipeline that turns a contested question into a **typed, versioned, adversarially-tested knowledge artifact** — an `EpistemicMap` — and a deterministic, no-LLM way to audit that artifact's quality. It spans FLF's three layers (ingestion → structure → assessment), is demonstrated on all three named cases (COVID origins, LHC black holes, eggs/CVD), and its central contribution is **adversarial robustness**: we test whether the architecture resists a planted false premise instead of amplifying it, and we score that resistance without an LLM judge.
+**The problem.** An epistemic tool cannot be validated on contested questions (COVID origins, LHC black holes, eggs/CVD) the usual way: they have no ground truth, and scoring an AI's answer with another AI is circular.
 
-The one-line thesis: *on contested questions you cannot measure truth, so measure epistemic **robustness** — resistance to poison, calibrated uncertainty, honestly-flagged dependencies — which is checkable. That is what this submission builds and validates.*
+**What we built.** A pipeline that turns a contested question into a typed, versioned knowledge artifact — an `EpistemicMap` (cruxes, evidence-quality ratings, correlated-evidence flags, calibrated ranges, settled-vs-performed) — demonstrated on all three FLF-named cases, plus a deterministic, no-LLM way to audit that artifact.
+
+**The move that makes it work.** Stop trying to measure *truth* (impossible on contested questions) and measure *robustness* (checkable). Concretely: does the system resist a confidently-framed falsehood, keep calibrated uncertainty, and flag its own correlated evidence?
+
+**The result.** Under a planted false premise, chain topology (independent re-derivation) resists conformity where the framework-default round-table conforms — **chain 28/30 vs flat 15/30, p<0.001, replicated across two model families** (Gemini, Claude). The mechanism (a member catches the poison, the group defers to it anyway) is readable in committed transcripts. Chain resistance is then **re-grounded on deterministic, no-LLM checks**, removing the "LLM judging an LLM" circularity.
+
+**What we claim, and don't.** We claim the artifact is auditable, compounding, and adversarially tested. We do **not** claim its conclusions are true — we measure robustness, not truth. Every boundary is stated: the code-domain version of the effect did not replicate on a stronger model; flat's aggregate rate stays judge-assisted (it produces prose, not auditable structure); contested-case *content* is never scored.
+
+---
+
+## Scope
+
+The pipeline spans FLF's three layers — **ingestion → structure → assessment** — and is demonstrated on all three named cases. The durable move, stated once: *on contested questions you cannot measure truth, so measure epistemic **robustness** — resistance to poison, calibrated uncertainty, honestly-flagged dependencies — which is checkable. That is what this submission builds and validates.*
 
 ---
 
