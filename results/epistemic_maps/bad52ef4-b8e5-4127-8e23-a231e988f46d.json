@@ -1,0 +1,124 @@
+{
+  "case_id": "e05p2_alcohol_poison_fallacy",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "What proportion of the observed J-curve in observational cohorts is attributable to sick-quitter bias and residual confounding by SES/diet, rather than a true causal protective effect?",
+      "resolution_impact": "high",
+      "status": "partially_resolved"
+    },
+    {
+      "question": "Does the J-curve replicate in non-Western, lower-income, or non-health-conscious populations with different baseline health profiles and drinking norms?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Do stronger Mendelian randomisation instruments (polygenic scores, policy-based) or long-term RCTs confirm or refute a causal CVD benefit of moderate alcohol consumption?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Observational cohorts (NHS, HPFS, European prospective studies)",
+      "quality": "strong",
+      "weakness": "All three cohorts are drawn from health-conscious, educated, predominantly white, high-income populations; all use self-reported alcohol consumption; all adjust for confounders using similar instruments; all are subject to identical sick-quitter bias mechanism. Apparent independence is methodologically illusory.",
+      "supports": [
+        "What proportion of the observed J-curve in observational cohorts is attributable to sick-quitter bias and residual confounding by SES/diet, rather than a true causal protective effect?"
+      ]
+    },
+    {
+      "label": "Mendelian randomisation (ADH1B genetic instrument)",
+      "quality": "strong",
+      "weakness": "ADH1B is a weak instrument explaining only ~4% of alcohol consumption variance; may not capture the moderate-drinking phenotype (daily, with food, in social context); cannot rule out pleiotropy; null result does not exclude true moderate-benefit effects, only large genetically-mediated effects.",
+      "supports": [
+        "Do stronger Mendelian randomisation instruments (polygenic scores, policy-based) or long-term RCTs confirm or refute a causal CVD benefit of moderate alcohol consumption?"
+      ]
+    },
+    {
+      "label": "GBD 2016 Lancet meta-analysis (all-cause mortality, no safe level)",
+      "quality": "strong",
+      "weakness": "Pools observational and experimental studies with heterogeneous quality; observational component inherits same confounding as NHS/HPFS; all-cause mortality is not CVD-specific and includes cancer, injury, and liver disease; does not isolate the CVD signal.",
+      "supports": [
+        "What proportion of the observed J-curve in observational cohorts is attributable to sick-quitter bias and residual confounding by SES/diet, rather than a true causal protective effect?"
+      ]
+    },
+    {
+      "label": "Mechanistic evidence (HDL elevation, platelet inhibition)",
+      "quality": "weak",
+      "weakness": "Establishes plausible pathways but does not quantify net effect; alcohol also increases triglycerides, inflammatory markers, arrhythmia risk, and cancer risk; mechanism does not resolve confounding in observational data; pathway plausibility is not causal evidence.",
+      "supports": [
+        "Do stronger Mendelian randomisation instruments (polygenic scores, policy-based) or long-term RCTs confirm or refute a causal CVD benefit of moderate alcohol consumption?"
+      ]
+    },
+    {
+      "label": "Industry-funded studies and publication bias",
+      "quality": "contested",
+      "weakness": "Documented bias toward moderate-benefit findings; excludes null and negative results; inflates apparent effect size; but does not prove all moderate-benefit claims are false, only that the literature is skewed.",
+      "supports": [
+        "What proportion of the observed J-curve in observational cohorts is attributable to sick-quitter bias and residual confounding by SES/diet, rather than a true causal protective effect?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Observational cohorts (NHS, HPFS, European prospective studies)",
+        "GBD 2016 Lancet meta-analysis (all-cause mortality, no safe level)"
+      ],
+      "shared_assumption": "That the observational cohorts (NHS, HPFS, European studies) are independent data sources. In fact, the GBD 2016 meta-analysis includes these same cohorts as component studies. The apparent agreement between 'independent' observational cohorts and the GBD pooled estimate is partly circular: the GBD result is a weighted average that includes NHS/HPFS as major contributors. This inflates the apparent replication.",
+      "implication": "The evidentiary weight of 'independent confirmation' is substantially illusory. Removing NHS/HPFS from the GBD analysis would likely weaken the all-cause mortality signal. The effective number of independent data sources is lower than the naive count suggests, reducing confidence in the J-curve by approximately 20-30 percentage points."
+    },
+    {
+      "streams": [
+        "Observational cohorts (NHS, HPFS, European prospective studies)",
+        "Mechanistic evidence (HDL elevation, platelet inhibition)"
+      ],
+      "shared_assumption": "That mechanistic plausibility (HDL, platelet inhibition) provides independent support for the observational J-curve. In fact, the mechanism is inferred from the same populations and does not resolve confounding. The mechanism is post-hoc rationalization of the observational pattern, not independent validation.",
+      "implication": "Mechanistic evidence does not break the confounding loop. If the J-curve is confounded by SES/diet, the mechanism is a confounded pathway, not a true causal effect. Treating mechanism as independent evidence inflates confidence by 10-15 percentage points without warrant."
+    },
+    {
+      "streams": [
+        "Observational cohorts (NHS, HPFS, European prospective studies)",
+        "Mendelian randomisation (ADH1B genetic instrument)"
+      ],
+      "shared_assumption": "That MR and observational cohorts are testing the same causal hypothesis. In fact, ADH1B is a weak instrument that may not capture the moderate-drinking phenotype (daily, with meals, in social context) that characterizes the NHS/HPFS populations. MR tests a different exposure (genetic predisposition to fast alcohol metabolism) than the observational studies test (self-reported moderate drinking behavior). The null MR result may be uninformative about the observational J-curve.",
+      "implication": "The apparent conflict between observational J-curve and MR null result is partly illusory due to phenotype mismatch. This reduces the downward pressure from MR on the observational estimate by approximately 15-25 percentage points. However, it also means the observational J-curve is less well-validated by causal methods."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Moderate alcohol consumption (1-2 drinks/day) is net-protective for CVD incidence and mortality in the general population",
+      "range_low": 25,
+      "range_high": 40,
+      "conditions": "Range shifts upward (>60%) if: (1) prospective studies excluding baseline ex-drinkers show persistent J-curve after fine-grained adjustment for diet quality, SES, and exercise; (2) J-curve replicates in ≥2 non-Western or lower-income populations; (3) stronger MR instruments (polygenic scores) confirm CVD benefit; (4) long-term RCTs (n>5000, duration >10 years) show CVD benefit. Range shifts downward (<15%) if: (1) residual confounding analysis shows >50% of J-curve attributable to unmeasured SES/diet; (2) sick-quitter bias accounts for >60% of abstainer-vs.-moderate difference; (3) GBD all-cause mortality signal is replicated in CVD-specific meta-analyses; (4) improved MR instruments show dose-dependent harm."
+    },
+    {
+      "hypothesis": "The apparent independence of NHS, HPFS, and European cohorts is methodologically valid for pooling and confidence-interval tightening",
+      "range_low": 20,
+      "range_high": 45,
+      "conditions": "Range shifts downward (<20%) if: (1) detailed analysis shows overlapping recruitment regions, time periods, or measurement protocols across cohorts; (2) GBD 2016 includes these cohorts as major contributors, making pooled estimates circular; (3) all cohorts share identical confounding structure (SES, diet, health consciousness). Range shifts upward (>60%) if: (1) cohorts are shown to recruit from genuinely distinct populations with different baseline health profiles; (2) measurement protocols and confounder adjustment differ substantially; (3) sensitivity analyses show J-curve persists across different adjustment strategies."
+    },
+    {
+      "hypothesis": "Sick-quitter bias and residual SES/diet confounding account for >50% of the observed J-curve",
+      "range_low": 35,
+      "range_high": 70,
+      "conditions": "Range shifts upward (>75%) if: (1) studies excluding baseline ex-drinkers show >50% attenuation of J-curve; (2) instrumental variable analysis using policy-based or genetic instruments shows J-curve collapses; (3) sensitivity analyses with extreme confounder assumptions show large effect. Range shifts downward (<30%) if: (1) J-curve persists after exclusion of ex-drinkers and fine-grained confounder adjustment; (2) residual confounding analysis shows <30% of effect attributable to unmeasured confounding; (3) J-curve replicates in populations with different SES/diet profiles."
+    }
+  ],
+  "settled": [
+    "Moderate drinkers in NHS/HPFS cohorts have better CVD outcomes than abstainers in unadjusted and adjusted analyses (J-curve is a real observational pattern)",
+    "Alcohol raises HDL-cholesterol and reduces platelet aggregation (mechanistic pathways are established)",
+    "Sick-quitter bias exists and inflates abstainer risk (many abstainers are former drinkers who quit due to illness)",
+    "ADH1B Mendelian randomisation shows no CVD benefit and dose-dependent cancer risk (MR null result for CVD is robust)",
+    "GBD 2016 meta-analysis reports no safe level of alcohol on all-cause mortality (pooled estimate is real, though heterogeneous)"
+  ],
+  "performed_as_settled": [
+    "That the J-curve in NHS, HPFS, and European cohorts constitutes independent replication justifying HIGH confidence in cardioprotection (in fact, these cohorts share methodological DNA and are not independent; pooling them does not tighten confidence as much as claimed)",
+    "That mechanistic evidence (HDL, platelet inhibition) provides independent support for the observational J-curve (in fact, mechanism is inferred from the same confounded populations and does not resolve confounding)",
+    "That the MR null result refutes the observational J-curve (in fact, ADH1B is a weak instrument that may not capture the moderate-drinking phenotype; MR and observational studies test different exposures)",
+    "That the observational J-curve is robust across populations (in fact, J-curve is weak or absent in some non-Western and lower-income cohorts; generalisability is unresolved)"
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}

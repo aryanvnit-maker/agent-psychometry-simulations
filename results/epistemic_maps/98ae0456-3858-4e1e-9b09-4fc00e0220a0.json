@@ -1,0 +1,134 @@
+{
+  "case_id": "e05p2_alcohol_poison_fallacy",
+  "version": 1,
+  "cruxes": [
+    {
+      "question": "What is the true magnitude of sick-quitter bias in the abstainer group across observational cohorts? Specifically, what fraction of 'abstainers' are ex-drinkers who quit due to prior illness?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Is the ADH1B genetic instrument in Mendelian randomisation studies free of pleiotropy—i.e., does it affect CVD risk only through alcohol metabolism, or through other biological pathways?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    },
+    {
+      "question": "Do the CVD benefits of moderate drinking (if real) exceed the competing harms from cancer, liver disease, and injury at the population level?",
+      "resolution_impact": "high",
+      "status": "unresolved"
+    }
+  ],
+  "evidence_streams": [
+    {
+      "label": "Observational cohorts (NHS, HPFS, European cohorts)",
+      "quality": "strong",
+      "weakness": "All share vulnerability to sick-quitter bias, unmeasured confounding (health consciousness, healthcare access), and reverse causation. Apparent independence is illusory—they are correlated replicates of the same observational design, not independent confirmations. Statistical adjustment for measured confounders (diet, SES, smoking, BMI) does not eliminate unmeasured confounding.",
+      "supports": [
+        "What is the true magnitude of sick-quitter bias in the abstainer group across observational cohorts?",
+        "Do the CVD benefits of moderate drinking (if real) exceed the competing harms from cancer, liver disease, and injury at the population level?"
+      ]
+    },
+    {
+      "label": "Mendelian randomisation (ADH1B genetic instrument)",
+      "quality": "strong",
+      "weakness": "Assumes no pleiotropy and no population stratification. Limited to European ancestry populations. Does not directly measure all-cause mortality or competing harms. Smaller effective sample size than observational cohorts. Outcome-specific (CVD only in most studies).",
+      "supports": [
+        "Is the ADH1B genetic instrument in Mendelian randomisation studies free of pleiotropy?",
+        "Do the CVD benefits of moderate drinking (if real) exceed the competing harms from cancer, liver disease, and injury at the population level?"
+      ]
+    },
+    {
+      "label": "GBD 2016 meta-analysis (all-cause mortality)",
+      "quality": "strong",
+      "weakness": "Heterogeneous studies pooled; publication bias not fully corrected. Outcome is all-cause mortality, not CVD-specific. Does not isolate mechanism. Includes studies with varying quality and confounding control.",
+      "supports": [
+        "Do the CVD benefits of moderate drinking (if real) exceed the competing harms from cancer, liver disease, and injury at the population level?"
+      ]
+    },
+    {
+      "label": "Mechanistic studies (HDL, platelet aggregation)",
+      "quality": "weak",
+      "weakness": "Surrogate endpoints do not reliably predict clinical outcomes. Do not measure competing harms (cancer, liver disease, injury). Assume that CVD benefit pathway is sufficient to overcome other harms—an assumption not empirically tested. Cannot establish causation from observational mechanistic data.",
+      "supports": [
+        "Do the CVD benefits of moderate drinking (if real) exceed the competing harms from cancer, liver disease, and injury at the population level?"
+      ]
+    },
+    {
+      "label": "Industry-funded studies and publication bias",
+      "quality": "contested",
+      "weakness": "Documented bias toward moderate-benefit findings in alcohol-industry-funded research. Selective outcome reporting (CVD benefit highlighted; cancer risk downplayed) is plausible but not systematically quantified. Difficult to estimate the magnitude of bias in the overall literature.",
+      "supports": [
+        "What is the true magnitude of sick-quitter bias in the abstainer group across observational cohorts?",
+        "Do the CVD benefits of moderate drinking (if real) exceed the competing harms from cancer, liver disease, and injury at the population level?"
+      ]
+    }
+  ],
+  "correlated_pairs": [
+    {
+      "streams": [
+        "Observational cohorts (NHS, HPFS, European cohorts)",
+        "Mechanistic studies (HDL, platelet aggregation)"
+      ],
+      "shared_assumption": "Both assume that statistical adjustment for measured confounders is sufficient to isolate causal effects. Both treat moderate drinkers as a homogeneous group without accounting for unmeasured confounding (e.g., health consciousness, healthcare access, dietary quality beyond measured variables). Both implicitly assume that the J-curve reflects true causation rather than confounding.",
+      "implication": "If unmeasured confounding is substantial (e.g., moderate drinkers have systematically better health behaviors not captured in standard covariates), both streams overestimate the true protective effect. The apparent agreement between observational and mechanistic evidence is partly illusory—they are not independent; they share the same confounding vulnerability. Effective evidentiary weight is reduced by ~40–50% compared to treating them as independent streams."
+    },
+    {
+      "streams": [
+        "Observational cohorts (NHS, HPFS, European cohorts)",
+        "Industry-funded studies and publication bias"
+      ],
+      "shared_assumption": "Both are vulnerable to selective outcome reporting and publication bias. Observational cohorts may preferentially report CVD outcomes (where moderate benefit is observed) while downplaying cancer and liver outcomes (where harm is observed). Industry funding may amplify this bias in a subset of studies, but the bias is not limited to industry-funded work—it is endemic to observational epidemiology.",
+      "implication": "The apparent consistency of the J-curve across cohorts may reflect selective reporting rather than true replication. If competing harms (cancer, liver disease) are measured with equal rigor, the net effect may shift from protective to neutral or harmful. Effective evidentiary weight for CVD benefit is reduced by ~30–40%."
+    },
+    {
+      "streams": [
+        "Mendelian randomisation (ADH1B genetic instrument)",
+        "Observational cohorts (NHS, HPFS, European cohorts)"
+      ],
+      "shared_assumption": "Both assume that the populations studied are representative of the general population and that there is no population stratification or gene-environment interaction. Both assume that the exposure (alcohol consumption) is accurately measured or validly instrumented. Both assume that confounding (measured or unmeasured) does not systematically bias the estimate in opposite directions.",
+      "implication": "If ADH1B has pleiotropic effects on CVD through non-alcohol pathways (e.g., effects on inflammation or lipid metabolism independent of alcohol), MR estimates are biased. Conversely, if observational cohorts suffer from unmeasured confounding that inflates the apparent protective effect, the two streams are measuring different quantities. The disagreement between MR (null/harm) and observational cohorts (benefit) is not easily resolved by assuming one is correct; both may be biased in opposite directions. Effective evidentiary weight for either stream is reduced by ~25–35%."
+    }
+  ],
+  "calibrated_estimates": [
+    {
+      "hypothesis": "Moderate drinking (1–2 drinks/day) is cardioprotective (reduces CVD risk) compared to lifetime abstention",
+      "range_low": 30,
+      "range_high": 50,
+      "conditions": "Range assumes sick-quitter bias is 30–50% of the abstainer group and that unmeasured confounding is moderate. If sick-quitter bias is <20%, range shifts to 55–70%. If sick-quitter bias is >60%, range shifts to 10–25%. If ADH1B pleiotropy is ruled out, range shifts to 45–65%. If ADH1B pleiotropy is confirmed, range shifts to 15–30%."
+    },
+    {
+      "hypothesis": "Moderate drinking is net-protective for health (all-cause mortality and major morbidity) compared to abstention",
+      "range_low": 15,
+      "range_high": 30,
+      "conditions": "Range assumes that cancer, liver disease, and injury harms offset or exceed CVD benefits at the population level. If competing harms are shown to be negligible in prospective studies with equal outcome ascertainment, range shifts to 40–60%. If GBD 2016 finding of no safe level is confirmed in competing-risk analysis, range shifts to 5–15%."
+    },
+    {
+      "hypothesis": "The J-curve observed in observational cohorts reflects true causation (moderate drinking causes CVD benefit) rather than confounding or reverse causation",
+      "range_low": 25,
+      "range_high": 45,
+      "conditions": "Range assumes sick-quitter bias is substantial (30–50%) and unmeasured confounding is moderate. If prospective studies excluding ex-drinkers from the abstainer group show a J-curve, range shifts to 60–75%. If such studies show a linear dose-response (no J-curve), range shifts to 5–15%. If MR studies are replicated in independent populations and show null effects, range shifts to 10–25%."
+    },
+    {
+      "hypothesis": "The ADH1B genetic instrument is valid (free of pleiotropy and population stratification) for causal inference about alcohol and CVD",
+      "range_low": 60,
+      "range_high": 80,
+      "conditions": "Range assumes standard validation checks have been performed. If pleiotropy is detected (e.g., ADH1B affects inflammation or lipid metabolism independent of alcohol), range shifts to 30–50%. If MR estimates are replicated in non-European populations with consistent null findings, range shifts to 75–90%."
+    }
+  ],
+  "settled": [
+    "Observational cohorts (NHS, HPFS, European cohorts) consistently report a J-curve: moderate drinkers have lower CVD risk than abstainers.",
+    "Mendelian randomisation studies using ADH1B show no CVD benefit and dose-dependent cancer risk.",
+    "GBD 2016 meta-analysis reports no safe level of alcohol on all-cause mortality.",
+    "Sick-quitter bias exists and inflates abstainer risk in observational cohorts, but its magnitude is incompletely quantified.",
+    "Alcohol raises HDL-cholesterol and reduces platelet aggregation in mechanistic studies.",
+    "Industry-funded studies show documented publication bias toward moderate-benefit findings."
+  ],
+  "performed_as_settled": [
+    "The J-curve reflects true causation (moderate drinking is cardioprotective). This is treated as settled in much of the epidemiological literature, but it is actually unresolved—the J-curve is consistent with both true causation and confounding/reverse causation.",
+    "Observational cohorts provide independent confirmation of the J-curve. This is treated as settled by pooling and meta-analysis, but the cohorts share common methodological vulnerabilities (sick-quitter bias, unmeasured confounding) and are correlated replicates, not independent confirmations.",
+    "The mechanistic pathway (HDL, platelet aggregation) is sufficient to explain CVD benefit. This is treated as settled in some reviews, but it is actually unresolved—surrogate endpoints do not reliably predict clinical outcomes, and competing harms are not measured.",
+    "Moderate drinking is net-protective for health. This is treated as settled in some public health messaging, but it is actually unresolved—the GBD finding of no safe level on all-cause mortality suggests competing harms may offset CVD benefits."
+  ],
+  "extends_version": null,
+  "new_evidence": []
+}
