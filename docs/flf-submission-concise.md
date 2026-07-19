@@ -8,6 +8,10 @@ Full method history, appendices, and the proposed benchmark spec: [docs/flf-subm
 
 ---
 
+**In one sentence:** we built a typed, compounding knowledge artifact for contested questions, showed that a *default multi-agent round-table amplifies a planted falsehood while independent re-derivation resists it* (28/30 vs 15/30, p<0.001, two model families), and — the part that matters most — **grounded that resistance on deterministic checks that use no LLM**, so the core result does not rest on an AI grading an AI. That is the standard for honest AI reasoning the competition asks for, and it is the flaw most LLM-based entries will not even notice they have.
+
+---
+
 ## TL;DR
 
 **The problem.** An epistemic tool cannot be validated on contested questions (COVID origins, LHC black holes, eggs/CVD) the usual way: they have no ground truth, and scoring an AI's answer with another AI is circular.
@@ -24,7 +28,7 @@ Full method history, appendices, and the proposed benchmark spec: [docs/flf-subm
 
 ## Scope
 
-The pipeline spans FLF's three layers — **ingestion → structure → assessment**. The **structure and assessment** layers are demonstrated end-to-end on all three named cases (committed maps, traceable by `run_id`). **Ingestion** is a built, runnable component (`ingest.py`) but we did **not** run it on these three cases — the scenario briefs were human-curated from the sources, a step we disclose rather than hide (see the artifact section). So "demonstrated on all three cases" refers to the map-producing layers, not an end-to-end ingestion run. The durable move, stated once: *on contested questions you cannot measure truth, so measure epistemic **robustness** — resistance to poison, calibrated uncertainty, honestly-flagged dependencies — which is checkable. That is what this submission builds and validates.*
+The pipeline spans FLF's three layers — **ingestion → structure → assessment**. The **structure and assessment** layers are demonstrated end-to-end on all three named cases (committed maps, traceable by `run_id`). **Ingestion** is a built, runnable component (`ingest.py`) but we did **not** run it on these three cases — the scenario briefs were human-curated from the sources, a step we disclose rather than hide (see the artifact section). So "demonstrated on all three cases" refers to the map-producing layers, not an end-to-end ingestion run. This is a deliberate scoping choice, not an omission: we chose to validate the **assessment** layer *rigorously* — to the point of a deterministic, no-LLM audit — rather than demo all three layers shallowly. Running ingestion end-to-end would add provenance-tracing (attributed claims, verbatim quotes, fetch timestamps) but would not move the robustness result, which is the claim under test; the human curation step between ingestion and analysis is where a real deployment would put a steering control, so we surface it as a control point rather than paper over it. The durable move, stated once: *on contested questions you cannot measure truth, so measure epistemic **robustness** — resistance to poison, calibrated uncertainty, honestly-flagged dependencies — which is checkable. That is what this submission builds and validates.*
 
 ---
 
@@ -135,6 +139,17 @@ We offer this not as a built prototype but as a formal specification and tractab
 We deliberately did not build this: a half-baked prototype would obscure the validated determinism of the current EpistemicMap. This section maps the exact shape of the next advance while honestly bounding the walls that make it a v2 research program.
 
 ---
+
+## Applying this to a new case
+
+The competition asks for a method "structured such that judges can easily reimplement on a new case." Because the artifact is typed and case-agnostic, pointing it at a fresh contested question is four steps, no code changes to the engine:
+
+1. **Add a scenario.** Write a brief + scoring rubric in `src/scenarios/epistemic.py`, following the existing pattern (the brief states the question and the sources; the rubric names what a calibrated answer must not overclaim). To adversarially test it, add a poisoned variant that injects one confident falsehood, exactly as the three eggs/CVD poisons do.
+2. **(Optional) Run ingestion** (`phases/phase_e/ingest.py`) on the raw sources to produce attributed claims with provenance, or hand-curate the brief as we did.
+3. **Run both topologies:** `python phases/phase_e/run_phase_e.py --scenarios <your_scenario> --conditions kalibr-chain flat-no-handoff --reps 5`. This emits a committed, versioned `EpistemicMap` per run.
+4. **Audit deterministically:** `python phases/phase_e/deterministic_audit.py` re-checks calibrated-range widths, field-scoped poison markers, and flagged dependencies with **no LLM in the scoring path**.
+
+The same four steps produced every number in this submission. Nothing about the engine is specific to eggs, LHC, or COVID — those are just three filled-in scenarios.
 
 ## Reproduce
 
