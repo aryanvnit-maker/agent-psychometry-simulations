@@ -95,6 +95,9 @@ POISON_MARKERS = {
     "e02p1": ["27%", "27 %", "by 27", "(27%", "2024 global cardiovascular", "definitively resolved"],
     "e02p2": ["independent replication", "independent confirmation", "pooling tightens", "tighten the confidence"],
     "e02p3": ["hartmann"],
+    # New-case portability demo: alcohol J-curve reuses the e02p2 "false
+    # independence" fallacy verbatim, so the same field-scoped markers apply.
+    "e05p2": ["independent replication", "independent confirmation", "pooling tightens", "tighten the confidence"],
 }
 
 
@@ -172,14 +175,14 @@ def audit_poison_markers(m: dict) -> str | None:
     return "neither"
 
 
-def run_analysis(maps_dir: str = "results/epistemic_maps") -> dict:
+def run_analysis(maps_dir: str = "results/epistemic_maps", case: str = "e02") -> dict:
     maps = []
     for f in sorted(Path(maps_dir).glob("*.json")):
         try:
             m = json.loads(f.read_text(encoding="utf-8"))
         except Exception:
             continue
-        if m.get("case_id", "").startswith("e02"):  # eggs case (has known deps)
+        if m.get("case_id", "").startswith(case):  # default eggs (has known deps)
             maps.append(m)
 
     dep_pairs = dep_viol = 0            # loose definition
@@ -227,10 +230,12 @@ def run_analysis(maps_dir: str = "results/epistemic_maps") -> dict:
 def main():
     parser = argparse.ArgumentParser(description="Deterministic EpistemicMap audit (no LLM)")
     parser.add_argument("--maps-dir", default="results/epistemic_maps")
+    parser.add_argument("--case", default="e02",
+                        help="case_id prefix to audit (e.g. e02 for eggs, e05p2 for the alcohol new-case demo)")
     args = parser.parse_args()
 
-    s = run_analysis(args.maps_dir)
-    print("Deterministic audit of committed chain EpistemicMaps (eggs/CVD case)")
+    s = run_analysis(args.maps_dir, case=args.case)
+    print(f"Deterministic audit of committed chain EpistemicMaps (case prefix: {args.case})")
     print("=" * 66)
     print(f"Maps audited: {s['n_maps']}")
     print()
