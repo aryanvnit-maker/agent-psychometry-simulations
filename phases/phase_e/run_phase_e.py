@@ -2,7 +2,7 @@
 # Copyright (c) 2026 Aryan Shah
 #
 # Part of the FLF Epistemic Case Study Competition submission (the epistemic-
-# assessment layer). Licensed under the MIT License: see LICENSE-FLF-CODE and
+# assessment layer). Licensed for non-commercial use: see LICENSE-FLF-CODE and
 # SUBMISSION_MANIFEST.md. This file is NOT part of the proprietary Kalibr
 # engine, which is governed by LICENSE.
 

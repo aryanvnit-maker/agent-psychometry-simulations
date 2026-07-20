@@ -1,5 +1,4 @@
-MIT License
-
+FLF Submission Code License — Non-Commercial
 Copyright (c) 2026 Aryan Shah
 
 SCOPE: This license applies to the files identified as "The FLF Submission —
@@ -11,23 +10,44 @@ FLF Epistemic Case Study Competition):
     phases/phase_e/*.py
 
 All other files in this repository are governed by LICENSE (the Kalibr Engine
-proprietary license) and are NOT covered by this MIT grant. Note that these FLF
-files import from the Kalibr Engine to run; this MIT grant covers the FLF files
-themselves, not the engine they call into.
+proprietary license) and are NOT covered by this grant. Note that these FLF files
+import from the Kalibr Engine to run; this grant covers the FLF files
+themselves, not the engine they call into (which remains proprietary and is
+licensed only for reproduction of this submission — see LICENSE).
 
+============================================================================
+GRANT
+============================================================================
 Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in the
-Software without restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
-Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
+this software and associated documentation files (the "Software"), to use,
+copy, modify, merge, publish, and distribute copies of the Software, and to
+permit persons to whom the Software is furnished to do so, FOR ANY
+NON-COMMERCIAL PURPOSE, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. The above copyright notice and this permission notice shall be included in
+   all copies or substantial portions of the Software.
 
+2. "Non-commercial purpose" means any purpose other than one primarily intended
+   for or directed toward commercial advantage or monetary compensation. This
+   expressly includes: academic and independent research; personal learning and
+   experimentation; non-profit and charitable activities; and the Future of Life
+   Foundation's administration, judging, promotion, and publicizing of the FLF
+   Epistemic Case Study Competition and its own charitable, educational, and
+   promotional activities; and independent verification or reproduction of the
+   results described in this submission.
+
+3. Any commercial use is NOT authorized by this license and requires a separate
+   written license from the copyright holder. "Commercial use" includes, without
+   limitation: use in or as part of a commercial product or service; use by a
+   for-profit entity in the ordinary course of business; and use to generate
+   revenue, whether directly or indirectly. Contact aryan199841@gmail.com.
+
+============================================================================
+NO WARRANTY
+============================================================================
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
-AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHOR BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

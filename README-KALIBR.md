@@ -5,8 +5,9 @@
 > and to let the FLF competition reproduce the submission that was built on top of
 > it; a narrow license permits running the engine **only** to reproduce that
 > submission. Any other use — commercial or not — requires a written license (see
-> [COMMERCIAL_LICENSE.md](COMMERCIAL_LICENSE.md)). The openly-licensed FLF
-> submission is separate: see [README-FLF.md](README-FLF.md) and
+> [COMMERCIAL_LICENSE.md](COMMERCIAL_LICENSE.md)). The FLF submission is separate
+> and is licensed for **non-commercial use only**: see
+> [README-FLF.md](README-FLF.md) and
 > [SUBMISSION_MANIFEST.md](SUBMISSION_MANIFEST.md).
 
 The FLF submission was built on this research program. The Kalibr multi-agent
@@ -246,8 +247,8 @@ for the per-phase command list.
 ├── judge0/               # Judge0 Docker config                      [proprietary]
 ├── SUBMISSION_MANIFEST.md   # authoritative licensing boundary
 ├── LICENSE                  # Kalibr proprietary license
-├── LICENSE-FLF-CODE         # MIT (FLF code)
-└── LICENSE-FLF-DOCS         # CC-BY-4.0 (FLF docs/data)
+├── LICENSE-FLF-CODE         # Non-commercial (FLF code)
+└── LICENSE-FLF-DOCS         # CC-BY-NC-4.0 (FLF docs/data)
 ```
 
 ---

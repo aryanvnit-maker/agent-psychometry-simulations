@@ -9,15 +9,18 @@ LICENSE files govern.**
 
 The epistemic-assessment layer authored for the **FLF Epistemic Case Study
 Competition** (flf.org). The Future of Life Foundation, the competition judges,
-and the public may freely use, run, reproduce, and publish these materials under
-the licenses below.
+and the public may freely use, run, reproduce, and publish these materials for
+**non-commercial** purposes under the licenses below — this expressly includes
+FLF's administration, judging, promotion, and publicizing of the Contest, and its
+own charitable, educational, and promotional activities. Commercial use requires
+a separate written license; see [`COMMERCIAL_LICENSE.md`](COMMERCIAL_LICENSE.md).
 
-**Code — MIT License** (see [`LICENSE-FLF-CODE`](LICENSE-FLF-CODE)):
+**Code — Non-Commercial License** (see [`LICENSE-FLF-CODE`](LICENSE-FLF-CODE)):
 - `src/evaluation/epistemic_schema.py`
 - `src/scenarios/epistemic.py`
 - `phases/phase_e/*.py`
 
-**Documentation & result data — CC-BY-4.0** (see [`LICENSE-FLF-DOCS`](LICENSE-FLF-DOCS)):
+**Documentation & result data — CC-BY-NC-4.0** (see [`LICENSE-FLF-DOCS`](LICENSE-FLF-DOCS)):
 - `docs/flf-submission.md`
 - `docs/flf-submission-concise.md`
 - `results/epistemic_maps/*.json`

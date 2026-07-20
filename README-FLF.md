@@ -10,11 +10,16 @@ framework-default round-table conforms — replicated across two model families
 deterministic checks, not an LLM judge.
 
 > **Licensing:** this submission (the files listed in
-> [SUBMISSION_MANIFEST.md](SUBMISSION_MANIFEST.md)) is open — **MIT** for code,
-> **CC-BY-4.0** for docs and result data. It is free to use, run, reproduce, and
-> publish. It runs *on top of* the Kalibr engine, which is **proprietary** and
-> separately licensed (see [README-KALIBR.md](README-KALIBR.md) and
-> [LICENSE](LICENSE)); the engine may be run only to reproduce this submission.
+> [SUBMISSION_MANIFEST.md](SUBMISSION_MANIFEST.md)) is free to use, run,
+> reproduce, and publish for **non-commercial purposes** — a **non-commercial
+> license** for code, **CC-BY-NC-4.0** for docs and result data. This expressly
+> covers FLF's administration, judging, promotion, and publicizing of the
+> Contest, and its own charitable, educational, and promotional activities.
+> Commercial use requires a separate written license (contact
+> aryan199841@gmail.com). It runs *on top of* the Kalibr engine, which is
+> **proprietary** and separately licensed (see
+> [README-KALIBR.md](README-KALIBR.md) and [LICENSE](LICENSE)); the engine may be
+> run only to reproduce this submission.
 
 ## Contents
 
